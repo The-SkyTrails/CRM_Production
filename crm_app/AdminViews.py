@@ -69,3 +69,6 @@ def import_country(request):
             messages.warning(request, e)
             return redirect("add_visacountry")
     return redirect("add_visacountry")
+
+
+# test
