@@ -1893,9 +1893,6 @@ padding: 3px 10px;
 }
 .card-title {
   color: var(--pink-900, #751a3d);
-
-  /* leading-tight/text-xl/font-bold */
-
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -2602,7 +2599,7 @@ padding: 3px 10px;
   margin-top: 10px;
 }
 .imges {
-  height: 200px;
+  height: 100%;
   width: 100%;
 }
 
@@ -2611,7 +2608,7 @@ padding: 3px 10px;
 
   /* text-xl/font-normal */
 
-  font-size: 13px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   margin-left: 20px;
@@ -2620,16 +2617,12 @@ padding: 3px 10px;
   /* 30px */
 }
 
-.card-title {
-  color: var(--gray-900, var(--gray-900, #111928));
-
-  /* leading-relaxed/text-base/font-bold */
-
-  font-size: 16px;
-  font-style: normal;
+.card-title1{
+  color: #111928;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 162.5%; /* 26px */
 }
+
 .card-text {
   line-height: normal;
   color: var(--gray-500, #6b7280);
@@ -2723,12 +2716,13 @@ padding: 3px 10px;
 }
 .card-textt {
   color: var(--gray-700, #374151);
-
-  /* text-lg/font-semibold */
-
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
+}
+
+.card-textt span {
+margin-left: 15px;
 }
 .card {
   border: none;
@@ -2745,6 +2739,8 @@ padding: 3px 10px;
 }
 .card-body {
   line-height: normal;
+  margin-left:15px ;
+  padding:20px;
 }
 
 
@@ -3701,4 +3697,58 @@ font-weight: 500;
 font-size: 12px;
 font-style: normal;
 font-weight: 500;
+}
+
+
+.name{
+    color: var(--gray-900, #111928);
+
+/* leading-tight/text-sm/font-semibold */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 28px; /* 17.5px */
+}
+.textss{
+    color: var(--gray-600, #4B5563);
+
+/* leading-tight/text-sm/font-normal */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height:28px; /* 17.5px */
+}
+.menusss{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: none;
+   
+   
+}
+.itemnav{
+    border-top: 1px solid rgb(206, 204, 204);
+    justify-content: center!important;
+    display: flex !important;
+    width: 100%;
+}
+.contacts{
+    line-height: 7px !important;
+}
+
+
+.text-sign{
+    color: var(--red-700, #C81E1E);
+
+/* leading-tight/text-sm/font-medium */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+
+}
+
+a{
+text-decoration: none;
 }

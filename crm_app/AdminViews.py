@@ -49,8 +49,6 @@ def import_country(request):
     if request.method == "POST":
         file = request.FILES["file"]
         path = str(file)
-        print("helooo")
-        # commentt
 
         try:
             df = pd.read_excel(file)
