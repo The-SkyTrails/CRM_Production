@@ -1,8 +1,5 @@
 from django.contrib import admin
-from .models import VisaCountry
-
-
-# Register your models here.
+from .models import *
 
 
 class VisaCountryAdmin(admin.ModelAdmin):
@@ -14,4 +11,41 @@ class VisaCountryAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class CustomUserAdmin(admin.ModelAdmin):
+    list_filter = [
+        "email",
+    ]
+    list_display = ["email", "user_type"]
+    search_fields = ["email"]
+    list_per_page = 10
+
+
+class AgentAdmin(admin.ModelAdmin):
+    list_filter = [
+        "users",
+    ]
+    list_display = ["users", "contact_no"]
+    search_fields = ["users"]
+    list_per_page = 10
+
+
+class OutsourceAdmin(admin.ModelAdmin):
+    list_filter = [
+        "users",
+    ]
+    list_display = ["users", "contact_no"]
+    search_fields = ["users"]
+    list_per_page = 10
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
+admin.site.register(VisaCategory)
+admin.site.register(DocumentCategory)
+admin.site.register(Document)
+admin.site.register(CaseCategoryDocument)
+admin.site.register(Branch)
+admin.site.register(Agent, AgentAdmin)
+admin.site.register(OutSourcingAgent, OutsourceAdmin)
+admin.site.register(Group)
+admin.site.register(Employee)

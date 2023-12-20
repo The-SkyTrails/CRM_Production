@@ -10,8 +10,14 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.views import View
 from django.urls import reverse_lazy
 import pandas as pd
+from .whatsapp_api import send_whatsapp_message
+from django.core.mail import send_mail
 
 ######################################### COUNTRY #################################################
+
+
+def admin_dashboard(request):
+    return render(request, "Admin/Dashboard/dashboard.html")
 
 
 def add_visacountry(request):
@@ -359,7 +365,7 @@ class CreateGroupView(CreateView):
 
     def form_valid(self, form):
         # Set the lastupdated_by field to the current user's username
-        form.instance.create_by = self.request.user
+        # form.instance.create_by = self.request.user
 
         # Display a success message
         messages.success(self.request, "Group Added Successfully.")
@@ -384,7 +390,7 @@ class editGroup(UpdateView):
 
     def form_valid(self, form):
         # Set the lastupdated_by field to the current user's username
-        form.instance.lastupdated_by = self.request.user
+        # form.instance.lastupdated_by = self.request.user
 
         # Display a success message
         messages.success(self.request, "Group Updated Successfully.")
@@ -392,7 +398,6 @@ class editGroup(UpdateView):
         return super().form_valid(form)
 
 
-@login_required
 def delete_group(request, id):
     group = get_object_or_404(Group, id=id)
     group.delete()
@@ -556,12 +561,156 @@ def import_branch(request):
     return redirect("add_branch")
 
 
-######################################### PRODUCT #################################################
+######################################### EMPLOYEE #################################################
 
 
-def navbar(request):
-    return render(request, "Admin/Base/Navbar.html")
+def add_employee(request):
+    branches = Branch.objects.all()
+    groups = Group.objects.all()
+
+    if request.method == "POST":
+        department = request.POST.get("department")
+        branch_id = request.POST.get("branch_id")
+        group_id = request.POST.get("group_id")
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        password = "123456"
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        zipcode = request.POST.get("zipcode")
+        files = request.FILES.get("file")
+
+        if not branch_id:
+            messages.warning(request, "Branch ID is required")
+            return redirect("emp_personal_details")
+
+        try:
+            branchh = Branch.objects.get(id=branch_id)
+            group = Group.objects.get(id=group_id)
+            if Employee.objects.filter(contact_no__iexact=contact).exists():
+                messages.error(request, "Contact No. already exists.")
+                return redirect("emp_personal_details")
+            user = CustomUser.objects.create_user(
+                username=email,
+                first_name=firstname,
+                last_name=lastname,
+                email=email,
+                password=password,
+                user_type="3",
+            )
+
+            user.employee.department = department
+            user.employee.branch = branchh
+            user.employee.group = group
+            user.employee.contact_no = contact
+            user.employee.country = country
+            user.employee.state = state
+            user.employee.City = city
+            user.employee.Address = address
+            user.employee.zipcode = zipcode
+            user.employee.file = files
+
+            user.save()
+            subject = "Congratulations! Your Account is Created"
+            message = (
+                f"Hello {firstname} {lastname},\n\n"
+                f"Welcome to SSDC \n\n"
+                f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                f" Your id is {email} and your password is {password}.\n\n"
+                f" go to login : https://crm.theskytrails.com/ \n\n"
+                f"Thank you for joining us!\n\n"
+                f"Best regards,\nThe Sky Trails"
+            )
+
+            recipient_list = [email]
+
+            send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+            messages.success(
+                request,
+                "Employee Added Successfully , Congratulation Mail Send Successfully!!",
+            )
+
+            mobile = contact
+            message = (
+                f"Welcome to SSDC \n\n"
+                f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                f" Your id is {email} and your password is {password}.\n\n"
+                f" go to login : https://crm.theskytrails.com/ \n\n"
+                f"Thank you for joining us!\n\n"
+                f"Best regards,\nThe Sky Trails"
+            )
+            response = send_whatsapp_message(mobile, message)
+            if response.status_code == 200:
+                pass
+            else:
+                pass
+
+            return redirect("emp_list")
+
+        except Exception as e:
+            messages.warning(request, str(e))
+            return redirect("emp_personal_details")
+
+    context = {"branch": branches, "group": groups}
+    return render(request, "Admin/Employee Management/addemp1.html", context)
 
 
-def admin_dashboard(request):
-    return render(request, "Admin/Dashboard/dashboard.html")
+class all_employee(ListView):
+    model = Employee
+    template_name = "Admin/Employee Management/Employeelist.html"
+    context_object_name = "employee"
+
+    def get_queryset(self):
+        return Employee.objects.order_by("-id")
+
+
+def employee_update(request, pk):
+    employee = Employee.objects.get(pk=pk)
+    context = {"employee": employee}
+
+    return render(request, "Admin/Employee Management/editemp1.html", context)
+
+
+def employee_update_save(request):
+    if request.method == "POST":
+        employee_id = request.POST.get("employee_id")
+        department = request.POST.get("department")
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        zipcode = request.POST.get("zipcode")
+        file = request.FILES.get("file")
+
+        user = CustomUser.objects.get(id=employee_id)
+
+        user.first_name = firstname
+        user.last_name = lastname
+        user.email = email
+        user.employee.department = department
+        user.employee.contact_no = contact
+        user.employee.country = country
+        user.employee.state = state
+        user.employee.City = city
+        user.employee.Address = address
+        user.employee.zipcode = zipcode
+        if file:
+            user.employee.file = file
+        user.save()
+        messages.success(request, "Employee Updated Successfully")
+        return redirect("emp_list")
+
+
+def delete_employee(request, id):
+    employee = get_object_or_404(Employee, id=id)
+    employee.delete()
+    messages.success(request, "Employee deleted successfully..")
+    return redirect("emp_list")

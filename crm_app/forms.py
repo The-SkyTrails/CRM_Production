@@ -126,7 +126,7 @@ class GroupForm(forms.ModelForm):
         }
 
     group_member = forms.ModelMultipleChoiceField(
-        queryset=CustomUser.objects.all(),
+        queryset=CustomUser.objects.exclude(user_type=1),
         widget=forms.CheckboxSelectMultiple,
     )
 
@@ -193,3 +193,105 @@ class ReceiverDetailsForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Enter Address"}
             ),
         }
+
+
+class EmployeeDetailsForm1(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Enter First Name"}
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Enter Last Name"}
+        ),
+    )
+
+    class Meta:
+        model = Employee
+        fields = [
+            "department",
+            "branch",
+            "group",
+            "contact_no",
+            "first_name",
+            "last_name",
+        ]
+
+        widgets = {
+            "department": forms.Select(attrs={"class": "form-control"}),
+            "branch": forms.Select(attrs={"class": "form-control"}),
+            "group": forms.Select(attrs={"class": "form-control"}),
+            "contact_no": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Enter Number"}
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeDetailsForm1, self).__init__(*args, **kwargs)
+
+        # If an instance is provided, populate the form fields with user data
+        if "instance" in kwargs:
+            instance = kwargs["instance"]
+            if instance.users:
+                self.fields["first_name"].initial = instance.users.first_name
+                self.fields["last_name"].initial = instance.users.last_name
+
+    def save(self, commit=True):
+        # Save first_name and last_name to the associated CustomUser instance
+        user = self.instance.users
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.save()
+        return super().save(commit)
+
+
+class EmployeeDetailsForm2(forms.ModelForm):
+    email = forms.EmailField(
+        max_length=30,
+        required=True,
+        widget=forms.EmailInput(
+            attrs={"class": "form-control", "placeholder": "Enter Email"}
+        ),
+    )
+
+    class Meta:
+        model = Employee
+        fields = ["City", "country", "Address", "state", "zipcode", "file", "email"]
+
+        widgets = {
+            "City": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter City"}
+            ),
+            "country": forms.Select(attrs={"class": "form-control"}),
+            "Address": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Address"}
+            ),
+            "state": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter State"}
+            ),
+            "zipcode": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Enter Zipcode"}
+            ),
+            "file": forms.FileInput(attrs={"class": "form-control"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeDetailsForm1, self).__init__(*args, **kwargs)
+
+        # If an instance is provided, populate the form fields with user data
+        if "instance" in kwargs:
+            instance = kwargs["instance"]
+            if instance.users:
+                self.fields["email"].initial = instance.users.email
+
+    def save(self, commit=True):
+        # Save first_name and last_name to the associated CustomUser instance
+        user = self.instance.users
+        user.email = self.cleaned_data["email"]
+        user.save()
+        return super().save(commit)

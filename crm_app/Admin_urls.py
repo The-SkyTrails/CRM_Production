@@ -50,6 +50,7 @@ urlpatterns = [
     path("Addbranch/", add_branch, name="add_branch"),
     path("Branch/Edit/", branchupdate_view, name="branchupdate_view"),
     path("deletebranch/<int:id>/", delete_branch, name="delete_branch"),
+    path("import/Branch", import_branch, name="import_branch"),
     path("create_group/", CreateGroupView.as_view(), name="create_group"),
     path("GroupList/", GroupListView.as_view(), name="Group_list"),
     path("GroupEdit/<int:pk>", editGroup.as_view(), name="editgroup"),
@@ -74,7 +75,9 @@ urlpatterns = [
         delete_courierdetails,
         name="delete_courierdetails",
     ),
-    # ------------------------- Import Branch ---------------------------
-    path("import/Branch", import_branch, name="import_branch"),
-    path("Navbar/", navbar, name="navbar"),
+    path("emp_personal_details/", add_employee, name="emp_personal_details"),
+    path("emp_list/", all_employee.as_view(), name="emp_list"),
+    path("Employe/Update/<int:pk>", employee_update, name="employee_update"),
+    path("Employe/Update/Save", employee_update_save, name="employee_update_save"),
+    path("Employee/delete/<int:id>/", delete_employee, name="delete_employee"),
 ]
