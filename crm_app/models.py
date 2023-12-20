@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django_countries.fields import CountryField
+
 
 BRANCH_SOURCES = [
     ('COCO','Company Owned Company Operated'),
@@ -13,6 +16,27 @@ COURIER_STATUS = [
     ('Pick','Pick'),
     ('In Transit','In Transit'),
     ('Receive','Receive')
+]
+
+type = [
+    ('Outsourcing partner','Outsourcing partner'),
+    ('Agent','Agent'),
+
+]
+
+status = [
+    ('Pending','Pending'),
+    ('InReview','InReview'),
+    ('Approved','Approved'),
+    ('Reject','Reject'),
+]
+
+Department_Choices = [
+    ("Presales/Assesment", "Presales/Assesment"),
+    ("Sales", "Sales"),
+    ("Documentation","Documentation"),
+    ("Visa Team","Visa Team"),
+    ("HR", "HR"),
 ]
 
 
@@ -31,6 +55,13 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+class Admin(models.Model):
+    users = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    department = models.CharField(max_length=50)
+    contact_no = models.CharField(max_length=10,unique=True)
+
+    def __str__(self):
+        return self.users.first_name
 
 class VisaCountry(models.Model):
     country = models.CharField(max_length=100)
@@ -127,3 +158,158 @@ class CourierAddress(models.Model):
     status = models.CharField(max_length=50,choices=COURIER_STATUS)
     lastupdated_by = models.CharField(max_length=100,null=True,blank=True)
     last_updated_on = models.DateTimeField(auto_now=True)
+    
+    
+class LoginLog(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    platform = models.CharField(max_length=200,default="Web")
+    ip_address = models.GenericIPAddressField()
+    login_datetime = models.DateTimeField(auto_now_add=True)
+    # date = models.DateField()
+
+    def save(self, *args, **kwargs):
+        # Format the date and time as "13-Sep-2023 01:56 PM"
+        formatted_datetime = self.login_datetime.strftime('%d-%b-%Y %I:%M %p')
+        self.login_datetime_formatted = formatted_datetime
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.login_datetime}"
+    
+    
+class Employee(models.Model):
+    users = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch,on_delete=models.SET_NULL,null=True,blank=True)
+    department = models.CharField(max_length=20,null=True, blank=True,choices=Department_Choices)
+    group = models.ForeignKey(Group,on_delete=models.SET_NULL,null=True,blank=True)
+    contact_no = models.CharField(max_length=20,null=True,blank=True)
+    country = models.CharField(max_length=50,null=True,blank=True)
+    state = models.CharField(max_length=50,null=True,blank=True)
+    City = models.CharField(max_length=50,null=True,blank=True)
+    Address = models.TextField(null=True,blank=True)
+    zipcode = models.CharField(max_length=100,null=True,blank=True)
+    file = models.FileField(upload_to="media/Employee/profile_pic/",null=True,blank=True)
+    created = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        # Check if a group is provided when saving the employee
+        if self.group:
+            # Add the employee to the group
+            self.group.group_member.add(self.users)
+        super(Employee, self).save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.users.username
+    
+
+class Agent(models.Model):
+    users = models.OneToOneField(CustomUser,on_delete=models.CASCADE)  
+    type = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    country = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    City = models.CharField(max_length=50)
+    Address = models.TextField()
+    zipcode = models.CharField(max_length=100)
+    dob = models.DateField(null=True,blank=True)
+    gender = models.CharField(max_length=10)
+    marital_status = models.CharField(max_length=10,null=True,blank=True)
+    status = models.CharField(max_length=255,choices=status,default='Pending')
+    activeinactive=models.BooleanField(default=True,null=True,blank=True)
+    profile_pic = models.ImageField(upload_to="media/Agent/Profile Pic/",null=True,blank=True)
+    assign_employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null=True,blank=True)
+
+    organization_name = models.CharField(max_length=100,null=True,blank=True)
+    business_type = models.CharField(max_length=100,null=True,blank=True)
+    registration_number = models.CharField(max_length=100,null=True,blank=True)
+
+    # ---------- Bank Information ---------------- 
+
+    account_holder = models.CharField(max_length=100,null=True,blank=True)
+    bank_name = models.CharField(max_length=100,null=True,blank=True)
+    branch_name = models.CharField(max_length=100,null=True,blank=True)
+    account_no = models.CharField(max_length=100,null=True,blank=True)
+    ifsc_code = models.CharField(max_length=100,null=True,blank=True)
+    last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    registeron = models.DateTimeField(auto_now_add=True, auto_now=False)
+    registerdby = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='registered_agents')
+
+    # -------------------------- kyc information ------------------ 
+
+    adhar_card_front = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    adhar_card_back = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    pancard = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    registration_certificate = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    
+
+
+class OutSourcingAgent(models.Model):
+    
+    
+    users = models.OneToOneField(CustomUser,on_delete=models.CASCADE)  
+    type = models.CharField(max_length=255)
+    contact_no = models.CharField(max_length=20)
+    country = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    City = models.CharField(max_length=50)
+    Address = models.TextField()
+    zipcode = models.CharField(max_length=100)
+    dob = models.DateField(null=True,blank=True)
+    gender = models.CharField(max_length=10)
+    marital_status = models.CharField(max_length=10,null=True,blank=True)
+    status = models.CharField(max_length=255,choices=status,default='Pending')
+    activeinactive=models.BooleanField(default=True,null=True,blank=True)
+    profile_pic = models.ImageField(upload_to="media/OutSourcing/Agent/Profile Pic/",null=True,blank=True)
+    assign_employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null=True,blank=True)
+
+    organization_name = models.CharField(max_length=100,null=True,blank=True)
+    business_type = models.CharField(max_length=100,null=True,blank=True)
+    registration_number = models.CharField(max_length=100,null=True,blank=True)
+
+    # ---------- Bank Information ---------------- 
+
+    account_holder = models.CharField(max_length=100,null=True,blank=True)
+    bank_name = models.CharField(max_length=100,null=True,blank=True)
+    branch_name = models.CharField(max_length=100,null=True,blank=True)
+    account_no = models.CharField(max_length=100,null=True,blank=True)
+    ifsc_code = models.CharField(max_length=100,null=True,blank=True)
+    last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    registeron = models.DateTimeField(auto_now_add=True, auto_now=False)
+    registerdby = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='registered_outsourcingagents')
+
+
+    # -------------------------- kyc information ------------------ 
+
+    adhar_card_front = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    adhar_card_back = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    pancard = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    registration_certificate = models.FileField(upload_to="media/Agent/Kyc",null=True,blank=True)
+    
+
+@receiver(post_save,sender=CustomUser)
+def create_admin_profile(sender,instance,created, **kwargs):
+    # if instance.user_type==''
+    if created:
+        if instance.user_type == '2':
+            Admin.objects.create(users=instance, contact_no='')
+        elif instance.user_type == '3':  # Check if the user type is 'ManPower'
+            # branch = Branch.objects.get(id=1)
+            Employee.objects.create(users=instance, contact_no='',zipcode='',file='')
+    
+        elif instance.user_type == '4':  # Check if the user type is 'ManPower'
+            Agent.objects.create(users=instance, contact_no='',zipcode='',activeinactive='True',type='',profile_pic='')
+    
+        elif instance.user_type == '5':  # Check if the user type is 'ManPower'
+            OutSourcingAgent.objects.create(users=instance, contact_no='',zipcode='',activeinactive='True',type='',profile_pic='')
+    
+
+@receiver(post_save,sender=CustomUser)
+def save_user_profile(sender,instance, **kwargs):
+    if instance.user_type=='2':
+        instance.admin.save()
+    if instance.user_type=='3':
+        instance.employee.save()
+    if instance.user_type=='4':
+        instance.agent.save()
+    if instance.user_type=='5':
+        instance.outsourcingagent.save()

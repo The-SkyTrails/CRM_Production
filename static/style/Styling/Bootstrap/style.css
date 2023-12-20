@@ -2790,13 +2790,13 @@ padding: 3px 10px;
 }
 
 .list-item > .agentitem {
-  margin-top: 5px;
   color: #111928;
   background-color: #f3f4f6;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
+  border-radius: 4px !important;
 }
 
 .list-item > .agentitem svg {

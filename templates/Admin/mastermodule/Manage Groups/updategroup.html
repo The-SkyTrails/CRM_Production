@@ -96,8 +96,11 @@
 
                     <div class="row formrow">
                         {% for checkbox in form.group_member %}
-                                        <div class="col-md-3" style="font-size: 20px;">
-                                            {{ checkbox }}
+                <div class="col-md-3" style="font-size: 20px;">
+                    {{ checkbox }}
+                </div>
+                
+            {% endfor %}
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
