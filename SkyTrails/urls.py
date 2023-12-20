@@ -10,4 +10,5 @@ urlpatterns = [
     path("multi-step-form/", views.multi_step_form, name="multi_step_form_step1"),
     path("Admin/", include("crm_app.Admin_urls")),
     path("Agent/", include("crm_app.Agent_urls")),
+    path("Employee/", include("crm_app.Employee_urls")),
 ]

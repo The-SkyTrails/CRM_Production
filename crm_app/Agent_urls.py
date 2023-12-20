@@ -2,7 +2,7 @@ from django.urls import path, include
 from .AgentViews import *
 
 urlpatterns = [
-    path("Dashboard/", dashboard, name="base"),
+    path("Dashboard/", dashboard, name="agent_dashboard"),
     path("Query/", view_query, name="view_query"),
     path("ResolvedQuery/", view_resolvedquery, name="view_resolvedquery"),
     path("Add/Query/", agent_add_query, name="agent_add_query"),
