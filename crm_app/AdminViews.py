@@ -714,3 +714,171 @@ def delete_employee(request, id):
     employee.delete()
     messages.success(request, "Employee deleted successfully..")
     return redirect("emp_list")
+
+
+
+############################################### AGENT ########################################################
+
+
+def add_agent(request):
+    # logged_in_user = CustomUser.objects.get(username=request.user.username)
+    relevant_employees = Employee.objects.all()
+
+    if request.method == "POST":
+        type = request.POST.get('type')
+
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        password = request.POST.get('password')
+        country = request.POST.get('country')
+        state = request.POST.get('state')
+        city = request.POST.get('city')
+        address = request.POST.get('address')
+        zipcode = request.POST.get('zipcode')
+        files = request.FILES.get('files')
+
+
+        existing_agent = CustomUser.objects.filter(username=email)
+
+        try:
+            if existing_agent:
+                messages.warning(request, f'"{email}" already exists.')
+                return redirect('add_agent')
+
+            if type == "Outsourcing Partner":
+                user = CustomUser.objects.create_user(username=email, first_name=firstname, last_name=lastname, email=email, password=password, user_type='5')
+                # logged_in_user = CustomUser.objects.get(username=request.user.username)
+
+                user.outsourcingagent.type = type
+                user.outsourcingagent.contact_no = contact
+                user.outsourcingagent.country = country
+                user.outsourcingagent.state = state
+                user.outsourcingagent.City = city
+                user.outsourcingagent.Address = address
+                user.outsourcingagent.zipcode = zipcode
+                user.outsourcingagent.profile_pic = files
+                # user.outsourcingagent.registerdby = logged_in_user
+                user.save()
+
+                subject = 'Congratulations! Your Account is Created'
+                message = f'Hello {firstname} {lastname},\n\n' \
+                    f'Welcome to SSDC \n\n' \
+                    f'Congratulations! Your account has been successfully created as an Outsource Agent.\n\n' \
+                    f' Your id is {email} and your password is {password}.\n\n' \
+                    f' go to login : https://crm.theskytrails.com/Agent/Login/ \n\n' \
+                    f'Thank you for joining us!\n\n' \
+                    f'Best regards,\nThe Sky Trails'  
+
+                recipient_list = [email]  
+
+                send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+                
+                
+                mobile = contact
+                message = (
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+                response = send_whatsapp_message(mobile, message)
+                if response.status_code == 200:
+                    pass
+                else:
+                    pass
+
+                messages.success(request, 'OutSource Agent Added Successfully')
+                return redirect('all_outsource_agent')
+
+            else:
+                user = CustomUser.objects.create_user(username=email, first_name=firstname, last_name=lastname, email=email, password=password, user_type='4')
+                # logged_in_user = CustomUser.objects.get(username=request.user.username)
+
+                user.agent.type = type
+                user.agent.contact_no = contact
+                user.agent.country = country
+                user.agent.state = state
+                user.agent.City = city
+                user.agent.Address = address
+                user.agent.zipcode = zipcode
+                user.agent.profile_pic = files
+                # user.agent.registerdby = logged_in_user
+                user.save()
+
+                context = {
+                    'employees': relevant_employees,
+                }
+
+                subject = 'Congratulations! Your Account is Created'
+                message = f'Hello {firstname} {lastname},\n\n' \
+                    f'Welcome to SSDC \n\n' \
+                    f'Congratulations! Your account has been successfully created as an agent.\n\n' \
+                    f' Your id is {email} and your password is {password}.\n\n' \
+                    f' go to login : https://crm.theskytrails.com/Agent/Login/ \n\n' \
+                    f'Thank you for joining us!\n\n' \
+                    f'Best regards,\nThe Sky Trails'   
+
+                recipient_list = [email]  
+
+                send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+                
+                mobile = contact
+                message = (
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+                response = send_whatsapp_message(mobile, message)
+                if response.status_code == 200:
+                    pass
+                else:
+                    pass
+
+                messages.success(request, 'Agent Added Successfully')
+                return redirect('agent_list')
+
+        except Exception as e:
+            messages.warning(request, e)
+
+    context = {
+        'employees': relevant_employees,
+    }
+    
+
+    return render(request, 'Admin/Agent Management/addagent.html', context)
+ 
+
+class all_agent(ListView):
+    model = Agent
+    template_name = 'Admin/Agent Management/agentlist.html'  
+    context_object_name = 'agent'
+
+    def get_queryset(self):
+        return Agent.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employee_queryset'] = Employee.objects.all()
+        return context
+     
+class all_outsource_agent(ListView):
+    model = OutSourcingAgent
+    template_name = 'Admin/Agent Management/outsourcelist.html'  
+    context_object_name = 'agentoutsource'
+
+    def get_queryset(self):
+        
+        return OutSourcingAgent.objects.all().order_by("-id")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employee_queryset'] = Employee.objects.all()
+        return context
+        

@@ -80,4 +80,9 @@ urlpatterns = [
     path("Employe/Update/<int:pk>", employee_update, name="employee_update"),
     path("Employe/Update/Save", employee_update_save, name="employee_update_save"),
     path("Employee/delete/<int:id>/", delete_employee, name="delete_employee"),
+    
+    path("add_agent/", add_agent, name="add_agent"),
+    path("agent_list/", all_agent.as_view(), name="agent_list"),
+    path('AllOutSourceAgent/',all_outsource_agent.as_view(),name="all_outsource_agent"),
+    
 ]

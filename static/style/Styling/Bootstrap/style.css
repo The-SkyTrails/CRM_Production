@@ -49,9 +49,8 @@ ul.dropdown-menu li {
     justify-content: space-between;
 }
 
-
 .form-container{
-  
+  background-color: white;
   margin: 10px 80px;
 
 }
@@ -116,7 +115,7 @@ ul.dropdown-menu li {
 }
 
 .tabBox .tabOne {
-  padding: 10px 80px;
+  padding: 10px 60px;
   background-color: #EBF5FF;
   /* border-right: 1px solid #9CA3AF !important; */
   border-top-left-radius: 8px; /* Adjust the value as needed */
@@ -129,7 +128,7 @@ color: #233876;
 }
 
 .tabBox .tabTwo {
-  padding: 10px 70px;
+  padding: 10px 60px;
   background-color: fff;
   border-left: 1px solid #9CA3AF !important;
   font-size: 14px;
@@ -229,7 +228,6 @@ color: #111928;
 }
 
 .inputforms-container {
-  width: 100%;
   margin: 32px 24px;
   
 }
@@ -4138,4 +4136,16 @@ line-height: 150%;
   justify-content: space-between !important;
   gap: 2% !important;
   /* align-items: center !important; */
+}
+
+.courier-container{
+  background-color: #F9FAFB;
+  padding: 24px 104px;
+}
+
+.courierform{
+
+  justify-content: center;
+  display: flex;
+
 }
