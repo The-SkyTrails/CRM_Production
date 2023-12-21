@@ -4,6 +4,7 @@ from .AdminViews import *
 
 urlpatterns = [
     path("Dashboard/", admin_dashboard, name="admin_dashboard"),
+    path("Profile/", admin_profile, name="admin_profile"),
     path("AddVisaCountry/", add_visacountry, name="add_visacountry"),
     path("VisaCountry/update/", visacountryupdate_view, name="visacountryupdate_view"),
     path("import/Country", import_country, name="importcountry"),

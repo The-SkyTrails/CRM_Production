@@ -70,7 +70,7 @@
                 {% csrf_token %}
                 <div class="inputforms-container">
                     <div class="row formrow">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Department</label>
                                 <select class="form-control" name="department" id="department">
@@ -84,7 +84,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Branch</label>
                                 <select class="form-control" name="branch_id" id="branch_id">
@@ -96,9 +96,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row formrow">
-                        <div class="col-md-6 ">
+                        <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Group</label>
                             <select class="form-control" name="group_id" id="group_id">
                                 <option value="">Select</option>
@@ -108,34 +106,38 @@
 
                             </select>
                         </div>
-                        <div class="col-md-6 ">
+                    </div>
+                    <div class="row formrow">
+                        
+                        <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Contact Number </label>
                             <input type="text" name="contact" id="contact" class="form-control border-left-0"
                                 placeholder="Contact No">
                         </div>
-                    </div>
-                    <div class="row formrow">
-                        <div class="col-md-6 ">
+
+                         <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">First Name</label>
                             <input type="text" name="firstname" id="firstname" class="form-control border-left-0"
                                 placeholder="First Name">
                         </div>
-                        <div class="col-md-6 ">
+
+                         <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Last Name</label>
                             <input type="text" name="lastname" id="lastname" class="form-control border-left-0"
                                 placeholder="Last Name">
                         </div>
                     </div>
+                   
 
                     <div class="row formrow">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Email Address</label>
                                 <input type="email" name="email" id="email" class="form-control border-left-0"
                                     placeholder="Email Address">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Country</label>
                                 <select class="form-control" name="country" id="country">
@@ -386,31 +388,54 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row formrow">
-                        <div class="col-md-6 ">
+
+                         <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Address</label>
                             <input type="text" name="address" id="address" placeholder="Enter Address"
                                 class="form-control border-left-0">
                         </div>
-                        <div class="col-md-6 ">
+                    </div>
+                    <div class="row formrow">
+                       
+                        <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">City </label>
                             <input type="text" name="city" id="city" class="form-control border-left-0"
                                 placeholder="City">
                         </div>
-                    </div>
-                    <div class="row formrow">
-                        <div class="col-md-6 ">
+
+                        <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">State</label>
                             <input type="text" name="state" id="state" class="form-control border-left-0"
                                 placeholder="State">
                         </div>
-                        <div class="col-md-6 ">
+
+                        <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Zipcode</label>
                             <input type="text" name="zipcode" id="zipcode" class="form-control border-left-0"
                                 placeholder="Zip Code">
                         </div>
                     </div>
+                    <div class="row formrow">
+                       
+                        <div class="col-md-4 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Tata Tele Api Key </label>
+                            <input type="text" name="api_key" id="city" class="form-control border-left-0"
+                                placeholder="Api Key">
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Tata Tele Authorization</label>
+                            <input type="text" name="authorization" id="state" class="form-control border-left-0"
+                                placeholder="Authorization">
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Tata Tele Agent Number</label>
+                            <input type="text" name="tata_tele_agent_no" id="zipcode" class="form-control border-left-0"
+                                placeholder="Tata Tele Agent Number">
+                        </div>
+                    </div>
+                    
                     <div class="row formrow">
                         <label for="exampleFormControlInput1" class="custom-form-label">Upload Image</label>
                         <div class="input-group mb-3">

@@ -51,7 +51,7 @@ ul.dropdown-menu li {
 
 
 .form-container{
-  
+  background-color: white;
   margin: 10px 80px;
 
 }
@@ -229,8 +229,9 @@ color: #111928;
 }
 
 .inputforms-container {
-  width: 100%;
+  /* width: 100%; */
   margin: 32px 24px;
+
   
 }
 
@@ -4138,4 +4139,18 @@ line-height: 150%;
   justify-content: space-between !important;
   gap: 2% !important;
   /* align-items: center !important; */
+}
+
+
+.courier-container{
+  background-color: #F9FAFB;
+  padding: 24px 104px;
+}
+
+
+.courierform{
+
+  justify-content: center;
+  display: flex;
+
 }

@@ -205,6 +205,9 @@ class Employee(models.Model):
         upload_to="media/Employee/profile_pic/", null=True, blank=True
     )
     created = models.DateTimeField(auto_now=True)
+    tata_tele_authorization = models.CharField(max_length=500, null=True, blank=True)
+    tata_tele_api_key = models.CharField(max_length=200, null=True, blank=True)
+    tata_tele_agent_number = models.CharField(max_length=200, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Check if a group is provided when saving the employee

@@ -7,7 +7,7 @@
                <div class="Vector" id="black-bg"></div>
                <div class="Group">
                   <div class="Vector" id="white-bg">
-                     <img src="{% static " style/Styling/Dashboard Design/images/Logo.png" %}" alt="" class="img" />
+                     <img src="{% static "style/Styling/Dashboard Design/images/Logo.png" %}" alt="" class="img" />
                   </div>
                </div>
             </div>
@@ -40,6 +40,8 @@
                      <div class="textss">hsd@theskytrails.com</div>
                      <div class="textss">+91 9999210101</div>
                   </div>
+                  <hr class="passwordborder">
+                  <div class="px-3"><strong><a href="{% url "admin_profile" %}" class="text-dark">Profile Settings</a></strong></div>
                   <hr class="passwordborder">
                   <div class="px-3">Password Settings</div>
                   <hr class="passwordborder">
@@ -207,23 +209,7 @@
                Internal Management
                </a>
                <ul class="dropdown-menu">
-                  <li>
-                     <a class="dropdown-item" href="#">
-                        <div class="NavLink">
-                           <div class="AddUser">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
-                                 <path
-                                    d="M16.2803 10.4251C14.6475 11.9856 11.8238 12.7662 9 12.7662C6.17625 12.7662 3.3525 11.9856 1.71975 10.4251L1.5 10.215V14.8163C1.5 15.1966 1.65804 15.5612 1.93934 15.8301C2.22064 16.099 2.60218 16.25 3 16.25H15C15.3978 16.25 15.7794 16.099 16.0607 15.8301C16.342 15.5612 16.5 15.1966 16.5 14.8163V10.215L16.2803 10.4251Z"
-                                    fill="#014451" />
-                                 <path
-                                    d="M15 5.61731H12.75V4.90048C12.75 4.33014 12.5129 3.78315 12.091 3.37986C11.669 2.97657 11.0967 2.75 10.5 2.75H7.5C6.90326 2.75 6.33097 2.97657 5.90901 3.37986C5.48705 3.78315 5.25 4.33014 5.25 4.90048V5.61731H3C2.60218 5.61731 2.22064 5.76835 1.93934 6.03722C1.65804 6.30608 1.5 6.67073 1.5 7.05096V8.18785L2.78025 9.41147C5.5125 12.0207 12.4875 12.0207 15.2197 9.41147L16.5 8.18785V7.05096C16.5 6.67073 16.342 6.30608 16.0607 6.03722C15.7794 5.76835 15.3978 5.61731 15 5.61731ZM9 9.91827C8.85166 9.91827 8.70666 9.87623 8.58332 9.79746C8.45999 9.7187 8.36386 9.60674 8.30709 9.47576C8.25032 9.34478 8.23547 9.20065 8.26441 9.0616C8.29335 8.92254 8.36478 8.79482 8.46967 8.69457C8.57456 8.59432 8.7082 8.52605 8.85368 8.49839C8.99917 8.47073 9.14997 8.48493 9.28701 8.53918C9.42406 8.59343 9.54119 8.68531 9.6236 8.80319C9.70601 8.92108 9.75 9.05967 9.75 9.20144C9.75 9.39156 9.67098 9.57388 9.53033 9.70831C9.38968 9.84275 9.19891 9.91827 9 9.91827ZM11.25 5.61731H6.75V4.90048C6.75 4.71037 6.82902 4.52804 6.96967 4.39361C7.11032 4.25918 7.30109 4.18365 7.5 4.18365H10.5C10.6989 4.18365 10.8897 4.25918 11.0303 4.39361C11.171 4.52804 11.25 4.71037 11.25 4.90048V5.61731Z"
-                                    fill="#014451" />
-                              </svg>
-                           </div>
-                           <div class="dropText">Departments</div>
-                        </div>
-                     </a>
-                  </li>
+                
                   <li>
                      <a class="dropdown-item" href="#">
                         <div class="NavLink">
@@ -262,7 +248,7 @@
                   </li>
                   <li>
                      <a class="dropdown-item" href=""> 
-                     <a class="dropdown-item" href="#">
+                     <a class="dropdown-item" href="{% url "emp_list" %}">
                         <div class="NavLink">
                            <div class="AddUser">
                               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
@@ -463,7 +449,7 @@
                   
                   
                   <li>
-                     <a class="dropdown-item" href="#">
+                     <a class="dropdown-item" href="{% url "Group_list" %}">
                         <div class="NavLink">
                            <div class="AddUser">
                               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "crm_app",
     "django_countries",
+    "django_extensions",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    #"crm_app.LoginCheckMiddleWare.LoginCheckMiddleWare",
+    # "crm_app.LoginCheckMiddleWare.LoginCheckMiddleWare",
     #'crm_app.ActivityLoggingMiddleware.ActivityLoggingMiddleware',
 ]
 
@@ -130,14 +131,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-   
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "crm_app.CustomUser"
-
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -148,4 +147,4 @@ EMAIL_HOST_USER = "theskytrails@gmail.com"
 EMAIL_HOST_PASSWORD = "whew bkjr oqyi irsw"
 
 LOGIN_REDIRECT_URL = "/dashboard/"
-LOGIN_URL = 'login'
+LOGIN_URL = "login"

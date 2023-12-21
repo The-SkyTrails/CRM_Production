@@ -20,6 +20,10 @@ def admin_dashboard(request):
     return render(request, "Admin/Dashboard/dashboard.html")
 
 
+def admin_profile(request):
+    return render(request, "Admin/Profile/profile.html")
+
+
 def add_visacountry(request):
     visacountry = VisaCountry.objects.all().order_by("-id")
     form = VisaCountryForm(request.POST or None)
@@ -582,6 +586,9 @@ def add_employee(request):
         city = request.POST.get("city")
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
+        api_key = request.POST.get("api_key")
+        authorization = request.POST.get("authorization")
+        tata_tele_agent_no = request.POST.get("tata_tele_agent_no")
         files = request.FILES.get("file")
 
         if not branch_id:
@@ -593,6 +600,9 @@ def add_employee(request):
             group = Group.objects.get(id=group_id)
             if Employee.objects.filter(contact_no__iexact=contact).exists():
                 messages.error(request, "Contact No. already exists.")
+                return redirect("emp_personal_details")
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                messages.error(request, "Email Address already Register...")
                 return redirect("emp_personal_details")
             user = CustomUser.objects.create_user(
                 username=email,
@@ -612,6 +622,9 @@ def add_employee(request):
             user.employee.City = city
             user.employee.Address = address
             user.employee.zipcode = zipcode
+            user.employee.tata_tele_api_key = api_key
+            user.employee.tata_tele_authorization = authorization
+            user.employee.tata_tele_agent_number = tata_tele_agent_no
             user.employee.file = files
 
             user.save()
@@ -688,6 +701,10 @@ def employee_update_save(request):
         city = request.POST.get("city")
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
+
+        authorization = request.POST.get("authorization")
+        api_key = request.POST.get("api_key")
+        tata_tele_agent_no = request.POST.get("tata_tele_agent_no")
         file = request.FILES.get("file")
 
         user = CustomUser.objects.get(id=employee_id)
@@ -702,6 +719,11 @@ def employee_update_save(request):
         user.employee.City = city
         user.employee.Address = address
         user.employee.zipcode = zipcode
+
+        user.employee.tata_tele_authorization = authorization
+        user.employee.tata_tele_api_key = api_key
+        user.employee.tata_tele_agent_number = tata_tele_agent_no
+
         if file:
             user.employee.file = file
         user.save()

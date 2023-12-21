@@ -21,6 +21,7 @@ urlpatterns = (
         path("ResetPassword/", views.reset_psw, name="reset_psw"),
         path("Admin/", include("crm_app.Admin_urls")),
         path("Agent/", include("crm_app.Agent_urls")),
+        path("Employee/", include("crm_app.Employee_urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,4 @@
-@set "VIRTUAL_ENV=D:\CRM New\v3\env"
+@set "VIRTUAL_ENV=D:\CRM New\v4\env"
 
 @set "VIRTUAL_ENV_PROMPT="
 @if NOT DEFINED VIRTUAL_ENV_PROMPT (
