@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from django_countries.fields import CountryField
 
 
-
 BRANCH_SOURCES = [
     ("COCO", "Company Owned Company Operated"),
     ("COFO", "Company Owned Franchise Operated"),
@@ -39,10 +38,7 @@ Department_Choices = [
     ("HR", "HR"),
 ]
 
-TYPE_CHOICES = [
-    ('Appointment','Appointment'),
-    ('Contact Us','Contact Us')
-]  
+TYPE_CHOICES = [("Appointment", "Appointment"), ("Contact Us", "Contact Us")]
 
 
 class CustomUser(AbstractUser):
@@ -349,31 +345,39 @@ class OutSourcingAgent(models.Model):
     registration_certificate = models.FileField(
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
-    
-    
+
+
 class Package(models.Model):
-    visa_country = models.ForeignKey(VisaCountry,on_delete=models.CASCADE)
-    visa_category = models.ForeignKey(VisaCategory,on_delete=models.CASCADE,related_name='package_category')
+    visa_country = models.ForeignKey(VisaCountry, on_delete=models.CASCADE)
+    visa_category = models.ForeignKey(
+        VisaCategory, on_delete=models.CASCADE, related_name="package_category"
+    )
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    assign_to_group = models.ForeignKey(Group,on_delete=models.CASCADE)
+    assign_to_group = models.ForeignKey(Group, on_delete=models.CASCADE)
     number_of_visa = models.IntegerField()
     amount = models.CharField(max_length=100)
     advance_amount = models.CharField(max_length=100)
     file_charges = models.CharField(max_length=100)
-    package_expiry_date = models.DateField(auto_created=False,null=True,blank=True)
-    last_updated_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    package_expiry_date = models.DateField(auto_created=False, null=True, blank=True)
+    last_updated_by = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
     last_updated_on = models.DateTimeField(auto_now=True)
-    image = models.FileField(upload_to='media/package_images/',null=True,blank=True)
-    
+    image = models.FileField(upload_to="media/package_images/", null=True, blank=True)
+
     def __str__(self):
         return self.title
-    
-    
+
+
 class VisaSubcategory(models.Model):
     country_id = models.ForeignKey(VisaCountry, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(VisaCategory, on_delete=models.CASCADE, related_name='pricing_category')
-    subcategory_name = models.ForeignKey(VisaCategory, on_delete=models.CASCADE, related_name='pricing_subcategory')
+    category_id = models.ForeignKey(
+        VisaCategory, on_delete=models.CASCADE, related_name="pricing_category"
+    )
+    subcategory_name = models.ForeignKey(
+        VisaCategory, on_delete=models.CASCADE, related_name="pricing_subcategory"
+    )
     # person = models.ManyToManyField(CustomUser)
     estimate_amt = models.FloatField()
     cgst = models.FloatField()
@@ -398,6 +402,46 @@ class AgentAgreement(models.Model):
     agreement_file = models.FileField(
         upload_to="media/Agreement/", null=True, blank=True
     )
+
+
+class Booking(models.Model):
+    email = models.EmailField()
+    fullname = models.CharField(max_length=100)
+    contact_number = models.CharField(max_length=15)
+    departure_city = models.CharField(max_length=100)
+    number_of_people = models.PositiveIntegerField()
+    departure_date = models.DateField()
+
+
+class FrontWebsiteEnquiry(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=15)
+    appointment_date = models.DateTimeField(auto_created=False, null=True, blank=True)
+    type = models.CharField(
+        max_length=20,
+        choices=TYPE_CHOICES,
+        default="Appointment",
+        null=True,
+        blank=True,
+    )
+    country_name = models.ForeignKey(
+        VisaCountry, on_delete=models.CASCADE, null=True, blank=True
+    )
+    category_name = models.ForeignKey(
+        VisaCategory, on_delete=models.CASCADE, null=True, blank=True
+    )
+    message = models.TextField(null=True, blank=True)
+    image = models.FileField(
+        upload_to="media/frontwebsiteenquiry/", null=True, blank=True
+    )
+    last_updated_by = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    last_updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 @receiver(post_save, sender=CustomUser)
@@ -441,33 +485,3 @@ def save_user_profile(sender, instance, **kwargs):
         instance.agent.save()
     if instance.user_type == "5":
         instance.outsourcingagent.save()
-
-
-class Booking(models.Model):
-    email = models.EmailField()
-    fullname = models.CharField(max_length=100)
-    contact_number = models.CharField(max_length=15)
-    departure_city = models.CharField(max_length=100)
-    number_of_people = models.PositiveIntegerField()
-    departure_date = models.DateField()
-    
-    
-class FrontWebsiteEnquiry(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=15)
-    appointment_date = models.DateTimeField(auto_created=False,null=True,blank=True)
-    type = models.CharField(max_length=20,choices=TYPE_CHOICES,default='Appointment',null=True,blank=True)
-    country_name = models.ForeignKey(VisaCountry,on_delete=models.CASCADE,null=True,blank=True)
-    category_name = models.ForeignKey(VisaCategory,on_delete=models.CASCADE,null=True,blank=True)
-    message = models.TextField(null=True,blank=True)
-    image = models.FileField(upload_to="media/frontwebsiteenquiry/",null=True,blank=True)
-    last_updated_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
-    last_updated_on = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return self.name    
-
-
-    
-    
