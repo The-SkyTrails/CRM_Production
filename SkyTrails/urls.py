@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.static import serve
 from django.urls import re_path
+from crm_app.API_views import *
 
 
 urlpatterns = (
@@ -21,6 +22,14 @@ urlpatterns = (
         path("ResetPassword/", views.reset_psw, name="reset_psw"),
         path("Admin/", include("crm_app.Admin_urls")),
         path("Agent/", include("crm_app.Agent_urls")),
+        
+        ########################## API URLS ##############################################
+        
+        path("enquiry_form/", BookingViewSet.as_view({'get': 'list', 'post': 'create'}),name="enquiry"),
+        path("FrontWebsite/", FrontWebsite.as_view({"get": "list", "post": "create"})),
+        path("Api/VisaCountry/", apiVisaCountry.as_view({"get": "list"})),
+        path("Api/VisaCategory/", apiVisaCategory.as_view({"get": "list"})),
+        
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -84,5 +84,20 @@ urlpatterns = [
     path("add_agent/", add_agent, name="add_agent"),
     path("agent_list/", all_agent.as_view(), name="agent_list"),
     path('AllOutSourceAgent/',all_outsource_agent.as_view(),name="all_outsource_agent"),
+
+    
+    path('AddPackage/', PackageCreateView.as_view(), name='add_Package'),
+    path('PackageList/', PackageListView.as_view(), name='Package_list'),
+    path('PackageEdit/<int:pk>', editPackage.as_view(),name="editPackage"),
+    path('packages/<int:pk>/', PackageDetailView.as_view(), name='package_detail'),
+    path('package/delete/<int:id>/', delete_package, name='delete_package'),
+    
+    
+    path('LoginLogs',loginlog.as_view(),name="loginlog"),
+    
+    path('AddSubCategory/', add_subcategory,name="add_subcategory"),
+    path('SubCategoryList/', subcategory_list,name="subcategory_list"),
+    path('SubCategoryEdit/<int:id>', visa_subcategory_edit,name="visa_subcategory_edit"),
+    path('pricing/delete/<int:id>/', delete_pricing, name='delete_pricing'),
     
 ]

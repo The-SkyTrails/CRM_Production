@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 import pandas as pd
 from .whatsapp_api import send_whatsapp_message
 from django.core.mail import send_mail
+from django.http import HttpResponse, HttpResponseRedirect
 
 ######################################### COUNTRY #################################################
 
@@ -881,4 +882,154 @@ class all_outsource_agent(ListView):
         context = super().get_context_data(**kwargs)
         context['employee_queryset'] = Employee.objects.all()
         return context
+    
+    
+###################################################### PACKAGE ###############################################
+
+class PackageCreateView(CreateView):
+    model = Package
+    form_class = PackageForm
+    template_name = 'Admin/Product/addproduct.html'
+    success_url = reverse_lazy('Package_list')
+
+    def form_valid(self, form):
+        try:
+            # form.instance.last_updated_by = self.request.user
+            form.save()
+            messages.success(self.request, 'Package Added Successfully.')
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f'Error: {e}')
+            print("Error Occured " , e)
+            return self.form_invalid(form)
+
+    
+class PackageListView(ListView):
+    model = Package
+    template_name = 'Admin/Product/product.html'  
+    context_object_name = 'Package'
+    
+    def get_queryset(self):
+        return Package.objects.order_by("-id")
+
+
+class editPackage(UpdateView):
+    model = Package
+    form_class = PackageForm
+    template_name = 'Admin/Product/editProduct.html'
+    success_url = reverse_lazy('Package_list')
+
+    def form_valid(self, form):
+        # form.instance.lastupdated_by = self.request.user
+
+        messages.success(self.request, 'Package Updated Successfully.')
+
+        return super().form_valid(form)
+    
+class PackageDetailView(DetailView):
+    model = Package
+    template_name = 'Admin/Product/Productdetails.html'  
+    context_object_name = 'package'
+    
+
+def delete_package(request, id):
+    package = get_object_or_404(Package, id=id)
+    package.delete()
+    return redirect('Package_list')
+
+
+############################################ LOGIN LOGS ######################################################
+
+
+class loginlog(ListView):
+    model = LoginLog
+    template_name = 'Admin/Login Logs/Loginlogs.html'
+    context_object_name = 'loginlog'
+
+    
+    def get_queryset(self):
+        return LoginLog.objects.exclude(user__user_type='1').order_by("-id")
+    
+    
+
+########################################################## PRICING ##########################################################################
+
+
+def add_subcategory(request):
+    country = VisaCountry.objects.all()
+    category = VisaCategory.objects.all()
+
+    context = {
+        'country': country,
+        'category': category,
+    }
+
+    if request.method == "POST":
+        country_id = request.POST.get('country')
+        category_id = request.POST.get('category')
+        subcategory_name = request.POST.get('subcategory')
+        amount = float(request.POST.get('amount') or 0)
+        cgst = float(request.POST.get('cgst') or 0)
+        sgst = float(request.POST.get('sgst') or 0)
+        # user = request.user
+
+        # try:
+            # Calculate the totalAmount
+        total = amount+((amount * (cgst + sgst)) / 100)
+
         
+        pricing = VisaSubcategory.objects.create(
+            country_id_id=country_id,
+            category_id_id=category_id,
+            subcategory_name_id=subcategory_name,
+            estimate_amt=amount,
+            cgst=cgst,
+            sgst=sgst,
+            totalAmount=total,
+            # lastupdated_by=user.first_name,
+            
+        )
+        pricing.save()
+
+        messages.success(request, 'Pricing Added Successfully !!')
+        return redirect('subcategory_list')
+        # except Exception as e:
+        #     # Handle any exceptions here and possibly log them
+        #     # messages.error(request, str(e))
+        #     print("eeee",e)
+
+    return render(request, 'Admin/mastermodule/Pricing/add_pricing.html', context)
+
+
+def subcategory_list(request):
+    subcategory = VisaSubcategory.objects.all().order_by("-id")
+    context = {
+        'subcategory':subcategory
+    }
+    return render(request,'Admin/mastermodule/Pricing/pricing.html',context)
+
+
+def visa_subcategory_edit(request, id):
+    instance = VisaSubcategory.objects.get(id=id)
+
+    if request.method == "POST":
+        form = VisasubCategoryForm(request.POST, instance=instance)
+        if form.is_valid():
+            # user = request.user
+            # form.instance.lastupdated_by = f"{user.first_name} {user.last_name}"
+            form.instance.totalAmount = form.instance.estimate_amt + ((form.instance.estimate_amt * (form.instance.cgst + form.instance.sgst)) / 100)
+            form.save()  
+            messages.success(request, 'Subcategory updated successfully.')
+            return redirect('subcategory_list')
+    else:
+        form = VisasubCategoryForm(instance=instance)
+
+
+    return render(request, 'Admin/mastermodule/pricing/edit_pricing.html', {'form': form})
+
+
+def delete_pricing(request, id):
+    pricing = VisaSubcategory.objects.get(id=id)
+    pricing.delete()
+    messages.success(request, "Pricing deleted successfully..")
+    return HttpResponseRedirect(reverse("subcategory_list"))

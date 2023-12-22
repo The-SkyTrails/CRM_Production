@@ -3,17 +3,6 @@ from django.core.validators import RegexValidator
 from .models import *
 
 
-class Step1Form(forms.Form):
-    name = forms.CharField(max_length=100)
-
-
-class Step2Form(forms.Form):
-    email = forms.EmailField()
-
-
-class Step3Form(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput)
-
 
 class VisaCountryForm(forms.ModelForm):
     class Meta:
@@ -193,105 +182,34 @@ class ReceiverDetailsForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Enter Address"}
             ),
         }
-
-
-class EmployeeDetailsForm1(forms.ModelForm):
-    first_name = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter First Name"}
-        ),
-    )
-    last_name = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter Last Name"}
-        ),
-    )
-
+    
+    
+class PackageForm(forms.ModelForm):
     class Meta:
-        model = Employee
-        fields = [
-            "department",
-            "branch",
-            "group",
-            "contact_no",
-            "first_name",
-            "last_name",
-        ]
-
-        widgets = {
-            "department": forms.Select(attrs={"class": "form-control"}),
-            "branch": forms.Select(attrs={"class": "form-control"}),
-            "group": forms.Select(attrs={"class": "form-control"}),
-            "contact_no": forms.NumberInput(
-                attrs={"class": "form-control", "placeholder": "Enter Number"}
-            ),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(EmployeeDetailsForm1, self).__init__(*args, **kwargs)
-
-        # If an instance is provided, populate the form fields with user data
-        if "instance" in kwargs:
-            instance = kwargs["instance"]
-            if instance.users:
-                self.fields["first_name"].initial = instance.users.first_name
-                self.fields["last_name"].initial = instance.users.last_name
-
-    def save(self, commit=True):
-        # Save first_name and last_name to the associated CustomUser instance
-        user = self.instance.users
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
-        user.save()
-        return super().save(commit)
+        model = Package
+        fields = ['visa_country','visa_category','title','description','number_of_visa','amount','advance_amount','file_charges','package_expiry_date','assign_to_group','image']
+        widgets = {'visa_country':forms.Select(attrs={'class':'form-control'}),'visa_category':forms.Select(attrs={'class':'form-control'}),'title':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Title Name'}),'description':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Description'}),
+                   'number_of_visa':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Number of Visa'}),'amount':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Amount'}),'advance_amount':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Advance Amount'}),
+                   'file_charges':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter File Charges'}),'package_expiry_date':forms.DateInput(attrs={'class':'form-control','placeholder': 'Enter Package Expiry Date','type':'date'}),'assign_to_group':forms.Select(attrs={'class':'form-control'}),
+                   'image':forms.FileInput(attrs={'class':'form-control'})
+                   }
 
 
-class EmployeeDetailsForm2(forms.ModelForm):
-    email = forms.EmailField(
-        max_length=30,
-        required=True,
-        widget=forms.EmailInput(
-            attrs={"class": "form-control", "placeholder": "Enter Email"}
-        ),
-    )
-
+class VisasubCategoryForm(forms.ModelForm):
+    
     class Meta:
-        model = Employee
-        fields = ["City", "country", "Address", "state", "zipcode", "file", "email"]
-
-        widgets = {
-            "City": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter City"}
-            ),
-            "country": forms.Select(attrs={"class": "form-control"}),
-            "Address": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Address"}
-            ),
-            "state": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter State"}
-            ),
-            "zipcode": forms.NumberInput(
-                attrs={"class": "form-control", "placeholder": "Enter Zipcode"}
-            ),
-            "file": forms.FileInput(attrs={"class": "form-control"}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(EmployeeDetailsForm1, self).__init__(*args, **kwargs)
-
-        # If an instance is provided, populate the form fields with user data
-        if "instance" in kwargs:
-            instance = kwargs["instance"]
-            if instance.users:
-                self.fields["email"].initial = instance.users.email
-
-    def save(self, commit=True):
-        # Save first_name and last_name to the associated CustomUser instance
-        user = self.instance.users
-        user.email = self.cleaned_data["email"]
-        user.save()
-        return super().save(commit)
+        model = VisaSubcategory
+        fields = ['country_id','category_id','subcategory_name','estimate_amt','cgst','sgst']
+        widgets = {'country_id':forms.Select(attrs={'class':'form-control'}),
+                   
+                   'category_id':forms.Select(attrs={'class':'form-control'}),'subcategory_name':forms.Select(attrs={'class':'form-control'}),'estimate_amt':forms.NumberInput(attrs={'class':'form-controls'}),'cgst':forms.NumberInput(attrs={'class':'form-controls'}),'sgst':forms.NumberInput(attrs={'class':'form-controls'})}
+        # labels = {'country_id': 'Country','category_id':'Category','subcategory_name':'Subcategory','estimate_amt':'Estimated Amount(INR)'}
+        labels = {
+        'country_id': 'Country',
+        'category_id': 'Category',
+        'subcategory_name': 'Subcategory',
+        'estimate_amt': 'Estimated Amount (INR)',
+        'cgst': 'CGST (%)',
+        'sgst': 'SGST (%)',
+        
+    }
