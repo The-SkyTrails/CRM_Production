@@ -49,8 +49,8 @@ ul.dropdown-menu li {
     justify-content: space-between;
 }
 
-
 .form-container{
+  background-color: white;
   background-color: white;
   margin: 10px 80px;
 
@@ -116,7 +116,7 @@ ul.dropdown-menu li {
 }
 
 .tabBox .tabOne {
-  padding: 10px 80px;
+  padding: 10px 50px;
   background-color: #EBF5FF;
   /* border-right: 1px solid #9CA3AF !important; */
   border-top-left-radius: 8px; /* Adjust the value as needed */
@@ -129,7 +129,7 @@ color: #233876;
 }
 
 .tabBox .tabTwo {
-  padding: 10px 70px;
+  padding: 10px 60px;
   background-color: fff;
   border-left: 1px solid #9CA3AF !important;
   font-size: 14px;
@@ -146,6 +146,7 @@ color: #233876;
   border: 1px solid #D1D5DB;
   border-radius: 8px ;
 }
+
 
 .tabsBox .tabsOne {
   padding: 10px 30px;
@@ -170,6 +171,7 @@ font-weight: 500;
 line-height: 150%;
 color: #111928;
 }
+
 
 .tabsBox .GridtabsOne {
   padding: 10px 30px;
@@ -302,6 +304,10 @@ color: #111928;
 }
 
 .form-control {
+  background-color: #e1e4e9 !important;
+}
+
+.form-select {
   background-color: #e1e4e9 !important;
 }
 
@@ -3916,7 +3922,7 @@ line-height: 150%;
 /* query */
 
 .tabBox .tabOnes {
-  padding: 10px 70px;
+  padding: 10px 50px;
   background-color: fff;
   border-right: 1px solid #9CA3AF !important;
   font-size: 14px;
@@ -3929,7 +3935,7 @@ color: #233876;
 }
 
 .tabBox .tabTwo {
-  padding: 10px 70px;
+  padding: 10px 30px;
   background-color: fff;
   border-left: 1px solid #9CA3AF !important;
   font-size: 14px;
@@ -3941,7 +3947,7 @@ color: #233876;
 }
 
 .tabBox .tabTwos {
-  padding: 10px 70px;
+  padding: 10px 30px;
   background-color: #EBF5FF;
   /* border-right: 1px solid #9CA3AF !important; */
   font-size: 14px;
@@ -3962,29 +3968,7 @@ border-bottom-right-radius: 8px;
   border-radius: 8px ;
 }
 
-.tabsBox .tabsOne {
-  padding: 10px 30px;
-  background-color: #D1D5DB;
-  /* border-right: 1px solid #9CA3AF !important; */
-  border-top-left-radius: 7px; /* Adjust the value as needed */
-  border-bottom-left-radius: 7px;
-  font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 150%;
-color: #111928;
-}
 
-.tabsBox .tabsTwo {
-  padding: 10px 30px;
-  background-color: fff;
-  border-left: 1px solid #9CA3AF !important;
-  font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 150%;
-color: #111928;
-}
 
 .tabsBox .GridtabsOne {
   padding: 10px 30px;

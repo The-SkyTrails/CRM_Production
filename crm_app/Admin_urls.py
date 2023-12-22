@@ -81,4 +81,39 @@ urlpatterns = [
     path("Employe/Update/<int:pk>", employee_update, name="employee_update"),
     path("Employe/Update/Save", employee_update_save, name="employee_update_save"),
     path("Employee/delete/<int:id>/", delete_employee, name="delete_employee"),
+    path("add_agent/", add_agent, name="add_agent"),
+    path("agent_list/", all_agent.as_view(), name="agent_list"),
+    path("Agent/Details/<int:id>", admin_agent_details, name="admin_agent_details"),
+    path(
+        "Agent/Agreement/<int:id>", admin_agent_agreement, name="admin_agent_agreement"
+    ),
+    path(
+        "Agent/Agreement/update/<int:id>/",
+        admin_agent_agreement_update,
+        name="update_agreement",
+    ),
+    path(
+        "Agent/Agreement/Delete/<int:id>/",
+        admin_agent_agreement_delete,
+        name="admin_agent_agreement_delete",
+    ),
+    path("Agent/Kyc/<int:id>", admin_agent_kyc, name="admin_agent_kyc"),
+    path(
+        "AllOutSourceAgent/", all_outsource_agent.as_view(), name="all_outsource_agent"
+    ),
+    path(
+        "OutSourceAgent/Details/<int:id>",
+        admin_outsourceagent_details,
+        name="admin_outsourceagent_details",
+    ),
+    path(
+        "OutSourceAgent/Agreement/<int:id>",
+        admin_outsource_agent_agreement,
+        name="admin_outsource_agent_agreement",
+    ),
+    path(
+        "OutSource/Agent/Kyc/<int:id>",
+        admin_outsource_agent_kyc,
+        name="admin_outsource_agent_kyc",
+    ),
 ]

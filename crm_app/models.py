@@ -220,6 +220,17 @@ class Employee(models.Model):
         return self.users.username
 
 
+marital_status = [
+    ("Single", "Single"),
+    ("Married", "Married"),
+]
+
+Gender = [
+    ("Male", "Male"),
+    ("Female", "Female"),
+]
+
+
 class Agent(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
@@ -230,8 +241,10 @@ class Agent(models.Model):
     Address = models.TextField()
     zipcode = models.CharField(max_length=100)
     dob = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=10)
-    marital_status = models.CharField(max_length=10, null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=Gender, null=True, blank=True)
+    marital_status = models.CharField(
+        max_length=50, choices=marital_status, null=True, blank=True
+    )
     status = models.CharField(max_length=255, choices=status, default="Pending")
     activeinactive = models.BooleanField(default=True, null=True, blank=True)
     profile_pic = models.ImageField(
@@ -329,6 +342,17 @@ class OutSourcingAgent(models.Model):
     pancard = models.FileField(upload_to="media/Agent/Kyc", null=True, blank=True)
     registration_certificate = models.FileField(
         upload_to="media/Agent/Kyc", null=True, blank=True
+    )
+
+
+class AgentAgreement(models.Model):
+    agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
+    outsourceagent = models.ForeignKey(
+        OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    agreement_name = models.CharField(max_length=100)
+    agreement_file = models.FileField(
+        upload_to="media/Agreement/", null=True, blank=True
     )
 
 
