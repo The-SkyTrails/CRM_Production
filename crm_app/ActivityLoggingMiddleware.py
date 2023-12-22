@@ -3,9 +3,7 @@ from .models import ActivityLog
 class ActivityLoggingMiddleware:
     EXCLUDED_USER_TYPES = ["1"]
     EXCLUDED_URL_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp", ".ico"]
-    EXCLUDED_URLS = [
-        "/Admin/get_country_data/" , "/static/vendors/" , "/static/dist/" , "/static/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"
-    ]
+    
 
     def __init__(self, get_response):
         self.get_response = get_response

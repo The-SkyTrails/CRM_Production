@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "crm_app",
     "django_countries",
     "django_extensions",
+    "rest_framework",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
