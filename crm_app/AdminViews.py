@@ -15,6 +15,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Prefetch
 import requests
+from django.contrib.auth.hashers import check_password
 
 ######################################### COUNTRY #################################################
 
@@ -1645,3 +1646,33 @@ def add_notes(request):
             pass
 
     return redirect("admin_new_leads_details")
+
+
+
+############################################### CHANGE PASSWORD ###########################################
+
+
+def ChangePassword(request):
+    user = request.user
+    admin = Admin.objects.get(users=user)
+    
+    if request.method == "POST":
+        old_psw = request.POST.get('old_password')
+        newpassword = request.POST.get('newpassword')
+        confirmpassword = request.POST.get('confirmpassword')
+        
+        if check_password(old_psw, admin.users.password):
+            if newpassword == confirmpassword:
+                admin.users.set_password(newpassword)
+                admin.users.save()
+                messages.success(request,"Password changed successfully Please Login Again !!")
+                return HttpResponseRedirect(reverse("ChangePassword"))
+            else:
+                messages.success(request,"New passwords do not match")
+                return HttpResponseRedirect(reverse("ChangePassword"))
+                
+        else:
+            messages.warning(request,'Old password is not correct')
+            
+       
+    return render(request, 'Admin/Dashboard/dashboard.html')
