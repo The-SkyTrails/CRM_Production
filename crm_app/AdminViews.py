@@ -1607,6 +1607,7 @@ def delete_docfile(request, id):
 
 def admin_new_leads_details(request):
     enquiry = Enquiry.objects.all()
+
     context = {"enquiry": enquiry}
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
