@@ -1,0 +1,446 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+{% load static %}
+
+<div class="container mt-4">
+  <div class="row mb-2">
+    <div class="col-md-4 mb-4">
+      <div class="card mb-4" >
+        <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
+          <div class="first-div">                 
+            <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
+              <img src="{% static "style/Styling/Bootstrap/img/image 1.svg" %}" alt="" class="imgdas" />
+              <div class="Frame2 px-2 py-4 justify-center items-center gap-2.5 inline-flex">
+                <div class="Headingsection">Total Agents</div>
+              </div>
+            </div>
+          </div>
+          <div class="second-div">                
+            <p>64</p>
+          </div>
+        </div>
+      </div>        
+      <!-- Additional div 1 -->
+      <div class="card mt-3" >
+          <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
+            <div class="first-div">                 
+              <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
+                <img src="./Employee Design/Styling/Bootstrap/img/image 2.svg" alt="" class="imgdas" />
+                <div class="Frame2 px-2 py-4 justify-center items-center gap-2.5 inline-flex">
+                  <div class="Headingsection">Total Employee</div>
+                </div>
+              </div>
+            </div>
+            <div class="second-div">                
+              <p>112</p>
+            </div>
+          </div>
+        </div>
+  </div> 
+  
+  
+
+  <!-- leads -->
+  <div class="col-md-4 mb-4 leadsmedia">
+    <div class="card">
+      <div class="card-body card-bodys2">
+        <h5 class="card-title">Leads</h5>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-4 p-1">
+            <div class="card mb-3 custom-card-width">
+              <div class="card-body bg">
+                <h5 class=" cases">18</h5>
+                <p class="card-text textcase">Cases Initiated</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-4 p-1">
+            <div class="card mb-3 custom-card-width">
+              <div class="card-body bg1">
+                <h5 class="cases1">5</h5>
+                <p class="card-text textcase1 ">Enrolled</p>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12 col-4 p-1">
+            <div class="card mb-3 custom-card-width">
+              <div class="card-body bg">
+                <h5 class=" cases2">10</h5>
+                <p class="card-text textcase2">Pending</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-6 p-1">
+            <div class="card mb-3">
+              <div class="card-body bg3">
+                <h5 class=" cases5" > 18</h5>
+                <p class="card-text textcase3">Total</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-6 p-1">
+            <div class="card mb-3">
+              <div class="card-body bg4">
+                <h5 class=" cases6"> 5</h5>
+                <p class="card-text textcase4">New</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="leadss">
+          <div class="leadstotal">ALL LEADS
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svgg" viewBox="0 0 10 11" fill="none">
+              <path d="M3.89463 8.41666C3.78499 8.41664 3.67781 8.38245 3.58666 8.31843C3.4955 8.25441 3.42446 8.16343 3.3825 8.05698C3.34055 7.95054 3.32957 7.83342 3.35095 7.72042C3.37234 7.60742 3.42512 7.50361 3.50264 7.42213L5.32841 5.50357L3.50264 3.58502C3.44968 3.53127 3.40744 3.46698 3.37839 3.3959C3.34933 3.32482 3.33403 3.24837 3.33339 3.17101C3.33276 3.09365 3.34678 3.01693 3.37466 2.94533C3.40254 2.87373 3.44371 2.80868 3.49577 2.75397C3.54782 2.69927 3.60973 2.65601 3.67787 2.62671C3.74601 2.59742 3.81901 2.58268 3.89263 2.58335C3.96625 2.58402 4.039 2.60009 4.10665 2.63063C4.17429 2.66116 4.23547 2.70555 4.28662 2.76119L6.50437 5.09166C6.60832 5.20092 6.66671 5.34909 6.66671 5.50357C6.66671 5.65806 6.60832 5.80623 6.50437 5.91548L4.28662 8.24595C4.18266 8.35522 4.04166 8.41663 3.89463 8.41666Z" fill="#1A56DB" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+    
+
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="calendar calendar-first" id="calendar_first">
+            <div class="calendar_header">
+                <button class="switch-month switch-left"> <i class="fas fa-arrow-left"></i></button>
+                <h2></h2>
+                <button class="switch-month switch-right"> <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="calendar_weekdays"></div>
+            <div class="calendar_content"></div>
+        </div>
+        <div class="text-center" style="background-color: black; height:38px;">
+            <p>Create Appointment</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- //////////////////////////////////////// -->
+
+
+<div class="div5">
+  <div class="left11">
+    <div class="container" >
+      <div class="totalleads"> 
+          <div class="totaldays" style="display:flex;gap:5px">
+        
+          
+            <div><svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 32 32" fill="none">
+              <path d="M16 16.7018C18.2091 16.7018 20 14.8167 20 12.4913C20 10.1659 18.2091 8.28079 16 8.28079C13.7908 8.28079 12 10.1659 12 12.4913C12 14.8167 13.7908 16.7018 16 16.7018Z" fill="#1C64F2"/>
+              <path d="M14.6666 20.9123H17.3333C18.7478 20.9123 20.1043 21.5038 21.1045 22.5566C22.1047 23.6095 22.6666 25.0374 22.6666 26.5263V29.3334H9.33329V26.5263C9.33329 25.0374 9.89519 23.6095 10.8954 22.5566C11.8956 21.5038 13.2521 20.9123 14.6666 20.9123Z" fill="#1C64F2"/>
+              <path d="M20 12.4913C19.999 11.499 19.6644 10.5391 19.0555 9.78157C18.4467 9.02403 17.6028 8.51774 16.6733 8.35236" fill="#1C64F2"/>
+              <path d="M22 2.66677C21.042 2.66986 20.1026 2.94537 19.2811 3.46418C18.4597 3.983 17.7867 4.72583 17.3333 5.61413C18.8382 5.93964 20.1904 6.80144 21.162 8.05422C22.1335 9.307 22.6649 10.8741 22.6666 12.4913C22.6644 12.9439 22.6197 13.3953 22.5333 13.8387C23.8966 13.7021 25.1574 13.0173 26.053 11.9267C26.9486 10.8362 27.4101 9.42403 27.3414 7.98429C27.2727 6.54454 26.679 5.18819 25.684 4.19767C24.689 3.20714 23.3694 2.65878 22 2.66677Z" fill="#1C64F2"/>
+              <path d="M12.488 18.4309C11.3499 17.6807 10.4506 16.5899 9.90529 15.2983H9.33329C7.56583 15.3005 5.87137 16.0406 4.62159 17.3562C3.3718 18.6717 2.66874 20.4554 2.66663 22.3158V25.1228C2.66663 25.4951 2.8071 25.8521 3.05715 26.1153C3.3072 26.3785 3.64634 26.5263 3.99996 26.5263H6.66663C6.66967 24.6945 7.23947 22.9134 8.2898 21.4528C9.34013 19.9922 10.8138 18.9314 12.488 18.4309Z" fill="#1C64F2"/>
+              <path d="M22.6666 15.2983H22.0946C21.5493 16.5899 20.65 17.6807 19.512 18.4309C21.1861 18.9314 22.6598 19.9922 23.7101 21.4528C24.7605 22.9134 25.3302 24.6945 25.3333 26.5263H28C28.3536 26.5263 28.6927 26.3785 28.9428 26.1153C29.1928 25.8521 29.3333 25.4951 29.3333 25.1228V22.3158C29.3312 20.4554 28.6281 18.6717 27.3783 17.3562C26.1285 16.0406 24.4341 15.3005 22.6666 15.2983Z" fill="#1C64F2"/>
+              <path d="M9.33329 12.4913C9.33498 10.8741 9.86641 9.307 10.838 8.05422C11.8095 6.80145 13.1617 5.93964 14.6666 5.61414C14.2313 4.76332 13.5941 4.04564 12.8172 3.53094C12.0402 3.01625 11.1498 2.72208 10.2327 2.67707C9.3157 2.63206 8.4032 2.83774 7.58408 3.27409C6.76495 3.71044 6.06711 4.3626 5.55847 5.16708C5.04983 5.97157 4.74773 6.90097 4.68157 7.86482C4.61541 8.82866 4.78745 9.79412 5.18094 10.6672C5.57443 11.5403 6.17597 12.2913 6.927 12.8471C7.67802 13.4028 8.55296 13.7445 9.46663 13.8387C9.38017 13.3953 9.33551 12.944 9.33329 12.4913Z" fill="#1C64F2"/>
+            </svg></div> 
+            <div><span class="personno">64</span> <br> <span class="leads">Leads generated this week</span></div>
+          </div>
+            
+            
+              <div class="enrolled2" style="border-radius: 6px;
+      background:  #DEF7EC; padding:5px;height:30px">
+        
+          
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 14" fill="none">
+          <path d="M10.8542 4.96967L7.5882 1.96963C7.51215 1.89964 7.42166 1.84431 7.32202 1.80688C7.12228 1.73104 6.89795 1.73104 6.69821 1.80688C6.59857 1.84431 6.50807 1.89964 6.43203 1.96963L3.16602 4.96967C3.08803 5.03885 3.02583 5.12161 2.98304 5.21311C2.94025 5.30462 2.91772 5.40304 2.91678 5.50262C2.91584 5.60221 2.9365 5.70097 2.97755 5.79314C3.0186 5.88531 3.07923 5.96905 3.1559 6.03947C3.23256 6.10989 3.32372 6.16558 3.42407 6.2033C3.52441 6.24101 3.63193 6.25998 3.74035 6.25912C3.84876 6.25825 3.9559 6.23756 4.05552 6.19826C4.15514 6.15895 4.24523 6.10181 4.32055 6.03018L6.19443 4.31041V11.5C6.19443 11.6989 6.28045 11.8897 6.43358 12.0303C6.5867 12.171 6.79438 12.25 7.01093 12.25C7.22748 12.25 7.43516 12.171 7.58828 12.0303C7.74141 11.8897 7.82743 11.6989 7.82743 11.5V4.31041L9.69968 6.03018C9.85367 6.1668 10.0599 6.24239 10.274 6.24069C10.4881 6.23898 10.6929 6.1601 10.8443 6.02104C10.9957 5.88198 11.0815 5.69387 11.0834 5.49722C11.0852 5.30057 11.0029 5.11112 10.8542 4.96967Z" fill="#03543F"/>
+        </svg> 24%</div>
+     </div>
+      <hr>
+      <div class="totalleads"> 
+          <div class="totaldays">
+        
+          
+          Total Leads:64</div>
+      <div class="enrolled1">
+        
+
+          Enrolled: 04</div>
+     </div>
+      <canvas id="chartjs-bar"></canvas><hr>
+      <div class="totalleads"><div>Last 7 days</div>
+      <a href="" class="anchartag"> <div class="totaldays">                
+          Total Leads</div></a>
+     </div>
+    </div>
+  </div>
+  <div class="left11">
+    <div class="container">
+     
+    </div>
+  </div>
+  
+ </div>
+
+
+
+
+ <div class="div4">
+  <div class="slide-container swiper">
+      <div class="slide-content">
+          <div class="card-wrapper swiper-wrapper">
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                      <span class="overlay"></span>
+
+                      <div class="card-image">
+                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class=" card-img-top">
+                      </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                      <span class="overlay"></span>
+
+                      <div class="card-image">
+                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                      </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                      <span class="overlay"></span>
+
+                      <div class="card-image">
+                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                      </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                    <span class="overlay"></span>
+
+                    <div class="card-image">
+                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                    <span class="overlay"></span>
+
+                    <div class="card-image">
+                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                    <span class="overlay"></span>
+
+                    <div class="card-image">
+                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">honey Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+              <div class="card swiper-slide">
+                  <div class="image-content">
+                    
+                     <span class="overlay"></span>
+
+                      <div class="card-image">
+                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                      </div>
+                  </div>
+
+                  <div class="card-body">
+                      <h5 class="card-title">Farm Seasonal Worker1</h5>
+                      <p class="txt">Country: <Span class="txt">USA</Span></p>
+                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
+                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
+                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
+                    </div>
+                    <div class="Button">
+                      <div class="Text">Apply Now</div>
+                      <div class="ArrowRight">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+              </div>
+             
+              
+          </div>
+      </div>
+
+      <div class="swiper-button-next swiper-navBtn"></div>
+      <div class="swiper-button-prev swiper-navBtn"></div>
+      <div class="swiper-pagination"></div>
+  </div>
+
+</div>
+
+{% endblock main-content %}
