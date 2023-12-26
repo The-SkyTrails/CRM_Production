@@ -104,7 +104,8 @@ ul.dropdown-menu li {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  display: flex;
+  justify-content: space-between;
   gap: 56px;
 }
 
