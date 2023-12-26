@@ -1,4 +1,9 @@
 {% extends "Admin/Base/base.html" %}
+<<<<<<< HEAD
+=======
+{% load custom_filters %}
+{% load static %}
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 {% block main-content %}
 <div class="form-container">
   <div class="custom-container">
@@ -69,11 +74,23 @@
         <div class="custom-text">All Agents</div>
     </div>
     </div>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
   <div class="employee-main">
     <div class="profiledetail-container">
       <div class="profile-image">
         <div class="image-content">
+<<<<<<< HEAD
           <div class="initials">PH</div>
+=======
+          {% if agent.profile_pic and agent.profile_pic.url %}
+          <div class="initials"><img src="{{agent.profile_pic.url}}" alt="" style="width:100%"></div>
+          {% else %}
+          <div class="initials"><img src="{% static "style/Styling/Bootstrap/img/user.jpg" %}" alt="" style="width:100%"></div>
+          {% endif %}
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
         </div>
       </div>
       <div class="profile-details">
@@ -84,20 +101,33 @@
           <div class="details-label">Email:</div>
         </div>
         <div class="details-column">
+<<<<<<< HEAD
           <div class="detail-value">Rajeev Malhotra</div>
           <div class="detail-value">Dec. 2, 2023, 10:57 a.m.</div>
           <div class="detail-value">0123456789</div>
           <div class="detail-value">abc@gmail.com</div>
+=======
+          <div class="detail-value">{{agent.users}}</div>
+          <div class="detail-value">{{agent.registeron}}</div>
+          <div class="detail-value">{{agent.contact_no}}</div>
+          <div class="detail-value">{{agent.users.email}}</div>
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
         </div>
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
+  <br>
+  <center>{% include "Admin/Base/messages.html" %}</center>
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 
   <div class="agentem-container">
     <div class="custom-box">
         <div class="agent-text1">All Details</div>
     </div>
     <div class="custom-box">
+<<<<<<< HEAD
         <div class="agent-text2"><a class="agent-text2" href="{% url "admin_outsource_agent_agreement" outsourceagent.id %}">Agreements</a></div>
     </div>
     <div class="custom-box">
@@ -105,6 +135,15 @@
     </div>
     </div>
 
+=======
+        <div class="agent-text2"><a class="agent-text2" href="{% url "admin_outsource_agent_agreement" agent.id %}">Agreements</a></div>
+    </div>
+    <div class="custom-box">
+      <div class="agent-text3"><a  class="agent-text3" href="{% url "admin_outsource_agent_kyc" agent.id %}">KYC Details</a></div>
+    </div>
+    </div>
+  
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
     <div class="resolvedquerycontent1">
         <ul class="list-group">
             <div class="list-item">
@@ -113,33 +152,69 @@
                 </li>
                 
             </div>
+<<<<<<< HEAD
             
+=======
+            <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
             <li class="list-group-item item-content">
                 <div class="inputforms-agentcontainer">
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">First Name</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
                         </div>
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Last Name</label>
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="{{agent.users.first_name}}" name="first_name">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Last Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="{{agent.users.last_name}}" name="last_name">
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>  
                     </div>
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="dd-mm-yyyy">
                         </div>
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Gender</label>
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
+=======
+                            <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd-mm-yyyy" value="{{agent.dob|date:'Y-m-d'}}" name="dob">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Gender</label>
+                            <select name="gender" id="" class="form-select">
+                            
+                            <option value="Male" {% if agent.gender == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if agent.gender == "Female" %}selected{% endif %}>Female</option>
+                            </select>
+                            {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.gender}}"> {% endcomment %}
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>  
                     </div>
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Maritial Status</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
+=======
+                            {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.marital_status}}"> {% endcomment %}
+                            <select class="form-select" aria-label="Default select example" name="maritial">
+                            <option value="">------------------</option>
+                            <option value="Single" {% if agent.marital_status == "Single" %}selected{% endif %}>Single</option>
+                            <option value="Married" {% if agent.marital_status == "Married" %}selected{% endif %}>Married</option>
+                            
+                          </select>
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>
                         
                     </div>
@@ -155,6 +230,7 @@
                                   </div>
                                   <!-- <div class="file-size"></div> -->
                               </div>
+<<<<<<< HEAD
                               <div class="upload-button">
                                   <input type="file" id="fileInput" style="display:none">
                                   <label for="fileInput" class="notes-button-text">
@@ -169,16 +245,35 @@
                                   </label>
                               </div>
                           </div>
+=======
+                              
+                              <div class="upload-button">
+                                  <input type="file" id="fileInput" name="original_pic">
+                              </div>
+                          </div>
+                          {% if agent.profile_pic and agent.profile_pic.url %}
+                            <a href="{{ agent.profile_pic.url }}" target="__blank">{{ agent.profile_pic.url|filename }}</a>
+                        {% else %}
+                            <!-- Handle the case where 'profile_pic' is not set or has no file associated with it -->
+                            No profile picture available
+                        {% endif %}
+
+                          
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                          
                         </div>
                        
                     </div>
                 
+<<<<<<< HEAD
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-color" type="submit">Save
                             
                         </button>
                       </div>
+=======
+                    
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
               
                 </div>
             </li>
@@ -186,7 +281,11 @@
           </ul>
           
     </div>
+<<<<<<< HEAD
    
+=======
+ 
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
     <div class="resolvedquerycontent1">
         <ul class="list-group">
             <div class="list-item">
@@ -201,37 +300,61 @@
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Name of Account Holder</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
                         </div>
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Account Number</label>
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="{{agent.account_holder}}" name="accountholder">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Account Number</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="{{agent.account_no}}" name="account">
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>  
                     </div>
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Bank Name</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Bank Name">
                         </div>
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Branch Name</label>
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Bank Name" value="{{agent.bank_name}}" name="bankname">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Branch Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.branch_name}}" name="branchname">
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>  
                     </div>
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">IFSC Code</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.ifsc_code}}" name="ifsc">
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>
                         
                     </div>
                     
                 
+<<<<<<< HEAD
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-color" type="submit">Save
                             
                         </button>
                       </div>
+=======
+                    
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
               
                 </div>
             </li>
@@ -239,6 +362,10 @@
           </ul>
           
     </div>
+<<<<<<< HEAD
+=======
+   
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
     <div class="resolvedquerycontent1">
         <ul class="list-group">
             <div class="list-item">
@@ -253,6 +380,7 @@
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Name of the Oraganisation</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Name of the Oraganisation">
                         </div>
                         <div class="col-md-6 ">
@@ -278,12 +406,42 @@
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">State</label>
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name of the Oraganisation" value="{{agent.organization_name}}" name="organization">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Business Type</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Business Type" value="{{agent.business_type}}" name="business_type">
+                        </div>  
+                    </div>
+                    
+                    <div class="row formrow">
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Registration Number</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Registration Number" value="{{agent.registration_number}}" name="registration">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Address</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.Address}}" name="address">
+                        </div>  
+                    </div>
+                    
+                    <div class="row formrow">
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">City/ Town</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.City}}" name="city">
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">State</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.state}}" name="state">
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                         </div>
                         
                     </div>
                     <div class="row formrow">
                         <div class="col-md-6 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Country</label>
+<<<<<<< HEAD
                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="--------">
                         </div>
                         <div class="col-md-6 ">
@@ -292,12 +450,28 @@
                         </div>
                        
                     </div>
+=======
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.country}}" name="country">
+                        </div>
+                        
+                        <div class="col-md-6 ">
+                            <label for="exampleFormControlInput1" class="custom-form-label">Zipcode</label>
+                            <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="--------" value="{{agent.zipcode}}" name="zipcode">
+                        </div>
+                       
+                    </div>
+                    
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-color" type="submit">Save
                             
                         </button>
                       </div>
+<<<<<<< HEAD
+=======
+                   
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
               
                 </div>
             </li>
@@ -305,5 +479,10 @@
           </ul>
           
     </div>
+<<<<<<< HEAD
+=======
+   </form>
+
+>>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 </div>
 {% endblock main-content %}

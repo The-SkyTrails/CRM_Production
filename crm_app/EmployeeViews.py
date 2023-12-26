@@ -4,6 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 
+def employee_dashboard(request):
+    return render(request, "Employee/Dashboard/dashboard.html")
+
+
 def employee_profile(request):
     return render(request, "Employee/Profile/Profile.html")
 

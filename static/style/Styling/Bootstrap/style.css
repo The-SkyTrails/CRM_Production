@@ -35,13 +35,14 @@ body {
 }
   
 ul.dropdown-menu li {
-    padding: 4px 8px;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 125%; 
-    color: #4B5563;
-  }
+  padding: 4px 8px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; 
+  color: #4B5563;
+}
+
 
 .profile{
     display: flex;
@@ -221,7 +222,7 @@ color: #111928;
   margin-top: 26px;
   margin-bottom: 100px;
   margin-left: 80px;
-  margin-right: 80px !important;
+  margin-right: 162px;
 }
 
 .forms-container {
@@ -231,7 +232,7 @@ color: #111928;
 }
 
 .inputforms-container {
- 
+  /* width: 100%; */
   margin: 32px 24px;
 
   
@@ -432,7 +433,7 @@ color: #111928;
 
 
 
-/* .main-container {
+.main-container {
   background: white;
   flex-direction: column;
   justify-content: flex-start;
@@ -440,7 +441,7 @@ color: #111928;
   display: inline-flex;
   margin-top: 26px;
   margin-bottom: 100px;
-} */
+}
 
 
 .table-responsive {
@@ -649,11 +650,10 @@ table.dataTable.no-footer {
   gap: 16px;
 }
 
-/* Style for the profile image itself */
 .image-content {
-  width: 64px;
-  height: 64px;
-  background: #FBD5D5;
+  width: 100%;
+  /* height: 64px; */
+  /* background: #FBD5D5; */
   border-radius: 999px;
   display: flex;
   flex-direction: column;
@@ -661,6 +661,7 @@ table.dataTable.no-footer {
   align-items: center;
   gap: 10px;
 }
+
 
 /* Style for the initials in the profile image */
 .initials {
@@ -963,20 +964,6 @@ table.dataTable.no-footer {
   padding: 16px;
 }
 
-.button {
-  padding: 8px;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  line-height: 18px;
-  word-wrap: break-word;
-}
 
 .accept-button {
   background: #046C4E;
@@ -1613,16 +1600,17 @@ padding: 3px 10px;
   background: #111928;
 }
 
+
 .Content {
   padding: 5px;
   justify-content: center;
   align-items: center;
   gap: 32px;
   display: flex;
-
   width: 80%;
   margin: auto;
 }
+
 
 .Logo {
   justify-content: flex-start;
@@ -1637,6 +1625,7 @@ padding: 3px 10px;
   position: relative;
 }
 
+
 .ClipPathGroup {
   width: 32px;
   height: 32px;
@@ -1649,6 +1638,7 @@ padding: 3px 10px;
   position: absolute;
 }
 
+
 #black-bg {
   background: black;
 }
@@ -1660,6 +1650,8 @@ padding: 3px 10px;
 #white-bg {
   width: 200px;
 }
+
+
 
 .Text {
   flex-direction: column;
@@ -1700,9 +1692,11 @@ padding: 3px 10px;
   line-height: 21px;
   word-wrap: break-word;
 }
+
 .img {
   width: 100%;
 }
+
 .Badge {
   width: 20px;
   height: 20px;
@@ -1858,9 +1852,7 @@ padding: 3px 10px;
 .svg {
   color: rgba(1, 68, 81, 1);
 }
-.imgdas {
-  width: 50px;
-}
+
 .Headingsection {
   color: var(--gray-900, var(--gray-900, #111928));
 
@@ -1882,35 +1874,23 @@ padding: 3px 10px;
   font-weight: 700;
   line-height: 150%; /* 90px */
 }
-.card-bodys {
-  border-radius: var(--rounded-lg, 8px);
-  border: 1px solid var(--gray-200, #e5e7eb);
-  background: #f0f2f5;
 
-  /* shadow-md */
-  box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-.card-bodys1 {
-  border-radius: var(--rounded-lg, 8px);
-  border: 1px solid var(--gray-200, #e5e7eb);
-  background: #dadbf1;
-
-  /* shadow-md */
-  box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-.card-bodys2 {
-  border-radius: 8px;
-  background: var(--indigo-50, #f0f5ff);
-}
 .card-title {
-  color: var(--pink-900, #751a3d);
-  font-size: 20px;
+  color:  #111928;
+  font-size: 30px;
   font-style: normal;
   font-weight: 700;
-  line-height: 125%; /* 25px */
+  line-height: 162.5%; 
 }
+
+@media screen and (max-width: 767px) {
+  .leadsmedia {
+    margin-top: 20px; 
+    gap: 12px;
+  }
+}
+
+
 .div3 {
   width: 82%;
   margin: auto;
@@ -1936,67 +1916,29 @@ padding: 3px 10px;
   display: flex;
   gap: 10%;
 }
-.left11 {
-  width: 45%;
 
-  background-color: #03543f;
-  margin-bottom: 20px;
-  border-radius: var(--rounded-lg, 8px);
-  background: var(--green-50, #f3faf7);
-  padding: 15px;
-
-  /* shadow-md */
-  box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+@media (max-width: 850px) {
+  .left11{
+    width: 100% !important;
+  }
 }
+
+
+
 .carousel-item {
   width: 100%;
 }
-.card-title {
-  color: var(--gray-900, var(--gray-900, #111928));
 
-  /* leading-relaxed/text-base/font-bold */
 
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 162.5%; /* 26px */
-}
 .card-text {
-  color: var(--gray-700, #374151) !important;
-
-  /* text-sm/font-semibold */
-  font-size: 14px !important;
-  font-style: normal !important;
-  font-weight: 600 !important;
-  line-height: 150% !important; /* 21px */
-}
-.Button {
-  width: 141px;
-  height: 41px;
-  padding: 2.5px;
-  background-color: #2c3e50; /* Use the desired background color */
-  border-radius: 5px; /* Adjust the border-radius as needed */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px; /* Adjust the gap between items as needed */
-  margin-left: 17px;
-  margin-bottom: 10px;
+  color: var(--gray-500, #6b7280);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  /* width: 50px; */
 }
 
-.Button .Text {
-  color: #fff; /* Use the desired text color */
-  font-size: 14px; /* Adjust the font size as needed */
-  font-weight: 500; /* Adjust the font weight as needed */
-  line-height: 21px; /* Adjust the line height as needed */
-}
-
-.Button .ArrowRight {
-  width: 5px;
-
-  /* Add styles for the arrow icon */
-}
 .container-fluids {
   margin-left: -473px;
   align-items: center;
@@ -2009,38 +1951,22 @@ padding: 3px 10px;
   display: flex;
   justify-content: space-between;
 }
-.anchartag {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-.totalleads .totaldays {
-  color: #1a56db;
 
-  /* uppercase/text-sm/font-semibold */
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%; /* 21px */
-  text-transform: uppercase;
-}
 .enrolled1 {
   color: #2dc48b !important;
   font-size: 14px !important;
   font-style: normal !important;
   font-weight: 600 !important;
 }
+
 .totalleads div {
   color: var(--gray-500, #6b7280);
-
-  /* text-sm/font-medium */
-
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 21px */
 }
+
 .personno {
   color: var(--gray-900, #111928);
 
@@ -2063,23 +1989,23 @@ padding: 3px 10px;
   margin-left: 10px;
   /* 21px */
 }
+
 .txt {
   color: var(--gray-500, #6b7280);
-
-  /* text-sm/font-normal */
-
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 21px */
-  width: 50px;
+  /* width: 50px; */
 }
+
 .div2 {
   width: 80%;
   margin: auto;
   background-color: #751a3d;
   height: 50px;
 }
+
 @media (max-width: 1000px) {
   .carousel-control-next-icon {
     /* Hide right arrow on smaller screens */
@@ -2097,16 +2023,7 @@ padding: 3px 10px;
 /* product css */
 /* Add your internal CSS styles here */
 
-.card-title {
-  color: var(--pink-900, #751a3d);
 
-  /* leading-tight/text-xl/font-bold */
-
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 125%; /* 25px */
-}
 .card-text {
   color: var(--gray-700, #374151) !important;
 
@@ -2116,17 +2033,7 @@ padding: 3px 10px;
   font-weight: 600 !important;
   line-height: 150% !important; /* 21px */
 }
-.txt {
-  color: var(--gray-500, #6b7280);
 
-  /* text-sm/font-normal */
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 21px */
-  width: 50px;
-}
 
 .Cta {
   flex: 1 1 0;
@@ -2136,6 +2043,7 @@ padding: 3px 10px;
   gap: 24px;
   display: flex;
 }
+
 
 .Buttons {
   justify-content: flex-start;
@@ -2152,16 +2060,17 @@ padding: 3px 10px;
 }
 
 .Text {
-  text-align: center;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 21px;
-  word-wrap: break-word;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+  display: inline-flex;
 }
+
 .img {
   width: 100%;
 }
+
 .Badge {
   width: 20px;
   height: 20px;
@@ -2176,17 +2085,7 @@ padding: 3px 10px;
   display: flex;
 }
 
-.Text {
-  color: var(--white, var(--white, #fff));
-  text-align: center;
 
-  /* text-sm/font-medium */
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 21px */
-}
 .Text1 {
   color: var(--green-800, var(--green-800, #03543f));
   text-align: center;
@@ -2198,6 +2097,8 @@ padding: 3px 10px;
   font-weight: 500;
   line-height: 150%; /* 18px */
 }
+
+
 .Separator {
   width: 35px;
   align-self: stretch;
@@ -2206,6 +2107,7 @@ padding: 3px 10px;
   border-top: 2px #9ca3af solid;
   margin: 0px -20px 0px -35px;
 }
+
 
 .Avatar {
   width: 32px;
@@ -2219,6 +2121,7 @@ padding: 3px 10px;
   display: inline-flex;
 }
 
+
 .Ph {
   text-align: center;
   color: #111928;
@@ -2227,6 +2130,7 @@ padding: 3px 10px;
   line-height: 12px;
   word-wrap: break-word;
 }
+
 
 
 
@@ -2242,7 +2146,7 @@ padding: 3px 10px;
 
 .NavLink {
   display: flex;
-  gap: 10px;
+  gap: 7px;
 }
 .Text2 {
   text-align: center;
@@ -2304,36 +2208,12 @@ padding: 3px 10px;
 .dropdown-menu {
   background-color: rgba(243, 250, 247, 1);
 }
-.dropText {
-  color: rgba(0, 0, 0, 1);
-}
-.svg {
-  color: rgba(1, 68, 81, 1);
-}
+
+
 .imgdas {
   width: 50px;
 }
-.Headingsection {
-  color: var(--gray-900, var(--gray-900, #111928));
 
-  /* leading-tight/text-2xl/font-bold */
-
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 125%; /* 30px */
-}
-.second-div p {
-  margin-top: 25px;
-  color: var(--green-700, #046c4e);
-
-  /* text-6xl/font-bold */
-
-  font-size: 60px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 90px */
-}
 .card-bodys {
   border-radius: var(--rounded-lg, 8px);
   border: 1px solid var(--gray-200, #e5e7eb);
@@ -2391,41 +2271,33 @@ padding: 3px 10px;
   box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
     0px 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
-.div5 {
-  width: 83%;
-  margin: auto;
-  height: auto;
 
-  margin-bottom: 20px;
-  /* padding: 20px; */
-  display: flex;
-  gap: 10%;
+@media (max-width: 850px) {
+  .div5 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 }
+
 .left11 {
   width: 45%;
-
   background-color: #03543f;
   margin-bottom: 20px;
   border-radius: var(--rounded-lg, 8px);
   background: var(--green-50, #f3faf7);
   padding: 15px;
-
-  /* shadow-md */
   box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
     0px 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
+
 .carousel-item {
   width: 100%;
 }
-.card-title {
-  color: var(--gray-900, var(--gray-900, #111928));
 
-  /* leading-relaxed/text-base/font-bold */
 
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-}
+
+
 .card-text {
   color: var(--gray-500, #6b7280);
 
@@ -2436,9 +2308,8 @@ padding: 3px 10px;
   font-weight: 400;
   line-height: normal; /* 22.75px */
 }
-.card-body {
-  text-align: left;
-}
+
+
 .Button {
   width: 141px;
   height: 41px;
@@ -2453,59 +2324,22 @@ padding: 3px 10px;
   margin-bottom: 10px;
 }
 
-.Button .Text {
-  color: #fff; /* Use the desired text color */
-  font-size: 14px; /* Adjust the font size as needed */
-  font-weight: 500; /* Adjust the font weight as needed */
-  line-height: 21px; /* Adjust the line height as needed */
-}
 
-.Button .ArrowRight {
-  width: 5px;
-
-  /* Add styles for the arrow icon */
-}
 .container-fluids {
   margin-left: -520px;
   align-items: center;
 }
 
-.totalleads {
-  display: flex;
-  justify-content: space-between;
-}
-.anchartag {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
+
 .totalleads .totaldays {
   color: #1a56db;
-
-  /* uppercase/text-sm/font-semibold */
-
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 150%; /* 21px */
   text-transform: uppercase;
 }
-.enrolled1 {
-  color: #2dc48b !important;
-  font-size: 14px !important;
-  font-style: normal !important;
-  font-weight: 600 !important;
-}
-.totalleads div {
-  color: var(--gray-500, #6b7280);
 
-  /* text-sm/font-medium */
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 21px */
-}
 .personno {
   color: var(--gray-900, #111928);
 
@@ -2542,16 +2376,7 @@ padding: 3px 10px;
   background-color: #751a3d;
   height: 50px;
 }
-@media (max-width: 1000px) {
-  .carousel-control-next-icon {
-    /* Hide right arrow on smaller screens */
-    margin-right: -100px;
-  }
-  .container-fluids {
-    margin-left: 40px;
-    align-items: center;
-  }
-}
+
 @media (max-width: 767px) {
   .carousel-inner .carousel-item > div {
     display: none;
@@ -2623,7 +2448,7 @@ padding: 3px 10px;
 
   font-size: 18px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400; 
   margin-left: 20px;
   width: 100px;
 
@@ -2647,19 +2472,6 @@ padding: 3px 10px;
   font-weight: 400;
   line-height: normal; /* 22.75px */
 }
-.Button {
-  width: 141px;
-  height: 41px;
-  padding: 2.5px;
-  background-color: #2c3e50; /* Use the desired background color */
-  border-radius: 5px; /* Adjust the border-radius as needed */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px; /* Adjust the gap between items as needed */
-  margin-left: 17px;
-  margin-bottom: 10px;
-}
 
 .Button .Text {
   color: #fff; /* Use the desired text color */
@@ -2668,31 +2480,18 @@ padding: 3px 10px;
   line-height: 21px; /* Adjust the line height as needed */
 }
 
+
 .Button .ArrowRight {
   width: 5px;
 
   /* Add styles for the arrow icon */
 }
 
-.totalleads {
-  display: flex;
-  justify-content: space-between;
-}
+
 .anchartag {
   display: flex;
   align-items: center;
   text-decoration: none;
-}
-.totalleads .totaldays {
-  color: #1a56db;
-
-  /* uppercase/text-sm/font-semibold */
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%; /* 21px */
-  text-transform: uppercase;
 }
 
 .personno {
@@ -2737,9 +2536,7 @@ padding: 3px 10px;
 .card-textt span {
 margin-left: 15px;
 }
-.card {
-  border: none;
-}
+
 .card-texts {
   color: var(--gray-600, #4b5563);
 
@@ -2752,8 +2549,8 @@ margin-left: 15px;
 }
 .card-body {
   line-height: normal;
-  margin-left:15px ;
   padding:20px;
+  text-align: left;
 }
 
 .card-body1 {
@@ -3166,9 +2963,10 @@ justify-content: center;
 margin: auto;
 color:rgba(5, 122, 85, 1) !important;
 }
+
 .cases1{
-  border-radius: var(--rounded-full, 9999px);
-background: var(--yellow-100, #FDF6B2);
+  border-radius: var(--rounded-full, 9999px) !important;
+background: var(--yellow-100, #FDF6B2) !important;
 width:32px;
 height: 32px;
 text-align: center;
@@ -3178,6 +2976,7 @@ justify-content: center;
 margin: auto;
 color:rgba(159, 88, 10, 1) !important;
 }
+
 .cases2{
   width:32px;
 height: 32px;
@@ -3190,6 +2989,8 @@ border-radius: var(--rounded-full, 9999px);
 background: var(--red-100, #FDE8E8);
 color:rgba(224, 36, 36, 1) !important;
 }
+
+
 
 .cases5{
   width:32px;
@@ -3205,6 +3006,8 @@ color:rgba(126, 58, 242, 1) !important;
 
 }
 
+
+
 .cases6{
   width:32px;
 height: 32px;
@@ -3218,9 +3021,6 @@ background: var(--orange-100, #FEECDC);
 color:rgba(208, 56, 1, 1) !important;
 
 }
-
-
-
 
 
 
@@ -3245,79 +3045,62 @@ background: var(--purple-50, #F6F5FF);
   border-radius: var(--rounded-lg, 8px);
 background: var(--orange-50, #FFF8F1);
 }
+
 .textcase{
   color: #057A55 !important;
-
-/* leading-none/text-sm/font-medium */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 500;
 text-align: center;
-/* 100% */
+
 }
+
 .textcase1{
 color:rgba(159, 88, 10, 1) !important;
-
-/* leading-none/text-sm/font-medium */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 500;
 text-align: center;
-/* 100% */
 }
+
 .textcase2{
 color:rgba(224, 36, 36, 1)!important;
-
-/* leading-none/text-sm/font-medium */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 500;
 text-align: center;
-/* 100% */
 }
+
 .textcase3{
 color:rgba(126, 58, 242, 1)!important;
-
-/* leading-none/text-sm/font-medium */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 500;
 text-align: center;
-/* 100% */
 }
 
 
 .textcase4{
 color:rgba(208, 56, 1, 1)!important;
-
-/* leading-none/text-sm/font-medium */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 500;
 text-align: center;
-/* 100% */
 }
+
 .leadstotal{
-
-
- 
   color: var(--primary-700, #1A56DB);
-
-/* uppercase/text-sm/font-semibold */
-
 font-size: 14px;
 font-style: normal;
 font-weight: 600;
 text-transform: uppercase;
 }
+
+
 .svgg{
   align-items: center;
 }
+
 .leadss{
   display: flex;
   text-align: right;
@@ -3328,6 +3111,7 @@ text-transform: uppercase;
  height: 50px;
 
 }
+
 
 .calendar, .calendar_weekdays, .calendar_content {
   max-width: 260px; }
@@ -4095,10 +3879,11 @@ line-height: 150%;
 
 
 .passwordborder{
-color: black;
-border: 1px solid black;
-width: 100%;
+  color: black;
+  border: 1px solid black;
+  width: 100%;
 }
+
 
 
 .newnav{

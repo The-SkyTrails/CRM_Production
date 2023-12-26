@@ -2,6 +2,7 @@ from django.urls import path, include
 from .EmployeeViews import *
 
 urlpatterns = [
+    path("Dashboard/", employee_dashboard, name="employee_dashboard"),
     path("Profile/", employee_profile, name="employee_profile"),
     path("Query/List/", employee_query_list, name="employee_query_list"),
     path("Pending/Query/", employee_pending_query, name="employee_pending_query"),

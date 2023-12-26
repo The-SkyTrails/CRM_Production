@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>The Skytrails</title>
 
         <link
           rel="stylesheet"
@@ -23,10 +23,19 @@
           rel="stylesheet"
           type="text/css"
         />
+
+        <link rel="stylesheet" href="{% static "style/Styling/DashboardDesign/css/style.css" %}">
+
+        <link rel="stylesheet" href="{% static "style/Styling/DashboardDesign/css/swiper-bundle.min.css" %}">
+
+
+
     </head>
     
 <body>
   {% include "Admin/Base/header.html" %}
+  {% include "Admin/Base/Navbar.html" %}
+
 
     {% block main-content %}{% endblock main-content %}
     
@@ -58,6 +67,21 @@
   <!-- DataTables PDF support (Optional) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+
+<!-- date -->
+ <!-- <script src="{% static "style/js/jquery.min.js" %}"></script> -->
+ <script src="{% static "style/js/popper.js" %}"></script> 
+
+
+
+<script src="{% static "style/Styling/DashboardDesign/js/swiper-bundle.min.js" %}"></script>
+<script src="{% static "style/Styling/DashboardDesign/js/script.js" %}"></script>
+
+
+
+<!-- Graph -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
     $(document).ready(function () {
@@ -100,5 +124,62 @@
       });
     });
   </script>
+  <script>
+    const monthlyData = [
+        { month: 'Mon', completed: 75, uncompleted: 25 },
+        { month: 'Tue', completed: 85, uncompleted: 15 },
+        { month: ' Wed', completed: 75, uncompleted: 25 },
+        { month: 'Thu', completed: 85, uncompleted: 15 },
+        { month: ' Fri', completed: 75, uncompleted: 25 },
+        { month: 'Sat', completed: 85, uncompleted: 15 },
+        { month: 'Sun', completed: 75, uncompleted: 25 },
+       
+        // Add data for other months
+    ];
+    const verticalChartCanvas = document.getElementById('chartjs-bar');
+    const verticalChart = new Chart(verticalChartCanvas, {
+        type: 'bar',
+        data: {
+            labels: monthlyData.map(data => data.month),
+            datasets: [
+                {
+                    label: 'Online',
+                    backgroundColor: '#1A56DB',
+                    borderColor: '#1A56DB',
+                    borderradius: "8px 8px 0px 0px",
+                    borderWidth: 1,
+                    data: monthlyData.map(data => data.completed),
+                },
+                {
+                  label: 'Online',
+                    backgroundColor: '#2DC48B',
+                    borderradius: "8px 8px 0px 0px",
+                    borderWidth: 1,
+                    data: monthlyData.map(data => data.uncompleted),
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                       
+                    },
+                },
+            },
+        },
+    });
+
+
+</script>
 </body>
 </html>

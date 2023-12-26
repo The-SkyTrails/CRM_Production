@@ -138,19 +138,36 @@
                         <td>{{i.Visa_type}}</td>
                         <td>{{i.Package}}</td>
                         <td>{{i.created_by}}</td>
-                        <td>{{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}}
-                            ({{i.assign_to_employee.department}})
+                        {% comment %} <td>{{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}} -
+                            {{i.assign_to_employee.department}}
                             <br>
                             {{i.assign_to_sales_employee.users.first_name }}
-                            {{i.assign_to_sales_employee.users.last_name}} ({{i.assign_to_sales_employee.department}})
+                            {{i.assign_to_sales_employee.users.last_name}} - {{i.assign_to_sales_employee.department}}
                             <br>
                             {{i.assign_to_documentation_employee.users.first_name }}
-                            {{i.assign_to_documentation_employee.users.last_name}}
-                            ({{i.assign_to_documentation_employee.department}}) <br>
+                            {{i.assign_to_documentation_employee.users.last_name}} -
+                            {{i.assign_to_documentation_employee.department}} <br>
                             {{i.assign_to_visa_team_employee.users.first_name }}
-                            {{i.assign_to_visa_team_employee.users.last_name}}
-                            ({{i.assign_to_visa_team_employee.department}}) <br>
+                            {{i.assign_to_visa_team_employee.users.last_name}} -
+                            {{i.assign_to_visa_team_employee.department}} <br>
 
+                        </td> {% endcomment %}
+                        <td>
+                        {% if i.assign_to_employee  %}
+                        {{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}} 
+                        ({{i.assign_to_employee.department}})
+                        {% elif i.assign_to_sales_employee %}
+                        {{i.assign_to_sales_employee.users.last_name}}  ({{i.assign_to_sales_employee.department}})
+                        {% elif assign_to_documentation_employee %}
+                         {{i.assign_to_documentation_employee.users.last_name}} 
+                            ({{i.assign_to_documentation_employee.department}}) <br>
+                        {% elif  assign_to_visa_team_employee %}
+                         {{i.assign_to_visa_team_employee.users.first_name }}{{i.assign_to_visa_team_employee.users.last_name}} <br>
+                         ({{i.assign_to_visa_team_employee.department}})
+                        {% else %}
+                        N/A
+                        
+                        {% endif %}
                         </td>
                         <td>
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>
@@ -185,67 +202,7 @@
                             </td>
         <td>
             <div class="row" style="display: flex;">
-                <div class="col-md-6">
-                    <a href="http://" data-toggle="modal" data-target="#editcurrencyModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M16.3033 4.3032C16.5247 4.07397 16.7895 3.89114 17.0823 3.76536C17.3751 3.63957 17.6901 3.57337 18.0087 3.5706C18.3274 3.56783 18.6434 3.62855 18.9384 3.74923C19.2333 3.8699 19.5013 4.04811 19.7266 4.27345C19.952 4.49879 20.1302 4.76676 20.2509 5.06171C20.3715 5.35666 20.4323 5.67269 20.4295 5.99136C20.4267 6.31003 20.3605 6.62496 20.2347 6.91777C20.109 7.21058 19.9261 7.47541 19.6969 7.6968L18.7453 8.6484L15.3517 5.2548L16.3033 4.3032ZM13.6549 6.9516L3.6001 17.0064V20.4H6.9937L17.0497 10.3452L13.6537 6.9516H13.6549Z"
-                                fill="#1F2A37" />
-                        </svg>
-                    </a>
-                    <!-- ///////////////////edit modal/////////////////////////////// -->
-                    <div class="modal fade" id="editcurrencyModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content " style="width: 800px;">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">All Notes</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                    </button>
-                                </div>
-                                <hr>
-                                <div class="modal-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">S. No</th>
-                                                <th scope="col">CREATED BY</th>
-                                                <th scope="col">Created Date</th>
-                                                <th scope="col">ip address</th>
-                                                <th scope="col">Description</th>
-                                                <th scope="col">Action</th>
-                                                <th>Attachment</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Employee 1</td>
-                                                <td>Dec. 2, 2023, 10:57 a.m.</td>
-                                                <td>Dec. 2, 2023, 10:57 a.m.</td>
-                                                <td>Written data</td>
-                                                <td>
-                                                    <button class="btn-delete" type="submit">
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                                <td>AKIB.pdf</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <hr>
-                                <div class="modal-footer">
-                                    <div class="modal-footer">
-                                        <div class="d-grid  d-md-flex justify-content-md-end">
-                                            <button class="btn btn-color" type="submit">Update</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="col-md-6">
                     <a href="http://">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

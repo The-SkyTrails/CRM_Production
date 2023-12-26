@@ -23,6 +23,7 @@ urlpatterns = (
         path("Admin/", include("crm_app.Admin_urls")),
         path("Agent/", include("crm_app.Agent_urls")),
         path("Employee/", include("crm_app.Employee_urls")),
+        path("SuperAdmin/", include("crm_app.SuperAdmin_urls")),
         ########################## API URLS ##############################################
         path(
             "enquiry_form/",

@@ -15,6 +15,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Prefetch
 import requests
+
 ######################################### COUNTRY #################################################
 
 
@@ -468,9 +469,6 @@ class ReceiverDetailsView(CreateView):
         )
 
 
-# -------------------------------------- Test -------------------------------------
-
-
 def viewcourieraddress_list(request):
     courier_addss = CourierAddress.objects.all().order_by("-id")
     context = {"courier_addss": courier_addss}
@@ -913,6 +911,13 @@ class all_agent(ListView):
         return context
 
 
+def agent_delete(request, id):
+    agent = Agent.objects.get(id=id)
+    agent.delete()
+    messages.success(request, "Agent Deleted")
+    return HttpResponseRedirect(reverse("agent_list"))
+
+
 def admin_agent_details(request, id):
     agent = Agent.objects.get(id=id)
     users = agent.users
@@ -976,7 +981,7 @@ def admin_agent_details(request, id):
 
 def admin_agent_agreement(request, id):
     agent = Agent.objects.get(id=id)
-    agntagreement = AgentAgreement.objects.all()
+    agntagreement = AgentAgreement.objects.filter(agent=agent)
     if request.method == "POST":
         name = request.POST.get("agreement_name")
         file = request.FILES.get("file")
@@ -1018,26 +1023,53 @@ def admin_agent_agreement_delete(request, id):
 
 def admin_agent_kyc(request, id):
     agent = Agent.objects.get(id=id)
-    context = {"agent": agent}
+    kyc_agent = AgentKyc.objects.get(agent=agent)
+    kyc_id = None
+
     if request.method == "POST":
         adharfront_file = request.FILES.get("adharfront_file")
         adharback_file = request.FILES.get("adharback_file")
         pan_file = request.FILES.get("pan_file")
         registration_file = request.FILES.get("registration_file")
-        if adharfront_file:
-            agent.adhar_card_front = adharfront_file
-            agent.save()
-        elif adharback_file:
-            agent.adhar_card_back = adharback_file
-            agent.save()
-        elif pan_file:
-            agent.pancard = pan_file
-            agent.save()
-        elif registration_file:
-            agent.registration_certificate = registration_file
-            agent.save()
+        try:
+            kyc_id = AgentKyc.objects.get(agent=agent)
+
+            if kyc_id:
+                if adharfront_file:
+                    kyc_id.adhar_card_front = adharfront_file
+                if adharback_file:
+                    kyc_id.adhar_card_back = adharback_file
+                if pan_file:
+                    kyc_id.pancard = pan_file
+                if registration_file:
+                    kyc_id.registration_certificate = registration_file
+                kyc_id.save()
+                messages.success(request, "Kyc Added Successfully..")
+                return redirect("admin_agent_kyc", id)
+            else:
+                print("workingggggggg")
+
+        except AgentKyc.DoesNotExist:
+            kyc_id = None
+            kyc = AgentKyc.objects.create(
+                agent=agent,
+                adhar_card_front=adharfront_file,
+                adhar_card_back=adharback_file,
+                pancard=pan_file,
+                registration_certificate=registration_file,
+            )
+            kyc.save()
+            messages.success(request, "Kyc Added Successfully..")
+            return redirect("admin_agent_kyc", id)
+
+    context = {"agent": agent, "kyc_id": kyc_id, "kyc_agent": kyc_agent}
 
     return render(request, "Admin/Agent Management/Update/agentkyc.html", context)
+
+
+def admin_agent_delete(request, id):
+    agent = Agent.objects.get(id=id)
+    kyc_id = AgentKyc.objects.get(agent=agent)
 
 
 class all_outsource_agent(ListView):
@@ -1056,7 +1088,60 @@ class all_outsource_agent(ListView):
 
 def admin_outsourceagent_details(request, id):
     outsourceagent = OutSourcingAgent.objects.get(id=id)
-    context = {"outsourceagent": outsourceagent}
+    users = users = outsourceagent.users
+    context = {"agent": outsourceagent}
+    if request.method == "POST":
+        firstname = request.POST.get("first_name")
+        lastname = request.POST.get("last_name")
+
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        maritial = request.POST.get("maritial")
+        original_pic = request.FILES.get("original_pic")
+        organization = request.POST.get("organization")
+        business_type = request.POST.get("business_type")
+        registration = request.POST.get("registration")
+        address = request.POST.get("address")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        zipcode = request.POST.get("zipcode")
+        accountholder = request.POST.get("accountholder")
+        bankname = request.POST.get("bankname")
+        branchname = request.POST.get("branchname")
+        account = request.POST.get("account")
+        ifsc = request.POST.get("ifsc")
+
+        if dob:
+            users.outsourcingagent.dob = dob
+        if gender:
+            users.outsourcingagent.gender = gender
+        if maritial:
+            users.outsourcingagent.marital_status = maritial
+        if original_pic:
+            users.outsourcingagent.profile_pic = original_pic
+
+        users.first_name = firstname
+
+        users.outsourcingagent.organization_name = organization
+        users.outsourcingagent.business_type = business_type
+        users.outsourcingagent.registration_number = registration
+        users.outsourcingagent.Address = address
+        users.outsourcingagent.country = country
+        users.outsourcingagent.state = state
+        users.outsourcingagent.City = city
+        users.outsourcingagent.zipcode = zipcode
+        users.outsourcingagent.account_holder = accountholder
+        users.outsourcingagent.bank_name = bankname
+        users.outsourcingagent.branch_name = branchname
+        users.outsourcingagent.account_no = account
+        users.outsourcingagent.ifsc_code = ifsc
+
+        users.save()
+        messages.success(request, "Updated Successfully")
+        return redirect("admin_outsourceagent_details", id)
+
+    context = {"agent": outsourceagent}
     return render(
         request,
         "Admin/Agent Management/OutsourceUpdate/outsource_agentupdate.html",
@@ -1066,7 +1151,19 @@ def admin_outsourceagent_details(request, id):
 
 def admin_outsource_agent_agreement(request, id):
     outsourceagent = OutSourcingAgent.objects.get(id=id)
-    context = {"outsourceagent": outsourceagent}
+
+    agntagreement = AgentAgreement.objects.filter(outsourceagent=outsourceagent)
+    if request.method == "POST":
+        name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+        agreement = AgentAgreement.objects.create(
+            outsourceagent=outsourceagent, agreement_name=name, agreement_file=file
+        )
+        agreement.save()
+        messages.success(request, "Agreement Updated Succesfully...")
+        return redirect("admin_outsource_agent_agreement", id)
+    # context = {"agent": agent, "agreement": agntagreement}
+    context = {"agent": outsourceagent, "agreement": agntagreement}
     return render(
         request,
         "Admin/Agent Management/OutsourceUpdate/outsource_agentagreement.html",
@@ -1076,12 +1173,88 @@ def admin_outsource_agent_agreement(request, id):
 
 def admin_outsource_agent_kyc(request, id):
     outsourceagent = OutSourcingAgent.objects.get(id=id)
-    context = {"outsourceagent": outsourceagent}
+    outsourcekyc = AgentKyc.objects.get(outsourceagent=outsourceagent)
+
+    # context = {"outsourceagent": outsourceagent}
+
+    kyc_id = None
+
+    if request.method == "POST":
+        adharfront_file = request.FILES.get("adharfront_file")
+        adharback_file = request.FILES.get("adharback_file")
+        pan_file = request.FILES.get("pan_file")
+        registration_file = request.FILES.get("registration_file")
+        try:
+            kyc_id = AgentKyc.objects.get(outsourceagent=outsourceagent)
+
+            if kyc_id:
+                if adharfront_file:
+                    kyc_id.adhar_card_front = adharfront_file
+                if adharback_file:
+                    kyc_id.adhar_card_back = adharback_file
+                if pan_file:
+                    kyc_id.pancard = pan_file
+                if registration_file:
+                    kyc_id.registration_certificate = registration_file
+                kyc_id.save()
+                messages.success(request, "Kyc Added Successfully..")
+                return redirect("admin_outsource_agent_kyc", id)
+            else:
+                print("workingggggggg")
+
+        except AgentKyc.DoesNotExist:
+            kyc_id = None
+            kyc = AgentKyc.objects.create(
+                outsourceagent=outsourceagent,
+                adhar_card_front=adharfront_file,
+                adhar_card_back=adharback_file,
+                pancard=pan_file,
+                registration_certificate=registration_file,
+            )
+            kyc.save()
+            messages.success(request, "Kyc Added Successfully..")
+            return redirect("admin_outsource_agent_kyc", id)
+
+    context = {"agent": outsourceagent, "kyc_id": kyc_id, "outsourcekyc": outsourcekyc}
+
+    # return render(request, "Admin/Agent Management/Update/agentkyc.html", context)
+
     return render(
         request,
         "Admin/Agent Management/OutsourceUpdate/outsource_agentkyc.html",
         context,
     )
+
+
+def admin_outsourceagent_agreement_update(request, id):
+    if request.method == "POST":
+        agntagreement = AgentAgreement.objects.get(id=id)
+        outsource = agntagreement.outsourceagent
+        agreement_name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+
+        agntagreement.agreement_name = agreement_name
+        if file:
+            agntagreement.agreement_file = file
+        agntagreement.save()
+        messages.success(request, "Agreement Updated Successfully...")
+        return redirect("admin_outsource_agent_agreement", outsource.id)
+
+
+def outstsourceagent_delete(request, id):
+    outsourceagent = OutSourcingAgent.objects.get(id=id)
+    outsourceagent.delete()
+    messages.success(request, "OutSourceAgent Deleted")
+    return HttpResponseRedirect(reverse("all_outsource_agent"))
+
+
+def admin_outsource_agent_agreement_delete(request, id):
+    agree = AgentAgreement.objects.get(id=id)
+    agent = agree.outsourceagent
+    agreement = AgentAgreement.objects.get(id=id)
+    agreement.delete()
+    messages.success(request, "Agreement Deleted Successfully...")
+    return redirect("admin_outsource_agent_agreement", agent.id)
 
 
 ###################################################### PACKAGE ###############################################
@@ -1233,22 +1406,6 @@ def delete_pricing(request, id):
     pricing.delete()
     messages.success(request, "Pricing deleted successfully..")
     return HttpResponseRedirect(reverse("subcategory_list"))
-
-
-def leads(request):
-    return render(request, "Admin/Enquiry/lead1.html")
-
-
-def leads2(request):
-    return render(request, "Admin/Enquiry/lead2.html")
-
-
-def leads3(request):
-    return render(request, "Admin/Enquiry/lead3.html")
-
-
-def leads4(request):
-    return render(request, "Admin/Enquiry/lead4.html")
 
 
 from django.forms.models import model_to_dict
@@ -1488,4 +1645,3 @@ def add_notes(request):
             pass
 
     return redirect("admin_new_leads_details")
-
