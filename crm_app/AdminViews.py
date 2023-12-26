@@ -13,7 +13,8 @@ import pandas as pd
 from .whatsapp_api import send_whatsapp_message
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.db.models import Prefetch
+import requests
 ######################################### COUNTRY #################################################
 
 
@@ -411,8 +412,7 @@ def delete_group(request, id):
 
 
 ######################################### COURIER #################################################
-
-
+# -------------------------------------- Test -------------------------------------
 class PersonalDetailsView(CreateView):
     def get(self, request):
         form = CompanyCourierDetailsForm()
@@ -466,6 +466,9 @@ class ReceiverDetailsView(CreateView):
             "Admin/mastermodule/CourierDetails/otherdetails.html",
             {"form": form},
         )
+
+
+# -------------------------------------- Test -------------------------------------
 
 
 def viewcourieraddress_list(request):
@@ -1230,3 +1233,259 @@ def delete_pricing(request, id):
     pricing.delete()
     messages.success(request, "Pricing deleted successfully..")
     return HttpResponseRedirect(reverse("subcategory_list"))
+
+
+def leads(request):
+    return render(request, "Admin/Enquiry/lead1.html")
+
+
+def leads2(request):
+    return render(request, "Admin/Enquiry/lead2.html")
+
+
+def leads3(request):
+    return render(request, "Admin/Enquiry/lead3.html")
+
+
+def leads4(request):
+    return render(request, "Admin/Enquiry/lead4.html")
+
+
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
+
+
+class Enquiry1View(CreateView):
+    def get(self, request):
+        form = EnquiryForm1()
+        return render(
+            request,
+            "Admin/Enquiry/lead1.html",
+            {"form": form},
+        )
+
+    def post(self, request):
+        form = EnquiryForm1(request.POST)
+        if form.is_valid():
+            cleaned_data = {
+                "FirstName": form.cleaned_data["FirstName"],
+                "LastName": form.cleaned_data["LastName"],
+                "email": form.cleaned_data["email"],
+                "contact": form.cleaned_data["contact"],
+                "Dob": form.cleaned_data["Dob"].strftime("%Y-%m-%d"),
+                "Gender": form.cleaned_data["Gender"],
+                "Country": form.cleaned_data["Country"],
+                "passport_no": form.cleaned_data["passport_no"],
+            }
+            request.session["enquiry_form1"] = cleaned_data
+            return redirect("enquiry_form2")
+
+        return render(
+            request,
+            "Admin/Enquiry/lead2.html",
+            {"form": form},
+        )
+
+
+class Enquiry2View(CreateView):
+    def get(self, request):
+        form = EnquiryForm2()
+        return render(
+            request,
+            "Admin/Enquiry/lead2.html",
+            {"form": form},
+        )
+
+    def post(self, request):
+        form = EnquiryForm2(request.POST)
+        if form.is_valid():
+            # Retrieve personal details from session
+            enquiry_form1 = request.session.get("enquiry_form1", {})
+            cleaned_data = {
+                "spouse_name": form.cleaned_data["spouse_name"],
+                "spouse_no": form.cleaned_data["spouse_no"],
+                "spouse_email": form.cleaned_data["spouse_email"],
+                "spouse_passport": form.cleaned_data["spouse_passport"],
+                "spouse_dob": form.cleaned_data["spouse_dob"].strftime("%Y-%m-%d"),
+            }
+
+            # Merge personal details with receiver details
+            merged_data = {**enquiry_form1, **cleaned_data}
+
+            # Save the merged data to the session
+            request.session["enquiry_form2"] = merged_data
+            return redirect("enquiry_form3")
+
+        return render(
+            request,
+            "Admin/Enquiry/lead2.html",
+            {"form": form},
+        )
+
+
+class Enquiry3View(CreateView):
+    def get(self, request):
+        form = EnquiryForm3()
+        return render(
+            request,
+            "Admin/Enquiry/lead3.html",
+            {"form": form},
+        )
+
+    def post(self, request):
+        form1_data = request.session.get("enquiry_form1", {})
+        form2_data = request.session.get("enquiry_form2", {})
+        form3 = EnquiryForm3(request.POST)
+
+        if form3.is_valid():
+            # Merge data from all three forms
+            merged_data = {
+                **form1_data,
+                **form2_data,
+                **form3.cleaned_data,
+            }
+
+            # Save the merged data to the database
+            enquiry = Enquiry(**merged_data)
+            enquiry.save()
+            messages.success(request, "Enquiry Added successfully")
+
+            # Clear session data after successful submission
+            request.session.pop("enquiry_form1", None)
+            request.session.pop("enquiry_form2", None)
+
+            return redirect("enquiry_form4", id=enquiry.id)
+
+        return render(
+            request,
+            "Admin/Enquiry/lead3.html",
+            {"form": form3},
+        )
+
+    def get_success_url(self):
+        enquiry_id = self.object.id
+        return reverse_lazy("Agent_Document", kwargs={"id": enquiry_id})
+
+
+def admindocument(request, id):
+    enq = Enquiry.objects.get(id=id)
+    document = Document.objects.all()
+
+    doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
+
+    case_categories = CaseCategoryDocument.objects.filter(country=enq.Visa_country)
+
+    documents_prefetch = Prefetch(
+        "document",
+        queryset=Document.objects.select_related("document_category", "lastupdated_by"),
+    )
+
+    case_categories = case_categories.prefetch_related(documents_prefetch)
+
+    grouped_documents = {}
+
+    for case_category in case_categories:
+        for document in case_category.document.all():
+            document_category = document.document_category
+            testing = document.document_category.id
+
+            if document_category not in grouped_documents:
+                grouped_documents[document_category] = []
+
+            grouped_documents[document_category].append(document)
+
+    context = {
+        "enq": enq,
+        "grouped_documents": grouped_documents,
+        "doc_file": doc_file,
+    }
+
+    return render(request, "Admin/Enquiry/lead4.html", context)
+
+
+def upload_document(request):
+    if request.method == "POST":
+        document_id = request.POST.get("document_id")
+        enq_id = request.POST.get("enq_id")
+
+        document = Document.objects.get(pk=document_id)
+        document_file = request.FILES.get("document_file")
+        enq = Enquiry.objects.get(id=enq_id)
+        # Check if a DocumentFiles object with the same document exists
+        try:
+            doc = DocumentFiles.objects.filter(
+                enquiry_id=enq_id, document_id=document
+            ).first()
+            if doc:
+                doc.document_file = document_file
+                doc.lastupdated_by = request.user
+                doc.save()
+
+                return redirect("enquiry_form4", id=enq_id)
+            else:
+                documest_files = DocumentFiles.objects.create(
+                    document_file=document_file,
+                    document_id=document,
+                    enquiry_id=enq,
+                    lastupdated_by=request.user,
+                )
+                documest_files.save()
+                return redirect("enquiry_form4", enq_id)
+
+        except Exception as e:
+            pass
+
+
+def delete_docfile(request, id):
+    doc_id = DocumentFiles.objects.get(id=id)
+    enq_id = Enquiry.objects.get(id=doc_id.enquiry_id.id)
+    enqq = enq_id.id
+
+    doc_id.delete()
+    return redirect("enquiry_form4", enqq)
+
+
+# ----------------------------------- Leads Details --------------------------
+
+
+def admin_new_leads_details(request):
+    enquiry = Enquiry.objects.all()
+    context = {"enquiry": enquiry}
+    return render(request, "Admin/Enquiry/lead-details.html", context)
+
+
+def get_public_ip():
+    try:
+        response = requests.get("https://api64.ipify.org?format=json")
+        data = response.json()
+        return data["ip"]
+    except Exception as e:
+        # Handle the exception (e.g., log the error)
+        return None
+
+
+def add_notes(request):
+    if request.method == "POST":
+        enq_id = request.POST.get("enq_id")
+        notes_text = request.POST.get("notes")
+        file = request.FILES.get("file")
+        user = request.user
+
+        try:
+            enq = Enquiry.objects.get(id=enq_id)
+            ip_address = get_public_ip()
+
+            notes = Notes.objects.create(
+                enquiry=enq,
+                notes=notes_text,
+                file=file,
+                ip_address=ip_address,
+                created_by=user,
+            )
+            notes.save()
+
+        except Enquiry.DoesNotExist:
+            pass
+
+    return redirect("admin_new_leads_details")
+

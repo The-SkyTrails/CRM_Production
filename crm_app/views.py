@@ -243,6 +243,7 @@ def CustomLoginView(request):
 
         try:
             user = CustomUser.objects.get(username=username)
+            print("userrrr", user)
 
             if check_password(password, user.password):
                 user_type = user.user_type
@@ -271,6 +272,7 @@ def CustomLoginView(request):
                     customeruser = CustomUser.objects.get(id=user_id)
                     user_type = customeruser.user_type
                     if user_type == "2":
+                        print("helooooo")
                         mob = customeruser.admin.contact_no
 
                     if user_type == "3":

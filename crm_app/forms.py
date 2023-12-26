@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator
 from .models import *
 
 
-
 class VisaCountryForm(forms.ModelForm):
     class Meta:
         model = VisaCountry
@@ -182,34 +181,197 @@ class ReceiverDetailsForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Enter Address"}
             ),
         }
-    
-    
+
+
 class PackageForm(forms.ModelForm):
     class Meta:
         model = Package
-        fields = ['visa_country','visa_category','title','description','number_of_visa','amount','advance_amount','file_charges','package_expiry_date','assign_to_group','image']
-        widgets = {'visa_country':forms.Select(attrs={'class':'form-control'}),'visa_category':forms.Select(attrs={'class':'form-control'}),'title':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Title Name'}),'description':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Description'}),
-                   'number_of_visa':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Number of Visa'}),'amount':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Amount'}),'advance_amount':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Advance Amount'}),
-                   'file_charges':forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter File Charges'}),'package_expiry_date':forms.DateInput(attrs={'class':'form-control','placeholder': 'Enter Package Expiry Date','type':'date'}),'assign_to_group':forms.Select(attrs={'class':'form-control'}),
-                   'image':forms.FileInput(attrs={'class':'form-control'})
-                   }
+        fields = [
+            "visa_country",
+            "visa_category",
+            "title",
+            "description",
+            "number_of_visa",
+            "amount",
+            "advance_amount",
+            "file_charges",
+            "package_expiry_date",
+            "assign_to_group",
+            "image",
+        ]
+        widgets = {
+            "visa_country": forms.Select(attrs={"class": "form-control"}),
+            "visa_category": forms.Select(attrs={"class": "form-control"}),
+            "title": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Title Name"}
+            ),
+            "description": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Description"}
+            ),
+            "number_of_visa": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Number of Visa"}
+            ),
+            "amount": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Amount"}
+            ),
+            "advance_amount": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Advance Amount"}
+            ),
+            "file_charges": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter File Charges"}
+            ),
+            "package_expiry_date": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Package Expiry Date",
+                    "type": "date",
+                }
+            ),
+            "assign_to_group": forms.Select(attrs={"class": "form-control"}),
+            "image": forms.FileInput(attrs={"class": "form-control"}),
+        }
 
 
 class VisasubCategoryForm(forms.ModelForm):
-    
     class Meta:
         model = VisaSubcategory
-        fields = ['country_id','category_id','subcategory_name','estimate_amt','cgst','sgst']
-        widgets = {'country_id':forms.Select(attrs={'class':'form-control'}),
-                   
-                   'category_id':forms.Select(attrs={'class':'form-control'}),'subcategory_name':forms.Select(attrs={'class':'form-control'}),'estimate_amt':forms.NumberInput(attrs={'class':'form-controls'}),'cgst':forms.NumberInput(attrs={'class':'form-controls'}),'sgst':forms.NumberInput(attrs={'class':'form-controls'})}
+        fields = [
+            "country_id",
+            "category_id",
+            "subcategory_name",
+            "estimate_amt",
+            "cgst",
+            "sgst",
+        ]
+        widgets = {
+            "country_id": forms.Select(attrs={"class": "form-control"}),
+            "category_id": forms.Select(attrs={"class": "form-control"}),
+            "subcategory_name": forms.Select(attrs={"class": "form-control"}),
+            "estimate_amt": forms.NumberInput(attrs={"class": "form-controls"}),
+            "cgst": forms.NumberInput(attrs={"class": "form-controls"}),
+            "sgst": forms.NumberInput(attrs={"class": "form-controls"}),
+        }
         # labels = {'country_id': 'Country','category_id':'Category','subcategory_name':'Subcategory','estimate_amt':'Estimated Amount(INR)'}
         labels = {
-        'country_id': 'Country',
-        'category_id': 'Category',
-        'subcategory_name': 'Subcategory',
-        'estimate_amt': 'Estimated Amount (INR)',
-        'cgst': 'CGST (%)',
-        'sgst': 'SGST (%)',
-        
-    }
+            "country_id": "Country",
+            "category_id": "Category",
+            "subcategory_name": "Subcategory",
+            "estimate_amt": "Estimated Amount (INR)",
+            "cgst": "CGST (%)",
+            "sgst": "SGST (%)",
+        }
+
+
+class EnquiryForm1(forms.ModelForm):
+    class Meta:
+        model = Enquiry
+        fields = [
+            "FirstName",
+            "LastName",
+            "email",
+            "contact",
+            "Dob",
+            "Gender",
+            "Country",
+            "passport_no",
+        ]
+
+        widgets = {
+            "email": forms.EmailInput(
+                attrs={"class": "form-control", "placeholder": "Enter Email Id"}
+            ),
+            "contact": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Contact No"}
+            ),
+            "FirstName": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter First Name"}
+            ),
+            "LastName": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Last Name"}
+            ),
+            "Dob": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "Gender": forms.Select(attrs={"class": "form-control"}),
+            "Country": forms.Select(attrs={"class": "form-control"}),
+            "passport_no": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Passport Number"}
+            ),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Customize the Package field queryset if needed
+            self.fields["Package"].queryset = Package.objects.all()
+
+
+class EnquiryForm2(forms.ModelForm):
+    class Meta:
+        model = Enquiry
+        fields = [
+            "spouse_name",
+            "spouse_no",
+            "spouse_email",
+            "spouse_passport",
+            "spouse_dob",
+        ]
+
+        widgets = {
+            "spouse_name": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"},
+            ),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Customize the Package field queryset if needed
+            self.fields["Package"].queryset = Package.objects.all()
+
+
+class EnquiryForm3(forms.ModelForm):
+    class Meta:
+        model = Enquiry
+        fields = [
+            "Visa_country",
+            "Visa_category",
+            "Visa_subcategory",
+            "Visa_type",
+            "Package",
+            "Source",
+            "Reference",
+        ]
+
+        widgets = {
+            "Visa_country": forms.Select(attrs={"class": "form-control"}),
+            "Visa_category": forms.Select(attrs={"class": "form-control"}),
+            "Visa_subcategory": forms.Select(attrs={"class": "form-control"}),
+            "Visa_type": forms.Select(attrs={"class": "form-control"}),
+            "Package": forms.Select(attrs={"class": "form-control"}),
+            "Source": forms.Select(
+                attrs={"class": "form-control", "placeholder": "Enter Source Name"}
+            ),
+            "Reference": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Reference Name"}
+            ),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Customize the Package field queryset if needed
+            self.fields["Package"].queryset = Package.objects.all()

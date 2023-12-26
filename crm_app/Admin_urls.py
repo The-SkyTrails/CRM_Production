@@ -131,4 +131,13 @@ urlpatterns = [
         "SubCategoryEdit/<int:id>", visa_subcategory_edit, name="visa_subcategory_edit"
     ),
     path("pricing/delete/<int:id>/", delete_pricing, name="delete_pricing"),
+    path("AddEnquiry/", Enquiry1View.as_view(), name="enquiry_form1"),
+    path("AddEnquiry2/", Enquiry2View.as_view(), name="enquiry_form2"),
+    path("AddEnquiry3/", Enquiry3View.as_view(), name="enquiry_form3"),
+    path("enquiry_form4/<int:id>/", admindocument, name="enquiry_form4"),
+    path("Uploaddocument/", upload_document, name="uploaddocument"),
+    path("Delete/UploadFile/<int:id>", delete_docfile, name="docfile"),
+    # ------------------------------- LEADS ------------------------
+    path("AllNewLeads", admin_new_leads_details, name="admin_new_leads_details"),
+    path("AddNotes/", add_notes, name="add_notes"),
 ]

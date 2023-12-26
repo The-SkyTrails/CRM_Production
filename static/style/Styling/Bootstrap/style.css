@@ -221,7 +221,7 @@ color: #111928;
   margin-top: 26px;
   margin-bottom: 100px;
   margin-left: 80px;
-  margin-right: 162px;
+  margin-right: 80px !important;
 }
 
 .forms-container {
@@ -231,7 +231,14 @@ color: #111928;
 }
 
 .inputforms-container {
-  /* width: 100%; */
+ 
+  margin: 32px 24px;
+
+  
+}
+
+.inputformss-container {
+  width: 100%;
   margin: 32px 24px;
 
   
@@ -425,7 +432,7 @@ color: #111928;
 
 
 
-.main-container {
+/* .main-container {
   background: white;
   flex-direction: column;
   justify-content: flex-start;
@@ -433,7 +440,7 @@ color: #111928;
   display: inline-flex;
   margin-top: 26px;
   margin-bottom: 100px;
-}
+} */
 
 
 .table-responsive {
