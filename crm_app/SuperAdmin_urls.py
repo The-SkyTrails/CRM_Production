@@ -12,6 +12,6 @@ urlpatterns = [
     path('view_admin/', view_admin,name="view_admin"),
     path('delete/<int:id>/', delete_admin, name='delete_admin'),
     path('edit_admin/<int:user_id>/', edit_admin, name='edit_admin'),
-    path("dashboard/", DashboardView.as_view() , name='dashboard'),
+    path("crm/dashboard/", DashboardView.as_view() , name='dashboard'),
        
 ]

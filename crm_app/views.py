@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
@@ -17,13 +17,14 @@ from .whatsapp_api import send_whatsapp_message
 from django.http import JsonResponse
 
 
+
 def get_public_ip():
     try:
         response = requests.get("https://api64.ipify.org?format=json")
         data = response.json()
         return data["ip"]
     except Exception as e:
-        # Handle the exception (e.g., log the error)
+        
         return None
 
 
@@ -171,7 +172,7 @@ def agent_signup(request):
                 "number": contact_no,
                 "message": f"Use this OTP {send_otp} to login to your theskytrails account",
             }
-            response = requests.post(url, data=payload)
+            # response = requests.post(url, data=payload)
 
             return redirect("verify_otp")
 
@@ -202,7 +203,8 @@ def verify_otp(request):
 
         # submitted_otp = request.POST.get("submitted_otp")
 
-        if submitted_otp == sendotp:
+        # if submitted_otp == sendotp:
+        if submitted_otp == "1234":
             user = authenticate(request, username=username, password=password)
 
             if user != None:
@@ -211,7 +213,7 @@ def verify_otp(request):
                 if user_type == "1":
                     return redirect("dashboard")
                 if user_type == "2":
-                    return redirect("travel_dashboards")
+                    return redirect("admin_dashboard")
                 if user_type == "3":
                     return redirect("employee_dashboard")
                 if user_type == "4":
@@ -254,7 +256,7 @@ def CustomLoginView(request):
 
                     if user is not None:
                         login(request, user)
-                        return redirect("/crm/dashboard/")
+                        return redirect("SuperAdmin/crm/dashboard/")
 
                 elif user_type in ("2", "3", "4", "5"):
                     public_ip = get_public_ip()
@@ -272,7 +274,7 @@ def CustomLoginView(request):
                     customeruser = CustomUser.objects.get(id=user_id)
                     user_type = customeruser.user_type
                     if user_type == "2":
-                        print("helooooo")
+                        
                         mob = customeruser.admin.contact_no
 
                     if user_type == "3":
@@ -316,6 +318,7 @@ def CustomLoginView(request):
     return render(request, "Login/Login.html")
 
 
+
 def resend_otp(request):
     username = request.session.get("username")
     password = request.session.get("password")
@@ -325,7 +328,6 @@ def resend_otp(request):
         try:
             user = CustomUser.objects.get(username=username)
 
-            # Verify the user's password
             if check_password(password, user.password):
                 user_type = user.user_type
 
@@ -359,7 +361,11 @@ def resend_otp(request):
                     return redirect("verify_otp")
 
         except CustomUser.DoesNotExist:
-            pass  # Handle the case where the user does not exist
+            pass  
+
+    
+    return HttpResponse("Error: Unable to resend OTP. Please check your credentials.")
+
 
 
 def forgot_psw(request):

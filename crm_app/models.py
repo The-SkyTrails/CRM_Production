@@ -582,29 +582,20 @@ class Enquiry(models.Model):
     # Spouse Details
     spouse_name = models.CharField(max_length=50, null=True, blank=True)
     spouse_no = models.CharField(max_length=15, null=True, blank=True)
-    spouse_email = models.EmailField(unique=True, null=True, blank=True)
+    spouse_email = models.EmailField(blank=True)
     spouse_passport = models.CharField(max_length=50, null=True, blank=True)
     spouse_dob = models.DateField(null=True, blank=True)
 
     # Mailing Address
-    email = models.EmailField(unique=True, null=True, blank=True)
+    email = models.EmailField(blank=True)
     contact = models.CharField(max_length=10)
-    mailing_phone = models.CharField(max_length=100, null=True, blank=True)
-    mailing_country = models.CharField(max_length=100, null=True, blank=True)
+    # country = models.CharField(max_length=100, null=True, blank=True)
     Country = CountryField()
     # Country = models.CharField(max_length=255,null=True,blank=True)
     state = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
     zipcode = models.CharField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
-
-    # permanent address details
-
-    permanent_country = models.CharField(max_length=244, null=True, blank=True)
-    permanent_state = models.CharField(max_length=100, null=True, blank=True)
-    permanent_city = models.CharField(max_length=100, null=True, blank=True)
-    permanent_zipcode = models.CharField(max_length=100, null=True, blank=True)
-    permanent_address = models.TextField(null=True, blank=True)
 
     # passport information
 
@@ -626,7 +617,7 @@ class Enquiry(models.Model):
     # Emergency Contact
     emergency_name = models.CharField(max_length=100, null=True, blank=True)
     emergency_phone = models.CharField(max_length=100, null=True, blank=True)
-    emergency_email = models.EmailField(null=True, blank=True)
+    emergency_email = models.EmailField(blank=True)
     relation_With_applicant = models.CharField(max_length=100, null=True, blank=True)
     created_by = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
@@ -707,6 +698,11 @@ class Enquiry(models.Model):
             .order_by("Country", "-year", "-month")
         )
 
+    def generate_initials(self):
+        first_initial = self.FirstName[0].upper() if self.FirstName else ""
+        last_initial = self.LastName[0].upper() if self.LastName else ""
+        return f"{first_initial}{last_initial}"
+
     class Meta:
         db_table = "Enquiry"
 
@@ -724,22 +720,6 @@ class Enquiry(models.Model):
             self.generate_case_id()
 
         super(Enquiry, self).save(*args, **kwargs)
-
-    # def save(self, *args, **kwargs):
-    #     last_assigned_index = cache.get("last_assigned_index") or 0
-    #     # If no student is assigned, find the next available student in a circular manner
-    #     presales_team_employees = Employee.objects.filter(
-    #         department="Presales/Assesment"
-    #     )
-
-    #     if presales_team_employees.exists():
-    #         next_index = (last_assigned_index + 1) % presales_team_employees.count()
-    #         self.assign_employee = presales_team_employees[next_index]
-    #         self.assign_employee.save()
-
-    #         cache.set("last_assigned_index", next_index)
-
-    #     super().save(*args, **kwargs)
 
     def _str_(self):
         return str(self.id)
@@ -812,6 +792,69 @@ class DocumentFiles(models.Model):
 
     def __str__(self):
         return str(self.enquiry_id)
+
+
+class Education_Summary(models.Model):
+    enquiry_id = models.ForeignKey(
+        Enquiry, on_delete=models.CASCADE, null=True, blank=True
+    )
+    country_of_education = models.CharField(max_length=100, null=True, blank=True)
+    highest_level_education = models.CharField(max_length=100, null=True, blank=True)
+    grading_scheme = models.CharField(max_length=100, null=True, blank=True)
+    grade_avg = models.CharField(max_length=100, null=True, blank=True)
+    recent_college = models.BooleanField(null=True, blank=True)
+    level_education = models.CharField(max_length=100, null=True, blank=True)
+    country_of_institution = models.CharField(max_length=100, null=True, blank=True)
+    name_of_institution = models.CharField(max_length=100, null=True, blank=True)
+    primary_language = models.CharField(max_length=100, null=True, blank=True)
+    institution_from = models.DateField(null=True, blank=True)
+    institution_to = models.DateField(null=True, blank=True)
+    degree_Awarded = models.CharField(max_length=100, null=True, blank=True)
+    degree_Awarded_On = models.CharField(max_length=100, null=True, blank=True)
+    Address = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=255, null=True, blank=True)
+    Province = models.CharField(max_length=100, null=True, blank=True)
+    zipcode = models.IntegerField(null=True, blank=True)
+
+
+exam_type = [
+    ("PTE", "PTE"),
+    ("TOEFL", "TOEFL"),
+    ("IELTS", "IELTS"),
+]
+
+
+class TestScore(models.Model):
+    enquiry_id = models.ForeignKey(
+        Enquiry, on_delete=models.CASCADE, null=True, blank=True
+    )
+    # candidates_name = models.CharField(max_length=100)
+    exam_type = models.CharField(
+        max_length=100, choices=exam_type, blank=True, null=True
+    )
+    exam_date = models.DateField(blank=True, null=True)
+    reading = models.IntegerField(blank=True)
+    listening = models.IntegerField(blank=True)
+    speaking = models.IntegerField(blank=True)
+    writing = models.IntegerField(blank=True)
+    overall_score = models.IntegerField(blank=True)
+
+
+class Background_Information(models.Model):
+    enquiry_id = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
+    background_information = models.CharField(max_length=244, blank=True, null=True)
+
+
+class Work_Experience(models.Model):
+    enquiry_id = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=244, null=True, blank=True)
+    designation = models.CharField(max_length=244, null=True, blank=True)
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    address = models.CharField(max_length=244, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    describe = models.TextField(null=True, blank=True)
 
 
 class EnqAppointment(models.Model):
