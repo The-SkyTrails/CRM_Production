@@ -1495,7 +1495,10 @@ class Enquiry3View(CreateView):
         form2_data = request.session.get("enquiry_form2", {})
         form3 = EnquiryForm3(request.POST)
 
+
         if form3.is_valid():
+            user = self.request.user
+            print("userssssss",user)
             # Merge data from all three forms
             merged_data = {
                 **form1_data,
@@ -1522,7 +1525,7 @@ class Enquiry3View(CreateView):
 
     def get_success_url(self):
         enquiry_id = self.object.id
-        return reverse_lazy("Agent_Document", kwargs={"id": enquiry_id})
+        return reverse_lazy("enquiry_form4", kwargs={"id": enquiry_id})
 
 
 def admindocument(request, id):

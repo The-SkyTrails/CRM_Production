@@ -723,19 +723,6 @@ class Enquiry(models.Model):
         if not self.case_id:
             self.generate_case_id()
 
-        last_assigned_index = cache.get("last_assigned_index") or 0
-        # If no student is assigned, find the next available student in a circular manner
-        presales_team_employees = Employee.objects.filter(
-            department="Presales/Assesment"
-        )
-
-        if presales_team_employees.exists():
-            next_index = (last_assigned_index + 1) % presales_team_employees.count()
-            self.assign_to_employee = presales_team_employees[next_index]
-            self.assign_to_employee.save()
-
-            cache.set("last_assigned_index", next_index)
-
         super(Enquiry, self).save(*args, **kwargs)
 
     # def save(self, *args, **kwargs):
@@ -825,6 +812,30 @@ class DocumentFiles(models.Model):
 
     def __str__(self):
         return str(self.enquiry_id)
+
+
+class EnqAppointment(models.Model):
+    appointment_status = [
+        ("Process", "Process"),
+        ("Done", "Done"),
+    ]
+
+    enquiry = models.ForeignKey(
+        Enquiry, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    description = models.TextField()
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(
+        max_length=100, choices=appointment_status, default="Process"
+    )
+    created_by = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    created_date = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    class Meta:
+        db_table = "Enquiry Appointment"
 
 
 @receiver(post_save, sender=CustomUser)

@@ -1,4 +1,4 @@
-{% extends "Admin/Base/base.html" %}
+{% extends "Employee/Base/base.html" %}
 {% load static %}
 {% load custom_filters %}
 {% block main-content %}
@@ -211,7 +211,7 @@
                       <button class="btn-upload" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ document.id }}" type="submit">
                         Upload
                       </button>
-                      {% include "Admin/Enquiry/DocumentUpload/upload_document.html" %}
+                      {% include "Employee/Enquiry/DocumentUpload/upload_document.html" %}
                       {% for testing in doc_file %}
                                 {% if document.id == testing.document_id_id %}
                                 <input type="text" value={{testing.id}} name="doc_file_id" hidden>
@@ -242,9 +242,9 @@
       {% endfor %}
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a href="{% url "employee_lead_list" %}"><button class="btn btn-color" type="submit">Go To Enquiry List
+        <button class="btn btn-color" type="submit">Submit
 
-        </button></a>
+        </button>
       </div>
 
     </div>
