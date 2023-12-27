@@ -95,4 +95,21 @@ urlpatterns = [
     # ------------------------------- LEADS ------------------------
     path("AllNewLeads", admin_new_leads_details, name="admin_new_leads_details"),
     path("AddNotes/", add_notes, name="add_notes"),
+    
+    
+    path('delete_and_archive/<int:id>/', delete_and_archive, name='delete_and_archive'),
+    path('restore/<int:id>/', restore, name='restore'),
+    path('ArchiveList/', ArchiveListView.as_view(), name='Archive_list'),
+    
+    
+    path('EnrolledLeads/', enrolled_Application.as_view(), name='Enrolled_leads'),
+    
+    
+    path('edit/Enrolled/Application/<int:id>',edit_enrolled_application,name="edit_enrolled_application"),
+    path('Educaion/Summary/<int:id>',combined_view,name="education_summary"),
+    path('Product/<int:id>',editproduct_details,name="edit_product_details"),
+    path("enrolled_document/<int:id>/", enrolleddocument, name="enrolled_document"),
+    path("enrolledUploaddocument/", enrolled_upload_document, name="enrolleduploaddocument"),
+    path("Delete/enrolledUploadFile/<int:id>", enrolled_delete_docfile, name="enrolleddocfile"),
+    
 ]

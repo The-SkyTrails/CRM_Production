@@ -96,6 +96,7 @@
                 <th>ID</th>
                 <th>GROUP NAME</th>
                 <th>GROUP MEMBER</th>
+                <th>Last Updated By</th>
                 <th>LAST UPDATED ON</th>
                 <th>ACTIONS</th>
               </tr>
@@ -110,6 +111,7 @@
                   {{ member.first_name }} {{member.last_name}}
                   {% if not forloop.last %},{% endif %}
               {% endfor %}</td>
+              <td>{{i.create_by}}</td>
                 <td>{{i.updated_on}}</td>
                 <td>
                   <div class="row" style="display: flex">
