@@ -2,7 +2,13 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    UpdateView,
+    DetailView,
+    TemplateView,
+)
 from .forms import *
 from django.urls import reverse_lazy
 from django.db.models import Prefetch
@@ -12,12 +18,17 @@ from django.core.mail import send_mail
 from datetime import datetime
 from django.utils import timezone
 
+from django.contrib.auth import authenticate, logout, login as auth_login
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-def employee_dashboard(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Dashboard/dashboard.html", context)
+
+# def employee_dashboard(request):
+#     user = request.user
+#     dep = user.employee.department
+#     context = {"dep": dep}
+#     return render(request, "Employee/Dashboard/dashboard.html", context)
 
 
 def employee_profile(request):
@@ -48,7 +59,73 @@ def employee_followup_list(request):
     return render(request, "Employee/FollowUp/followup_list.html", context)
 
 
-class emp_Enquiry1View(CreateView):
+# ----------------------------------------------------------------
+
+
+class employee_dashboard(LoginRequiredMixin, TemplateView):
+    template_name = "Employee/Dashboard/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        agent_count = Agent.objects.filter(registerdby=self.request.user).count
+
+        outsourceagent_count = OutSourcingAgent.objects.filter(
+            registerdby=self.request.user
+        ).count
+
+        leadpending_count = Enquiry.objects.filter(
+            lead_status="PreEnrolled", created_by=self.request.user
+        ).count()
+
+        leadcomplete_count = Enquiry.objects.filter(
+            lead_status="Delivery", created_by=self.request.user
+        ).count()
+
+        leadaccept_count = Enquiry.objects.filter(
+            Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+            created_by=self.request.user,
+        ).count()
+
+        lead_count = Enquiry.objects.filter(created_by=self.request.user).count()
+
+        leadnew_count = Enquiry.objects.filter(
+            lead_status="New Lead", created_by=self.request.user
+        ).count()
+
+        package = Package.objects.all().order_by("-last_updated_on")[:10]
+
+        user = self.request.user
+        if user.user_type == "4":
+            agent = Agent.objects.get(users=user)
+            context["agent"] = agent
+
+        if user.user_type == "5":
+            outagent = OutSourcingAgent.objects.get(users=user)
+            context["agent"] = outagent
+
+        dep = user.employee.department
+        context["dep"] = dep
+
+        context["leadcomplete_count"] = leadcomplete_count
+        context["leadaccept_count"] = leadaccept_count
+        context["leadpending_count"] = leadpending_count
+        context["lead_count"] = lead_count
+        context["leadnew_count"] = leadnew_count
+        context["package"] = package
+        context["agent_count"] = agent_count
+        context["outsourceagent_count"] = outsourceagent_count
+
+        return context
+
+
+class emp_Enquiry1View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm1()
         user = request.user
@@ -79,7 +156,7 @@ class emp_Enquiry1View(CreateView):
         )
 
 
-class emp_Enquiry2View(CreateView):
+class emp_Enquiry2View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm2()
         user = request.user
@@ -92,13 +169,17 @@ class emp_Enquiry2View(CreateView):
         if form.is_valid():
             # Retrieve personal details from session
             enquiry_form1 = request.session.get("enquiry_form1", {})
+
+            spouse_dob = form.cleaned_data.get("spouse_dob")
             cleaned_data = {
                 "spouse_name": form.cleaned_data["spouse_name"],
                 "spouse_no": form.cleaned_data["spouse_no"],
                 "spouse_email": form.cleaned_data["spouse_email"],
                 "spouse_passport": form.cleaned_data["spouse_passport"],
-                "spouse_dob": form.cleaned_data["spouse_dob"].strftime("%Y-%m-%d"),
             }
+
+            if spouse_dob:
+                cleaned_data["spouse_dob"] = spouse_dob.strftime("%Y-%m-%d")
 
             # Merge personal details with receiver details
             merged_data = {**enquiry_form1, **cleaned_data}
@@ -114,7 +195,7 @@ class emp_Enquiry2View(CreateView):
         )
 
 
-class emp_Enquiry3View(CreateView):
+class emp_Enquiry3View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm3()
         user = request.user
@@ -140,12 +221,9 @@ class emp_Enquiry3View(CreateView):
             # Save the merged data to the database
             enquiry = Enquiry(**merged_data)
             user = self.request.user
-            print("usersssss", user)
             emp_dep = user.employee
-            print("departttttttttttttttttttttt", emp_dep.department)
             if emp_dep.department == "Presales/Assesment":
                 enquiry.assign_to_employee = self.request.user.employee
-                print("workingggggggggggg")
 
             elif emp_dep.department == "Sales":
                 lat_assigned_index = cache.get("lst_assigned_index") or 0
@@ -205,6 +283,7 @@ def get_presale_employee():
     return Employee.objects.filter(department="Presales/Assesment")
 
 
+@login_required
 def empdocument(request, id):
     enq = Enquiry.objects.get(id=id)
     document = Document.objects.all()
@@ -244,6 +323,7 @@ def empdocument(request, id):
     return render(request, "Employee/Enquiry/lead4.html", context)
 
 
+@login_required
 def emp_upload_document(request):
     if request.method == "POST":
         document_id = request.POST.get("document_id")
@@ -277,6 +357,7 @@ def emp_upload_document(request):
             pass
 
 
+@login_required
 def emp_delete_docfile(request, id):
     doc_id = DocumentFiles.objects.get(id=id)
     enq_id = Enquiry.objects.get(id=doc_id.enquiry_id.id)
@@ -289,6 +370,7 @@ def emp_delete_docfile(request, id):
 # -------------------------------------- Leads ------------------------------
 
 
+@login_required
 def employee_lead_list(request):
     user = request.user
 
@@ -297,15 +379,21 @@ def employee_lead_list(request):
             emp = user.employee
             dep = emp.department
             if dep == "Presales/Assesment":
-                enq = Enquiry.objects.filter(assign_to_employee=user.employee)
+                enq = Enquiry.objects.filter(assign_to_employee=user.employee).order_by(
+                    "-id"
+                )
             elif dep == "Sales":
-                enq = Enquiry.objects.filter(assign_to_sales_employee=user.employee)
+                enq = Enquiry.objects.filter(
+                    assign_to_sales_employee=user.employee
+                ).order_by("-id")
             elif dep == "Documentation":
                 enq = Enquiry.objects.filter(
                     assign_to_documentation_employee=user.employee
-                )
+                ).order_by("-id")
             elif dep == "Visa Team":
-                enq = Enquiry.objects.filter(assign_to_visa_team_employee=user.employee)
+                enq = Enquiry.objects.filter(
+                    assign_to_visa_team_employee=user.employee
+                ).order_by("-id")
             else:
                 enq = None
             print("enquiryyyyy", enq)
@@ -1491,7 +1579,7 @@ def emp_enrolled_upload_document(request):
                 doc.document_file = document_file
                 doc.lastupdated_by = request.user
                 doc.save()
-                print("updatinggggggggggg")
+
                 return redirect("enrolled_document", id=enq_id)
             else:
                 document_files = DocumentFiles.objects.create(
@@ -1501,7 +1589,6 @@ def emp_enrolled_upload_document(request):
                     lastupdated_by=request.user,
                 )
                 document_files.save()
-                print("sssssssssssssssssssssssss")
 
                 return redirect("emp_enrolleddocument", id=enq_id)
 
@@ -1532,3 +1619,44 @@ def followup(request):
             follow_up.enquiry = enq
             follow_up.created_by = request.user
             follow_up.save()
+
+
+###################################### LOGOUT #######################################################
+
+
+@login_required
+def employee_logout(request):
+    logout(request)
+    return redirect("/")
+
+
+############################################### CHANGE PASSWORD ###########################################
+
+
+@login_required
+def ChangePassword(request):
+    user = request.user
+    admin = Employee.objects.get(users=user)
+
+    if request.method == "POST":
+        old_psw = request.POST.get("old_password")
+        newpassword = request.POST.get("newpassword")
+        confirmpassword = request.POST.get("confirmpassword")
+
+        if check_password(old_psw, admin.users.password):
+            if newpassword == confirmpassword:
+                admin.users.set_password(newpassword)
+                admin.users.save()
+                messages.success(
+                    request, "Password changed successfully Please Login Again !!"
+                )
+                return HttpResponseRedirect(reverse("login"))
+            else:
+                messages.success(request, "New passwords do not match")
+                return HttpResponseRedirect(reverse("login"))
+
+        else:
+            messages.warning(request, "Old password is not correct")
+            return HttpResponseRedirect(reverse("login"))
+
+    return render(request, "Employee/Dashboard/dashboard.html")

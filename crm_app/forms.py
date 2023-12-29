@@ -334,7 +334,10 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_dob": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"},
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
             ),
         }
 
@@ -377,9 +380,6 @@ class EnquiryForm3(forms.ModelForm):
             self.fields["Package"].queryset = Package.objects.all()
 
 
-# ----------------------- Follow Up ---------------------
-
-
 class FollowUpForm(forms.ModelForm):
     class Meta:
         model = FollowUp
@@ -419,4 +419,16 @@ class FollowUpForm(forms.ModelForm):
             "remark": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Remark"}
             ),
+        }
+
+
+class FAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ["question", "answer"]
+        widgets = {
+            "question": forms.Textarea(
+                attrs={"class": "input-item", "placeholder": "Type your question here."}
+            ),
+            "answer": forms.Textarea(attrs={"class": "form-control"}),
         }

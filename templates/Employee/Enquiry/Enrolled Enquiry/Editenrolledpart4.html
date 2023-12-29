@@ -48,60 +48,28 @@
     </div>
   </div>
   <div class="row documentfollow">
-    <div class="col-md-9">
+    <div class="col-md-5">
       <div class="profiledetail-container1">
-
-        <div class="profile-image">
-          <div class="image-contentlead">
-            <div class="initials">RM</div>
-          </div>
-        </div>
-        <div class="detail-name">
-          <div class="lead-name">Case No. :</div>
-          <div class="lead-name">Name:</div>
-          <div class="lead-name">Visa Country:</div>
-          <div class="lead-name">Package Name::</div>
-
-        </div>
-        <div class="detail-values">
-          <div class="detail-documentname">351</div>
-          <div class="detail-documentname">Rajeev Malhotra</div>
-          <div class="detail-documentname">Malta</div>
-          <div class="detail-documentname">Work Permit - ABC</div>
-
-        </div>
-
-
-        <div class="detail-name">
-          <div class="lead-name">Assigned to Agent:</div>
-          <div class="lead-name">Assigned to Employee:</div>
-          <div class="lead-name">Assigned to OP:</div>
-          <div class="lead-name">Assigned to OP:</div>
-
-        </div>
-        <div class="detail-values">
-          <div class="detail-documentinput">
-            <div class="document1-value">Agent 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">Employee 2</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
-
-        </div>
-
+         <div class="profile-image">
+            <div class="image-contentlead">
+               <div class="initials">{{ enq.generate_initials }}</div>
+            </div>
+         </div>
+         <div class="detail-name">
+            <div class="lead-name">Case No. :</div>
+            <div class="lead-name">Name:</div>
+            <div class="lead-name">Visa Country:</div>
+            <div class="lead-name">Package Name:</div>
+         </div>
+         <div class="detail-values">
+            <div class="detail-documentname">{{enq.enquiry_number}}</div>
+            <div class="detail-documentname">{{enq.FirstName}} {{enq.LastName}}</div>
+            <div class="detail-documentname">{{enq.Visa_country}}</div>
+            <div class="detail-documentname">{{enq.Package}}</div>
+         </div>
+         
       </div>
-
-    </div>
-
-
-
-
+   </div>
   </div>
 
   <div class="status-container">

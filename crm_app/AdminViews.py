@@ -5,8 +5,7 @@ from django.contrib import messages
 from .models import *
 from django.urls import reverse
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView , TemplateView
 from django.views import View
 from django.urls import reverse_lazy
 import pandas as pd
@@ -22,13 +21,53 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime
+from django.contrib.auth import authenticate,logout, login as auth_login
 
 ######################################### COUNTRY #################################################
 
 
-@login_required
-def admin_dashboard(request):
-    return render(request, "Admin/Dashboard/dashboard.html")
+class admin_dashboard(LoginRequiredMixin,TemplateView):
+    template_name = "Admin/Dashboard/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        agent_count = Agent.objects.count()
+
+        outsourceagent_count = OutSourcingAgent.objects.count()
+        
+        total_agent_count = agent_count + outsourceagent_count
+
+        employee_count = Employee.objects.count()
+        
+        leadarchive_count = Enquiry.objects.filter(
+            archive="True"
+        ).count()
+        
+        leadaccept_count = Enquiry.objects.filter(
+            Q(lead_status="Enrolled") | Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit") | Q(lead_status="Appointment") | Q(lead_status="Ready To Collection") | Q(lead_status="Result") | Q(lead_status="Delivery")           
+        ).count()
+        
+        leadpending_count = Enquiry.objects.filter(lead_status="PreEnrolled").count()
+        
+        leadtotal_count = Enquiry.objects.all().count()
+        
+        leadnew_count = Enquiry.objects.filter(lead_status="New Lead").count()
+        
+        package = Package.objects.all().order_by("-last_updated_on")[:10]
+        
+        context["total_agent_count"] = total_agent_count
+        context["employee_count"] = employee_count
+        context["leadarchive_count"] = leadarchive_count
+        context["leadaccept_count"] = leadaccept_count
+        context["leadpending_count"] = leadpending_count
+        context["leadtotal_count"] = leadtotal_count
+        context["leadnew_count"] = leadnew_count
+        context["package"] = package
+        
+        return context
+        
+        
 
 
 @login_required
@@ -1551,13 +1590,19 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
         if form.is_valid():
             # Retrieve personal details from session
             enquiry_form1 = request.session.get("enquiry_form1", {})
+            
+            # Safely retrieve spouse_dob and format it if available
+            spouse_dob = form.cleaned_data.get("spouse_dob")
             cleaned_data = {
                 "spouse_name": form.cleaned_data["spouse_name"],
                 "spouse_no": form.cleaned_data["spouse_no"],
                 "spouse_email": form.cleaned_data["spouse_email"],
                 "spouse_passport": form.cleaned_data["spouse_passport"],
-                "spouse_dob": form.cleaned_data["spouse_dob"].strftime("%Y-%m-%d"),
             }
+
+            # Add spouse_dob to cleaned_data if it exists
+            if spouse_dob:
+                cleaned_data["spouse_dob"] = spouse_dob.strftime("%Y-%m-%d")
 
             # Merge personal details with receiver details
             merged_data = {**enquiry_form1, **cleaned_data}
@@ -1721,7 +1766,7 @@ def delete_docfile(request, id):
 
 @login_required
 def admin_new_leads_details(request):
-    enquiry = Enquiry.objects.all()
+    enquiry = Enquiry.objects.all().order_by("-id")
 
     context = {"enquiry": enquiry}
     return render(request, "Admin/Enquiry/lead-details.html", context)
@@ -1785,13 +1830,14 @@ def ChangePassword(request):
                 messages.success(
                     request, "Password changed successfully Please Login Again !!"
                 )
-                return HttpResponseRedirect(reverse("ChangePassword"))
+                return HttpResponseRedirect(reverse("login"))
             else:
                 messages.success(request, "New passwords do not match")
-                return HttpResponseRedirect(reverse("ChangePassword"))
+                return HttpResponseRedirect(reverse("login"))
 
         else:
             messages.warning(request, "Old password is not correct")
+            return HttpResponseRedirect(reverse("login"))
 
     return render(request, "Admin/Dashboard/dashboard.html")
 
@@ -1841,22 +1887,6 @@ class ArchiveListView(LoginRequiredMixin, ListView):
 ############################################## ENROLLED LEADS ##############################################
 
 
-def enrolled1(request):
-    return render(request, "Admin/Enquiry/Enrolled Enquiry/Editenrolledpart1.html")
-
-
-def enrolled2(request):
-    return render(request, "Admin/Enquiry/Enrolled Enquiry/Editenrolledpart2.html")
-
-
-def enrolled3(request):
-    return render(request, "Admin/Enquiry/Enrolled Enquiry/Editenrolledpart3.html")
-
-
-def enrolled4(request):
-    return render(request, "Admin/Enquiry/Enrolled Enquiry/Editenrolledpart4.html")
-
-
 class enrolled_Application(LoginRequiredMixin, ListView):
     model = Enquiry
     template_name = "Admin/Enquiry/Enrolled Enquiry/Enrolledleads.html"
@@ -1899,10 +1929,12 @@ def edit_enrolled_application(request, id):
     enquiry = Enquiry.objects.get(id=id)
     country = VisaCountry.objects.all()
     category = VisaCategory.objects.all()
+    # form = FollowUpForm()
     context = {
         "enquiry": enquiry,
         "country": country,
         "category": category,
+        
     }
 
     if request.method == "POST":
@@ -1912,7 +1944,7 @@ def edit_enrolled_application(request, id):
         try:
             dob_obj = datetime.strptime(dob, "%Y-%m-%d").date()
         except ValueError:
-            dob = None
+            dob_obj = None
 
         gender = request.POST.get("gender")
         maritialstatus = request.POST.get("maritialstatus")
@@ -1925,7 +1957,7 @@ def edit_enrolled_application(request, id):
         try:
             spouse_dob_obj = datetime.strptime(spouse_dob, "%Y-%m-%d").date()
         except ValueError:
-            spouse_dob = None
+            spouse_dob_obj = None
 
         email = request.POST.get("email")
         contact = request.POST.get("contact")
@@ -1944,13 +1976,13 @@ def edit_enrolled_application(request, id):
         try:
             issuedate_obj = datetime.strptime(issuedate, "%Y-%m-%d").date()
         except ValueError:
-            issuedate = None
+            issuedate_obj = None
 
         expirydate = request.POST.get("expirydate")
         try:
             expirydate_obj = datetime.strptime(expirydate, "%Y-%m-%d").date()
         except ValueError:
-            expirydate = None
+            expirydate_obj = None
 
         issue_country = request.POST.get("issuecountry")
         birthcity = request.POST.get("birthcity")
@@ -1968,7 +2000,7 @@ def edit_enrolled_application(request, id):
 
         enquiry.FirstName = firstname
         enquiry.LastName = lastname
-        enquiry.Dob = dob
+        enquiry.Dob = dob_obj
         enquiry.Gender = gender
         enquiry.marital_status = maritialstatus
         if digitalsignature:
@@ -1977,7 +2009,7 @@ def edit_enrolled_application(request, id):
         enquiry.spouse_no = spouse_no
         enquiry.spouse_email = spouse_email
         enquiry.spouse_passport = spouse_passport
-        enquiry.spouse_dob = spouse_dob
+        enquiry.spouse_dob = spouse_dob_obj
         enquiry.email = email
         enquiry.contact = contact
         enquiry.Country = Country
@@ -1986,8 +2018,8 @@ def edit_enrolled_application(request, id):
         enquiry.address = address
 
         enquiry.passport_no = passportnumber
-        enquiry.issue_date = issuedate
-        enquiry.expirty_Date = expirydate
+        enquiry.issue_date = issuedate_obj
+        enquiry.expirty_Date = expirydate_obj
         enquiry.issue_country = issue_country
         enquiry.city_of_birth = birthcity
         enquiry.country_of_birth = country_of_birth
@@ -2014,6 +2046,9 @@ def edit_enrolled_application(request, id):
 @login_required
 def combined_view(request, id):
     enquiry = get_object_or_404(Enquiry, id=id)
+    education_summary = Education_Summary.objects.filter(enquiry_id=enquiry).first
+    work_exp = Work_Experience.objects.filter(enquiry_id=enquiry).first
+    bk_info = Background_Information.objects.filter(enquiry_id=enquiry).first
 
     if request.method == "POST":
         # Education Summary
@@ -2125,12 +2160,22 @@ def combined_view(request, id):
     context = {
         "enquiry": enquiry,
         "test_scores": test_scores,
+        "education_summary":education_summary,
+        "work_exp":work_exp,
+        "bk_info":bk_info
     }
 
     return render(
         request, "Admin/Enquiry/Enrolled Enquiry/Editenrolledpart2.html", context
     )
 
+
+@login_required
+def delete_test_score(request, id):
+    test_score = TestScore.objects.get(id=id)
+    enquiry_id = test_score.enquiry_id.id
+    test_score.delete()
+    return redirect("agent_education_summary", id=enquiry_id)
 
 @login_required
 def editproduct_details(request, id):
@@ -2267,3 +2312,12 @@ def enrolled_delete_docfile(request, id):
 
     doc_id.delete()
     return redirect("enrolled_document", enqq)
+
+
+############################################### LOGOUT #####################################################
+
+
+@login_required
+def admin_logout(request):
+    logout(request)
+    return redirect("/")

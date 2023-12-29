@@ -939,6 +939,7 @@ table.dataTable.no-footer {
 }
 
 
+
 .add-notes-container {
   width: 130px;
   padding: 16px;
@@ -3493,6 +3494,7 @@ background:  #E5E7EB;
 font-size: 12px;
 font-style: normal;
 font-weight: 500;
+border: 1px solid #8A2C0D;
 }
 
 .badge.rounded-pillvisa{

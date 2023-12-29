@@ -1,5 +1,12 @@
 {% extends "Agent/Base/base.html" %}
 {% block main-content %}
+
+<style>
+    .input-item{
+        border: 1px solid #dee2e6 !important;
+    }
+</style>
+
 <div class="form-container">
     <div class="query-conatiner">
         <div class="custom-container">
@@ -43,7 +50,8 @@
     </div>
 
 
-
+    <form action="" method ="POST">
+        {% csrf_token %}
     <div class="resolvedul">
         <div class="resolvedquerycontent1">
             <ul class="list-group">
@@ -58,13 +66,10 @@
                         <p>Ask a question</p>
                     </li>
                 </div>
-                <div class="input-div">
-                    <li class="list-group-item input-item"><input type="text"
-                            placeholder="Type your question here."></li>
-                </div>
+                {{form.question}}
 
                 <li class="list-group-item input-item">
-                    <button class="query-button">Post</button>
+                    <button type="submit" class="query-button">Post</button>
                 </li>
 
             </ul>
@@ -72,6 +77,7 @@
         </div>
 
     </div>
+    </form>
 </div>
 
 {% endblock main-content %}

@@ -229,7 +229,7 @@
                 <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Visa Country</label>
                   <input type="text" value="{{enquiry.id}}" name="enq_id" hidden>
-                  <select class="form-control" name="visacountry_id" id="visacountry">
+                  <select class="form-select" name="visacountry_id" id="visacountry">
                     <option value="Select">Select</option>
                     {% for country in country %}
                     <option value="{{country.id}}" {% if enquiry.Visa_country_id == country.id %}selected{% endif %}>
@@ -242,7 +242,7 @@
 
                 <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Visa Category</label>
-                  <select class="form-control" name="visacategory_id" id="visacategory">
+                  <select class="form-select" name="visacategory_id" id="visacategory">
                     <option value="Select">Select</option>
                     {% for category in category %}
                     <option value="{{category.id}}" {% if enquiry.Visa_category_id == category.id %}selected{% endif %}>
@@ -259,7 +259,7 @@
 
                 <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Visa SubCategory</label>
-                  <select class="form-control" name="visasubcategory" id="visasubcategory">
+                  <select class="form-select" name="visasubcategory" id="visasubcategory">
                     <option value="Select">Select</option>
                     {% for subcategory in category %}
                       <option value="{{subcategory.id}}" {% if enquiry.Visa_category_id == subcategory.id %}selected{% endif%}>{{subcategory.subcategory}}</option>
@@ -270,7 +270,7 @@
 
                 <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Visa Type</label>
-                  <select class="form-control" name="visatype" id="visatype">
+                  <select class="form-select" name="visatype" id="visatype">
 
                     <option value="Single" {% if enquiry.Visa_type == "Single" %}selected{% endif %}>Single</option>
                     <option value="Couple" {% if enquiry.Visa_type == "Couple" %}selected{% endif %}>Couple</option>
