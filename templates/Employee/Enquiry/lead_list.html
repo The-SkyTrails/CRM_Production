@@ -131,12 +131,12 @@
                         <th>Registered on</th>
                         <th>updated on</th>
                         <th>VISA COUNTRY</th>
-                        <th>VISA Category</th>
+                        <th>VISA Category-SubCategory</th>
                        
                         <th>VISA TYPE</th>
                         <th>Package Name</th>
                         <th>CREATED BY</th>
-                        <!-- <th>lead source</th> -->
+                        <th>Assign To</th>
                         <th>LEAD status</th>
                         <th>NOTES</th>
                         <th>Appointment</th>
@@ -169,6 +169,41 @@
                         <td>{{i.Visa_type}}</td>
                         <td>{{i.Package}}</td>
                         <td>{{i.created_by}}</td>
+                        <td>
+                            {% if i.assign_to_employee %}
+                            <b>{{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}}</b>
+                            ({{i.assign_to_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
+                            {% if i.assign_to_sales_employee %}
+                            <b>{{i.assign_to_sales_employee.users.first_name }} {{i.assign_to_sales_employee.users.last_name}}</b>
+                            ({{i.assign_to_sales_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
+                            {% if i.assign_to_documentation_employee %}
+                            <b>{{i.assign_to_documentation_employee.users.first_name }} {{i.assign_to_documentation_employee.users.last_name}}</b>
+                            ({{i.assign_to_documentation_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
+                            {% if i.assign_to_visa_team_employee %}
+                            <b>{{i.assign_to_visa_team_employee.users.first_name }} {{i.assign_to_visa_team_employee.users.last_name}}</b>
+                            ({{i.assign_to_visa_team_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                            
+
+                        </td>
                         <td>
                             
                             {% if i.lead_status == "Active" %}

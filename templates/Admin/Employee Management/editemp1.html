@@ -77,7 +77,7 @@
                      <label class="custom-form-label label-with-margin">Department</label>
                      <input type="text" value="{{employee.users.id}}" name="employee_id"
                         hidden>
-                     <select class="form-control" name="department" id="department">
+                     <select class="form-select" name="department" id="department">
                      <option value="Presales/Assesment" {% if employee.department == "Presales/Assesment" %}selected{% endif %}>Presales/Assesment</option>
                      <option value="Sales" {% if employee.department == "Sales" %}selected{% endif %}>Sales</option>
                      <option value="Documentation" {% if employee.department == "Documentation" %}selected{% endif %}>Documentation</option>
@@ -109,7 +109,7 @@
                  <div class="col-md-4">
                   <div class="form-group">
                      <label class="custom-form-label label-with-margin">Country</label>
-                     <select class="form-control" name="country" id="country">
+                     <select class="form-select" name="country" id="country">
                      <option value="Afghanistan" {% if employee.country == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                      <option value="Albania" {% if employee.country == "Albania" %}selected{% endif %}>Albania</option>
                      <option value="Algeria" {% if employee.country == "Algeria" %}selected{% endif %}>Algeria</option>

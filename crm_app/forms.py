@@ -334,7 +334,7 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_dob": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"},
+                attrs={"class": "form-control", "type": "date",},
             ),
         }
 
@@ -375,3 +375,36 @@ class EnquiryForm3(forms.ModelForm):
             super().__init__(*args, **kwargs)
             # Customize the Package field queryset if needed
             self.fields["Package"].queryset = Package.objects.all()
+
+
+
+class FollowUpForm(forms.ModelForm):
+    class Meta:
+        model = FollowUp
+        fields = ['title', 'description', 'follow_up_status', 'priority', 'calendar', 'time', 'remark']
+        
+        widgets = {
+            'title' : forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Title'}),
+            'description' : forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Description'}),
+            'follow_up_status' : forms.Select(attrs={'class':'form-select'}),
+            'priority' : forms.Select(attrs={'class':'form-select'}),
+            'calendar': forms.DateInput(
+                attrs={'class': 'form-control', 'placeholder': 'Enter Date','type':'date'}),
+            'time': forms.TimeInput(
+                attrs={'class': 'form-control', 'placeholder': 'Enter Time','type':'time'}),
+            'remark' : forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Remark'}),
+        }
+        
+        
+class FAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ['question','answer']
+        widgets = {'question':forms.Textarea(attrs={'class':'input-item','placeholder':"Type your question here."}),
+            'answer':forms.Textarea(attrs={'class':'form-control'})
+        }
+        
+        # <div class="input-div">
+        #             <li class="list-group-item input-item"><input type="text"
+        #                     placeholder="Type your question here."></li>
+        #         </div>

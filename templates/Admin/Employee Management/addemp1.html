@@ -73,7 +73,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Department</label>
-                                <select class="form-control" name="department" id="department">
+                                <select class="form-select" name="department" id="department">
                                     <option value="---------">---------</option>
                                     <option value="Presales/Assesment">Presales/Assesment</option>
                                     <option value="Sales">Sales</option>
@@ -87,7 +87,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Branch</label>
-                                <select class="form-control" name="branch_id" id="branch_id">
+                                <select class="form-select" name="branch_id" id="branch_id">
                                     <option value="">Select</option>
                                     {% for i in branch %}
                                     <option value="{{i.id}}">{{i.branch_name}}</option>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-md-4 ">
                             <label for="exampleFormControlInput1" class="custom-form-label">Group</label>
-                            <select class="form-control" name="group_id" id="group_id">
+                            <select class="form-select" name="group_id" id="group_id">
                                 <option value="">Select</option>
                                     {% for i in group %}
                                     <option value="{{i.id}}">{{i.group_name}}</option>
@@ -140,7 +140,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="custom-form-label label-with-margin">Country</label>
-                                <select class="form-control" name="country" id="country">
+                                <select class="form-select" name="country" id="country">
 
                                     <option value="Afghanistan">Afghanistan</option>
                                     <option value="Albania">Albania</option>

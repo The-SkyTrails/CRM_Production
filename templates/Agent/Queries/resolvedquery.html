@@ -35,12 +35,13 @@
                 <div class="custom-text">Queries</div>
             </div>
             <div class="askquestion">
-                <div class="question-text"><a href="{% url "agent_add_query" %}" class="question-text" style="text-decoration:none;">Ask a Question</a></div>
+                <div class="question-text"><a href="{% url "Agent_addfaq" %}" class="question-text" style="text-decoration:none;">Ask a Question</a></div>
             </div>
         </div>
    
     <div class="querytab-box">
         <div class="QuerytabBox">
+            <a href="{% url "resolved_queries" %}">
             <div class="tab1">
                
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -48,10 +49,11 @@
                   </svg>
                 Resolved Queries
             </div>
+        </a>
             <hr>
-            <a href="{% url "view_query" %}">
+            <a href="{% url "pending_queries" %}">
                 <div class="tab2">
-                <div class="pendingquery">Pending Queries <span class="badge bg-success rounded-pill">4</span></div>
+                <div class="pendingquery">Pending Queries <span class="badge bg-success rounded-pill">{{pending_queries_count}}</span></div>
                 <!-- <div class="queryvlaue">1</div> -->
             </div>
             </a>
@@ -61,33 +63,22 @@
        </div>
 
        <div class="resolvedul">
+        {% for i in resolved_queries %}
         <div class="resolvedquerycontent1">
             <ul class="list-group">
                 <div class="list-item">
                     <li class="list-group-item item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                         <path d="M9.72432 18.5C9.46319 18.5011 9.21203 18.3907 9.02454 18.1924L4.30195 13.193C4.20782 13.0927 4.13272 12.9732 4.08092 12.8413C4.02912 12.7094 4.00165 12.5676 4.00007 12.4241C3.99689 12.1343 4.09936 11.8549 4.28496 11.6475C4.47055 11.4401 4.72407 11.3217 4.98972 11.3182C5.25538 11.3147 5.51143 11.4265 5.70153 11.629L9.72832 15.8901L18.2978 6.81057C18.4881 6.60809 18.7444 6.49641 19.0103 6.50009C19.2761 6.50377 19.5297 6.62251 19.7153 6.8302C19.9009 7.03788 20.0033 7.3175 19.9999 7.60752C19.9965 7.89755 19.8877 8.17424 19.6973 8.37672L10.4241 18.1924C10.2366 18.3907 9.98546 18.5011 9.72432 18.5Z" fill="#0E9F6E"/>
-                        </svg><p>Where can I see all my leads?</p></li>
+                        </svg><p>{{i.question}}</p></li>
                 </div>
                 
-                <li class="list-group-item">All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar. All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.</li>
+                <li class="list-group-item">{{i.answer}}</li>
                
-              </ul>
+            </ul>
               
         </div>
-
-        <div class="resolvedquerycontent1">
-            <ul class="list-group">
-                <div class="list-item">
-                    <li class="list-group-item item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                        <path d="M9.72432 18.5C9.46319 18.5011 9.21203 18.3907 9.02454 18.1924L4.30195 13.193C4.20782 13.0927 4.13272 12.9732 4.08092 12.8413C4.02912 12.7094 4.00165 12.5676 4.00007 12.4241C3.99689 12.1343 4.09936 11.8549 4.28496 11.6475C4.47055 11.4401 4.72407 11.3217 4.98972 11.3182C5.25538 11.3147 5.51143 11.4265 5.70153 11.629L9.72832 15.8901L18.2978 6.81057C18.4881 6.60809 18.7444 6.49641 19.0103 6.50009C19.2761 6.50377 19.5297 6.62251 19.7153 6.8302C19.9009 7.03788 20.0033 7.3175 19.9999 7.60752C19.9965 7.89755 19.8877 8.17424 19.6973 8.37672L10.4241 18.1924C10.2366 18.3907 9.98546 18.5011 9.72432 18.5Z" fill="#0E9F6E"/>
-                        </svg><p>Where can I see all my leads?</p></li>
-                </div>
-                
-                <li class="list-group-item item-content">All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar. All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.All your leads are visible on the main dashboard, for more details you can see the leads section present in the navigation bar.</li>
-               
-              </ul>
-              
-        </div>
+        {% endfor %}
+       
        </div>
     </div>
     {% endblock main-content %}

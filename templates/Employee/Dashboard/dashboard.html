@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="second-div">                
-            <p>64</p>
+            <p>{{agent_count}}</p>
           </div>
         </div>
       </div>        
@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="second-div">                
-              <p>112</p>
+              <p>{{outsourceagent_count}}</p>
             </div>
           </div>
         </div>
@@ -49,15 +49,15 @@
           <div class="col-lg-4 col-md-6 col-4 p-1">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class=" cases">18</h5>
-                <p class="card-text textcase">Cases Initiated</p>
+                <h5 class=" cases">{{leadcomplete_count}}</h5>
+                <p class="card-text textcase">Cases Completed</p>
               </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 col-4 p-1">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg1">
-                <h5 class="cases1">5</h5>
+                <h5 class="cases1">{{leadaccept_count}}</h5>
                 <p class="card-text textcase1 ">Enrolled</p>
                 
               </div>
@@ -66,7 +66,7 @@
           <div class="col-lg-4 col-md-12 col-4 p-1">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class=" cases2">10</h5>
+                <h5 class=" cases2">{{leadpending_count}}</h5>
                 <p class="card-text textcase2">Pending</p>
               </div>
             </div>
@@ -76,7 +76,7 @@
           <div class="col-md-6 col-6 p-1">
             <div class="card mb-3">
               <div class="card-body bg3">
-                <h5 class=" cases5" > 18</h5>
+                <h5 class=" cases5" >{{lead_count}}</h5>
                 <p class="card-text textcase3">Total</p>
               </div>
             </div>
@@ -84,18 +84,20 @@
           <div class="col-md-6 col-6 p-1">
             <div class="card mb-3">
               <div class="card-body bg4">
-                <h5 class=" cases6"> 5</h5>
+                <h5 class=" cases6">{{leadnew_count}}</h5>
                 <p class="card-text textcase4">New</p>
               </div>
             </div>
           </div>
         </div>
         <div class="leadss">
-          <div class="leadstotal">ALL LEADS
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svgg" viewBox="0 0 10 11" fill="none">
-              <path d="M3.89463 8.41666C3.78499 8.41664 3.67781 8.38245 3.58666 8.31843C3.4955 8.25441 3.42446 8.16343 3.3825 8.05698C3.34055 7.95054 3.32957 7.83342 3.35095 7.72042C3.37234 7.60742 3.42512 7.50361 3.50264 7.42213L5.32841 5.50357L3.50264 3.58502C3.44968 3.53127 3.40744 3.46698 3.37839 3.3959C3.34933 3.32482 3.33403 3.24837 3.33339 3.17101C3.33276 3.09365 3.34678 3.01693 3.37466 2.94533C3.40254 2.87373 3.44371 2.80868 3.49577 2.75397C3.54782 2.69927 3.60973 2.65601 3.67787 2.62671C3.74601 2.59742 3.81901 2.58268 3.89263 2.58335C3.96625 2.58402 4.039 2.60009 4.10665 2.63063C4.17429 2.66116 4.23547 2.70555 4.28662 2.76119L6.50437 5.09166C6.60832 5.20092 6.66671 5.34909 6.66671 5.50357C6.66671 5.65806 6.60832 5.80623 6.50437 5.91548L4.28662 8.24595C4.18266 8.35522 4.04166 8.41663 3.89463 8.41666Z" fill="#1A56DB" />
-            </svg>
-          </div>
+          <a href="{% url "employee_lead_list" %}">
+            <div class="leadstotal">ALL LEADS
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svgg" viewBox="0 0 10 11" fill="none">
+                <path d="M3.89463 8.41666C3.78499 8.41664 3.67781 8.38245 3.58666 8.31843C3.4955 8.25441 3.42446 8.16343 3.3825 8.05698C3.34055 7.95054 3.32957 7.83342 3.35095 7.72042C3.37234 7.60742 3.42512 7.50361 3.50264 7.42213L5.32841 5.50357L3.50264 3.58502C3.44968 3.53127 3.40744 3.46698 3.37839 3.3959C3.34933 3.32482 3.33403 3.24837 3.33339 3.17101C3.33276 3.09365 3.34678 3.01693 3.37466 2.94533C3.40254 2.87373 3.44371 2.80868 3.49577 2.75397C3.54782 2.69927 3.60973 2.65601 3.67787 2.62671C3.74601 2.59742 3.81901 2.58268 3.89263 2.58335C3.96625 2.58402 4.039 2.60009 4.10665 2.63063C4.17429 2.66116 4.23547 2.70555 4.28662 2.76119L6.50437 5.09166C6.60832 5.20092 6.66671 5.34909 6.66671 5.50357C6.66671 5.65806 6.60832 5.80623 6.50437 5.91548L4.28662 8.24595C4.18266 8.35522 4.04166 8.41663 3.89463 8.41666Z" fill="#1A56DB" />
+              </svg>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -135,247 +137,45 @@
   <div class="slide-container swiper">
       <div class="slide-content">
           <div class="card-wrapper swiper-wrapper">
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                      <span class="overlay"></span>
-
-                      <div class="card-image">
-                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class=" card-img-top">
-                      </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                      <span class="overlay"></span>
-
-                      <div class="card-image">
-                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
-                      </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                      <span class="overlay"></span>
-
-                      <div class="card-image">
-                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
-                      </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
+            {% for i in package  %}
+            <div class="card swiper-slide">
+                <div class="images-content">
                     <span class="overlay"></span>
 
-                    <div class="card-image">
-                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
+                    <div class="card-image1">
+                      {% if i.image %}	
+                        <img src="{{ i.image.url }}" alt="Owl Image" class="card-img">
+                      {% else %}
+                        <img src="{% static "style/Styling\DashboardDesign\images\card-header.png" %}" alt="" class="card-img">
+                      {% endif %}
+                      </div>
+                </div>
+
+                <div class="card-body1">
+                    <h5 class="card-title">{{i.title}}</h5>
+                    <p class="card-text">Category: <Span class="txt">{{i.visa_category}}</Span></p>
+                    <p class="card-text">No. Of Visa :<Span  class="txt">{{i.number_of_visa}}</Span></p>
+                    <p class="card-text">Expiry Date: <Span  class="txt">{{i.package_expiry_date}}</Span></p>
+                  </div>
+                  <div class="Button">
+                    <div class="Text">Apply Now</div>
+                    <div class="ArrowRight">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="21"
+                        viewBox="0 0 20 21"
+                        fill="none"
+                      >
+                        <path
+                          d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                          fill="white"
+                        />
+                      </svg>
                     </div>
                   </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                    <span class="overlay"></span>
-
-                    <div class="card-image">
-                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
-                    </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                    <span class="overlay"></span>
-
-                    <div class="card-image">
-                        <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
-                    </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">honey Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-              <div class="card swiper-slide">
-                  <div class="image-content">
-                    
-                     <span class="overlay"></span>
-
-                      <div class="card-image">
-                          <img src="{% static "style/Styling/DashboardDesign/images/card-header.png" %}" alt="" class="card-img">
-                      </div>
-                  </div>
-
-                  <div class="card-body">
-                      <h5 class="card-title">Farm Seasonal Worker1</h5>
-                      <p class="txt">Country: <Span class="txt">USA</Span></p>
-                      <p class="txt">Category: <Span class="txt">Work Permit - Worker</Span></p>
-                      <p class="txt">No. Of Visa :<Span  class="txt">50</Span></p>
-                      <p class="txt">Expiry Date: <Span  class="txt">31-03-2024</Span></p>
-                    </div>
-                    <div class="Button">
-                      <div class="Text">Apply Now</div>
-                      <div class="ArrowRight">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
-                          viewBox="0 0 20 21"
-                          fill="none"
-                        >
-                          <path
-                            d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-              </div>
-             
-              
+            </div>
+          {% endfor %}
           </div>
       </div>
 

@@ -101,9 +101,9 @@
 
 
 
-    <div class="container">
+    {% comment %} <div class="container">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-color" type="button" data-toggle="modal" data-target="#followUpModal1">
+        <button class="btn btn-color" type="button" data-toggle="modal" data-target="#followUpModal1-{{enquiry.id}}">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path
               d="M16.3028 4.303C16.5242 4.07378 16.789 3.89094 17.0818 3.76516C17.3746 3.63938 17.6896 3.57317 18.0082 3.5704C18.3269 3.56763 18.6429 3.62836 18.9379 3.74903C19.2329 3.86971 19.5008 4.04791 19.7262 4.27326C19.9515 4.4986 20.1297 4.76656 20.2504 5.06151C20.3711 5.35647 20.4318 5.6725 20.429 5.99117C20.4262 6.30984 20.36 6.62477 20.2343 6.91757C20.1085 7.21038 19.9256 7.47521 19.6964 7.6966L18.7448 8.6482L15.3512 5.2546L16.3028 4.303ZM13.6544 6.9514L3.59961 17.0062V20.3998H6.99321L17.0492 10.345L13.6532 6.9514H13.6544Z"
@@ -111,95 +111,10 @@
           </svg>Create Follow Up
         </button>
       </div>
-    </div>
+    </div> {% endcomment %}
 
     <!-- Bootstrap Modal -->
-    <div class="modal" id="followUpModal1" tabindex="-1" role="dialog" aria-labelledby="followUpModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="followUpModalLabel">Create Follow Up</h5>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-
-            </button>
-          </div>
-          <hr>
-          <div class="modal-body">
-            <div class="row formrow">
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Title</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
-              </div>
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Enter Description</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
-              </div>
-
-            </div>
-            <div class="row formrow">
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Date</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
-              </div>
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Time</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
-              </div>
-
-            </div>
-            <div class="row formrow">
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Status</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
-              </div>
-              <div class="col-md-6">
-                <label for="exampleFormControlInput1" class="custom-form-label">Priority</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
-              </div>
-
-            </div>
-            <div class="row formrow">
-              <div class="col-md-12">
-                <div class="row">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Add Notes :</label>
-                  <div class="notes-container">
-                    <div class="notes-content">
-                      <div class="notes-text">
-                        <div class="notes-text-inner">
-                          Add your notes here
-                        </div>
-                      </div>
-
-
-                    </div>
-                    <div class="notes-indicator">
-                      <div class="indicator-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M8.00016 3.33333V8M8.00016 8V12.6667M8.00016 8H12.6668M8.00016 8H3.3335"
-                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-          <hr>
-          <div class="modal-footer">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-
-              <button class="btn btn-color" type="submit">Confirm
-
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% comment %} {% include "Admin/Enquiry/Enrolled Enquiry/addfollowup_modal.html" %} {% endcomment %}
   </div>
 
   <div class="status-container">
@@ -371,21 +286,13 @@
                                                                             {% endif %}
 
                     </div>
-                    <!-- <div class="file-size"></div> -->
+                    
                   </div>
                   <div class="upload-button">
                     <input id="image" type="file"
                                                             accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf"
                                                              multiple name="digitalsignature">
-                    <!-- <label for="fileInput" class="notes-button-text">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none"
-                        style="margin-left: 3px;">
-                        <path
-                          d="M9.9046 9.39105L9.6597 9.73549L9.95854 10.0343L13.8084 13.8841C13.8615 13.9405 13.8909 14.0152 13.8903 14.0928C13.8896 14.1714 13.858 14.2467 13.8024 14.3023L14.156 14.6558L13.8024 14.3023C13.7468 14.3579 13.6715 14.3895 13.5929 14.3901C13.5153 14.3908 13.4406 14.3614 13.3842 14.3082L9.53525 10.4592L9.23639 10.1604L8.89195 10.4053C8.24864 10.8627 7.49183 11.1343 6.70445 11.1901C5.91707 11.246 5.1295 11.0841 4.42805 10.722C3.72659 10.36 3.13832 9.81191 2.7277 9.13776L2.30068 9.39786L2.7277 9.13776C2.31708 8.46361 2.09994 7.68944 2.1001 6.90008L2.1001 6.89991C2.10001 6.22317 2.25966 5.55596 2.56605 4.95255C2.87245 4.34913 3.31694 3.82656 3.86338 3.42732C4.40982 3.02809 5.04278 2.76347 5.71077 2.65498C6.37876 2.54649 7.06293 2.5972 7.70763 2.80298C8.35233 3.00877 8.93936 3.36381 9.42097 3.83924C9.90258 4.31468 10.2652 4.89707 10.4793 5.53906C10.6933 6.18105 10.7529 6.86451 10.653 7.53384C10.5532 8.20318 10.2967 8.8395 9.9046 9.39105ZM6.4001 3.19998C5.4188 3.19998 4.47769 3.5898 3.7838 4.28368C3.08992 4.97757 2.7001 5.91868 2.7001 6.89998C2.7001 7.88128 3.08992 8.82239 3.7838 9.51627C4.47769 10.2102 5.4188 10.6 6.4001 10.6C7.3814 10.6 8.32251 10.2102 9.01639 9.51627C9.71028 8.82239 10.1001 7.88128 10.1001 6.89998C10.1001 5.91868 9.71028 4.97757 9.01639 4.28368C8.32251 3.5898 7.3814 3.19998 6.4001 3.19998Z"
-                          fill="white" stroke="#071C2C" />
-                      </svg>
-                      Choose File
-                    </label> -->
+                    
                   </div>
                 </div>
 
@@ -485,7 +392,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Country</label>
-                <select class="form-control" name="Country" id="Country">
+                <select class="form-select" name="Country" id="Country">
     
                   <option value="Afghanistan" {% if enquiry.Country == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.Country == "Albania" %}selected{% endif %}>Albania</option>
@@ -876,7 +783,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Issue Country</label>
-                <select class="form-control" name="issuecountry" id="country">
+                <select class="form-select" name="issuecountry" id="country">
     
                   <option value="Afghanistan" {% if enquiry.issue_country == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.issue_country == "Albania" %}selected{% endif %}>Albania</option>
@@ -1203,7 +1110,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Country of Birth</label>
-                <select class="form-control" name="country_of_birth" id="country">
+                <select class="form-select" name="country_of_birth" id="country">
     
                   <option value="Afghanistan" {% if enquiry.country_of_birth == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.country_of_birth == "Albania" %}selected{% endif %}>Albania</option>
@@ -1537,7 +1444,7 @@
             <div class="row formrow">
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Nationality</label>
-                <select class="form-control" name="nationality" id="country">
+                <select class="form-select" name="nationality" id="country">
     
                   <option value="Afghanistan" {% if enquiry.nationality == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.nationality == "Albania" %}selected{% endif %}>Albania</option>
@@ -1855,7 +1762,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Citizenship</label>
-                <select class="form-control" name="citizenships" id="country">
+                <select class="form-select" name="citizenships" id="country">
     
                   <option value="Afghanistan" {% if enquiry.citizenship == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.citizenship == "Albania" %}selected{% endif %}>Albania</option>
@@ -2217,7 +2124,7 @@
             <div class="row formrow">
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Nationality</label>
-                <select class="form-control" name="more_than_one_country" id="nationality">
+                <select class="form-select" name="more_than_one_country" id="nationality">
     
                   <option value="Afghanistan" {% if enquiry.more_than_one_country == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.more_than_one_country == "Albania" %}selected{% endif %}>Albania</option>
@@ -2535,7 +2442,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Citizenship</label>
-                <select class="form-control" name="studyin_in_other_country" id="citizen">
+                <select class="form-select" name="studyin_in_other_country" id="citizen">
     
                   <option value="Afghanistan" {% if enquiry.studyin_in_other_country == "Afghanistan" %}selected{% endif %}>Afghanistan</option>
                   <option value="Albania" {% if enquiry.studyin_in_other_country == "Albania" %}selected{% endif %}>Albania</option>

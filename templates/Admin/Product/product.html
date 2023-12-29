@@ -57,7 +57,7 @@
     {% for i in Package  %}
     <div class="col-md-4" style="margin-bottom:4px;">
       <div class="card">
-        <a href="{% url "agent_product_details" %}">
+        <a href="{% url "package_detail" i.id %}">
           {% if i.image %}
            <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image"/>
           {% else %}

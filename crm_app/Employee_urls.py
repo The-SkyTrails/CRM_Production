@@ -2,11 +2,8 @@ from django.urls import path, include
 from .EmployeeViews import *
 
 urlpatterns = [
-    path("Dashboard/", employee_dashboard, name="employee_dashboard"),
-    path("Profile/", employee_profile, name="employee_profile"),
-    path("Query/List/", employee_query_list, name="employee_query_list"),
-    path("Pending/Query/", employee_pending_query, name="employee_pending_query"),
-    path("FollowUp/List/", employee_followup_list, name="employee_followup_list"),
+    path("Dashboard/", employee_dashboard.as_view(), name="employee_dashboard"),
+    
     path("AddEnquiry/", emp_Enquiry1View.as_view(), name="emp_enquiry_form1"),
     path("AddEnquiry2/", emp_Enquiry2View.as_view(), name="emp_enquiry_form2"),
     path("AddEnquiry3/", emp_Enquiry3View.as_view(), name="emp_enquiry_form3"),
@@ -62,4 +59,9 @@ urlpatterns = [
         name="appointment_done",
     ),
     path("AddNotes/", emp_add_notes, name="emp_add_notes"),
+    
+    
+    path('logout', employee_logout,name="employee_logout"),
+    
+    path('ChangePassword',ChangePassword,name="EmployeeChangePassword"),
 ]

@@ -30,26 +30,26 @@
          
          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <div class="Avatar">
-             <div class="Ph">HS</div>
+             <div class="Ph">{{request.user.generate_initials}}</div>
            </div>
          </a>
            <ul class="dropdown-menu menusss " style="border: none;" aria-labelledby="navbarDropdown">
              <div class=" w-36 h-36 rounded-md shadow d-flex flex-column justify-content-end inline-flex">
                  <div class="NavItem  px-4 py-3 d-flex flex-column ">
-                     <div class="name">Harpreet Singh Devgun</div>
-                     <div class="textss">hsd@theskytrails.com</div>
-                     <div class="textss">+91 9999210101</div>
+                     <div class="name">{{request.user}}</div>
+                     <div class="textss">{{request.user.email}}</div>
+                     <div class="textss">{{request.user.admin.contact_no}}</div>
                      
                   </div>  
 
                   <hr class="passwordborder">
-                  <div class="px-3">Password Settings</div>
+                  <div class="px-3" data-toggle="modal" data-target="#updatePasswordModal">Password Settings</div>
                   <hr class="passwordborder">
                   
                   
                  <div class="NavItem itemnav self-stretch h-12  d-flex flex-column justify-content-start align-items-start">
                     
-                   <a href="" style="border: none;"><div class="NavLink self-stretch px-4  justify-content-start align-items-center gap-2 d-inline-flex">
+                   <a href="{% url "admin_logout" %}" style="border: none;"><div class="NavLink self-stretch px-4  justify-content-start align-items-center gap-2 d-inline-flex">
                      <div class="Logout w-6 h-6 position-relative">
                          <div class="d-flex"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                              <mask id="mask0_18_2657" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
@@ -71,3 +71,4 @@
      </div>
    </div>
  </div>
+ {% include "Admin/Password Settings/updatepassword.html" %}

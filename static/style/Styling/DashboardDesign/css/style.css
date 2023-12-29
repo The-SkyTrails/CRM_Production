@@ -70,6 +70,15 @@ body {
   /* border-radius: 50%;
   border: 4px solid #4070F4; */
 }
+
+.card-image1 .card-img{
+  height: 195px;
+  width: 318px;
+  object-fit: cover;
+  /* border-radius: 50%;
+  border: 4px solid #4070F4; */
+}
+
 .name{
   font-size: 18px;
   font-weight: 500;

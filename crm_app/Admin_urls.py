@@ -3,7 +3,7 @@ from django.urls import path, include
 from .AdminViews import *
 
 urlpatterns = [
-    path("Dashboard/", admin_dashboard, name="admin_dashboard"),
+    path("Dashboard/", admin_dashboard.as_view(), name="admin_dashboard"),
     path("Profile/", admin_profile, name="admin_profile"),
     path("AddVisaCountry/", add_visacountry, name="add_visacountry"),
     path("VisaCountry/update/", visacountryupdate_view, name="visacountryupdate_view"),
@@ -107,9 +107,12 @@ urlpatterns = [
     
     path('edit/Enrolled/Application/<int:id>',edit_enrolled_application,name="edit_enrolled_application"),
     path('Educaion/Summary/<int:id>',combined_view,name="education_summary"),
+    path('Test/Score/Delete/<int:id>',delete_test_score,name="delete_test_score"),
     path('Product/<int:id>',editproduct_details,name="edit_product_details"),
     path("enrolled_document/<int:id>/", enrolleddocument, name="enrolled_document"),
     path("enrolledUploaddocument/", enrolled_upload_document, name="enrolleduploaddocument"),
     path("Delete/enrolledUploadFile/<int:id>", enrolled_delete_docfile, name="enrolleddocfile"),
+    
+    path('logout',admin_logout,name="admin_logout"),
     
 ]
