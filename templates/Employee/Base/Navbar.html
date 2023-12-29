@@ -136,12 +136,13 @@
                
               </ul>
           </li> {% endcomment %}
+          {% if dep == "Sales" %}
           <li class="nav-item dropdown">
             <a class="nav-link navitem dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Agent
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#"><div class="NavLink">
+                <li><a class="dropdown-item" href="{% url "emp_add_agent" %}"><div class="NavLink">
                   <div class="AddUser">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                         <path d="M6.375 9.10526C8.23896 9.10526 9.75 7.5147 9.75 5.55263C9.75 3.59057 8.23896 2 6.375 2C4.51104 2 3 3.59057 3 5.55263C3 7.5147 4.51104 9.10526 6.375 9.10526Z" fill="#014451"/>
@@ -152,7 +153,7 @@
                   <div class="dropText">Add Agent</div>
                 </div></a></li>
                
-                <li><a class="dropdown-item" href="#"
+                <li><a class="dropdown-item" href="{% url "emp_agent_list" %}"
                   ><div class="NavLink">
                     <div class="AddUser">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
@@ -172,6 +173,7 @@
                
               </ul>
           </li>
+          {% endif %}
           {% comment %} <li class="nav-item dropdown">
             <a class="nav-link navitem dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Master Module

@@ -375,3 +375,48 @@ class EnquiryForm3(forms.ModelForm):
             super().__init__(*args, **kwargs)
             # Customize the Package field queryset if needed
             self.fields["Package"].queryset = Package.objects.all()
+
+
+# ----------------------- Follow Up ---------------------
+
+
+class FollowUpForm(forms.ModelForm):
+    class Meta:
+        model = FollowUp
+        fields = [
+            "title",
+            "description",
+            "follow_up_status",
+            "priority",
+            "calendar",
+            "time",
+            "remark",
+        ]
+
+        widgets = {
+            "title": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Title"}
+            ),
+            "description": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Description"}
+            ),
+            "follow_up_status": forms.Select(attrs={"class": "form-select"}),
+            "priority": forms.Select(attrs={"class": "form-select"}),
+            "calendar": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Date",
+                    "type": "date",
+                }
+            ),
+            "time": forms.TimeInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Time",
+                    "type": "time",
+                }
+            ),
+            "remark": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Remark"}
+            ),
+        }

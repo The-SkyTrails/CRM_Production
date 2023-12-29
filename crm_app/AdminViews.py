@@ -841,7 +841,8 @@ def add_agent(request):
                     user_type="5",
                 )
                 logged_in_user = request.user
-
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                sales_team_employees = Employee.objects.filter(department="Sales")
                 user.outsourcingagent.type = type
                 user.outsourcingagent.contact_no = contact
                 user.outsourcingagent.country = country
@@ -851,6 +852,14 @@ def add_agent(request):
                 user.outsourcingagent.zipcode = zipcode
                 user.outsourcingagent.profile_pic = files
                 user.outsourcingagent.registerdby = logged_in_user
+                if sales_team_employees.exists():
+                    next_index = (
+                        last_assigned_index + 1
+                    ) % sales_team_employees.count()
+                    user.outsourcingagent.assign_employee = sales_team_employees[
+                        next_index
+                    ]
+                    cache.set("last_assigned_index", next_index)
                 user.save()
 
                 subject = "Congratulations! Your Account is Created"
@@ -898,6 +907,8 @@ def add_agent(request):
                     user_type="4",
                 )
                 logged_in_user = request.user
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                sales_team_employees = Employee.objects.filter(department="Sales")
 
                 user.agent.type = type
                 user.agent.contact_no = contact
@@ -908,6 +919,12 @@ def add_agent(request):
                 user.agent.zipcode = zipcode
                 user.agent.profile_pic = files
                 user.agent.registerdby = logged_in_user
+                if sales_team_employees.exists():
+                    next_index = (
+                        last_assigned_index + 1
+                    ) % sales_team_employees.count()
+                    user.agent.assign_employee = sales_team_employees[next_index]
+                    cache.set("last_assigned_index", next_index)
                 user.save()
 
                 context = {

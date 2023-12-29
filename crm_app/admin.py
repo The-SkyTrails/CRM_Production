@@ -24,7 +24,7 @@ class AgentAdmin(admin.ModelAdmin):
     list_filter = [
         "users",
     ]
-    list_display = ["users", "contact_no"]
+    list_display = ["users", "contact_no", "assign_employee"]
     search_fields = ["users"]
     list_per_page = 10
 
@@ -33,7 +33,7 @@ class OutsourceAdmin(admin.ModelAdmin):
     list_filter = [
         "users",
     ]
-    list_display = ["users", "contact_no"]
+    list_display = ["users", "contact_no", "assign_employee"]
     search_fields = ["users"]
     list_per_page = 10
 

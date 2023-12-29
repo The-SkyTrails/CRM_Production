@@ -7,36 +7,54 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.db.models import Prefetch
 import requests
+from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
+from django.core.mail import send_mail
+from datetime import datetime
+from django.utils import timezone
 
 
 def employee_dashboard(request):
-    return render(request, "Employee/Dashboard/dashboard.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Dashboard/dashboard.html", context)
 
 
 def employee_profile(request):
-    return render(request, "Employee/Profile/Profile.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Profile/Profile.html", context)
 
 
 def employee_query_list(request):
-    return render(request, "Employee/Queries/querieslist.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Queries/querieslist.html", context)
 
 
 def employee_pending_query(request):
-    return render(request, "Employee/Queries/pending_query.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Queries/pending_query.html", context)
 
 
 def employee_followup_list(request):
-    return render(request, "Employee/FollowUp/followup_list.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/FollowUp/followup_list.html", context)
 
 
 class emp_Enquiry1View(CreateView):
     def get(self, request):
         form = EnquiryForm1()
-        return render(
-            request,
-            "Employee/Enquiry/lead1.html",
-            {"form": form},
-        )
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/lead1.html", context)
 
     def post(self, request):
         form = EnquiryForm1(request.POST)
@@ -64,11 +82,10 @@ class emp_Enquiry1View(CreateView):
 class emp_Enquiry2View(CreateView):
     def get(self, request):
         form = EnquiryForm2()
-        return render(
-            request,
-            "Employee/Enquiry/lead2.html",
-            {"form": form},
-        )
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/lead2.html", context)
 
     def post(self, request):
         form = EnquiryForm2(request.POST)
@@ -100,11 +117,10 @@ class emp_Enquiry2View(CreateView):
 class emp_Enquiry3View(CreateView):
     def get(self, request):
         form = EnquiryForm3()
-        return render(
-            request,
-            "Employee/Enquiry/lead3.html",
-            {"form": form},
-        )
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/lead3.html", context)
 
     def post(self, request):
         form1_data = request.session.get("enquiry_form1", {})
@@ -192,6 +208,8 @@ def get_presale_employee():
 def empdocument(request, id):
     enq = Enquiry.objects.get(id=id)
     document = Document.objects.all()
+    user = request.user
+    dep = user.employee.department
 
     doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
 
@@ -220,6 +238,7 @@ def empdocument(request, id):
         "enq": enq,
         "grouped_documents": grouped_documents,
         "doc_file": doc_file,
+        "dep": dep,
     }
 
     return render(request, "Employee/Enquiry/lead4.html", context)
@@ -272,6 +291,7 @@ def emp_delete_docfile(request, id):
 
 def employee_lead_list(request):
     user = request.user
+
     if user.is_authenticated:
         if user.user_type == "3":
             emp = user.employee
@@ -294,31 +314,52 @@ def employee_lead_list(request):
 
 
 def employee_lead_grid(request):
-    return render(request, "Employee/Enquiry/lead-grid.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/lead-grid.html", context)
 
 
 def employee_lead_details(request):
-    return render(request, "Employee/Enquiry/lead-details.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/lead-details.html", context)
 
 
 def employee_other_details(request):
-    return render(request, "Employee/Enquiry/other-details.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/other-details.html", context)
 
 
 def employee_product_selection(request):
-    return render(request, "Employee/Enquiry/Product-Selection.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/Product-Selection.html", context)
 
 
 def employee_lead_documents(request):
-    return render(request, "Employee/Enquiry/documents.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/documents.html", context)
 
 
 def employee_enrolled_lead(request):
-    return render(request, "Employee/Enquiry/Enrolledleads.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/Enrolledleads.html", context)
 
 
 def employee_enrolled_grid(request):
-    return render(request, "Employee/Enquiry/enroll_lead-grid.html")
+    user = request.user
+    dep = user.employee.department
+    context = {"dep": dep}
+    return render(request, "Employee/Enquiry/enroll_lead-grid.html", context)
 
 
 # --------------------------------------------------------------
@@ -547,3 +588,947 @@ def emp_add_notes(request):
             pass
 
     return redirect("employee_lead_list")
+
+
+# ------------------------------------------ AGent Details --------------------------
+
+
+def emp_add_agent(request):
+    logged_in_user = request.user
+    relevant_employees = Employee.objects.all()
+    user = request.user
+    print("user", user)
+    dep = user.employee.department
+
+    if request.method == "POST":
+        type = request.POST.get("type")
+
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        password = request.POST.get("password")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        zipcode = request.POST.get("zipcode")
+        files = request.FILES.get("files")
+
+        existing_agent = CustomUser.objects.filter(username=email)
+
+        try:
+            if existing_agent:
+                messages.warning(request, f'"{email}" already exists.')
+                return redirect("emp_add_agent")
+
+            if type == "Outsourcing Partner":
+                user = CustomUser.objects.create_user(
+                    username=email,
+                    first_name=firstname,
+                    last_name=lastname,
+                    email=email,
+                    password=password,
+                    user_type="5",
+                )
+                logged_in_user = request.user
+
+                user.outsourcingagent.type = type
+                user.outsourcingagent.contact_no = contact
+                user.outsourcingagent.country = country
+                user.outsourcingagent.state = state
+                user.outsourcingagent.City = city
+                user.outsourcingagent.Address = address
+                user.outsourcingagent.zipcode = zipcode
+                user.outsourcingagent.profile_pic = files
+                user.outsourcingagent.registerdby = logged_in_user
+                user.outsourcingagent.assign_employee = logged_in_user.employee
+
+                user.save()
+
+                subject = "Congratulations! Your Account is Created"
+                message = (
+                    f"Hello {firstname} {lastname},\n\n"
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+
+                recipient_list = [email]
+
+                send_mail(
+                    subject, message, from_email=None, recipient_list=recipient_list
+                )
+
+                mobile_number = contact
+                print("mobileeeee nobumber", mobile_number)
+                message = (
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+                response = send_whatsapp_message(mobile_number, message)
+                if response.status_code == 200:
+                    print("workinggggggggggggggggg")
+                else:
+                    print("nooooooooooot workingggggggggggg")
+
+                messages.success(request, "OutSource Agent Added Successfully")
+                return redirect("emp_all_outsource_agent")
+
+            else:
+                user = CustomUser.objects.create_user(
+                    username=email,
+                    first_name=firstname,
+                    last_name=lastname,
+                    email=email,
+                    password=password,
+                    user_type="4",
+                )
+                logged_in_user = request.user
+                print("hello userss", logged_in_user)
+                user.agent.type = type
+                user.agent.contact_no = contact
+                user.agent.country = country
+                user.agent.state = state
+                user.agent.City = city
+                user.agent.Address = address
+                user.agent.zipcode = zipcode
+                user.agent.profile_pic = files
+                user.agent.registerdby = logged_in_user
+                user.agent.assign_employee = logged_in_user.employee
+                user.save()
+
+                context = {"employees": relevant_employees, "dep": dep}
+
+                subject = "Congratulations! Your Account is Created"
+                message = (
+                    f"Hello {firstname} {lastname},\n\n"
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+
+                recipient_list = [email]
+
+                send_mail(
+                    subject, message, from_email=None, recipient_list=recipient_list
+                )
+
+                mobile_number = contact
+                print("mobileeeeeeeeessssssssss", mobile_number)
+                message = (
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+                response = send_whatsapp_message(mobile_number, message)
+                if response.status_code == 200:
+                    print("workinggggg")
+                    pass
+                else:
+                    print("noooooooooooo")
+                    pass
+
+                messages.success(request, "Agent Added Successfully")
+                return redirect("emp_agent_list")
+
+        except Exception as e:
+            messages.warning(request, e)
+
+    context = {"employees": relevant_employees, "dep": dep}
+
+    return render(request, "Employee/Agent Management/addagent.html", context)
+
+
+class emp_all_agent(ListView):
+    model = Agent
+    template_name = "Employee/Agent Management/agentlist.html"
+    context_object_name = "agent"
+
+    def get_queryset(self):
+        user = self.request.user.employee
+        return Agent.objects.filter(assign_employee=user).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["employee_queryset"] = Employee.objects.all()
+        context["dep"] = dep
+        return context
+
+
+def employee_agent_delete(request, id):
+    agent = Agent.objects.get(id=id)
+    agent.delete()
+    messages.success(request, "Agent Deleted")
+    return HttpResponseRedirect(reverse("emp_agent_list"))
+
+
+def emp_agent_details(request, id):
+    agent = Agent.objects.get(id=id)
+    users = agent.users
+    user = request.user
+    dep = user.employee.department
+
+    if request.method == "POST":
+        firstname = request.POST.get("first_name")
+        lastname = request.POST.get("last_name")
+
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        maritial = request.POST.get("maritial")
+        original_pic = request.FILES.get("original_pic")
+        organization = request.POST.get("organization")
+        business_type = request.POST.get("business_type")
+        registration = request.POST.get("registration")
+        address = request.POST.get("address")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        zipcode = request.POST.get("zipcode")
+        accountholder = request.POST.get("accountholder")
+        bankname = request.POST.get("bankname")
+        branchname = request.POST.get("branchname")
+        account = request.POST.get("account")
+        ifsc = request.POST.get("ifsc")
+
+        print("first nameeee", firstname)
+
+        if dob:
+            users.agent.dob = dob
+        if gender:
+            users.agent.gender = gender
+        if maritial:
+            users.agent.marital_status = maritial
+        if original_pic:
+            users.agent.profile_pic = original_pic
+
+        users.first_name = firstname
+
+        users.agent.organization_name = organization
+        users.agent.business_type = business_type
+        users.agent.registration_number = registration
+        users.agent.Address = address
+        users.agent.country = country
+        users.agent.state = state
+        users.agent.City = city
+        users.agent.zipcode = zipcode
+        users.agent.account_holder = accountholder
+        users.agent.bank_name = bankname
+        users.agent.branch_name = branchname
+        users.agent.account_no = account
+        users.agent.ifsc_code = ifsc
+
+        users.save()
+        messages.success(request, "Updated Successfully")
+        return redirect("emp_agent_details", id)
+
+    context = {"agent": agent, "dep": dep}
+    return render(request, "Employee/Agent Management/Update/agentupdate.html", context)
+
+
+def employee_agent_agreement(request, id):
+    agent = Agent.objects.get(id=id)
+    user = request.user
+    dep = user.employee.department
+    agntagreement = AgentAgreement.objects.filter(agent=agent)
+    if request.method == "POST":
+        name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+        agreement = AgentAgreement.objects.create(
+            agent=agent, agreement_name=name, agreement_file=file
+        )
+        agreement.save()
+        messages.success(request, "Agreement Updated Succesfully...")
+        return redirect("employee_agent_agreement", id)
+    context = {"agent": agent, "agreement": agntagreement, "dep": dep}
+    return render(
+        request, "Employee/Agent Management/Update/agentagreement.html", context
+    )
+
+
+def employee_agent_agreement_update(request, id):
+    agree = AgentAgreement.objects.get(id=id)
+    agent = agree.agent
+
+    if request.method == "POST":
+        agntagreement = AgentAgreement.objects.get(id=id)
+        agreement_name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+
+        agntagreement.agreement_name = agreement_name
+        if file:
+            agntagreement.agreement_file = file
+        agntagreement.save()
+        messages.success(request, "Agreement Updated Successfully...")
+        return redirect("employee_agent_agreement", agent.id)
+
+
+def emp_agent_agreement_delete(request, id):
+    agree = AgentAgreement.objects.get(id=id)
+    agent = agree.agent
+    agreement = AgentAgreement.objects.get(id=id)
+    agreement.delete()
+    messages.success(request, "Agreement Deleted Successfully...")
+    return redirect("employee_agent_agreement", agent.id)
+
+
+def emp_agent_kyc(request, id):
+    agent = Agent.objects.get(id=id)
+    kyc_agent = AgentKyc.objects.filter(agent=agent).first
+    user = request.user
+    dep = user.employee.department
+    # kyc_agent = get_object_or_404(AgentKyc, agent=agent)
+    kyc_id = None
+
+    if request.method == "POST":
+        adharfront_file = request.FILES.get("adharfront_file")
+        adharback_file = request.FILES.get("adharback_file")
+        pan_file = request.FILES.get("pan_file")
+        registration_file = request.FILES.get("registration_file")
+        try:
+            kyc_id = AgentKyc.objects.get(agent=agent)
+
+            if kyc_id:
+                if adharfront_file:
+                    kyc_id.adhar_card_front = adharfront_file
+                if adharback_file:
+                    kyc_id.adhar_card_back = adharback_file
+                if pan_file:
+                    kyc_id.pancard = pan_file
+                if registration_file:
+                    kyc_id.registration_certificate = registration_file
+                kyc_id.save()
+                messages.success(request, "Kyc Added Successfully..")
+                return redirect("admin_agent_kyc", id)
+            else:
+                print("workingggggggg")
+
+        except AgentKyc.DoesNotExist:
+            kyc_id = None
+            kyc = AgentKyc.objects.create(
+                agent=agent,
+                adhar_card_front=adharfront_file,
+                adhar_card_back=adharback_file,
+                pancard=pan_file,
+                registration_certificate=registration_file,
+            )
+            kyc.save()
+            messages.success(request, "Kyc Added Successfully..")
+            return redirect("emp_agent_kyc", id)
+
+    context = {"agent": agent, "kyc_id": kyc_id, "kyc_agent": kyc_agent, "dep": dep}
+
+    return render(request, "Employee/Agent Management/Update/agentkyc.html", context)
+
+
+# ------------------------------ Outsource Agent --------------------------
+class emp_all_outsource_agent(ListView):
+    model = OutSourcingAgent
+    template_name = "Employee/Agent Management/outsourcelist.html"
+    context_object_name = "agentoutsource"
+
+    def get_queryset(self):
+        user = self.request.user.employee
+        return OutSourcingAgent.objects.filter(assign_employee=user).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+        context["employee_queryset"] = Employee.objects.all()
+
+        return context
+
+
+def emp_outsourceagent_details(request, id):
+    outsourceagent = OutSourcingAgent.objects.get(id=id)
+    users = users = outsourceagent.users
+    user = request.user
+    dep = user.employee.department
+
+    if request.method == "POST":
+        firstname = request.POST.get("first_name")
+        lastname = request.POST.get("last_name")
+
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        maritial = request.POST.get("maritial")
+        original_pic = request.FILES.get("original_pic")
+        organization = request.POST.get("organization")
+        business_type = request.POST.get("business_type")
+        registration = request.POST.get("registration")
+        address = request.POST.get("address")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        zipcode = request.POST.get("zipcode")
+        accountholder = request.POST.get("accountholder")
+        bankname = request.POST.get("bankname")
+        branchname = request.POST.get("branchname")
+        account = request.POST.get("account")
+        ifsc = request.POST.get("ifsc")
+
+        if dob:
+            users.outsourcingagent.dob = dob
+        if gender:
+            users.outsourcingagent.gender = gender
+        if maritial:
+            users.outsourcingagent.marital_status = maritial
+        if original_pic:
+            users.outsourcingagent.profile_pic = original_pic
+
+        users.first_name = firstname
+
+        users.outsourcingagent.organization_name = organization
+        users.outsourcingagent.business_type = business_type
+        users.outsourcingagent.registration_number = registration
+        users.outsourcingagent.Address = address
+        users.outsourcingagent.country = country
+        users.outsourcingagent.state = state
+        users.outsourcingagent.City = city
+        users.outsourcingagent.zipcode = zipcode
+        users.outsourcingagent.account_holder = accountholder
+        users.outsourcingagent.bank_name = bankname
+        users.outsourcingagent.branch_name = branchname
+        users.outsourcingagent.account_no = account
+        users.outsourcingagent.ifsc_code = ifsc
+
+        users.save()
+        messages.success(request, "Updated Successfully")
+        return redirect("emp_outsourceagent_details", id)
+
+    context = {"agent": outsourceagent, "dep": dep}
+    return render(
+        request,
+        "Employee/Agent Management/OutsourceUpdate/outsource_agentupdate.html",
+        context,
+    )
+
+
+def emp_outsource_agent_agreement(request, id):
+    outsourceagent = OutSourcingAgent.objects.get(id=id)
+    user = request.user
+    dep = user.employee.department
+
+    agntagreement = AgentAgreement.objects.filter(outsourceagent=outsourceagent)
+    if request.method == "POST":
+        name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+        agreement = AgentAgreement.objects.create(
+            outsourceagent=outsourceagent, agreement_name=name, agreement_file=file
+        )
+        agreement.save()
+        messages.success(request, "Agreement Updated Succesfully...")
+        return redirect("emp_outsource_agent_agreement", id)
+    # context = {"agent": agent, "agreement": agntagreement}
+    context = {"agent": outsourceagent, "agreement": agntagreement, "dep": dep}
+    return render(
+        request,
+        "Employee/Agent Management/OutsourceUpdate/outsource_agentagreement.html",
+        context,
+    )
+
+
+def emp_outsourceagent_agreement_update(request, id):
+    if request.method == "POST":
+        agntagreement = AgentAgreement.objects.get(id=id)
+        outsource = agntagreement.outsourceagent
+        agreement_name = request.POST.get("agreement_name")
+        file = request.FILES.get("file")
+
+        agntagreement.agreement_name = agreement_name
+        if file:
+            agntagreement.agreement_file = file
+        agntagreement.save()
+        messages.success(request, "Agreement Updated Successfully...")
+        return redirect("emp_outsource_agent_agreement", outsource.id)
+
+
+def emp_outsource_agent_agreement_delete(request, id):
+    agree = AgentAgreement.objects.get(id=id)
+    agent = agree.outsourceagent
+    agreement = AgentAgreement.objects.get(id=id)
+    agreement.delete()
+    messages.success(request, "Agreement Deleted Successfully...")
+    return redirect("emp_outsource_agent_agreement", agent.id)
+
+
+def emp_outstsourceagent_delete(request, id):
+    outsourceagent = OutSourcingAgent.objects.get(id=id)
+    outsourceagent.delete()
+    messages.success(request, "OutSourceAgent Deleted")
+    return HttpResponseRedirect(reverse("emp_all_outsource_agent"))
+
+
+def emp_outsource_agent_kyc(request, id):
+    agent = OutSourcingAgent.objects.get(id=id)
+    print("out soruce agent", id)
+    kyc_agent = AgentKyc.objects.filter(outsourceagent=agent).first
+    user = request.user
+    dep = user.employee.department
+    # kyc_agent = get_object_or_404(AgentKyc, agent=agent)
+    kyc_id = None
+
+    if request.method == "POST":
+        adharfront_file = request.FILES.get("adharfront_file")
+        adharback_file = request.FILES.get("adharback_file")
+        pan_file = request.FILES.get("pan_file")
+        registration_file = request.FILES.get("registration_file")
+        try:
+            kyc_id = AgentKyc.objects.get(outsourceagent=agent)
+
+            if kyc_id:
+                if adharfront_file:
+                    kyc_id.adhar_card_front = adharfront_file
+                if adharback_file:
+                    kyc_id.adhar_card_back = adharback_file
+                if pan_file:
+                    kyc_id.pancard = pan_file
+                if registration_file:
+                    kyc_id.registration_certificate = registration_file
+                kyc_id.save()
+                messages.success(request, "Kyc Added Successfully..")
+                return redirect("emp_outsource_agent_kyc", id)
+            else:
+                print("workingggggggg")
+
+        except AgentKyc.DoesNotExist:
+            kyc_id = None
+            kyc = AgentKyc.objects.create(
+                outsourceagent=agent,
+                adhar_card_front=adharfront_file,
+                adhar_card_back=adharback_file,
+                pancard=pan_file,
+                registration_certificate=registration_file,
+            )
+            kyc.save()
+            messages.success(request, "Kyc Added Successfully..")
+            return redirect("emp_outsource_agent_kyc", id)
+
+    context = {"agent": agent, "kyc_id": kyc_id, "kyc_agent": kyc_agent, "dep": dep}
+
+    return render(
+        request,
+        "Employee/Agent Management/OutsourceUpdate/outsource_agentkyc.html",
+        context,
+    )
+
+
+# --------------------------------------- Enrolled ------------------------------
+
+
+def emp_edit_enrolled_application(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    country = VisaCountry.objects.all()
+    category = VisaCategory.objects.all()
+    user = request.user
+    dep = user.employee.department
+
+    context = {
+        "enquiry": enquiry,
+        "country": country,
+        "category": category,
+        "dep": dep,
+    }
+
+    if request.method == "POST":
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        dob = request.POST.get("dob")
+        try:
+            dob_obj = datetime.strptime(dob, "%Y-%m-%d").date()
+        except ValueError:
+            dob_obj = None
+
+        gender = request.POST.get("gender")
+        maritialstatus = request.POST.get("maritialstatus")
+        digitalsignature = request.FILES.get("digitalsignature")
+        spouse_name = request.POST.get("spouse_name")
+        spouse_no = request.POST.get("spouse_no")
+        spouse_email = request.POST.get("spouse_email")
+        spouse_passport = request.POST.get("spouse_passport")
+        spouse_dob = request.POST.get("spouse_dob")
+        try:
+            spouse_dob_obj = datetime.strptime(spouse_dob, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj = None
+
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        Country = request.POST.get("Country")
+
+        emergencyname = request.POST.get("emergencyname")
+        emergencyphone = request.POST.get("emergencyphone")
+        emergencyemail = request.POST.get("emergencyemail")
+        applicantrelation = request.POST.get("applicantrelation")
+
+        passportnumber = request.POST.get("passportnumber")
+        issuedate = request.POST.get("issuedate")
+        try:
+            issuedate_obj = datetime.strptime(issuedate, "%Y-%m-%d").date()
+        except ValueError:
+            issuedate_obj = None
+
+        expirydate = request.POST.get("expirydate")
+        try:
+            expirydate_obj = datetime.strptime(expirydate, "%Y-%m-%d").date()
+        except ValueError:
+            expirydate_obj = None
+
+        issue_country = request.POST.get("issuecountry")
+        birthcity = request.POST.get("birthcity")
+        country_of_birth = request.POST.get("country_of_birth")
+
+        nationality = request.POST.get("nationality")
+        citizenship = request.POST.get("citizenships")
+        more_than_one_country = request.POST.get("more_than_one_country")
+        studyin_in_other_country = request.POST.get("studyin_in_other_country")
+
+        citizenstatus = request.POST.get("citizenstatus")
+        studystatus = request.POST.get("studystatus")
+
+        citizen = request.POST.get("citizen")
+
+        enquiry.FirstName = firstname
+        enquiry.LastName = lastname
+        enquiry.Dob = dob_obj
+        enquiry.Gender = gender
+        enquiry.marital_status = maritialstatus
+        if digitalsignature:
+            enquiry.digital_signature = digitalsignature
+        enquiry.spouse_name = spouse_name
+        enquiry.spouse_no = spouse_no
+        enquiry.spouse_email = spouse_email
+        enquiry.spouse_passport = spouse_passport
+        enquiry.spouse_dob = spouse_dob_obj
+        enquiry.email = email
+        enquiry.contact = contact
+        enquiry.Country = Country
+        enquiry.state = state
+        enquiry.city = city
+        enquiry.address = address
+
+        enquiry.passport_no = passportnumber
+        enquiry.issue_date = issuedate_obj
+        enquiry.expirty_Date = expirydate_obj
+        enquiry.issue_country = issue_country
+        enquiry.city_of_birth = birthcity
+        enquiry.country_of_birth = country_of_birth
+        enquiry.nationality = nationality
+        enquiry.citizenship = citizenship
+        enquiry.more_than_one_country = more_than_one_country
+        enquiry.studyin_in_other_country = studyin_in_other_country
+        enquiry.emergency_name = emergencyname
+        enquiry.emergency_phone = emergencyphone
+        if emergencyemail != "None":
+            enquiry.emergency_email = emergencyemail
+        enquiry.relation_With_applicant = applicantrelation
+        enquiry.save()
+        messages.success(request, "Persoanal Details Updated Successfully....")
+
+        return redirect("emp_edit_enrolled_application", id)
+
+    return render(
+        request,
+        "Employee/Enquiry/Enrolled Enquiry/Editenrolledpart1.html",
+        context,
+    )
+
+
+def emp_combined_view(request, id):
+    enquiry = get_object_or_404(Enquiry, id=id)
+    edu_sum = Education_Summary.objects.filter(enquiry_id=enquiry).first
+    work_exp = Work_Experience.objects.filter(enquiry_id=enquiry).first
+    bk_info = Background_Information.objects.filter(enquiry_id=enquiry).first
+    user = request.user
+    dep = user.employee.department
+
+    if request.method == "POST":
+        # Education Summary
+        education_summary, created = Education_Summary.objects.get_or_create(
+            enquiry_id=enquiry
+        )
+        education_summary.highest_level_education = request.POST.get(
+            "highest_education"
+        )
+        education_summary.grading_scheme = request.POST.get("gradingscheme")
+        education_summary.grade_avg = request.POST.get("gradeaverage")
+        education_summary.recent_college = request.POST.get("recent_college")
+        education_summary.country_of_education = request.POST.get("educationcountry")
+        education_summary.country_of_institution = request.POST.get("institutecountry")
+        education_summary.name_of_institution = request.POST.get("institutename")
+        education_summary.primary_language = request.POST.get("instructionlanguage")
+        education_summary.institution_from = request.POST.get("institutionfrom")
+        try:
+            education_summary.institution_from_obj = datetime.strptime(
+                education_summary.institution_from, "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            education_summary.institution_from = None
+        education_summary.institution_to = request.POST.get("institutionto")
+        try:
+            education_summary.institution_to_obj = datetime.strptime(
+                education_summary.institution_to, "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            education_summary.institution_to = None
+        education_summary.degree_Awarded = request.POST.get("degreeawarded")
+        education_summary.degree_Awarded_On = request.POST.get("degreeawardedon")
+        education_summary.save()
+
+        # Test Score
+        examtype = request.POST.get("examtype")
+        exam_date = request.POST.get("examdate")
+
+        try:
+            exam_date = datetime.strptime(exam_date, "%Y-%m-%d").date()
+        except ValueError:
+            exam_date = None
+        reading = request.POST.get("reading")
+        listening = request.POST.get("listening")
+        speaking = request.POST.get("speaking")
+        writing = request.POST.get("writing")
+        overall_score = request.POST.get("overallscore")
+
+        existing_test_score = TestScore.objects.filter(
+            exam_type=examtype, enquiry_id=enquiry
+        ).first()
+        if reading or exam_date or listening or speaking or writing or overall_score:
+            if existing_test_score is None:
+                test_scores = TestScore.objects.create(
+                    enquiry_id=enquiry,
+                    exam_type=examtype,
+                    exam_date=exam_date,
+                    reading=reading,
+                    listening=listening,
+                    speaking=speaking,
+                    writing=writing,
+                    overall_score=overall_score,
+                )
+
+            else:
+                existing_test_score.exam_date = exam_date
+                existing_test_score.reading = reading
+                existing_test_score.listening = listening
+                existing_test_score.speaking = speaking
+                existing_test_score.writing = writing
+                existing_test_score.overall_score = overall_score
+                existing_test_score.save()
+
+        # Handle Background Information
+        background_info, created = Background_Information.objects.get_or_create(
+            enquiry_id=enquiry
+        )
+        background_info.background_information = request.POST.get("australliabefore")
+        background_info.save()
+
+        # Handle Work Experience
+        work_exp, created = Work_Experience.objects.get_or_create(enquiry_id=enquiry)
+        work_exp.company_name = request.POST.get("companyname")
+        work_exp.designation = request.POST.get("designation")
+        work_exp.from_date = request.POST.get("fromdate")
+        try:
+            work_exp.from_date_obj = datetime.strptime(
+                work_exp.from_date, "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            work_exp.from_date = None
+        work_exp.to_date = request.POST.get("todate")
+        try:
+            work_exp.to_date_obj = datetime.strptime(
+                work_exp.to_date, "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            work_exp.to_date = None
+        work_exp.address = request.POST.get("address")
+        work_exp.city = request.POST.get("city")
+        work_exp.state = request.POST.get("state")
+        work_exp.describe = request.POST.get("workdetails")
+        work_exp.save()
+
+        return redirect("emp_education_summary", id)
+
+    test_scores = TestScore.objects.filter(enquiry_id=enquiry)
+
+    context = {
+        "enquiry": enquiry,
+        "test_scores": test_scores,
+        "education_summary": edu_sum,
+        "work_exp": work_exp,
+        "bk_info": bk_info,
+        "dep": dep,
+    }
+
+    return render(
+        request, "Employee/Enquiry/Enrolled Enquiry/Editenrolledpart2.html", context
+    )
+
+
+def emp_editproduct_details(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    country = VisaCountry.objects.all()
+    category = VisaCategory.objects.all()
+    product = Package.objects.all()
+    user = request.user
+    dep = user.employee.department
+    context = {
+        "enquiry": enquiry,
+        "country": country,
+        "category": category,
+        "product": product,
+        "dep": dep,
+    }
+
+    if request.method == "POST":
+        source = request.POST.get("source")
+        reference = request.POST.get("reference")
+        visatype = request.POST.get("visatype")
+        visacountry_id = request.POST.get("visacountry_id")
+        visacategory_id = request.POST.get("visacategory_id")
+        visasubcategory_id = request.POST.get("visasubcategory")
+        product_id = request.POST.get("Package")
+
+        visa_country = VisaCountry.objects.get(id=visacountry_id)
+        visa_category = VisaCategory.objects.get(id=visacategory_id)
+        visa_subcategory = VisaCategory.objects.get(id=visacategory_id)
+        package = Package.objects.get(id=product_id)
+
+        enquiry.Source = source
+        enquiry.Reference = reference
+        enquiry.Visa_type = visatype
+        enquiry.Visa_country = visa_country
+        enquiry.Visa_category = visa_category
+        enquiry.Visa_subcategory = visa_subcategory
+        enquiry.Package = package
+
+        enquiry.save()
+
+        return redirect("emp_editproduct_details", id=id)
+
+    return render(
+        request,
+        "Employee/Enquiry/Enrolled Enquiry/Editenrolledpart3.html",
+        context,
+    )
+
+
+def emp_enrolleddocument(request, id):
+    enq = Enquiry.objects.get(id=id)
+    document = Document.objects.all()
+    user = request.user
+    dep = user.employee.department
+
+    doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
+
+    case_categories = CaseCategoryDocument.objects.filter(country=enq.Visa_country)
+
+    documents_prefetch = Prefetch(
+        "document",
+        queryset=Document.objects.select_related("document_category", "lastupdated_by"),
+    )
+
+    case_categories = case_categories.prefetch_related(documents_prefetch)
+
+    grouped_documents = {}
+
+    for case_category in case_categories:
+        for document in case_category.document.all():
+            document_category = document.document_category
+            testing = document.document_category.id
+
+            if document_category not in grouped_documents:
+                grouped_documents[document_category] = []
+
+            grouped_documents[document_category].append(document)
+
+    context = {
+        "enq": enq,
+        "grouped_documents": grouped_documents,
+        "doc_file": doc_file,
+        "dep": dep,
+    }
+
+    return render(
+        request, "Employee/Enquiry/Enrolled Enquiry/Editenrolledpart4.html", context
+    )
+
+
+def emp_enrolled_upload_document(request):
+    if request.method == "POST":
+        try:
+            document_id = request.POST.get("document_id")
+            enq_id = request.POST.get("enq_id")
+
+            document = Document.objects.get(pk=document_id)
+            document_file = request.FILES.get("document_file")
+            enq = Enquiry.objects.get(id=enq_id)
+
+            # Check if a DocumentFiles object with the same document exists
+            doc = DocumentFiles.objects.filter(
+                enquiry_id=enq_id, document_id=document
+            ).first()
+
+            if doc:
+                doc.document_file = document_file
+                doc.lastupdated_by = request.user
+                doc.save()
+                print("updatinggggggggggg")
+                return redirect("enrolled_document", id=enq_id)
+            else:
+                document_files = DocumentFiles.objects.create(
+                    document_file=document_file,
+                    document_id=document,
+                    enquiry_id=enq,
+                    lastupdated_by=request.user,
+                )
+                document_files.save()
+                print("sssssssssssssssssssssssss")
+
+                return redirect("emp_enrolleddocument", id=enq_id)
+
+        except Exception as e:
+            pass
+
+
+def emp_enrolled_delete_docfile(request, id):
+    doc_id = DocumentFiles.objects.get(id=id)
+    enq_id = Enquiry.objects.get(id=doc_id.enquiry_id.id)
+    enqq = enq_id.id
+
+    doc_id.delete()
+    return redirect("emp_enrolleddocument", enqq)
+
+
+# ------------------------- Followup ---------------------------
+
+
+def followup(request):
+    if request.method == "POST":
+        enq = request.POST.get("enq_id")
+
+        print("heloooooo", enq)
+        follow_up_form = FollowUpForm(request.POST)
+        if follow_up_form.is_valid():
+            follow_up = follow_up_form.save(commit=False)
+            follow_up.enquiry = enq
+            follow_up.created_by = request.user
+            follow_up.save()
