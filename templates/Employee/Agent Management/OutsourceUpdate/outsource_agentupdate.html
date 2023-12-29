@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="text-container">
-      <a href="http://" style="text-decoration: none">
+      <a href="{% url "employee_dashboard" %}" style="text-decoration: none">
         <div class="text">Dashboard</div>
       </a>
     </div>
@@ -106,12 +106,16 @@
     <div class="custom-box">
         <div class="agent-text1">All Details</div>
     </div>
+    <a class="agent-text2" href="{% url "emp_outsource_agent_agreement" agent.id %}">
     <div class="custom-box">
-        <div class="agent-text2"><a class="agent-text2" href="{% url "emp_outsource_agent_agreement" agent.id %}">Agreements</a></div>
+        <div class="agent-text2">Agreements</div>
     </div>
+  </a>
+  <a class="agent-text3" href="{% url "emp_outsource_agent_kyc" agent.id %}">
     <div class="custom-box">
-      <div class="agent-text3"><a  class="agent-text3" href="{% url "emp_outsource_agent_kyc" agent.id %}">KYC Details</a></div>
+      <div class="agent-text3">KYC Details</div>
     </div>
+  </a>
     </div>
   
     <div class="resolvedquerycontent1">

@@ -17,7 +17,7 @@
 
       </div>
       <div class="text-container">
-          <a href="http://" style="text-decoration: none;">
+          <a href="{% url "employee_dashboard" %}" style="text-decoration: none;">
               <div class="text">Dashboard</div>
           </a>
       </div>
@@ -65,7 +65,7 @@
             </div>
           </a>
           <hr>
-          <a href="#">
+          <a href="{% url "emp_all_outsource_agent" %}">
             <div class="tabTwos">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
                     <path d="M6.41659 7.64912C8.07344 7.64912 9.41659 6.23529 9.41659 4.49123C9.41659 2.74717 8.07344 1.33333 6.41659 1.33333C4.75973 1.33333 3.41659 2.74717 3.41659 4.49123C3.41659 6.23529 4.75973 7.64912 6.41659 7.64912Z" fill="#233876"/>
@@ -76,6 +76,7 @@
           </a>
       </div>
       <div class="tabsBox">
+        <a href="{% url "emp_all_outsource_agent" %}">
           <div class="tabsOne">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                   style="margin-right: 2px;">
@@ -99,7 +100,9 @@
                       fill="#111928" />
               </svg>List View
           </div>
+        </a>
           <hr>
+          <a href="{% url "emp_allgrid_outsource_agent" %}">
           <div class="tabsTwo">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                   style="margin-right: 2px;">
@@ -117,6 +120,7 @@
                       fill="#111928" />
               </svg>Grid View
           </div>
+        </a>
       </div>
       <div class="scheduleappointment">
         <!-- <div class="appointment-text">Appointments</div> -->

@@ -1027,6 +1027,20 @@ class all_agent(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["employee_queryset"] = Employee.objects.all()
         return context
+    
+
+class Grid_agent(LoginRequiredMixin, ListView):
+    model = Agent
+    template_name = "Admin/Agent Management/agentgrid.html"
+    context_object_name = "agent"
+
+    def get_queryset(self):
+        return Agent.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["employee_queryset"] = Employee.objects.all()
+        return context
 
 
 @login_required
@@ -1200,6 +1214,20 @@ def admin_agent_delete(request, id):
 class all_outsource_agent(LoginRequiredMixin, ListView):
     model = OutSourcingAgent
     template_name = "Admin/Agent Management/outsourcelist.html"
+    context_object_name = "agentoutsource"
+
+    def get_queryset(self):
+        return OutSourcingAgent.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["employee_queryset"] = Employee.objects.all()
+        return context
+    
+    
+class Grid_outsource_agent(LoginRequiredMixin, ListView):
+    model = OutSourcingAgent
+    template_name = "Admin/Agent Management/outsorcegrid.html"
     context_object_name = "agentoutsource"
 
     def get_queryset(self):
@@ -1771,8 +1799,14 @@ def admin_new_leads_details(request):
     context = {"enquiry": enquiry}
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
-
 @login_required
+def admin_grid_leads_details(request):
+    enquiry = Enquiry.objects.all().order_by("-id")
+
+    context = {"enquiry": enquiry}
+    return render(request, "Admin/Enquiry/lead-grid.html", context)
+
+
 def get_public_ip():
     try:
         response = requests.get("https://api64.ipify.org?format=json")
@@ -1783,7 +1817,7 @@ def get_public_ip():
         return None
 
 
-@login_required
+
 def add_notes(request):
     if request.method == "POST":
         enq_id = request.POST.get("enq_id")
@@ -1919,9 +1953,48 @@ class enrolled_Application(LoginRequiredMixin, ListView):
         context["OutSourcingAgent"] = OutSourcingAgent.objects.all()
         context["enqenrolled"] = Enquiry.objects.filter(lead_status="Enrolled")
 
-        # employee_queryset = Employee.objects.all()
+        
 
         return context
+    
+    
+class enrolledGrid_Application(LoginRequiredMixin, ListView):
+    model = Enquiry
+    template_name = "Admin/Enquiry/enroll_lead-grid.html"
+    context_object_name = "enquiry"
+
+    def get_queryset(self):
+        return Enquiry.objects.filter(
+            Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery")
+        ).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        # Get the default context data (data from the Enquiry model)
+        context = super().get_context_data(**kwargs)
+
+        current_datetime = timezone.now()
+        context["current_datetime"] = current_datetime
+
+        # Add data from the Notes model to the context
+        context["notes"] = Notes.objects.all()
+        context["notes_first"] = Notes.objects.order_by("-id").first()
+        # context['employee'] = Employee.objects.all()
+        context["employee_queryset"] = Employee.objects.all()
+        context["agent"] = Agent.objects.all()
+        context["OutSourcingAgent"] = OutSourcingAgent.objects.all()
+        context["enqenrolled"] = Enquiry.objects.filter(lead_status="Enrolled")
+
+        
+
+        return context
+
+
 
 
 @login_required
@@ -2321,3 +2394,55 @@ def enrolled_delete_docfile(request, id):
 def admin_logout(request):
     logout(request)
     return redirect("/")
+
+
+
+########################################### ACTIVITY LOGS ################################################
+
+
+@login_required
+def activity_log_view(request):
+    activity_logs = ActivityLog.objects.all().order_by("-id")
+
+    context = {
+        'activity_logs': activity_logs
+    }
+
+    return render(request, 'Admin/ActivityLogs/Activitylogs.html', context)
+
+
+
+########################################## FAQ ####################################################
+
+
+def get_pending_queries_count():
+    return FAQ.objects.filter(answer__exact='').exclude(answer__isnull=True).count()
+
+class ResolvedFAQListView(LoginRequiredMixin, ListView):
+    model = FAQ
+    template_name = 'Admin/Queries/Queries.html'
+    context_object_name = 'resolved_queries'
+    
+    def get_queryset(self):
+        return FAQ.objects.all().exclude(answer='')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pending_queries_count'] = get_pending_queries_count()
+        return context
+
+    
+    
+
+class PendingFAQListView(LoginRequiredMixin, ListView):
+    model = FAQ
+    template_name = 'Admin/Queries/PendingQueries.html'
+    context_object_name = 'pending_queries'
+
+    def get_queryset(self):
+        return FAQ.objects.all().exclude(answer__isnull=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pending_queries_count'] = self.get_queryset().count()
+        return context

@@ -330,7 +330,6 @@ def agent_add_notes(request):
     return redirect("agent_new_leads_details")
 
 
-@login_required
 def resend(request, id):
     enq_id = Enquiry.objects.get(id=id)
     enq_id.lead_status = "Active"
@@ -760,15 +759,17 @@ class FAQCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# def get_pending_queries_count(request):
-#     user = request.user
-#     return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True)
-
-
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
     template_name = "Agent/Queries/resolvedquery.html"
     context_object_name = "resolved_queries"
+
+    def get_queryset(self):
+        return (
+            FAQ.objects.filter(user=self.request.user)
+            .exclude(answer="")
+            .exclude(answer__isnull=True)
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

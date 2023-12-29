@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="text-container">
-      <a href="http://" style="text-decoration: none">
+      <a href="{% url "admin_dashboard" %}" style="text-decoration: none">
         <div class="text">Dashboard</div>
       </a>
     </div>
@@ -64,92 +64,23 @@
   </div>
   <!-- ///////////////////////////////////////// -->
   <div class="agentem-container">
+    <a  class="agent-text2" href="{% url "admin_agent_details" agent.id %}">
     <div class="custom-box">
-      <div class="agent-text3"><a  class="agent-text2" href="{% url "admin_agent_details" agent.id %}">All Details</a></div>
+      <div class="agent-text3">All Details</div>
     </div>
+  </a>
+  <a class="agent-text2" href="{% url "admin_agent_agreement" agent.id %}">
     <div class="custom-box">
-<div class="agent-text2"><a class="agent-text2" href="{% url "admin_agent_agreement" agent.id %}">Agreements</a></div>
+<div class="agent-text2">Agreements</div>
     </div>
+  </a>
     <div class="custom-box">
       <div class="agent-text1">KYC Details</div>
     </div>
   </div>
   {% include "Admin/Base/messages.html" %}
 
-  <!-- //////////////table//////////////////// -->
-  <!-- <div class="resolvedquerycontent1">
-      <ul class="list-group">
-          <div class="list-item">
-              <li class="list-group-item agentitem">All Agreements</li>
-              
-          </div>
-          
-          <li class="list-group-item item-content">
-              <div class="inputforms-agentcontainer">
-                  <table>
-                      <thead style="background-color:  #F9FAFB">
-                        <tr style="color:  #6B7280">
-                          <th scope="col">S. NO.</th>
-                          <th scope="col">Document Name</th>
-                          <th scope="col">Uploaded on</th>
-                          <th scope="col">File name</th>
-                          <th scope="col">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td class="tableagent">AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td>AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td>AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    
-                   
-                  
-              </div>
-          </li>
-         
-        </ul>
-        
-  </div> -->
+  
   <div class="inputforms-container">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
