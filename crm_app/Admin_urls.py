@@ -52,6 +52,8 @@ urlpatterns = [
     
     path("add_agent/", add_agent, name="add_agent"),
     path("agent_list/", all_agent.as_view(), name="agent_list"),
+    path("agent_grid/", Grid_agent.as_view(), name="agent_grid"),
+    
     path("agent_delete/<int:id>/", agent_delete, name="agent_delete"),
     path("Agent/Details/<int:id>", admin_agent_details, name="admin_agent_details"),
     path("Agent/Agreement/<int:id>", admin_agent_agreement, name="admin_agent_agreement"),
@@ -68,7 +70,7 @@ urlpatterns = [
     
     path("OutsourceAgent/Agreement/update/<int:id>/",admin_outsourceagent_agreement_update,name="admin_outsourceagent_agreement_update"),
     path("OutsourceAgent/Agreement/Delete/<int:id>/",admin_outsource_agent_agreement_delete,name="admin_outsource_agent_agreement_delete"),
-    path("AllOutSourceAgent/", all_outsource_agent.as_view(), name="all_outsource_agent"),
+    path("gridOutSourceAgent/", Grid_outsource_agent.as_view(), name="grid_outsource_agent"),
     
     path("AddPackage/", PackageCreateView.as_view(), name="add_Package"),
     path("PackageList/", PackageListView.as_view(), name="Package_list"),
@@ -94,6 +96,7 @@ urlpatterns = [
     path("Delete/UploadFile/<int:id>", delete_docfile, name="docfile"),
     # ------------------------------- LEADS ------------------------
     path("AllNewLeads", admin_new_leads_details, name="admin_new_leads_details"),
+    path("AllGridLeads", admin_grid_leads_details, name="admin_grid_leads_details"),
     path("AddNotes/", add_notes, name="add_notes"),
     
     
@@ -103,6 +106,7 @@ urlpatterns = [
     
     
     path('EnrolledLeads/', enrolled_Application.as_view(), name='Enrolled_leads'),
+    path('EnrolledGridLeads/', enrolledGrid_Application.as_view(), name='EnrolledGrid_leads'),
     
     
     path('edit/Enrolled/Application/<int:id>',edit_enrolled_application,name="edit_enrolled_application"),
@@ -114,5 +118,11 @@ urlpatterns = [
     path("Delete/enrolledUploadFile/<int:id>", enrolled_delete_docfile, name="enrolleddocfile"),
     
     path('logout',admin_logout,name="admin_logout"),
+    
+    path('activity_logs/', activity_log_view, name='activity_logs'),
+    
+    
+    path('resolved-queries/', ResolvedFAQListView.as_view(), name='Admin_resolved_queries'),
+    path('pending-queries/', PendingFAQListView.as_view(), name='Admin_pending_queries'),
     
 ]

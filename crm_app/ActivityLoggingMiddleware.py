@@ -3,7 +3,9 @@ from .models import ActivityLog
 class ActivityLoggingMiddleware:
     EXCLUDED_USER_TYPES = ["1"]
     EXCLUDED_URL_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp", ".ico"]
-    
+    EXCLUDED_URLS = [
+        "/static/style/Styling/" 
+    ]
 
     def __init__(self, get_response):
         self.get_response = get_response

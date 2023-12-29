@@ -14,7 +14,7 @@
 
             </div>
             <div class="text-container">
-                <a href="http://" style="text-decoration: none;">
+                <a href="{% url "employee_dashboard" %}" style="text-decoration: none;">
                     <div class="text">Dashboard</div>
                 </a>
             </div>
@@ -48,8 +48,9 @@
                 <div class="custom-text">Enrolled Leads</div>
             </div>
             <div class="tabBox">
+                <a href="{% url "employee_lead_list" %}"> 
                 <div class="tabOnes">
-                   <a href="{% url "admin_new_leads_details" %}"> <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
+                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
                     style="padding-right: 2px;">
                     <path
                         d="M6.25016 4.66659V1.41992C5.92485 1.5099 5.62806 1.68183 5.38816 1.91925L3.50283 3.80459C3.26588 4.04485 3.09403 4.34151 3.00349 4.66659H6.25016Z"
@@ -57,10 +58,10 @@
                     <path
                         d="M12.2942 1.33325H7.58349V4.66659C7.58349 5.02021 7.44302 5.35935 7.19297 5.60939C6.94292 5.85944 6.60378 5.99992 6.25016 5.99992H2.91683V13.3333C2.91148 13.6809 3.0442 14.0165 3.28589 14.2664C3.52759 14.5164 3.85853 14.6603 4.20616 14.6666H12.2942C12.6418 14.6603 12.9727 14.5164 13.2144 14.2664C13.4561 14.0165 13.5888 13.6809 13.5835 13.3333V2.66659C13.5888 2.31894 13.4561 1.98335 13.2144 1.73341C12.9727 1.48347 12.6418 1.33956 12.2942 1.33325ZM10.2942 11.3333H6.13549C5.95868 11.3333 5.78911 11.263 5.66409 11.138C5.53907 11.013 5.46883 10.8434 5.46883 10.6666C5.46883 10.4898 5.53907 10.3202 5.66409 10.1952C5.78911 10.0702 5.95868 9.99992 6.13549 9.99992H10.2942C10.471 9.99992 10.6405 10.0702 10.7656 10.1952C10.8906 10.3202 10.9608 10.4898 10.9608 10.6666C10.9608 10.8434 10.8906 11.013 10.7656 11.138C10.6405 11.263 10.471 11.3333 10.2942 11.3333ZM10.2942 8.66659H6.13549C5.95868 8.66659 5.78911 8.59635 5.66409 8.47132C5.53907 8.3463 5.46883 8.17673 5.46883 7.99992C5.46883 7.82311 5.53907 7.65354 5.66409 7.52851C5.78911 7.40349 5.95868 7.33325 6.13549 7.33325H10.2942C10.471 7.33325 10.6405 7.40349 10.7656 7.52851C10.8906 7.65354 10.9608 7.82311 10.9608 7.99992C10.9608 8.17673 10.8906 8.3463 10.7656 8.47132C10.6405 8.59635 10.471 8.66659 10.2942 8.66659Z"
                         fill="#233876" />
-                </svg>All Leads</a>
-                </div>
+                </svg>All Leads
+                </div></a>
                 <hr>
-                <a href="{% url "Enrolled_leads" %}">
+                <a href="{% url "employee_enrolled_lead" %}">
                     <div class="tabTwos">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
                             style="padding-right: 2px;">
@@ -75,6 +76,7 @@
                 </a>
             </div>
             <div class="tabsBox">
+                <a href="{% url "employee_enrolled_lead" %}">
                 <div class="tabsOne">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                         style="margin-right: 2px;">
@@ -98,9 +100,11 @@
                             fill="#111928" />
                     </svg>List View
                 </div>
+            </a>
                 <hr>
+                <a href="{% url "employee_enrolled_grid" %}">
                 <div class="tabsTwo">
-                    <a href="{% url "employee_enrolled_grid" %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                         style="margin-right: 2px;">
                         <path
                             d="M6.09533 2H3.238C2.55427 2 2 2.55427 2 3.238V6.09533C2 6.77906 2.55427 7.33333 3.238 7.33333H6.09533C6.77906 7.33333 7.33333 6.77906 7.33333 6.09533V3.238C7.33333 2.55427 6.77906 2 6.09533 2Z"
@@ -114,8 +118,9 @@
                         <path
                             d="M12.762 8.66667H9.90467C9.22094 8.66667 8.66667 9.22094 8.66667 9.90467V12.762C8.66667 13.4457 9.22094 14 9.90467 14H12.762C13.4457 14 14 13.4457 14 12.762V9.90467C14 9.22094 13.4457 8.66667 12.762 8.66667Z"
                             fill="#111928" />
-                    </svg>Grid View</a>
+                    </svg>Grid View
                 </div>
+            </a>
             </div>
 
 
@@ -145,12 +150,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for i in enquiry %}
+                        {% for i in enq %}
                         {% if i.archive == False %}
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td>
-                                <a href="{% url "edit_enrolled_application" i.id %}">
+                                <a href="{% url "emp_edit_enrolled_application" i.id %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                         fill="none">
                                         <path
@@ -191,9 +196,15 @@
                                 <span class="badge rounded-pill1">{{i.lead_status}}</span>
                             </td>
                             <td>
-                                <div class="add-notes-container answerclass" data-bs-toggle="modal"
-                                    data-bs-target="#addnotesModal-{{i.id}}">
-                                    <div class="addnotes-label ">Add notes</div>
+
+                                {% if i.notes_set.exists %}
+    
+                                    <span class="text-warning">Notes:</span> {{ i.notes_set.last.notes|truncatechars:10 }}
+                                   
+                                {% endif %}
+                                <div class="add-notes-container answerclass" data-bs-toggle="modal" data-bs-target="#addnotesModal-{{i.id}}">
+                                    
+                                    <div class="addnotes-label">Add notes</div>
     
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                         fill="none">
@@ -205,8 +216,7 @@
     
     
                                 </div>
-                                <div class="add-notes-container answerclass" data-bs-toggle="modal"
-                                    data-bs-target="#viewallnotes-{{i.id}}">
+                                <div class="add-notes-container answerclass" data-bs-toggle="modal" data-bs-target="#viewallnotes-{{i.id}}">
                                     <div class="addnotes-label" style="color: #0E9F6E;">View notes</div>
     
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
@@ -218,36 +228,13 @@
     
     
                                 </div>
+                                {% include "Employee/Enquiry/add_notes_modal.html" %}
+                                {% include "Employee/Enquiry/view_notes_modal.html" %}
     
                             </td>
-                            <td>
-                                {% comment %} <div class="row" style="display: flex;">
-    
-                                    <div class="col-md-6">
-                                        <a href="{% url " delete_and_archive" i.id %}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none">
-                                                <path
-                                                    d="M20 6.21053H16V4.10526C16 3.54691 15.7893 3.01143 15.4142 2.61662C15.0391 2.2218 14.5304 2 14 2H10C9.46957 2 8.96086 2.2218 8.58579 2.61662C8.21071 3.01143 8 3.54691 8 4.10526V6.21053H4C3.73478 6.21053 3.48043 6.32143 3.29289 6.51884C3.10536 6.71624 3 6.98398 3 7.26316C3 7.54233 3.10536 7.81007 3.29289 8.00748C3.48043 8.20489 3.73478 8.31579 4 8.31579H5V19.8947C5 20.4531 5.21071 20.9886 5.58579 21.3834C5.96086 21.7782 6.46957 22 7 22H17C17.5304 22 18.0391 21.7782 18.4142 21.3834C18.7893 20.9886 19 20.4531 19 19.8947V8.31579H20C20.2652 8.31579 20.5196 8.20489 20.7071 8.00748C20.8946 7.81007 21 7.54233 21 7.26316C21 6.98398 20.8946 6.71624 20.7071 6.51884C20.5196 6.32143 20.2652 6.21053 20 6.21053ZM10 4.10526H14V6.21053H10V4.10526ZM11 17.7895C11 18.0686 10.8946 18.3364 10.7071 18.5338C10.5196 18.7312 10.2652 18.8421 10 18.8421C9.73478 18.8421 9.48043 18.7312 9.29289 18.5338C9.10536 18.3364 9 18.0686 9 17.7895V10.4211C9 10.1419 9.10536 9.87414 9.29289 9.67673C9.48043 9.47932 9.73478 9.36842 10 9.36842C10.2652 9.36842 10.5196 9.47932 10.7071 9.67673C10.8946 9.87414 11 10.1419 11 10.4211V17.7895ZM15 17.7895C15 18.0686 14.8946 18.3364 14.7071 18.5338C14.5196 18.7312 14.2652 18.8421 14 18.8421C13.7348 18.8421 13.4804 18.7312 13.2929 18.5338C13.1054 18.3364 13 18.0686 13 17.7895V10.4211C13 10.1419 13.1054 9.87414 13.2929 9.67673C13.4804 9.47932 13.7348 9.36842 14 9.36842C14.2652 9.36842 14.5196 9.47932 14.7071 9.67673C14.8946 9.87414 15 10.1419 15 10.4211V17.7895Z"
-                                                    fill="#9B1C1C" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div> {% endcomment %}
-                            </td>
-                            {% comment %} <td>
-                                <div class="buttons-container">
-                                    <div class="accept-button">
-                                        <div class="button-content">Accept</div>
-                                    </div>
-                                    <div class="reject-button">
-                                        <div class="button-content">Reject</div>
-                                    </div>
-                                </div>
-                            </td> {% endcomment %}
+                            
                         </tr>
                         {% endif %}
-                        {% include "Admin/Enquiry/add_notes_modal.html" %}
     
                         {% endfor %}
                     </tbody>

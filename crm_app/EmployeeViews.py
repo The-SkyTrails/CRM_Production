@@ -24,11 +24,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# def employee_dashboard(request):
-#     user = request.user
-#     dep = user.employee.department
-#     context = {"dep": dep}
-#     return render(request, "Employee/Dashboard/dashboard.html", context)
 
 
 def employee_profile(request):
@@ -403,50 +398,147 @@ def employee_lead_list(request):
 
 def employee_lead_grid(request):
     user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales/Assesment":
+                enq = Enquiry.objects.filter(assign_to_employee=user.employee).order_by(
+                    "-id"
+                )
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    assign_to_sales_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    assign_to_documentation_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    assign_to_visa_team_employee=user.employee
+                ).order_by("-id")
+            else:
+                enq = None
+            print("enquiryyyyy", enq)
+            context = {"enq": enq, "user": user, "dep": dep}
     return render(request, "Employee/Enquiry/lead-grid.html", context)
-
-
-def employee_lead_details(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Enquiry/lead-details.html", context)
-
-
-def employee_other_details(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Enquiry/other-details.html", context)
-
-
-def employee_product_selection(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Enquiry/Product-Selection.html", context)
-
-
-def employee_lead_documents(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Enquiry/documents.html", context)
 
 
 def employee_enrolled_lead(request):
     user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Enquiry/Enrolledleads.html", context)
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales/Assesment":
+                enq = Enquiry.objects.filter(Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),assign_to_employee=user.employee).order_by(
+                    "-id"
+                )
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    
+                    assign_to_sales_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    assign_to_documentation_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    assign_to_visa_team_employee=user.employee
+                ).order_by("-id")
+            else:
+                enq = None
+            
+            context = {"enq": enq, "user": user, "dep": dep}
+
+
+    return render(request, "Employee/Enquiry/Enrolled Enquiry/Enrolledleads.html", context)
 
 
 def employee_enrolled_grid(request):
     user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales/Assesment":
+                enq = Enquiry.objects.filter(Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),assign_to_employee=user.employee).order_by(
+                    "-id"
+                )
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    
+                    assign_to_sales_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    assign_to_documentation_employee=user.employee
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+                    assign_to_visa_team_employee=user.employee
+                ).order_by("-id")
+            else:
+                enq = None
+            
+            context = {"enq": enq, "user": user, "dep": dep}
     return render(request, "Employee/Enquiry/enroll_lead-grid.html", context)
 
 
@@ -597,21 +689,21 @@ def delivery_Save(request, id):
 
 def enq_appointment_Save(request):
     if request.method == "POST":
-        print("workingggg")
+        
 
         enq = request.POST.get("enq_id")
         enq_id = Enquiry.objects.get(id=enq)
-        print("enquirry iddd", enq_id)
+        
         desc = request.POST.get("description")
         date = request.POST.get("date")
         time = request.POST.get("time")
 
         try:
             enqapp = EnqAppointment.objects.get(enquiry=enq_id)
-            print("heloooo", enqapp)
+            
 
             # Existing EnqAppointment found
-            print("wprloooooooooooooo")
+            
             enqapp.description = desc
             enqapp.enquiry = enq_id
             enqapp.date = date
@@ -685,7 +777,7 @@ def emp_add_agent(request):
     logged_in_user = request.user
     relevant_employees = Employee.objects.all()
     user = request.user
-    print("user", user)
+
     dep = user.employee.department
 
     if request.method == "POST":
@@ -762,10 +854,7 @@ def emp_add_agent(request):
                     f"Best regards,\nThe Sky Trails"
                 )
                 response = send_whatsapp_message(mobile_number, message)
-                if response.status_code == 200:
-                    print("workinggggggggggggggggg")
-                else:
-                    print("nooooooooooot workingggggggggggg")
+                
 
                 messages.success(request, "OutSource Agent Added Successfully")
                 return redirect("emp_all_outsource_agent")
@@ -780,7 +869,7 @@ def emp_add_agent(request):
                     user_type="4",
                 )
                 logged_in_user = request.user
-                print("hello userss", logged_in_user)
+                
                 user.agent.type = type
                 user.agent.contact_no = contact
                 user.agent.country = country
@@ -813,7 +902,7 @@ def emp_add_agent(request):
                 )
 
                 mobile_number = contact
-                print("mobileeeeeeeeessssssssss", mobile_number)
+                
                 message = (
                     f"Welcome to SSDC \n\n"
                     f"Congratulations! Your account has been successfully created as an agent.\n\n"
@@ -823,12 +912,7 @@ def emp_add_agent(request):
                     f"Best regards,\nThe Sky Trails"
                 )
                 response = send_whatsapp_message(mobile_number, message)
-                if response.status_code == 200:
-                    print("workinggggg")
-                    pass
-                else:
-                    print("noooooooooooo")
-                    pass
+                
 
                 messages.success(request, "Agent Added Successfully")
                 return redirect("emp_agent_list")
@@ -858,6 +942,22 @@ class emp_all_agent(ListView):
         context["dep"] = dep
         return context
 
+class emp_allGrid_agent(ListView):
+    model = Agent
+    template_name = "Employee/Agent Management/agentgrid.html"
+    context_object_name = "agent"
+
+    def get_queryset(self):
+        user = self.request.user.employee
+        return Agent.objects.filter(assign_employee=user).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["employee_queryset"] = Employee.objects.all()
+        context["dep"] = dep
+        return context
 
 def employee_agent_delete(request, id):
     agent = Agent.objects.get(id=id)
@@ -1042,6 +1142,26 @@ class emp_all_outsource_agent(ListView):
         context["employee_queryset"] = Employee.objects.all()
 
         return context
+
+
+class emp_allGrid_outsource_agent(ListView):
+    model = OutSourcingAgent
+    template_name = "Employee/Agent Management/outsorcegrid.html"
+    context_object_name = "agentoutsource"
+
+    def get_queryset(self):
+        user = self.request.user.employee
+        return OutSourcingAgent.objects.filter(assign_employee=user).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+        context["employee_queryset"] = Employee.objects.all()
+
+        return context
+
 
 
 def emp_outsourceagent_details(request, id):
@@ -1612,7 +1732,6 @@ def followup(request):
     if request.method == "POST":
         enq = request.POST.get("enq_id")
 
-        print("heloooooo", enq)
         follow_up_form = FollowUpForm(request.POST)
         if follow_up_form.is_valid():
             follow_up = follow_up_form.save(commit=False)
@@ -1660,3 +1779,40 @@ def ChangePassword(request):
             return HttpResponseRedirect(reverse("login"))
 
     return render(request, "Employee/Dashboard/dashboard.html")
+
+
+
+################################################## PRODUCT ################################################
+
+
+class PackageListView(LoginRequiredMixin, ListView):
+    model = Package
+    template_name = "Employee/Product/product.html"
+    context_object_name = "Package"
+
+    def get_queryset(self):
+        return Package.objects.order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+
+        return context
+    
+    
+class PackageDetailView(LoginRequiredMixin, DetailView):
+    model = Package
+    template_name = "Employee/Product/Productdetails.html"
+    context_object_name = "package"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+
+        return context

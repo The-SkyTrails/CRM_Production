@@ -11,14 +11,7 @@ urlpatterns = [
     path("Delete/UploadFile/<int:id>", emp_delete_docfile, name="emp_delete_docfile"),
     path("Lead/List/", employee_lead_list, name="employee_lead_list"),
     path("Lead/Grid/", employee_lead_grid, name="employee_lead_grid"),
-    path("Lead/Details/", employee_lead_details, name="employee_lead_details"),
-    path("Other/Details", employee_other_details, name="employee_other_details"),
-    path(
-        "Product/Selection/",
-        employee_product_selection,
-        name="employee_product_selection",
-    ),
-    path("Documents/", employee_lead_documents, name="employee_lead_documents"),
+
     path("Enrollled/Lead/", employee_enrolled_lead, name="employee_enrolled_lead"),
     path("Enrollled/Grid/", employee_enrolled_grid, name="employee_enrolled_grid"),
     # ------------------------------ Add lead staging --------------------------
@@ -61,6 +54,7 @@ urlpatterns = [
     # ------------------------------------------- Agent ----------------------------------------
     path("add_agent/", emp_add_agent, name="emp_add_agent"),
     path("agent_list/", emp_all_agent.as_view(), name="emp_agent_list"),
+    path("agent_Grid/", emp_allGrid_agent.as_view(), name="emp_agent_grid"),
     path("agent_delete/<int:id>/", employee_agent_delete, name="employee_agent_delete"),
     path("Agent/Details/<int:id>", emp_agent_details, name="emp_agent_details"),
     path(
@@ -84,6 +78,11 @@ urlpatterns = [
         "AllOutSourceAgent/",
         emp_all_outsource_agent.as_view(),
         name="emp_all_outsource_agent",
+    ),
+    path(
+        "AllOutSourceAgentGrid/",
+        emp_allGrid_outsource_agent.as_view(),
+        name="emp_allgrid_outsource_agent",
     ),
     path(
         "Outsourceagent_delete/<int:id>/",
@@ -140,4 +139,8 @@ urlpatterns = [
     path("Followup", followup, name="followup"),
     path("logout", employee_logout, name="employee_logout"),
     path("ChangePassword", ChangePassword, name="EmployeeChangePassword"),
+    
+    
+    path("PackageList/", PackageListView.as_view(), name="Employee_Package_list"),
+    path("packages/<int:pk>/", PackageDetailView.as_view(), name="employee_package_detail"),
 ]

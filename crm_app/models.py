@@ -310,27 +310,6 @@ class Agent(models.Model):
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
 
-    # def save(self, *args, **kwargs):
-    #     # Check if the user making the request is an employee
-    #     if (
-    #         hasattr(self, "request")
-    #         and hasattr(self.request, "user")
-    #         and hasattr(self.request.user, "employee")
-    #     ):
-    #         self.assign_employee = self.request.user.employee
-    #         super().save(*args, **kwargs)
-    #     else:
-    #         print("nooo loginnnn")
-    #         last_assigned_index = cache.get("last_assigned_index") or 0
-    #         sales_team_employees = Employee.objects.filter(department="Sales")
-
-    #         if sales_team_employees.exists():
-    #             next_index = (last_assigned_index + 1) % sales_team_employees.count()
-    #             self.assign_employee = sales_team_employees[next_index]
-    #             self.assign_employee.save()
-    #             cache.set("last_assigned_index", next_index)
-
-    #         super().save(*args, **kwargs)
 
 
 class OutSourcingAgent(models.Model):
@@ -388,19 +367,7 @@ class OutSourcingAgent(models.Model):
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
 
-    # def save(self, *args, **kwargs):
-    #     last_assigned_index = cache.get("last_assigned_index") or 0
-    #     # If no student is assigned, find the next available student in a circular manner
-    #     sales_team_employees = Employee.objects.filter(department="Sales")
 
-    #     if sales_team_employees.exists():
-    #         next_index = (last_assigned_index + 1) % sales_team_employees.count()
-    #         self.assign_employee = sales_team_employees[next_index]
-    #         self.assign_employee.save()
-
-    #         cache.set("last_assigned_index", next_index)
-
-    #     super().save(*args, **kwargs)
 
 
 class Package(models.Model):
@@ -905,19 +872,6 @@ class EnqAppointment(models.Model):
 
     class Meta:
         db_table = "Enquiry Appointment"
-        
-        
-class FollowUp(models.Model):
-    title = models.CharField(max_length=200, null=True, blank=True)
-    description = models.CharField(max_length=500, null=True, blank=True)
-    follow_up_status = models.CharField(max_length=20,choices=FOLLOWUP_STATUS_CHOICES, null=True, blank=True)
-    priority = models.CharField(max_length=20,choices=PRIORITY_CHOICES, null=True, blank=True)
-    calendar = models.DateField(auto_created=False,null=True,blank=True)
-    time = models.TimeField(auto_created=False,null=True,blank=True)
-    remark = models.CharField(max_length=200, null=True, blank=True)
-    enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE)  
-    created_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now=True)
     
   
 class FAQ(models.Model):
@@ -925,16 +879,7 @@ class FAQ(models.Model):
     question = models.TextField()
     answer = models.TextField(null=True,blank=True)
     last_updated_on = models.DateTimeField(auto_now_add=True)
-  
 
-
-PRIORITY_CHOICES = (
-    ("High", "High"),
-    ("Medium", "Medium"),
-    ("Low", "Low"),
-)
-
-FOLLOWUP_STATUS_CHOICES = (("Inprocess", "Inprocess"), ("Done", "Done"))
 
 
 class FollowUp(models.Model):
@@ -952,6 +897,17 @@ class FollowUp(models.Model):
     enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
+    
+    
+class ActivityLog(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    details = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.action} - {self.timestamp}"
+  
 
 
 @receiver(post_save, sender=CustomUser)

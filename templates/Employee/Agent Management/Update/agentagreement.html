@@ -13,7 +13,7 @@
       </div>
    </div>
    <div class="text-container">
-      <a href="http://" style="text-decoration: none">
+      <a href="{% url "employee_dashboard" %}" style="text-decoration: none">
          <div class="text">Dashboard</div>
       </a>
    </div>
@@ -64,15 +64,20 @@
 </div>
 <!-- ///////////////////////////////////////// -->
 <div class="agentem-container">
+   <a class="agent-text2" href="{% url "emp_agent_details" agent.id %}">
    <div class="custom-box">
-      <div class="agent-text3"><a  class="agent-text2" href="{% url "emp_agent_details" agent.id %}">All Details</a></div>
+      <div class="agent-text3">All Details</div>
    </div>
+   </a>
+
    <div class="custom-box">
       <div class="agent-text1">Agreements</div>
    </div>
+   <a class="agent-text3" href="{% url "emp_agent_kyc" agent.id %}">
    <div class="custom-box">
-      <div class="agent-text3"><a  class="agent-text3" href="{% url "emp_agent_kyc" agent.id %}">KYC Details</a></div>
+      <div class="agent-text3">KYC Details</div>
    </div>
+</a>
 </div>
 <!-- ////////////////Add NEW Agreement////////////////// -->
 <form  method="POST" enctype="multipart/form-data">

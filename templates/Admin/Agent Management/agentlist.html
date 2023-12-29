@@ -17,7 +17,7 @@
 
       </div>
       <div class="text-container">
-          <a href="http://" style="text-decoration: none;">
+          <a href="{% url "admin_dashboard" %}" style="text-decoration: none;">
               <div class="text">Dashboard</div>
           </a>
       </div>
@@ -76,6 +76,7 @@
         </a>
     </div>
     <div class="tabsBox">
+        <a href="{% url "agent_list" %}">
         <div class="tabsOne">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                 style="margin-right: 2px;">
@@ -99,7 +100,9 @@
                     fill="#111928" />
             </svg>List View
         </div>
+    </a>
         <hr>
+        <a href="{% url "agent_grid" %}">
         <div class="tabsTwo">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                 style="margin-right: 2px;">
@@ -117,6 +120,7 @@
                     fill="#111928" />
             </svg>Grid View
         </div>
+    </a>
     </div>
     <div class="scheduleappointment">
       <!-- <div class="appointment-text">Appointments</div> -->

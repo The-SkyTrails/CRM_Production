@@ -1,8 +1,5 @@
 {% extends "Admin/Base/base.html" %}
-<<<<<<< HEAD
-=======
 {% load static %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 {% block main-content %}
 <div class="form-container">
   <div class="custom-container">
@@ -16,7 +13,7 @@
       </div>
     </div>
     <div class="text-container">
-      <a href="http://" style="text-decoration: none">
+      <a href="{% url "admin_dashboard" %}" style="text-decoration: none">
         <div class="text">Dashboard</div>
       </a>
     </div>
@@ -42,15 +39,11 @@
     <div class="profiledetail-container">
       <div class="profile-image">
         <div class="image-content">
-<<<<<<< HEAD
-          <div class="initials">PH</div>
-=======
           {% if agent.profile_pic and agent.profile_pic.url %}
           <div class="initials"><img src="{{agent.profile_pic.url}}" alt="" style="width:100%"></div>
           {% else %}
           <div class="initials"><img src="{% static "style/Styling/Bootstrap/img/user.jpg" %}" alt="" style="width:100%"></div>
           {% endif %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
         </div>
       </div>
       <div class="profile-details">
@@ -61,119 +54,33 @@
           <div class="details-label">Email:</div>
         </div>
         <div class="details-column">
-<<<<<<< HEAD
-          <div class="detail-value">Rajeev Malhotra</div>
-          <div class="detail-value">Dec. 2, 2023, 10:57 a.m.</div>
-          <div class="detail-value">0123456789</div>
-          <div class="detail-value">abc@gmail.com</div>
-=======
           <div class="detail-value">{{agent.users}}</div>
           <div class="detail-value">{{agent.registeron}}</div>
           <div class="detail-value">{{agent.contact_no}}</div>
           <div class="detail-value">{{agent.users.email}}</div>
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
         </div>
       </div>
     </div>
   </div>
   <!-- ///////////////////////////////////////// -->
   <div class="agentem-container">
+    <a class="agent-text2" href="{% url "admin_outsourceagent_details" agent.id %}">
     <div class="custom-box">
-<<<<<<< HEAD
-      <div class="agent-text3"><a  class="agent-text2" href="{% url "admin_outsourceagent_details" outsourceagent.id %}">All Details</a></div>
+      <div class="agent-text3">All Details</div>
     </div>
+  </a>
+  <a class="agent-text2" href="{% url "admin_outsource_agent_agreement" agent.id %}">
     <div class="custom-box">
-<div class="agent-text2"><a class="agent-text2" href="{% url "admin_outsource_agent_agreement" outsourceagent.id %}">Agreements</a></div>
-=======
-      <div class="agent-text3"><a  class="agent-text2" href="{% url "admin_outsourceagent_details" agent.id %}">All Details</a></div>
+<div class="agent-text2">Agreements</div>
     </div>
-    <div class="custom-box">
-<div class="agent-text2"><a class="agent-text2" href="{% url "admin_outsource_agent_agreement" agent.id %}">Agreements</a></div>
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
-    </div>
+  </a>
     <div class="custom-box">
       <div class="agent-text1">KYC Details</div>
     </div>
   </div>
-<<<<<<< HEAD
-=======
   {% include "Admin/Base/messages.html" %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 
-  <!-- //////////////table//////////////////// -->
-  <!-- <div class="resolvedquerycontent1">
-      <ul class="list-group">
-          <div class="list-item">
-              <li class="list-group-item agentitem">All Agreements</li>
-              
-          </div>
-          
-          <li class="list-group-item item-content">
-              <div class="inputforms-agentcontainer">
-                  <table>
-                      <thead style="background-color:  #F9FAFB">
-                        <tr style="color:  #6B7280">
-                          <th scope="col">S. NO.</th>
-                          <th scope="col">Document Name</th>
-                          <th scope="col">Uploaded on</th>
-                          <th scope="col">File name</th>
-                          <th scope="col">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td class="tableagent">AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td>AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>How can you become Skytrails agent?</td>
-                          <td>Dec. 2, 2023, 10:57 a.m.</td>
-                          <td>AKIB.pdf</td>
-                          <td>
-                              <button class="btn-upload" type="submit">
-                                Upload
-                              </button>
-                              <button class="btn-delete" type="submit">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    
-                   
-                  
-              </div>
-          </li>
-         
-        </ul>
-        
-  </div> -->
+  
   <div class="inputforms-container">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
@@ -193,11 +100,7 @@
                     <th scope="col">S. NO.</th>
                     <th scope="col">Document Name</th>
                     <th scope="col">Uploaded on</th>
-<<<<<<< HEAD
-                    <th scope="col">File name</th>
-=======
                     <th scope="col">View/Download</th>
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -205,17 +108,6 @@
                   <tr>
                     <th scope="row">1</th>
                     <td>Aadhar Card Front</td>
-<<<<<<< HEAD
-                    <td>Dec. 2, 2023, 10:57 a.m.</td>
-                    <td class="tableagent">AKIB.pdf</td>
-                    <td>
-                      <button class="btn-upload" type="submit">
-                        Upload
-                      </button>
-                      <button class="btn-delete" type="submit">
-                        Delete
-                      </button>
-=======
                     <td>{{outsourcekyc.uploaded_on}}</td>
                     {% if outsourcekyc.adhar_card_front %}
                     <td>
@@ -247,23 +139,10 @@
                       {% comment %} <button class="btn-delete" type="submit">
                         Delete
                       </button> {% endcomment %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
-<<<<<<< HEAD
-                    <td>Aadhar Card Front</td>
-                    <td>Dec. 2, 2023, 10:57 a.m.</td>
-                    <td>AKIB.pdf</td>
-                    <td>
-                      <button class="btn-upload" type="submit">
-                        Upload
-                      </button>
-                      <button class="btn-delete" type="submit">
-                        Delete
-                      </button>
-=======
                     <td>Aadhar Card Back</td>
                     <td>{{outsourcekyc.uploaded_on}}</td>
                     {% if outsourcekyc.adhar_card_back %}
@@ -295,23 +174,10 @@
                       {% comment %} <button class="btn-delete" type="submit">
                         Delete
                       </button> {% endcomment %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">3</th>
-<<<<<<< HEAD
-                    <td>Aadhar Card Front</td>
-                    <td>Dec. 2, 2023, 10:57 a.m.</td>
-                    <td>AKIB.pdf</td>
-                    <td>
-                      <button class="btn-upload" type="submit">
-                        Upload
-                      </button>
-                      <button class="btn-delete" type="submit">
-                        Delete
-                      </button>
-=======
                     <td>Pancard</td>
                     <td>{{outsourcekyc.uploaded_on}}</td>
                     <!-- <td>AKIB.pdf</td> -->
@@ -344,7 +210,6 @@
                       {% comment %} <button class="btn-delete" type="submit">
                         Delete
                       </button> {% endcomment %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
                     </td>
                   </tr>
                 </tbody>
@@ -368,18 +233,12 @@
           <button class="custom-acc-button accordion-button" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapse" aria-expanded="true" aria-controls="collapse">
             Company Documents
-<<<<<<< HEAD
-            <span>2 Documents Needed</span>
-=======
             {% comment %} <span>2 Documents Needed</span> {% endcomment %}
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 
           </button>
         </h2>
         <div id="collapse" class="accordion-collapse collapse show" data-bs-parent="#companydoc">
           <div class="accordion-body">
-<<<<<<< HEAD
-=======
             <table>
                 <thead style="background-color:  #F9FAFB">
                   <tr style="color:  #6B7280">
@@ -432,7 +291,6 @@
                  
                 </tbody>
               </table>
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 
           </div>
 
@@ -449,13 +307,10 @@
 
   </div>
 </div>
-<<<<<<< HEAD
-=======
 
 {% include "Admin/Agent Management/OutsourceUpdate/adhar_card_front_modal.html" %}
 {% include "Admin/Agent Management/OutsourceUpdate/adhar_card_back_modal.html" %}
 {% include "Admin/Agent Management/OutsourceUpdate/pan_card_modal.html" %}
 {% include "Admin/Agent Management/OutsourceUpdate/registration_certificate-modal.html" %}
 
->>>>>>> ae8388a4386464476791efe429128d1d86f70a4d
 {% endblock main-content %}
