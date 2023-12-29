@@ -22,7 +22,7 @@ from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.db.models import Q
 
 # def employee_dashboard(request):
 #     user = request.user
@@ -1227,12 +1227,14 @@ def emp_edit_enrolled_application(request, id):
     category = VisaCategory.objects.all()
     user = request.user
     dep = user.employee.department
+    form = FollowUpForm()
 
     context = {
         "enquiry": enquiry,
         "country": country,
         "category": category,
         "dep": dep,
+        "form": form,
     }
 
     if request.method == "POST":
@@ -1611,14 +1613,75 @@ def emp_enrolled_delete_docfile(request, id):
 def followup(request):
     if request.method == "POST":
         enq = request.POST.get("enq_id")
+        enquiry = Enquiry.objects.get(id=enq)
 
         print("heloooooo", enq)
         follow_up_form = FollowUpForm(request.POST)
         if follow_up_form.is_valid():
             follow_up = follow_up_form.save(commit=False)
-            follow_up.enquiry = enq
+            follow_up.enquiry = enquiry
             follow_up.created_by = request.user
             follow_up.save()
+            messages.success(request, "Followup Created Successfully")
+            return redirect("emp_edit_enrolled_application", enquiry.id)
+
+
+def emp_followup_list(request):
+    user = request.user.employee
+    user2 = request.user
+    form = FollowUpForm()
+    priority = PRIORITY_CHOICES
+    status = FOLLOWUP_STATUS_CHOICES
+
+    enq_list = Enquiry.objects.filter(
+        # Q(created_by=user)
+        Q(assign_to_employee=user)
+        | Q(assign_to_sales_employee=user)
+        | Q(assign_to_documentation_employee=user)
+        | Q(assign_to_visa_team_employee=user)
+    ).distinct()
+    followup = FollowUp.objects.filter(enquiry__in=enq_list)
+    print("follow up", followup)
+    context = {
+        "followup": followup,
+        "form": form,
+        "priority": priority,
+        "status": status,
+    }
+    return render(request, "Employee/FollowUp/followup_list.html", context)
+
+
+def followup_update(request):
+    if request.method == "POST":
+        followup_id = request.POST.get("followup_id")
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        date = request.POST.get("date")
+        time = request.POST.get("time")
+        follow_up_status = request.POST.get("follow_up_status")
+        priority = request.POST.get("priority")
+        remark = request.POST.get("remark")
+
+        followup = FollowUp.objects.get(id=followup_id)
+
+        followup.title = title
+        followup.description = description
+        followup.follow_up_status = follow_up_status
+        followup.priority = priority
+        followup.calendar = date
+        followup.time = time
+        followup.remark = remark
+        followup.save()
+        messages.success(request, "Followup Updated Successfully...")
+
+        return redirect("emp_followup_list")
+
+
+def emp_followup_delete(request, id):
+    followup = FollowUp.objects.get(id=id)
+    followup.delete()
+    messages.success(request, "Followup Deleted... !!")
+    return redirect(emp_followup_list)
 
 
 ###################################### LOGOUT #######################################################
@@ -1660,3 +1723,89 @@ def ChangePassword(request):
             return HttpResponseRedirect(reverse("login"))
 
     return render(request, "Employee/Dashboard/dashboard.html")
+
+
+# ----------------------------------------- FAQ ------------------------
+
+
+class emp_FAQCreateView(LoginRequiredMixin, CreateView):
+    model = FAQ
+    form_class = FAQForm
+    template_name = "Employee/Queries/add_query.html"
+    success_url = reverse_lazy("emp_ResolvedFAQListView")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+
+        messages.success(self.request, "FAQ Added Successfully.")
+
+        return super().form_valid(form)
+
+
+# def get_pending_queries_count(request):
+#     user = request.user
+#     return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True)
+
+
+def emp_ResolvedFAQListView(request):
+    faq = FAQ.objects.all()
+    pending = FAQ.objects.filter(answer__exact="").count()
+
+    print("pendinggg", pending)
+    context = {"faq": faq, "pending": pending}
+    return render(request, "Employee/Queries/resolvedquery.html", context)
+
+
+# class emp_ResolvedFAQListView(LoginRequiredMixin, ListView):
+#     model = FAQ
+#     template_name = "Employee/Queries/resolvedquery.html"
+#     context_object_name = "emp_ResolvedFAQListView"
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["pending_queries_count"] = self.get_pending_queries_count(
+#             self.request.user
+#         )
+#         return context
+
+#     def get_pending_queries_count(self, user):
+#         return (
+#             FAQ.objects.filter(user=user, answer__exact="")
+#             .exclude(answer__isnull=True)
+#             .count()
+#         )
+
+
+def emp_PendingFAQListView(request):
+    faq = FAQ.objects.all()
+    pending = FAQ.objects.filter(answer__exact="").count()
+
+    print("pendinggg", pending)
+    context = {"faq": faq, "pending": pending}
+
+    # pending_queries = FAQ.objects.filter(user=request.user, answer__exact="").exclude(
+    #     answer__isnull=True
+    # )
+    # pending_queries_count = pending_queries.count()
+    # context = {
+    #     "pending_queries": pending_queries,
+    #     "pending_queries_count": pending_queries_count,
+    # }
+
+    return render(request, "Employee/Queries/quries.html", context)
+
+
+# class emp_PendingFAQListView(LoginRequiredMixin, ListView):
+#     model = FAQ
+#     template_name = "Employee/Queries/quries.html"
+#     context_object_name = "pending_queries"
+
+#     def get_queryset(self):
+#         return FAQ.objects.filter(user=self.request.user, answer__exact="").exclude(
+#             answer__isnull=True
+#         )
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["pending_queries_count"] = self.get_queryset().count()
+#         return context

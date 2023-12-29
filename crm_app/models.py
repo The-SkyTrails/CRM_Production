@@ -41,17 +41,6 @@ Department_Choices = [
     ("HR", "HR"),
 ]
 
-PRIORITY_CHOICES = (
-        ('High', 'High'),
-        ('Medium', 'Medium'),
-        ('Low', 'Low'),
-    )
-
-FOLLOWUP_STATUS_CHOICES = (
-        ('Inprocess', 'Inprocess'),
-        ('Done', 'Done')
-    )
- 
 
 TYPE_CHOICES = [("Appointment", "Appointment"), ("Contact Us", "Contact Us")]
 
@@ -70,7 +59,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-    
+
     def generate_initials(self):
         first_initial = self.first_name[0].upper() if self.first_name else ""
         last_initial = self.last_name[0].upper() if self.last_name else ""
@@ -905,27 +894,16 @@ class EnqAppointment(models.Model):
 
     class Meta:
         db_table = "Enquiry Appointment"
-        
-        
-class FollowUp(models.Model):
-    title = models.CharField(max_length=200, null=True, blank=True)
-    description = models.CharField(max_length=500, null=True, blank=True)
-    follow_up_status = models.CharField(max_length=20,choices=FOLLOWUP_STATUS_CHOICES, null=True, blank=True)
-    priority = models.CharField(max_length=20,choices=PRIORITY_CHOICES, null=True, blank=True)
-    calendar = models.DateField(auto_created=False,null=True,blank=True)
-    time = models.TimeField(auto_created=False,null=True,blank=True)
-    remark = models.CharField(max_length=200, null=True, blank=True)
-    enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE)  
-    created_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now=True)
-    
-  
+
+
 class FAQ(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    employee = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True, blank=True
+    )
     question = models.TextField()
-    answer = models.TextField(null=True,blank=True)
+    answer = models.TextField(null=True, blank=True)
     last_updated_on = models.DateTimeField(auto_now_add=True)
-  
 
 
 PRIORITY_CHOICES = (

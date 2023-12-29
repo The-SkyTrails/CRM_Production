@@ -5,7 +5,13 @@ from django.urls import reverse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView, UpdateView, DetailView , TemplateView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    UpdateView,
+    DetailView,
+    TemplateView,
+)
 from django.views import View
 from .forms import *
 from django.db.models import Prefetch
@@ -13,7 +19,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 import requests
 from datetime import datetime
-from django.contrib.auth import authenticate,logout, login as auth_login
+from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.hashers import check_password
 
 
@@ -22,43 +28,42 @@ class agent_dashboard(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         leadaccept_count = Enquiry.objects.filter(
-            Q(lead_status="Enrolled") | Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit") | Q(lead_status="Appointment") | Q(lead_status="Ready To Collection") | Q(lead_status="Result") | Q(lead_status="Delivery"),
-            created_by=self.request.user
+            Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery"),
+            created_by=self.request.user,
         ).count()
-        
-        lead_count = Enquiry.objects.filter(
-            created_by=self.request.user
-        ).count()
-        
+
+        lead_count = Enquiry.objects.filter(created_by=self.request.user).count()
+
         package = Package.objects.all().order_by("-last_updated_on")[:10]
-        
+
         user = self.request.user
         if user.user_type == "4":
             agent = Agent.objects.get(users=user)
-            context['agent'] = agent
-            
+            context["agent"] = agent
+
         if user.user_type == "5":
             outagent = OutSourcingAgent.objects.get(users=user)
-            context['agent'] = outagent
-        
-        context["leadaccept_count"] = leadaccept_count
-        context['lead_count'] = lead_count
-        context["package"] = package
-        
-        
-        return context
-        
+            context["agent"] = outagent
 
+        context["leadaccept_count"] = leadaccept_count
+        context["lead_count"] = lead_count
+        context["package"] = package
+
+        return context
 
 
 ############################################### LEADS ##########################################################
 
 
-
 class Enquiry1View(LoginRequiredMixin, CreateView):
-    
     def get(self, request):
         form = EnquiryForm1()
         return render(
@@ -90,7 +95,6 @@ class Enquiry1View(LoginRequiredMixin, CreateView):
         )
 
 
-
 class Enquiry2View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm2()
@@ -105,7 +109,7 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
         if form.is_valid():
             # Retrieve personal details from session
             enquiry_form1 = request.session.get("agent_enquiry_form1", {})
-            
+
             # Safely retrieve spouse_dob and format it if available
             spouse_dob = form.cleaned_data.get("spouse_dob")
             cleaned_data = {
@@ -133,7 +137,6 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
         )
 
 
-
 class Enquiry3View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm3()
@@ -150,7 +153,7 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
 
         if form3.is_valid():
             user = self.request.user
-           
+
             # Merge data from all three forms
             merged_data = {
                 **form1_data,
@@ -196,9 +199,8 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         enquiry_id = self.object.id
         return reverse_lazy("agent_enquiry_form4", kwargs={"id": enquiry_id})
-    
-    
-    
+
+
 @login_required
 def agentdocument(request, id):
     enq = Enquiry.objects.get(id=id)
@@ -291,7 +293,6 @@ def agent_new_leads_details(request):
     return render(request, "Agent/Enquiry/lead-details.html", context)
 
 
-
 def get_public_ip():
     try:
         response = requests.get("https://api64.ipify.org?format=json")
@@ -300,6 +301,7 @@ def get_public_ip():
     except Exception as e:
         # Handle the exception (e.g., log the error)
         return None
+
 
 @login_required
 def agent_add_notes(request):
@@ -346,7 +348,6 @@ def edit_enrolled_application(request, id):
         "enquiry": enquiry,
         "country": country,
         "category": category,
-        
     }
 
     if request.method == "POST":
@@ -534,7 +535,6 @@ def combined_view(request, id):
                 existing_test_score.overall_score = overall_score
                 existing_test_score.save()
 
-        
         background_info, created = Background_Information.objects.get_or_create(
             enquiry_id=enquiry
         )
@@ -572,10 +572,9 @@ def combined_view(request, id):
     context = {
         "enquiry": enquiry,
         "test_scores": test_scores,
-        "education_summary":education_summary,
-        "work_exp":work_exp,
-        "bk_info":bk_info
-        
+        "education_summary": education_summary,
+        "work_exp": work_exp,
+        "bk_info": bk_info,
     }
 
     return render(
@@ -696,7 +695,7 @@ def enrolled_upload_document(request):
                 doc.document_file = document_file
                 doc.lastupdated_by = request.user
                 doc.save()
-               
+
                 return redirect("agent_enrolled_document", id=enq_id)
             else:
                 document_files = DocumentFiles.objects.create(
@@ -713,7 +712,6 @@ def enrolled_upload_document(request):
             pass
 
 
-
 @login_required
 def enrolled_delete_docfile(request, id):
     doc_id = DocumentFiles.objects.get(id=id)
@@ -726,11 +724,13 @@ def enrolled_delete_docfile(request, id):
 
 ########################################### PRODUCT ######################################################
 
+
 class PackageDetailView(LoginRequiredMixin, DetailView):
     model = Package
     template_name = "Agent/Product/Productdetails.html"
     context_object_name = "package"
-    
+
+
 class PackageListView(LoginRequiredMixin, ListView):
     model = Package
     template_name = "Agent/Product/product.html"
@@ -738,60 +738,69 @@ class PackageListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Package.objects.order_by("-id")
-    
-    
-    
+
+
 ############################################ QUERIES ######################################################
 
 
-class FAQCreateView(LoginRequiredMixin,CreateView):
+class FAQCreateView(LoginRequiredMixin, CreateView):
     model = FAQ
     form_class = FAQForm
-    template_name = 'Agent/Queries/add_query.html'
-    success_url = reverse_lazy('resolved_queries') 
-    
+    template_name = "Agent/Queries/add_query.html"
+    success_url = reverse_lazy("resolved_queries")
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-        
-        messages.success(self.request, 'FAQ Added Successfully.')
-          
+
+        user = self.request.user.agent
+        form.instance.employee = user.assign_employee
+
+        messages.success(self.request, "FAQ Added Successfully.")
+
         return super().form_valid(form)
-    
-    
+
+
 # def get_pending_queries_count(request):
 #     user = request.user
 #     return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True)
-    
+
+
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
-    template_name = 'Agent/Queries/resolvedquery.html'
-    context_object_name = 'resolved_queries'
+    template_name = "Agent/Queries/resolvedquery.html"
+    context_object_name = "resolved_queries"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pending_queries_count'] = self.get_pending_queries_count(self.request.user)
+        context["pending_queries_count"] = self.get_pending_queries_count(
+            self.request.user
+        )
         return context
 
     def get_pending_queries_count(self, user):
-        return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True).count()
+        return (
+            FAQ.objects.filter(user=user, answer__exact="")
+            .exclude(answer__isnull=True)
+            .count()
+        )
 
-    
-    
 
 class PendingFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
-    template_name = 'Agent/Queries/quries.html'
-    context_object_name = 'pending_queries'
+    template_name = "Agent/Queries/quries.html"
+    context_object_name = "pending_queries"
 
     def get_queryset(self):
-        return FAQ.objects.filter(user=self.request.user, answer__exact='').exclude(answer__isnull=True)
+        return FAQ.objects.filter(user=self.request.user, answer__exact="").exclude(
+            answer__isnull=True
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pending_queries_count'] = self.get_queryset().count()
+        context["pending_queries_count"] = self.get_queryset().count()
         return context
-    
-    
+
+
 ###################################### LOGOUT #######################################################
 
 
@@ -827,9 +836,7 @@ def ChangePassword(request):
                 return HttpResponseRedirect(reverse("login"))
 
         else:
-            
             messages.warning(request, "Old password is not correct")
             return HttpResponseRedirect(reverse("login"))
 
     return render(request, "Agent/Dashboard/dashboard.html")
-

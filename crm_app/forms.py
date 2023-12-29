@@ -361,13 +361,13 @@ class EnquiryForm3(forms.ModelForm):
         ]
 
         widgets = {
-            "Visa_country": forms.Select(attrs={"class": "form-control"}),
-            "Visa_category": forms.Select(attrs={"class": "form-control"}),
-            "Visa_subcategory": forms.Select(attrs={"class": "form-control"}),
-            "Visa_type": forms.Select(attrs={"class": "form-control"}),
-            "Package": forms.Select(attrs={"class": "form-control"}),
+            "Visa_country": forms.Select(attrs={"class": "form-select"}),
+            "Visa_category": forms.Select(attrs={"class": "form-select"}),
+            "Visa_subcategory": forms.Select(attrs={"class": "form-select"}),
+            "Visa_type": forms.Select(attrs={"class": "form-select"}),
+            "Package": forms.Select(attrs={"class": "form-select"}),
             "Source": forms.Select(
-                attrs={"class": "form-control", "placeholder": "Enter Source Name"}
+                attrs={"class": "form-select", "placeholder": "Enter Source Name"}
             ),
             "Reference": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Reference Name"}

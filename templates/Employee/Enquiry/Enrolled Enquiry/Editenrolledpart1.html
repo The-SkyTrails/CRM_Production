@@ -3,8 +3,7 @@
 {% load static %}
 {% block main-content %}
 <div class="form-container">
-   <form action=""  method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
+  
       <div class="custom-container">
          <div class="icon-container">
             <div class="icon">
@@ -45,6 +44,7 @@
             <div class="text" style="color: #6b7280">Details</div>
          </div>
       </div>
+      
       <div class="row documentfollow">
          <div class="col-md-5">
             <div class="profiledetail-container1">
@@ -84,6 +84,8 @@
        
 
       </div>
+      <form action=""  method="POST" enctype="multipart/form-data">
+         {% csrf_token %}
       <div class="status-container">
          <div class="status-item enrolled">
             <div class="icon-container">
@@ -2395,6 +2397,6 @@
    });
 </script>
 
-    {% include "Employee/Enquiry/Enrolled Enquiry/followup_modal.html" %}
+   {% include "Employee/Enquiry/Enrolled Enquiry/followup_modal.html" %}
 
 {% endblock main-content %}

@@ -138,6 +138,21 @@ urlpatterns = [
     ),
     # --------------------------------Follow Up-----------------------------
     path("Followup", followup, name="followup"),
+    path("FollowupList/", emp_followup_list, name="emp_followup_list"),
+    path("Followup/Delete/<int:id>", emp_followup_delete, name="emp_followup_delete"),
+    path("followupupdate/", followup_update, name="followupupdate"),
     path("logout", employee_logout, name="employee_logout"),
     path("ChangePassword", ChangePassword, name="EmployeeChangePassword"),
+    #  --------------------------------- FaQ -------------------------
+    path("AddQueries/", emp_FAQCreateView.as_view(), name="emp_FAQCreateView"),
+    path(
+        "resolved-queries/",
+        emp_ResolvedFAQListView,
+        name="emp_ResolvedFAQListView",
+    ),
+    path(
+        "pending-queries/",
+        emp_PendingFAQListView,
+        name="emp_PendingFAQListView",
+    ),
 ]

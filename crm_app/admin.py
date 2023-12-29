@@ -67,6 +67,20 @@ class EnquiryAppointmentAdmin(admin.ModelAdmin):
     )
 
 
+class FollowupAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "description",
+        "follow_up_status",
+        "priority",
+        "calendar",
+        "time",
+        "remark",
+        "enquiry",
+        "created_by",
+    )
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory)
@@ -94,3 +108,4 @@ admin.site.register(Education_Summary)
 admin.site.register(TestScore)
 admin.site.register(Work_Experience)
 admin.site.register(FAQ)
+admin.site.register(FollowUp, FollowupAdmin)

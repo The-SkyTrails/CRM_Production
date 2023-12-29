@@ -1,7 +1,7 @@
 <div class="modal" id="followUpModal" tabindex="-1" role="dialog" aria-labelledby="followUpModalLabel"
 aria-hidden="true">
 <div class="modal-dialog" role="document">
-   <form action="" method="POST">
+   <form action="{% url "followup" %}" method="POST">
       {% csrf_token %}
    <div class="modal-content">
       <div class="modal-header">
@@ -13,49 +13,54 @@ aria-hidden="true">
       <div class="modal-body">
          <div class="row formrow">
             <div class="col-md-6">
+               <input type="text" value={{enquiry.id}} name="enq_id" hidden>
                <label for="exampleFormControlInput1" class="custom-form-label">Title</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name"> {% endcomment %}
+               {{form.title}}
               
             </div>
             <div class="col-md-6">
                <label for="exampleFormControlInput1" class="custom-form-label">Enter Description</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------"> {% endcomment %}
+               {{form.description}}
                
             </div>
          </div>
          <div class="row formrow">
             <div class="col-md-6">
                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Date</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name"> {% endcomment %}
+               {{form.calendar}}
                
             </div>
             <div class="col-md-6">
                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Time</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------"> {% endcomment %}
+               {{form.time}}
 
             </div>
          </div>
          <div class="row formrow">
             <div class="col-md-6">
                <label for="exampleFormControlInput1" class="custom-form-label">Follow Up Status</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Add Branch Name"> {% endcomment %}
+               {{form.follow_up_status}}
                
             </div>
             <div class="col-md-6">
                <label for="exampleFormControlInput1" class="custom-form-label">Priority</label>
-               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------">
+               {% comment %} <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="-----------"> {% endcomment %}
+               {{form.priority}}
                
             </div>
          </div>
          <div class="row formrow">
             <div class="col-md-12">
                <label for="exampleFormControlInput1" class="custom-form-label">Add Notes :</label>
+               {{form.remark}}
               
             </div>
-            <div class="col-md-12">
-              <textarea name="" id="" cols="30" rows="10"></textarea>
-              
-            </div>
+           
          </div>
       </div>
       <hr>
