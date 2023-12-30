@@ -5,7 +5,13 @@ from django.contrib import messages
 from .models import *
 from django.urls import reverse
 from django.db.models import Q
-from django.views.generic import CreateView, ListView, UpdateView, DetailView , TemplateView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    UpdateView,
+    DetailView,
+    TemplateView,
+)
 from django.views import View
 from django.urls import reverse_lazy
 import pandas as pd
@@ -21,12 +27,12 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime
-from django.contrib.auth import authenticate,logout, login as auth_login
+from django.contrib.auth import authenticate, logout, login as auth_login
 
 ######################################### COUNTRY #################################################
 
 
-class admin_dashboard(LoginRequiredMixin,TemplateView):
+class admin_dashboard(LoginRequiredMixin, TemplateView):
     template_name = "Admin/Dashboard/dashboard.html"
 
     def get_context_data(self, **kwargs):
@@ -35,27 +41,31 @@ class admin_dashboard(LoginRequiredMixin,TemplateView):
         agent_count = Agent.objects.count()
 
         outsourceagent_count = OutSourcingAgent.objects.count()
-        
+
         total_agent_count = agent_count + outsourceagent_count
 
         employee_count = Employee.objects.count()
-        
-        leadarchive_count = Enquiry.objects.filter(
-            archive="True"
-        ).count()
-        
+
+        leadarchive_count = Enquiry.objects.filter(archive="True").count()
+
         leadaccept_count = Enquiry.objects.filter(
-            Q(lead_status="Enrolled") | Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit") | Q(lead_status="Appointment") | Q(lead_status="Ready To Collection") | Q(lead_status="Result") | Q(lead_status="Delivery")           
+            Q(lead_status="Enrolled")
+            | Q(lead_status="Inprocess")
+            | Q(lead_status="Ready To Submit")
+            | Q(lead_status="Appointment")
+            | Q(lead_status="Ready To Collection")
+            | Q(lead_status="Result")
+            | Q(lead_status="Delivery")
         ).count()
-        
+
         leadpending_count = Enquiry.objects.filter(lead_status="PreEnrolled").count()
-        
+
         leadtotal_count = Enquiry.objects.all().count()
-        
+
         leadnew_count = Enquiry.objects.filter(lead_status="New Lead").count()
-        
+
         package = Package.objects.all().order_by("-last_updated_on")[:10]
-        
+
         context["total_agent_count"] = total_agent_count
         context["employee_count"] = employee_count
         context["leadarchive_count"] = leadarchive_count
@@ -64,10 +74,8 @@ class admin_dashboard(LoginRequiredMixin,TemplateView):
         context["leadtotal_count"] = leadtotal_count
         context["leadnew_count"] = leadnew_count
         context["package"] = package
-        
+
         return context
-        
-        
 
 
 @login_required
@@ -1027,7 +1035,7 @@ class all_agent(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["employee_queryset"] = Employee.objects.all()
         return context
-    
+
 
 class Grid_agent(LoginRequiredMixin, ListView):
     model = Agent
@@ -1223,8 +1231,8 @@ class all_outsource_agent(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["employee_queryset"] = Employee.objects.all()
         return context
-    
-    
+
+
 class Grid_outsource_agent(LoginRequiredMixin, ListView):
     model = OutSourcingAgent
     template_name = "Admin/Agent Management/outsorcegrid.html"
@@ -1618,7 +1626,7 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
         if form.is_valid():
             # Retrieve personal details from session
             enquiry_form1 = request.session.get("enquiry_form1", {})
-            
+
             # Safely retrieve spouse_dob and format it if available
             spouse_dob = form.cleaned_data.get("spouse_dob")
             cleaned_data = {
@@ -1799,6 +1807,7 @@ def admin_new_leads_details(request):
     context = {"enquiry": enquiry}
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
+
 @login_required
 def admin_grid_leads_details(request):
     enquiry = Enquiry.objects.all().order_by("-id")
@@ -1815,7 +1824,6 @@ def get_public_ip():
     except Exception as e:
         # Handle the exception (e.g., log the error)
         return None
-
 
 
 def add_notes(request):
@@ -1953,11 +1961,9 @@ class enrolled_Application(LoginRequiredMixin, ListView):
         context["OutSourcingAgent"] = OutSourcingAgent.objects.all()
         context["enqenrolled"] = Enquiry.objects.filter(lead_status="Enrolled")
 
-        
-
         return context
-    
-    
+
+
 class enrolledGrid_Application(LoginRequiredMixin, ListView):
     model = Enquiry
     template_name = "Admin/Enquiry/enroll_lead-grid.html"
@@ -1990,11 +1996,7 @@ class enrolledGrid_Application(LoginRequiredMixin, ListView):
         context["OutSourcingAgent"] = OutSourcingAgent.objects.all()
         context["enqenrolled"] = Enquiry.objects.filter(lead_status="Enrolled")
 
-        
-
         return context
-
-
 
 
 @login_required
@@ -2007,7 +2009,6 @@ def edit_enrolled_application(request, id):
         "enquiry": enquiry,
         "country": country,
         "category": category,
-        
     }
 
     if request.method == "POST":
@@ -2233,9 +2234,9 @@ def combined_view(request, id):
     context = {
         "enquiry": enquiry,
         "test_scores": test_scores,
-        "education_summary":education_summary,
-        "work_exp":work_exp,
-        "bk_info":bk_info
+        "education_summary": education_summary,
+        "work_exp": work_exp,
+        "bk_info": bk_info,
     }
 
     return render(
@@ -2249,6 +2250,7 @@ def delete_test_score(request, id):
     enquiry_id = test_score.enquiry_id.id
     test_score.delete()
     return redirect("agent_education_summary", id=enquiry_id)
+
 
 @login_required
 def editproduct_details(request, id):
@@ -2396,7 +2398,6 @@ def admin_logout(request):
     return redirect("/")
 
 
-
 ########################################### ACTIVITY LOGS ################################################
 
 
@@ -2404,45 +2405,41 @@ def admin_logout(request):
 def activity_log_view(request):
     activity_logs = ActivityLog.objects.all().order_by("-id")
 
-    context = {
-        'activity_logs': activity_logs
-    }
+    context = {"activity_logs": activity_logs}
 
-    return render(request, 'Admin/ActivityLogs/Activitylogs.html', context)
-
+    return render(request, "Admin/ActivityLogs/Activitylogs.html", context)
 
 
 ########################################## FAQ ####################################################
 
 
 def get_pending_queries_count():
-    return FAQ.objects.filter(answer__exact='').exclude(answer__isnull=True).count()
+    return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
+
 
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
-    template_name = 'Admin/Queries/Queries.html'
-    context_object_name = 'resolved_queries'
-    
+    template_name = "Admin/Queries/Queries.html"
+    context_object_name = "resolved_queries"
+
     def get_queryset(self):
-        return FAQ.objects.all().exclude(answer='')
+        return FAQ.objects.all().exclude(answer="")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pending_queries_count'] = get_pending_queries_count()
+        context["pending_queries_count"] = get_pending_queries_count()
         return context
 
-    
-    
 
 class PendingFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
-    template_name = 'Admin/Queries/PendingQueries.html'
-    context_object_name = 'pending_queries'
+    template_name = "Admin/Queries/PendingQueries.html"
+    context_object_name = "pending_queries"
 
     def get_queryset(self):
         return FAQ.objects.all().exclude(answer__isnull=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pending_queries_count'] = self.get_queryset().count()
+        context["pending_queries_count"] = self.get_queryset().count()
         return context
