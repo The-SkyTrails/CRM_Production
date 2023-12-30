@@ -295,7 +295,7 @@ def CustomLoginView(request):
                         "number": mob,
                         "message": f"Use this OTP {send_otp} to login to your. theskytrails account",
                     }
-                    # response = requests.post(url, data=payload)
+                    response = requests.post(url, data=payload)
 
                     # send_otp_and_redirect(request, user_id, user_type)
                     # return redirect("verify_otp")
