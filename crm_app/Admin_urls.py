@@ -125,4 +125,6 @@ urlpatterns = [
     path('resolved-queries/', ResolvedFAQListView.as_view(), name='Admin_resolved_queries'),
     path('pending-queries/', PendingFAQListView.as_view(), name='Admin_pending_queries'),
     
+    
+    
 ]

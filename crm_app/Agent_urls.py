@@ -34,4 +34,6 @@ urlpatterns = [
     path('resolved-queries/', ResolvedFAQListView.as_view(), name='resolved_queries'),
     path('pending-queries/', PendingFAQListView.as_view(), name='pending_queries'),
     
+    
+    
 ]

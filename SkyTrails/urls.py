@@ -6,6 +6,7 @@ from django.conf import settings
 from django.views.static import serve
 from django.urls import re_path
 from crm_app.API_views import *
+from django.views.generic import TemplateView
 
 
 urlpatterns = (
@@ -33,7 +34,9 @@ urlpatterns = (
         path("FrontWebsite/", FrontWebsite.as_view({"get": "list", "post": "create"})),
         path("Api/VisaCountry/", apiVisaCountry.as_view({"get": "list"})),
         path("Api/VisaCategory/", apiVisaCategory.as_view({"get": "list"})),
+        
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
+handler404 = 'crm_app.views.Error404'

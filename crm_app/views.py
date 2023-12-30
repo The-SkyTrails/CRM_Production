@@ -466,3 +466,7 @@ def reset_psw(request):
             messages.error(request, "Password Not Match")
 
     return render(request, "Login/change_psw.html")
+
+
+def Error404(request, exception):
+    return render(request,'Admin/404.html')
