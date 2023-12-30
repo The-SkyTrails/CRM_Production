@@ -51,7 +51,7 @@ FOLLOWUP_STATUS_CHOICES = (
         ('Inprocess', 'Inprocess'),
         ('Done', 'Done')
     )
- 
+
 
 TYPE_CHOICES = [("Appointment", "Appointment"), ("Contact Us", "Contact Us")]
 
@@ -70,7 +70,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-    
+
     def generate_initials(self):
         first_initial = self.first_name[0].upper() if self.first_name else ""
         last_initial = self.last_name[0].upper() if self.last_name else ""
@@ -311,7 +311,6 @@ class Agent(models.Model):
     )
 
 
-
 class OutSourcingAgent(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
@@ -366,8 +365,6 @@ class OutSourcingAgent(models.Model):
     registration_certificate = models.FileField(
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
-
-
 
 
 class Package(models.Model):
@@ -872,14 +869,16 @@ class EnqAppointment(models.Model):
 
     class Meta:
         db_table = "Enquiry Appointment"
-    
-  
-class FAQ(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    question = models.TextField()
-    answer = models.TextField(null=True,blank=True)
-    last_updated_on = models.DateTimeField(auto_now_add=True)
 
+
+class FAQ(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    employee = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    question = models.TextField()
+    answer = models.TextField(null=True, blank=True)
+    last_updated_on = models.DateTimeField(auto_now_add=True)
 
 
 class FollowUp(models.Model):
@@ -897,8 +896,8 @@ class FollowUp(models.Model):
     enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
-    
-    
+
+
 class ActivityLog(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     action = models.CharField(max_length=255)
@@ -907,7 +906,6 @@ class ActivityLog(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.action} - {self.timestamp}"
-  
 
 
 @receiver(post_save, sender=CustomUser)

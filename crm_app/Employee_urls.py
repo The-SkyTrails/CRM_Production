@@ -11,7 +11,6 @@ urlpatterns = [
     path("Delete/UploadFile/<int:id>", emp_delete_docfile, name="emp_delete_docfile"),
     path("Lead/List/", employee_lead_list, name="employee_lead_list"),
     path("Lead/Grid/", employee_lead_grid, name="employee_lead_grid"),
-
     path("Enrollled/Lead/", employee_enrolled_lead, name="employee_enrolled_lead"),
     path("Enrollled/Grid/", employee_enrolled_grid, name="employee_enrolled_grid"),
     # ------------------------------ Add lead staging --------------------------
@@ -137,12 +136,27 @@ urlpatterns = [
     ),
     # --------------------------------Follow Up-----------------------------
     path("Followup", followup, name="followup"),
+    path("FollowupList/", emp_followup_list, name="emp_followup_list"),
+    path("Followup/Delete/<int:id>", emp_followup_delete, name="emp_followup_delete"),
+    path("followupupdate/", followup_update, name="followupupdate"),
     path("logout", employee_logout, name="employee_logout"),
     path("ChangePassword", ChangePassword, name="EmployeeChangePassword"),
-    
-    
+    #  --------------------------------- FaQ -------------------------
+    path("AddQueries/", emp_FAQCreateView.as_view(), name="emp_FAQCreateView"),
+    path(
+        "resolved-queries/",
+        emp_ResolvedFAQListView,
+        name="emp_ResolvedFAQListView",
+    ),
+    path(
+        "pending-queries/",
+        emp_PendingFAQListView,
+        name="emp_PendingFAQListView",
+    ),
     path("PackageList/", PackageListView.as_view(), name="Employee_Package_list"),
-    path("packages/<int:pk>/", PackageDetailView.as_view(), name="employee_package_detail"),
-    
-    
+    path(
+        "packages/<int:pk>/",
+        PackageDetailView.as_view(),
+        name="employee_package_detail",
+    ),
 ]

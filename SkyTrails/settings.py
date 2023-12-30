@@ -59,7 +59,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "crm_app.LoginCheckMiddleWare.LoginCheckMiddleWare",
-    'crm_app.ActivityLoggingMiddleware.ActivityLoggingMiddleware',
+    "crm_app.ActivityLoggingMiddleware.ActivityLoggingMiddleware",
 ]
 
 ROOT_URLCONF = "SkyTrails.urls"

@@ -17,14 +17,12 @@ from .whatsapp_api import send_whatsapp_message
 from django.http import JsonResponse
 
 
-
 def get_public_ip():
     try:
         response = requests.get("https://api64.ipify.org?format=json")
         data = response.json()
         return data["ip"]
     except Exception as e:
-        
         return None
 
 
@@ -172,7 +170,7 @@ def agent_signup(request):
                 "number": contact_no,
                 "message": f"Use this OTP {send_otp} to login to your theskytrails account",
             }
-            # response = requests.post(url, data=payload)
+            response = requests.post(url, data=payload)
 
             return redirect("verify_otp")
 
@@ -204,7 +202,7 @@ def verify_otp(request):
         # submitted_otp = request.POST.get("submitted_otp")
 
         # if submitted_otp == sendotp:
-        if submitted_otp == "1234":
+        if submitted_otp == sendotp:
             user = authenticate(request, username=username, password=password)
 
             if user != None:
@@ -274,7 +272,6 @@ def CustomLoginView(request):
                     customeruser = CustomUser.objects.get(id=user_id)
                     user_type = customeruser.user_type
                     if user_type == "2":
-                        
                         mob = customeruser.admin.contact_no
 
                     if user_type == "3":
@@ -298,7 +295,7 @@ def CustomLoginView(request):
                         "number": mob,
                         "message": f"Use this OTP {send_otp} to login to your. theskytrails account",
                     }
-                    # response = requests.post(url, data=payload)
+                    response = requests.post(url, data=payload)
 
                     # send_otp_and_redirect(request, user_id, user_type)
                     # return redirect("verify_otp")
@@ -316,7 +313,6 @@ def CustomLoginView(request):
             # return HttpResponse("Username and Password Incorrect")
 
     return render(request, "Login/Login.html")
-
 
 
 def resend_otp(request):
@@ -361,11 +357,9 @@ def resend_otp(request):
                     return redirect("verify_otp")
 
         except CustomUser.DoesNotExist:
-            pass  
+            pass
 
-    
     return HttpResponse("Error: Unable to resend OTP. Please check your credentials.")
-
 
 
 def forgot_psw(request):
