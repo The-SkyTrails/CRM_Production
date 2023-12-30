@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# demo
 INSTALLED_APPS = [
     "jazzmin",
     "crispy_forms",
