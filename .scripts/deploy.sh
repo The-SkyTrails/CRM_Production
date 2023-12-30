@@ -30,7 +30,7 @@ python manage.py migrate
 
 # Deactivate Virtual Env
 deactivate
-echo "Virtual env 'mb' Deactivated !"
+echo "Virtual env 'env' Deactivated !"
 
 echo "Reloading App..."
 #kill -HUP ps -C gunicorn fch -o pid | head -n 1
