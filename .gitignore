@@ -60,7 +60,7 @@ cover/
 
 # Django stuff:
 *.log
-SkyTrails/settings.py
+settings.py
 db.sqlite3
 db.sqlite3-journal
 
