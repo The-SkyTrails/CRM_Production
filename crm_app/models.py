@@ -39,18 +39,18 @@ Department_Choices = [
     ("Documentation", "Documentation"),
     ("Visa Team", "Visa Team"),
     ("HR", "HR"),
+    ("Developement Team", "Developement Team"),
+    ("Design Team", "Design Team"),
+    ("Account Team", "Account Team"),
 ]
 
 PRIORITY_CHOICES = (
-        ('High', 'High'),
-        ('Medium', 'Medium'),
-        ('Low', 'Low'),
-    )
+    ("High", "High"),
+    ("Medium", "Medium"),
+    ("Low", "Low"),
+)
 
-FOLLOWUP_STATUS_CHOICES = (
-        ('Inprocess', 'Inprocess'),
-        ('Done', 'Done')
-    )
+FOLLOWUP_STATUS_CHOICES = (("Inprocess", "Inprocess"), ("Done", "Done"))
 
 
 TYPE_CHOICES = [("Appointment", "Appointment"), ("Contact Us", "Contact Us")]
