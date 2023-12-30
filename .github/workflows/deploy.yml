@@ -16,10 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: appleboy/ssh-action@main
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd ~/autodeploydjango && ./.scripts/deploy.sh"
+          script: "cd ~/CRM_Production && ./.scripts/deploy.sh"

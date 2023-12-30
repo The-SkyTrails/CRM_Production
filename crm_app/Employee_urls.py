@@ -143,4 +143,6 @@ urlpatterns = [
     
     path("PackageList/", PackageListView.as_view(), name="Employee_Package_list"),
     path("packages/<int:pk>/", PackageDetailView.as_view(), name="employee_package_detail"),
+    
+    
 ]
