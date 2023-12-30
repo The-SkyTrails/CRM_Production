@@ -879,6 +879,7 @@ class FAQ(models.Model):
     question = models.TextField()
     answer = models.TextField(null=True, blank=True)
     last_updated_on = models.DateTimeField(auto_now_add=True)
+    test = models.CharField(max_length=50, null=True, blank=True)
 
 
 class FollowUp(models.Model):
