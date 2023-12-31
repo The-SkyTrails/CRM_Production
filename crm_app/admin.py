@@ -1,8 +1,16 @@
 from django.contrib import admin
 from .models import *
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 
 
-class VisaCountryAdmin(admin.ModelAdmin):
+class VisaCountryResource(resources.ModelResource):
+    class Meta:
+        model = VisaCountry
+        fields = ("country", "created", "lastupdated_by", "last_updated_on")
+
+
+class VisaCountryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_filter = [
         "country",
     ]
