@@ -10,6 +10,17 @@ class VisaCountryResource(resources.ModelResource):
         fields = ("country", "created", "lastupdated_by", "last_updated_on")
 
 
+class DocumentCategoryResource(ImportExportModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = DocumentCategory
+        fields = (
+            "Document_category",
+            "lastupdated_by",
+            "lastupdated_by",
+            "last_updated_on",
+        )
+
+
 class VisaCountryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_filter = [
         "country",
@@ -92,7 +103,7 @@ class FollowupAdmin(admin.ModelAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory)
-admin.site.register(DocumentCategory)
+admin.site.register(DocumentCategory, DocumentCategoryResource)
 admin.site.register(Document)
 admin.site.register(CaseCategoryDocument)
 admin.site.register(Branch)
