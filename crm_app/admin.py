@@ -16,9 +16,16 @@ class DocumentCategoryResource(ImportExportModelAdmin, admin.ModelAdmin):
         fields = (
             "Document_category",
             "lastupdated_by",
-            "lastupdated_by",
             "last_updated_on",
         )
+
+    list_display = ["id", "Document_category", "lastupdated_by", "last_updated_on"]
+
+
+class DocumentResource(resources.ModelResource):
+    class Meta:
+        model = Document
+        # fields = ("country", "created", "lastupdated_by", "last_updated_on")
 
 
 class VisaCountryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -27,6 +34,20 @@ class VisaCountryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     ]
     list_display = ["country", "created", "lastupdated_by", "last_updated_on"]
     search_fields = ["country"]
+    list_per_page = 10
+
+
+class DocumentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_filter = [
+        "document_name",
+    ]
+    list_display = [
+        "document_name",
+        "document_category",
+        "lastupdated_by",
+        "last_updated_on",
+    ]
+    search_fields = ["document_name"]
     list_per_page = 10
 
 
@@ -104,7 +125,7 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory)
 admin.site.register(DocumentCategory, DocumentCategoryResource)
-admin.site.register(Document)
+admin.site.register(Document, DocumentAdmin)
 admin.site.register(CaseCategoryDocument)
 admin.site.register(Branch)
 admin.site.register(Agent, AgentAdmin)
