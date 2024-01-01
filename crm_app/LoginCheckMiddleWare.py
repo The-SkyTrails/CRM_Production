@@ -6,13 +6,13 @@ from django.utils.deprecation import MiddlewareMixin
 class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         modulename = view_func.__module__
-        
+
         user = request.user
-        # if modulename == "crm_app.views" and view_func.__name__ in [
-        #     "chats",
-        #     "get_group_chat_messages",
-        # ]:
-        #     return None
+        if modulename == "crm_app.views" and view_func.__name__ in [
+            "chats",
+            "get_group_chat_messages",
+        ]:
+            return None
         if user.is_authenticated:
             if user.user_type == "1":
                 if modulename == "crm_app.SuperAdminviews":
