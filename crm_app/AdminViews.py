@@ -792,7 +792,8 @@ class all_employee(LoginRequiredMixin, ListView):
 @login_required
 def employee_update(request, pk):
     employee = Employee.objects.get(pk=pk)
-    context = {"employee": employee}
+    dep = Department_Choices
+    context = {"employee": employee, "dep": dep}
 
     return render(request, "Admin/Employee Management/editemp1.html", context)
 
@@ -1458,7 +1459,7 @@ class PackageListView(LoginRequiredMixin, ListView):
 class editPackage(LoginRequiredMixin, UpdateView):
     model = Package
     form_class = PackageForm
-    template_name = "Admin/Product/editProduct.html"
+    template_name = "Admin/Product/editproduct.html"
     success_url = reverse_lazy("Package_list")
 
     def form_valid(self, form):

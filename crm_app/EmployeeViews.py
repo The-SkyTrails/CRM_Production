@@ -1887,6 +1887,7 @@ class pending_queirylist(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         faq_emp_wise = FAQ.objects.filter(employee=user.employee)
+
         print("ggggggggggggg", faq_emp_wise)
         context["pending_queries_count"] = self.get_queryset().count()
         context["faq_emp_wise"] = faq_emp_wise

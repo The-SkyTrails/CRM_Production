@@ -78,11 +78,10 @@
                      <input type="text" value="{{employee.users.id}}" name="employee_id"
                         hidden>
                      <select class="form-select" name="department" id="department">
-                     <option value="Presales/Assesment" {% if employee.department == "Presales/Assesment" %}selected{% endif %}>Presales/Assesment</option>
-                     <option value="Sales" {% if employee.department == "Sales" %}selected{% endif %}>Sales</option>
-                     <option value="Documentation" {% if employee.department == "Documentation" %}selected{% endif %}>Documentation</option>
-                     <option value="Visa Team" {% if employee.department == "Visa Team" %}selected{% endif %}>Visa Team</option>
-                     <option value="HR" {% if employee.department == "HR" %}selected{% endif %}>HR</option>
+                     {% for dep in dep %}
+                     <option value="{{dep.0}}" {% if dep.0 == employee.department %}selected{% endif %} >{{dep.1}}</option>
+                     {% endfor %}
+                     
                      </select>
                   </div>
                </div>
