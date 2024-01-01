@@ -142,6 +142,7 @@
                         <th>CREATED BY</th>
                         <th>Assigned TO</th>
                         <th>LEAD status</th>
+                        <th>Lead Updated</th>
                         <th>NOTES</th>
                         <th>ACTION</th>
                         {% comment %} <th>Approval Status</th> {% endcomment %}
@@ -209,6 +210,31 @@
                         <td>
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>
                         </td>
+                        <td>
+                            <form action="{% url "leadupated" i.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="text" value="{{i.lead_status}}" name="lead" hidden>
+                                {% if i.lead_status == "New Lead" %}
+                                <button class="btn btn-primary btn-sm" type="submit">PreEntrolled</button>
+                                {% elif i.lead_status == "PreEnrolled"  %}
+                                <button class="btn btn-warning btn-sm" type="submit">Entrolled</button
+                                {% elif i.lead_status == "Enrolled"  %}
+                                <button class="btn btn-info btn-sm" type="submit">Inprocess</button
+                                {% elif i.lead_status == "Inprocess"  %}
+                                <button class="btn btn-dark btn-sm" type="submit">Ready to Submit</button
+                                {% elif i.lead_status == "Ready To Submit"  %}
+                                <button class="btn btn-dark btn-sm" type="submit">Appointment</button
+                                {% elif i.lead_status == "Appointment"  %}
+                                <button class="btn btn-dark btn-sm" type="submit">Ready To Collection</button
+                                {% elif i.lead_status == "Ready To Collection"  %}
+                                <button class="btn btn-warning btn-sm" type="submit">Result</button
+                                {% elif i.lead_status == "Result"  %}
+                                <button class="btn btn-info btn-sm" type="submit">Delivery</button
+                                {% elif i.lead_status == "Delivery"  %}
+                                <button class="btn btn-success btn-sm" type="submit" disabled>Delivery</button
+                                {% endif %}
+                            </form>
+                            {% comment %} <a href="{% url "leadupated" i.id %}"><button class="btn btn-primary btn-sm">PreEntrolled</button></a></td> {% endcomment %}
                         <td>
                             <div class="add-notes-container answerclass" data-bs-toggle="modal"
                                 data-bs-target="#addnotesModal-{{i.id}}">

@@ -31,9 +31,11 @@
         </svg>
       </div>
     </div>
+    <a href="{% url "Enrolled_leads" %}">
     <div class="text-container">
       <div class="text">Enrolled Lead</div>
     </div>
+    </a>
     <div class="icon-container">
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -48,35 +50,35 @@
     </div>
   </div>
   <div class="row documentfollow">
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="profiledetail-container1">
 
         <div class="profile-image">
           <div class="image-contentlead">
-            <div class="initials">RM</div>
+            <div class="initials">{{ enquiry.generate_initials }}</div>
           </div>
         </div>
         <div class="detail-name">
           <div class="lead-name">Case No. :</div>
           <div class="lead-name">Name:</div>
           <div class="lead-name">Visa Country:</div>
-          <div class="lead-name">Package Name::</div>
+          <div class="lead-name">Package Name:</div>
 
         </div>
         <div class="detail-values">
-          <div class="detail-documentname">351</div>
-          <div class="detail-documentname">Rajeev Malhotra</div>
-          <div class="detail-documentname">Malta</div>
-          <div class="detail-documentname">Work Permit - ABC</div>
+          <div class="detail-documentname">{{enquiry.enquiry_number}}</div>
+          <div class="detail-documentname">{{enquiry.FirstName}} {{enquiry.LastName}}</div>
+          <div class="detail-documentname">{{enquiry.Visa_country}}</div>
+          <div class="detail-documentname">{{enquiry.Package}}</div>
 
         </div>
 
 
         <div class="detail-name">
-          <div class="lead-name">Assigned to Agent:</div>
-          <div class="lead-name">Assigned to Employee:</div>
-          <div class="lead-name">Assigned to OP:</div>
-          <div class="lead-name">Assigned to OP:</div>
+          <div class="lead-name">Assigned to Employee(PreSales/Assesment):</div>
+          <div class="lead-name">Assigned to Employee(Sales):</div>
+          <div class="lead-name">Assigned to Employee(Documentation):</div>
+          <div class="lead-name">Assigned to Employee(Visa Team):</div>
 
         </div>
         <div class="detail-values">

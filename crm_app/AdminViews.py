@@ -2484,3 +2484,43 @@ def edit_profile(request):
         return redirect("admin_profile")
 
     return render(request, "Admin/Profile/Profile.html")
+
+
+def leadupated(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    if request.method == "POST":
+        lead = request.POST.get("lead")
+
+        if lead == "New Lead":
+            enquiry.lead_status = "PreEnrolled"  # sales
+            enquiry.save()
+        elif lead == "PreEnrolled":
+            print("heloooo ggg")
+            enquiry.lead_status = "Enrolled"  # visa team
+            enquiry.save()
+        elif lead == "Enrolled":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Inprocess"  # Documentation team
+            enquiry.save()
+        elif lead == "Inprocess":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Ready To Submit"  # Documentation team
+            enquiry.save()
+        elif lead == "Ready To Submit":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Appointment"  # Documentation team
+            enquiry.save()
+        elif lead == "Appointment":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Ready To Collection"  # Documentation team
+            enquiry.save()
+        elif lead == "Ready To Collection":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Result"  # Documentation team
+            enquiry.save()
+        elif lead == "Result":
+            print("Inprocess ggg")
+            enquiry.lead_status = "Delivery"  # Documentation team
+            enquiry.save()
+
+    return redirect("admin_new_leads_details")

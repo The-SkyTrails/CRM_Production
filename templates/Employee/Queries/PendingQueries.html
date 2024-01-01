@@ -73,11 +73,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for i in faq_emp_wise  %}
+                        {% for i in pending_queries  %}
                         <tr>
                            
                             <td>{{forloop.counter}}</td>
                             <td>{{i.question}}</td>
+
                            {% comment %} {% for x in faq_emp_wise %} {% endcomment %}
                            
                             {% comment %} {% endfor %} {% endcomment %}

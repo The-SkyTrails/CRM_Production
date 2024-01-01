@@ -128,6 +128,7 @@
   <div class="row">
     {% for i in enquiry  %}
     <div class="col-md-3">
+    <a href="{% url "edit_enrolled_application" i.id %}">
       <div class="info-container">
         <div class="user-info">
           <div class="user-avatar">
@@ -277,6 +278,7 @@
           <!-- </div> -->
         </div>
       </div>
+      </a>
     </div>
     {% endfor %}
     

@@ -201,4 +201,5 @@ urlpatterns = [
     ),
     path("Profile/", profileview.as_view(), name="admin_profile"),
     path("edit_profile/", edit_profile, name="edit_profile"),
+    path("PreEnrolled/<int:id>", leadupated, name="leadupated"),
 ]

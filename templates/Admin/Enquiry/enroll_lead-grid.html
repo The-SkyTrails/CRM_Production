@@ -130,6 +130,7 @@
     {% for i in enquiry %}
     {% if i.archive == False %}
     <div class="col-md-3">
+      <a href="edit_enrolled_application" i.id>
       <div class="info-container">
         <div class="user-info">
           <div class="user-avatar">
@@ -164,6 +165,7 @@
 
        
       </div>
+      </a>
     </div>
     {% endif %}
     {% endfor %}

@@ -5,6 +5,7 @@
 <div class="container mt-4">
   <div class="row mb-2">
     <div class="col-md-4 mb-4">
+      <a href="{% url "agent_list" %}">
       <div class="card mb-4" >
         <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
           <div class="first-div">                 
@@ -19,8 +20,10 @@
             <p>{{total_agent_count}}</p>
           </div>
         </div>
-      </div>        
+      </div> 
+      </a>       
       <!-- Additional div 1 -->
+      <a href="{% url "emp_list" %}">
       <div class="card mt-3" >
           <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
             <div class="first-div">                 
@@ -35,7 +38,8 @@
               <p>{{employee_count}}</p>
             </div>
           </div>
-        </div>
+      </div>
+      </a>
   </div> 
   
   
@@ -47,14 +51,17 @@
         <h5 class="card-title">Leads</h5>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "Archive_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
                 <h5 class=" cases">{{leadarchive_count}}</h5>
                 <p class="card-text textcase">Cases Archive</p>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "Enrolled_leads" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg1">
                 <h5 class="cases1">{{leadaccept_count}}</h5>
@@ -62,32 +69,39 @@
                 
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-12 col-4 p-1">
+            <a href="{% url "admin_new_leads_details" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
                 <h5 class=" cases2">{{leadpending_count}}</h5>
                 <p class="card-text textcase2">Pending</p>
               </div>
             </div>
+          </a>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 col-6 p-1">
+            <a href="{% url "admin_new_leads_details" %}">
             <div class="card mb-3">
               <div class="card-body bg3">
                 <h5 class=" cases5">{{leadtotal_count}}</h5>
                 <p class="card-text textcase3">Total</p>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-md-6 col-6 p-1">
+            <a href="{% url "admin_new_leads_details" %}">
             <div class="card mb-3">
               <div class="card-body bg4">
                 <h5 class=" cases6">{{leadnew_count}}</h5>
                 <p class="card-text textcase4">New</p>
               </div>
             </div>
+            </a>
           </div>
         </div>
         <div class="leadss">
