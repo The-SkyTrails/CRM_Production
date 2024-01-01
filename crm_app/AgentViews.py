@@ -841,3 +841,66 @@ def ChangePassword(request):
             return HttpResponseRedirect(reverse("login"))
 
     return render(request, "Agent/Dashboard/dashboard.html")
+
+
+class profileview(TemplateView, LoginRequiredMixin):
+    template_name = "Agent/Profile/Profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        leads = Enquiry.objects.filter(created_by=self.request.user)
+        completedleads = Enquiry.objects.filter(
+            lead_status="Delivery", created_by=self.request.user
+        )
+
+        user = self.request.user
+        if user.user_type == "4":
+            agent = Agent.objects.get(users=user)
+            context["agent"] = agent
+
+        if user.user_type == "5":
+            outagent = OutSourcingAgent.objects.get(users=user)
+            context["agent"] = outagent
+
+        if hasattr(user, "get_user_type_display"):
+            context["user_type"] = user.get_user_type_display()
+        context["leads"] = leads
+        context["completedleads"] = completedleads
+
+        return context
+
+
+@login_required
+def edit_profile(request):
+    users = request.user
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        # email = request.POST.get('email')
+        contact = request.POST.get("contact")
+
+        if users.user_type == "4":
+            agent_instance = Agent.objects.get(users=request.user)
+
+            agent_instance.users.first_name = first_name
+            agent_instance.users.last_name = last_name
+            # agent_instance.users.email = email
+            agent_instance.contact_no = contact
+
+            agent_instance.users.save()
+            agent_instance.save()
+
+        elif users.user_type == "5":
+            outsource_instance = OutSourcingAgent.objects.get(users=request.user)
+
+            outsource_instance.users.first_name = first_name
+            outsource_instance.users.last_name = last_name
+            # outsource_instance.users.email = email
+            outsource_instance.contact_no = contact
+
+            outsource_instance.users.save()
+            outsource_instance.save()
+
+        return redirect("Agent_profile")
+
+    return render(request, "Agent/Profile/Profile.html")

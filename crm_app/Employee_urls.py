@@ -159,4 +159,6 @@ urlpatterns = [
         PackageDetailView.as_view(),
         name="employee_package_detail",
     ),
+    path("Employee/profile", profileview.as_view(), name="Employee_profile"),
+    path("Employee/edit_profile/", edit_profile, name="edit_employee_profile"),
 ]

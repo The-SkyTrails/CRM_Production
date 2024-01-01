@@ -15,6 +15,7 @@ from django.db.utils import IntegrityError
 from django.core.mail import send_mail
 from .whatsapp_api import send_whatsapp_message
 from django.http import JsonResponse
+from django.core.cache import cache
 
 
 def get_public_ip():
@@ -36,6 +37,8 @@ def agent_signup(request):
         password = request.POST.get("password")
 
         existing_agent = CustomUser.objects.filter(email=email)
+        last_assigned_index = cache.get("last_assigned_index") or 0
+        sales_team_employees = Employee.objects.filter(department="Sales")
 
         try:
             if existing_agent:
@@ -54,6 +57,14 @@ def agent_signup(request):
 
                 user.outsourcingagent.type = user_type
                 user.outsourcingagent.contact_no = contact_no
+                if sales_team_employees.exists():
+                    next_index = (
+                        last_assigned_index + 1
+                    ) % sales_team_employees.count()
+                    user.outsourcingagent.assign_employee = sales_team_employees[
+                        next_index
+                    ]
+                    cache.set("last_assigned_index", next_index)
 
                 user.save()
                 messages.success(request, "OutsourceAgent Added Successfully")
@@ -68,12 +79,6 @@ def agent_signup(request):
                     f"Best regards,\nThe Sky Trails"
                 )  # Custo
                 response = send_whatsapp_message(mobile, message)
-                if response.status_code == 200:
-                    print("Request was successful!")
-                    print("Response:", response.text)
-                else:
-                    print(f"Request failed with status code {response.status_code}")
-                    print("Response:", response.text)
 
                 subject = "Congratulations! Your Account is Created"
                 message = (
@@ -108,6 +113,12 @@ def agent_signup(request):
 
                 user2.agent.type = user_type
                 user2.agent.contact_no = contact_no
+                if sales_team_employees.exists():
+                    next_index = (
+                        last_assigned_index + 1
+                    ) % sales_team_employees.count()
+                    user2.agent.assign_employee = sales_team_employees[next_index]
+                    cache.set("last_assigned_index", next_index)
 
                 user2.save()
 
@@ -469,4 +480,4 @@ def reset_psw(request):
 
 
 def Error404(request, exception):
-    return render(request,'Admin/404.html')
+    return render(request, "Admin/404.html")

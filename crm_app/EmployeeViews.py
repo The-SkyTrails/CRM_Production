@@ -25,13 +25,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 
-def employee_profile(request):
-    user = request.user
-    dep = user.employee.department
-    context = {"dep": dep}
-    return render(request, "Employee/Profile/Profile.html", context)
-
-
 def employee_query_list(request):
     user = request.user
     dep = user.employee.department
@@ -1961,3 +1954,52 @@ class PackageDetailView(LoginRequiredMixin, DetailView):
         context["dep"] = dep
 
         return context
+
+
+class profileview(TemplateView, LoginRequiredMixin):
+    template_name = "Employee/Profile/Profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        leads = Enquiry.objects.filter(created_by=self.request.user)
+        # employee = Employee.objects.all()
+        agent = Agent.objects.filter(assign_employee=self.request.user.employee).count()
+        # agent = Agent.objects.get(assign_employee__user=self.request.user)
+
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+
+        context["first_name"] = user.first_name
+        context["last_name"] = user.last_name
+        context["email"] = user.email
+        context["contact"] = user.employee.contact_no
+
+        context["department"] = user.employee.department
+        if hasattr(user, "get_user_type_display"):
+            context["user_type"] = user.get_user_type_display()
+        context["leads"] = leads
+        context["agent"] = agent
+
+        return context
+
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        contact = request.POST.get("contact")
+
+        employee_instance = Employee.objects.get(users=request.user)
+
+        employee_instance.users.first_name = first_name
+        employee_instance.users.last_name = last_name
+        employee_instance.contact_no = contact
+
+        employee_instance.users.save()
+        employee_instance.save()
+
+        return redirect("Employee_profile")
+
+    return render(request, "Employee/Profile/Profile.html")

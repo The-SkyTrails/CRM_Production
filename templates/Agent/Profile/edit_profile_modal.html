@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal-{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -8,7 +8,7 @@
               <!-- <span aria-hidden="true">&times;</span> -->
             </button>
           </div>
-          <form action="{% url 'edit_profile' %}" method="post">
+          <form action="{% url 'edit_agent_profile' %}" method="post">
             {% csrf_token %}
           <div class="modal-body">
             <div class="resolvedquerycontent1">
@@ -33,18 +33,22 @@
                     </div>
                     <div class="row formrow">
                       <div class="col-md-6 ">
+                        
                         <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
-                        <input type="number" class="form-control" id="contact" name="contact" value="{{ user.admin.contact_no }}" placeholder="+91 9029388333">
+                        <input type="number" class="form-control" id="contact" name="contact"
+                        {% if user.user_type == "4" %}
+                          value="{{ user.agent.contact_no }}"
+                        {% elif user.user_type == "5" %}
+                          value="{{ user.outsourcingagent.contact_no }}"
+                        {% else %}
+                          placeholder="+91 9002938833"
+                        {% endif %}>
                       </div>
-                      <div class="col-md-6 ">
+                      <!-- <div class="col-md-6 ">
                         <label for="exampleFormControlInput1" class="custom-form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" placeholder="xyz@gmail.com" readonly>
-                      </div>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" placeholder="xyz@gmail.com">
+                      </div> -->
                     </div>
-
-
-
-
 
                   </div>
                 </li>

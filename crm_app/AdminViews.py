@@ -2443,3 +2443,43 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["pending_queries_count"] = self.get_queryset().count()
         return context
+
+
+class profileview(TemplateView, LoginRequiredMixin):
+    print("sssssssssssss")
+    template_name = "Admin/Profile/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+
+        context["user"] = user
+
+        if hasattr(user, "get_user_type_display"):
+            context["user_type"] = user.get_user_type_display()
+
+        return context
+
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+
+        admin_instance = Admin.objects.get(users=request.user)
+
+        admin_instance.users.first_name = first_name
+        admin_instance.users.last_name = last_name
+        admin_instance.users.email = email
+        admin_instance.contact_no = contact
+
+        admin_instance.users.save()
+        admin_instance.save()
+
+        return redirect("admin_profile")
+
+    return render(request, "Admin/Profile/Profile.html")
