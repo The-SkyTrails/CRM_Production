@@ -214,10 +214,12 @@
                             <form action="{% url "leadupated" i.id %}" method="POST">
                                 {% csrf_token %}
                                 <input type="text" value="{{i.lead_status}}" name="lead" hidden>
-                                {% if i.lead_status == "New Lead" %}
+                                {% if i.lead_status == "Active" %}
                                 <button class="btn btn-primary btn-sm" type="submit">PreEntrolled</button>
+                                {% if i.lead_status == "New Lead" %}
+                                <button class="btn btn-primary btn-sm" type="submit">Active</button>
                                 {% elif i.lead_status == "PreEnrolled"  %}
-                                <button class="btn btn-warning btn-sm" type="submit">Entrolled</button
+                                <button class="btn btn-warning btn-sm" type="submit">Enrolled</button
                                 {% elif i.lead_status == "Enrolled"  %}
                                 <button class="btn btn-info btn-sm" type="submit">Inprocess</button
                                 {% elif i.lead_status == "Inprocess"  %}

@@ -2492,6 +2492,9 @@ def leadupated(request, id):
         lead = request.POST.get("lead")
 
         if lead == "New Lead":
+            enquiry.lead_status = "Active"  # sales
+            enquiry.save()
+        if lead == "Active":
             enquiry.lead_status = "PreEnrolled"  # sales
             enquiry.save()
         elif lead == "PreEnrolled":
