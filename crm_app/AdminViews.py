@@ -2447,7 +2447,7 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
 
 class profileview(TemplateView, LoginRequiredMixin):
     print("sssssssssssss")
-    template_name = "Admin/Profile/profile.html"
+    template_name = "Admin/Profile/Profile.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
