@@ -366,20 +366,20 @@ def employee_lead_list(request):
             emp = user.employee
             dep = emp.department
             if dep == "Presales/Assesment":
-                enq = Enquiry.objects.filter(assign_to_employee=user.employee).order_by(
-                    "-id"
-                )
+                enq = Enquiry.objects.filter(
+                    assign_to_employee=user.employee, created_by=user
+                ).order_by("-id")
             elif dep == "Sales":
                 enq = Enquiry.objects.filter(
-                    assign_to_sales_employee=user.employee
+                    assign_to_sales_employee=user.employee,created_by=user
                 ).order_by("-id")
             elif dep == "Documentation":
                 enq = Enquiry.objects.filter(
-                    assign_to_documentation_employee=user.employee
+                    assign_to_documentation_employee=user.employee,created_by=user
                 ).order_by("-id")
             elif dep == "Visa Team":
                 enq = Enquiry.objects.filter(
-                    assign_to_visa_team_employee=user.employee
+                    assign_to_visa_team_employee=user.employee,created_by=user
                 ).order_by("-id")
             else:
                 enq = None
@@ -396,20 +396,20 @@ def employee_lead_grid(request):
             emp = user.employee
             dep = emp.department
             if dep == "Presales/Assesment":
-                enq = Enquiry.objects.filter(assign_to_employee=user.employee).order_by(
+                enq = Enquiry.objects.filter(assign_to_employee=user.employee,created_by=user).order_by(
                     "-id"
                 )
             elif dep == "Sales":
                 enq = Enquiry.objects.filter(
-                    assign_to_sales_employee=user.employee
+                    assign_to_sales_employee=user.employee,created_by=user
                 ).order_by("-id")
             elif dep == "Documentation":
                 enq = Enquiry.objects.filter(
-                    assign_to_documentation_employee=user.employee
+                    assign_to_documentation_employee=user.employee,created_by=user
                 ).order_by("-id")
             elif dep == "Visa Team":
                 enq = Enquiry.objects.filter(
-                    assign_to_visa_team_employee=user.employee
+                    assign_to_visa_team_employee=user.employee,created_by=user
                 ).order_by("-id")
             else:
                 enq = None

@@ -114,7 +114,23 @@ class EnquiryAdmin(admin.ModelAdmin):
     ]
 
 
+class CustomUserResource(resources.ModelResource):
+    class Meta:
+        model = CustomUser
+
+
+class EmployeeResource(resources.ModelResource):
+    class Meta:
+        model = Employee
+        exclude = ("id",)  # Exclude fields if necessary
+
+
+class CustomUserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = CustomUserResource
+
+
 class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = EmployeeResource
     list_display = "users", "contact_no", "department"
 
 
@@ -159,6 +175,7 @@ admin.site.register(Agent, AgentAdmin)
 admin.site.register(OutSourcingAgent, OutsourceAdmin)
 admin.site.register(Group)
 admin.site.register(Employee, EmployeeAdmin)
+
 admin.site.register(AgentAgreement)
 admin.site.register(Package)
 admin.site.register(VisaSubcategory)

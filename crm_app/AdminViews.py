@@ -2368,7 +2368,6 @@ def enrolled_upload_document(request):
                     lastupdated_by=request.user,
                 )
                 document_files.save()
-                print("sssssssssssssssssssssssss")
 
                 return redirect("enrolled_document", id=enq_id)
 

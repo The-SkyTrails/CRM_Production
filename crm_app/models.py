@@ -212,7 +212,7 @@ class LoginLog(models.Model):
 
 class Employee(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    emp_code = models.CharField(max_length=20,unique=True,null=True,blank=True)
+    emp_code = models.CharField(max_length=20, unique=True, null=True, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.CharField(
         max_length=20, null=True, blank=True, choices=Department_Choices
@@ -369,17 +369,25 @@ class OutSourcingAgent(models.Model):
 
 
 class Package(models.Model):
-    visa_country = models.ForeignKey(VisaCountry, on_delete=models.CASCADE)
-    visa_category = models.ForeignKey(
-        VisaCategory, on_delete=models.CASCADE, related_name="package_category"
+    visa_country = models.ForeignKey(
+        VisaCountry, on_delete=models.SET_NULL, null=True, blank=True
     )
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
-    assign_to_group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    number_of_visa = models.IntegerField()
-    amount = models.CharField(max_length=100)
-    advance_amount = models.CharField(max_length=100)
-    file_charges = models.CharField(max_length=100)
+    visa_category = models.ForeignKey(
+        VisaCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="package_category",
+    )
+    title = models.CharField(max_length=100, null=True, blank=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
+    assign_to_group = models.ForeignKey(
+        Group, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    number_of_visa = models.IntegerField(null=True, blank=True)
+    amount = models.CharField(max_length=100, null=True, blank=True)
+    advance_amount = models.CharField(max_length=100, null=True, blank=True)
+    file_charges = models.CharField(max_length=100, null=True, blank=True)
     package_expiry_date = models.DateField(auto_created=False, null=True, blank=True)
     last_updated_by = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True

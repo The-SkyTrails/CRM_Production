@@ -193,6 +193,10 @@ def agent_signup(request):
 
 
 def verify_otp(request):
+    mobile = request.session.get("mobile", "Default value if key does not exist")
+    print("mobileee", mobile)
+    last_three_digits = str(mobile)[-3:]
+
     if request.method == "POST":
         num1 = request.POST.get("num1")
         num2 = request.POST.get("num2")
@@ -242,7 +246,9 @@ def verify_otp(request):
             messages.error(request, "Wrong Otp")
             print("not success")
 
-    return render(request, "Login/Otp.html")
+    context = {"last_three_digits": last_three_digits}
+
+    return render(request, "Login/Otp.html", context)
 
 
 def CustomLoginView(request):
@@ -294,6 +300,7 @@ def CustomLoginView(request):
                     if user_type == "5":
                         mob = customeruser.outsourcingagent.contact_no
 
+                    request.session["mobile"] = mob
                     random_number = random.randint(0, 999)
                     send_otp = str(random_number).zfill(4)
                     request.session["sendotp"] = send_otp
