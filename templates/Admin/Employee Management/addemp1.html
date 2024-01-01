@@ -104,7 +104,9 @@
                             <select class="form-select" name="group_id" id="group_id">
                                 <option value="">Select</option>
                                     {% for i in group %}
+                                    {% if i.group_name == "TheSkytrails CRM" %}
                                     <option value="{{i.id}}">{{i.group_name}}</option>
+                                    {% endif %}
                                     {% endfor %}
 
                             </select>
