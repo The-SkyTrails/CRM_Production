@@ -9,7 +9,12 @@
   </div>
 
   <!-- //////////////////////////content////////////////////////////// -->
-
+<div class="row">
+  <div class="col-md-12">
+    
+  </div>
+</div>
+<div class="profilecontent">
   <div class="profile-container">
     <div class="profile-content">
       <div class="imgcontent-profile">
@@ -33,6 +38,7 @@
       </div>
       <div class="profile-detail">
         <div class="detail-name">
+          <div class="profile-name">Employee Code :</div>
           <div class="profile-name">Name :</div>
           <div class="profile-name">Email :</div>
           <div class="profile-name">User Type :</div>
@@ -41,10 +47,12 @@
          
         </div>
         <div class="detail-values">
+
+          <div class="detail-valuename">{{emp_code}}</div>
           <div class="detail-valuename">{{first_name}} {{last_name}}</div>
           <div class="detail-valuename">{{email}}</div>
           <div class="detail-valuename">{{user_type}}</div>
-          <div class="detail-valuename">+91 {{contact}}</div>
+          <div class="detail-valuename">+91{{contact}}</div>
           <div class="detail-valuename">{{department}}</div>
           
         </div>
@@ -64,5 +72,7 @@
     {% include "Employee/Profile/edit_profile_modal.html" %}
 
   </div>
+</div>
+  
 </div>
 {% endblock main-content %}

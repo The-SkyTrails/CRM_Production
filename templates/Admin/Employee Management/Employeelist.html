@@ -96,6 +96,7 @@
                 
                 <th>S.No.</th>
                 <th>Image</th>
+                <th>Employee Code</th>
                 <th>Name</th>
                 <th>Contact Number</th>
                 <th>City</th>
@@ -121,6 +122,7 @@
                 {% else %}
                 <img src="{% static 'style/Styling/Bootstrap/img/no-image.jpg' %}" class="img-responsive" alt="Product Image" style="height:40px;" />
                 {% endif %}</td>
+              <td>{{i.emp_code}}</td>
 							<td>{{i.users.first_name}} {{i.users.last_name}} </td>
               <td>{{i.contact_no}}</td>
 							<td>{{i.City}}</td>

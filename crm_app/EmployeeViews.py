@@ -1857,6 +1857,50 @@ class emp_FAQCreateView(LoginRequiredMixin, CreateView):
 #     return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True)
 
 
+def get_pending_queries_count():
+    return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
+
+
+class queirylist(LoginRequiredMixin, ListView):
+    model = FAQ
+    template_name = "Employee/Queries/Queries.html"
+    context_object_name = "resolved_queries"
+
+    def get_queryset(self):
+        return FAQ.objects.all().exclude(answer="")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pending_queries_count"] = get_pending_queries_count()
+        return context
+
+
+class pending_queirylist(LoginRequiredMixin, ListView):
+    model = FAQ
+    template_name = "Employee/Queries/PendingQueries.html"
+    context_object_name = "pending_queries"
+
+    def get_queryset(self):
+        return FAQ.objects.all().exclude(answer__isnull=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        faq_emp_wise = FAQ.objects.filter(employee=user.employee)
+        context["pending_queries_count"] = self.get_queryset().count()
+        context["faq_emp_wise"] = faq_emp_wise
+        return context
+
+
+def emp_faq_ans(request, id):
+    faq = FAQ.objects.get(id=id)
+    if request.method == "POST":
+        answer = request.POST.get("answer")
+        faq.answer = answer
+        faq.save()
+        return redirect("emppending_queirylist")
+
+
 def emp_ResolvedFAQListView(request):
     faq = FAQ.objects.all()
     pending = FAQ.objects.filter(answer__exact="").count()
@@ -1980,6 +2024,7 @@ class profileview(TemplateView, LoginRequiredMixin):
             context["user_type"] = user.get_user_type_display()
         context["leads"] = leads
         context["agent"] = agent
+        context["emp_code"] = user.employee.emp_code
 
         return context
 

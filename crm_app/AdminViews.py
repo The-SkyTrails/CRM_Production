@@ -676,6 +676,7 @@ def add_employee(request):
 
     if request.method == "POST":
         department = request.POST.get("department")
+        emp_code = request.POST.get("emp_code")
         branch_id = request.POST.get("branch_id")
         group_id = request.POST.get("group_id")
         firstname = request.POST.get("firstname")
@@ -703,6 +704,9 @@ def add_employee(request):
             if Employee.objects.filter(contact_no__iexact=contact).exists():
                 messages.error(request, "Contact No. already exists.")
                 return redirect("emp_personal_details")
+            if Employee.objects.filter(emp_code__iexact=emp_code).exists():
+                messages.error(request, "Employee Code already exists.")
+                return redirect("emp_personal_details")
             if CustomUser.objects.filter(email__iexact=email).exists():
                 messages.error(request, "Email Address already Register...")
                 return redirect("emp_personal_details")
@@ -716,6 +720,7 @@ def add_employee(request):
             )
 
             user.employee.department = department
+            user.employee.emp_code = emp_code
             user.employee.branch = branchh
             user.employee.group = group
             user.employee.contact_no = contact
