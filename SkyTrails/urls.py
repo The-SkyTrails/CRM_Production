@@ -7,6 +7,7 @@ from django.views.static import serve
 from django.urls import re_path
 from crm_app.API_views import *
 from django.views.generic import TemplateView
+from crm_app import views
 
 
 urlpatterns = (
@@ -34,6 +35,7 @@ urlpatterns = (
         path("FrontWebsite/", FrontWebsite.as_view({"get": "list", "post": "create"})),
         path("Api/VisaCountry/", apiVisaCountry.as_view({"get": "list"})),
         path("Api/VisaCategory/", apiVisaCategory.as_view({"get": "list"})),
+        path("Chat/", views.chats, name="chat"),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

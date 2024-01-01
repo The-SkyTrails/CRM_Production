@@ -6,6 +6,7 @@
   <div class="row mb-2">
     <div class="col-md-4 mb-4">
       <div class="card mb-4" >
+        <a href="{% url "emp_agent_list" %}">
         <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
           <div class="first-div">                 
             <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
@@ -19,9 +20,11 @@
             <p>{{agent_count}}</p>
           </div>
         </div>
+      </a>
       </div>        
       <!-- Additional div 1 -->
       <div class="card mt-3" >
+        <a href="{% url "emp_all_outsource_agent" %}">
           <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
             <div class="first-div">                 
               <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
@@ -35,6 +38,7 @@
               <p>{{outsourceagent_count}}</p>
             </div>
           </div>
+          </a>
         </div>
   </div> 
   

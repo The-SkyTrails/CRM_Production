@@ -45,6 +45,8 @@ class agent_dashboard(TemplateView):
         package = Package.objects.all().order_by("-last_updated_on")[:10]
 
         user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+
         if user.user_type == "4":
             agent = Agent.objects.get(users=user)
             context["agent"] = agent
@@ -56,6 +58,7 @@ class agent_dashboard(TemplateView):
         context["leadaccept_count"] = leadaccept_count
         context["lead_count"] = lead_count
         context["package"] = package
+        context["faq_count"] = faq_count
 
         return context
 
@@ -66,10 +69,12 @@ class agent_dashboard(TemplateView):
 class Enquiry1View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm1()
+        user = request.user
+        faq_count = FAQ.objects.filter(user=user).count()
         return render(
             request,
             "Agent/Enquiry/lead1.html",
-            {"form": form},
+            {"form": form, "faq_count": faq_count},
         )
 
     def post(self, request):
@@ -98,10 +103,12 @@ class Enquiry1View(LoginRequiredMixin, CreateView):
 class Enquiry2View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm2()
+        user = request.user
+        faq_count = FAQ.objects.filter(user=user).count()
         return render(
             request,
             "Agent/Enquiry/lead2.html",
-            {"form": form},
+            {"form": form, "faq_count": faq_count},
         )
 
     def post(self, request):
@@ -140,10 +147,12 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
 class Enquiry3View(LoginRequiredMixin, CreateView):
     def get(self, request):
         form = EnquiryForm3()
+        user = request.user
+        faq_count = FAQ.objects.filter(user=user).count()
         return render(
             request,
             "Agent/Enquiry/lead3.html",
-            {"form": form},
+            {"form": form, "faq_count": faq_count},
         )
 
     def post(self, request):
@@ -205,6 +214,8 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
 def agentdocument(request, id):
     enq = Enquiry.objects.get(id=id)
     document = Document.objects.all()
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
 
     doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
 
@@ -233,6 +244,7 @@ def agentdocument(request, id):
         "enq": enq,
         "grouped_documents": grouped_documents,
         "doc_file": doc_file,
+        "faq_count": faq_count,
     }
 
     return render(request, "Agent/Enquiry/lead4.html", context)
@@ -288,8 +300,9 @@ def delete_docfile(request, id):
 @login_required
 def agent_new_leads_details(request):
     enquiry = Enquiry.objects.filter(created_by=request.user).order_by("-id")
-
-    context = {"enquiry": enquiry}
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
+    context = {"enquiry": enquiry, "faq_count": faq_count}
     return render(request, "Agent/Enquiry/lead-details.html", context)
 
 
@@ -342,11 +355,14 @@ def edit_enrolled_application(request, id):
     enquiry = Enquiry.objects.get(id=id)
     country = VisaCountry.objects.all()
     category = VisaCategory.objects.all()
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
     # form = FollowUpForm()
     context = {
         "enquiry": enquiry,
         "country": country,
         "category": category,
+        "faq_count": faq_count,
     }
 
     if request.method == "POST":
@@ -461,7 +477,8 @@ def combined_view(request, id):
     education_summary = Education_Summary.objects.filter(enquiry_id=enquiry).first
     work_exp = Work_Experience.objects.filter(enquiry_id=enquiry).first
     bk_info = Background_Information.objects.filter(enquiry_id=enquiry).first
-
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
     if request.method == "POST":
         # Education Summary
         education_summary, created = Education_Summary.objects.get_or_create(
@@ -574,6 +591,7 @@ def combined_view(request, id):
         "education_summary": education_summary,
         "work_exp": work_exp,
         "bk_info": bk_info,
+        "faq_count": faq_count,
     }
 
     return render(
@@ -595,11 +613,14 @@ def editproduct_details(request, id):
     country = VisaCountry.objects.all()
     category = VisaCategory.objects.all()
     product = Package.objects.all()
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
     context = {
         "enquiry": enquiry,
         "country": country,
         "category": category,
         "product": product,
+        "faq_count": faq_count,
     }
 
     if request.method == "POST":
@@ -641,6 +662,8 @@ def enrolleddocument(request, id):
     document = Document.objects.all()
 
     doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
+    user = request.user
+    faq_count = FAQ.objects.filter(user=user).count()
 
     case_categories = CaseCategoryDocument.objects.filter(country=enq.Visa_country)
 
@@ -667,6 +690,7 @@ def enrolleddocument(request, id):
         "enq": enq,
         "grouped_documents": grouped_documents,
         "doc_file": doc_file,
+        "faq_count": faq_count,
     }
 
     return render(
@@ -729,6 +753,13 @@ class PackageDetailView(LoginRequiredMixin, DetailView):
     template_name = "Agent/Product/Productdetails.html"
     context_object_name = "package"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
+        return context
+
 
 class PackageListView(LoginRequiredMixin, ListView):
     model = Package
@@ -737,6 +768,13 @@ class PackageListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Package.objects.order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
+        return context
 
 
 ############################################ QUERIES ######################################################
@@ -758,6 +796,13 @@ class FAQCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
+        return context
+
 
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
@@ -776,6 +821,9 @@ class ResolvedFAQListView(LoginRequiredMixin, ListView):
         context["pending_queries_count"] = self.get_pending_queries_count(
             self.request.user
         )
+        user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
         return context
 
     def get_pending_queries_count(self, user):
@@ -799,6 +847,9 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["pending_queries_count"] = self.get_queryset().count()
+        user = self.request.user
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
         return context
 
 
@@ -864,8 +915,12 @@ class profileview(TemplateView, LoginRequiredMixin):
 
         if hasattr(user, "get_user_type_display"):
             context["user_type"] = user.get_user_type_display()
+
+        faq_count = FAQ.objects.filter(user=user).count()
+        context["faq_count"] = faq_count
         context["leads"] = leads
         context["completedleads"] = completedleads
+        context["faq_count"] = faq_count
 
         return context
 

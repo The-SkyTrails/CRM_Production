@@ -6,6 +6,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col left">
         <div class="card h-100" style="border: none">
+          <a href="{% url "agent_new_leads_details" %}">
           <div class="card-body1 card-bodys d-flex justify-content-between">
             <div class="first-div">
               <!-- Content of the first div goes here -->
@@ -26,14 +27,15 @@
               <p>{{lead_count}}</p>
             </div>
           </div>
+          </a>
         </div>
       </div>
 
       <div class="col">
+        <a href="{% url "agent_new_leads_details" %}">
         <div class="card h-100" style="border: none">
           <div
-            class="card-body1 card-bodys1 d-flex justify-content-between border-none"
-          >
+            class="card-body1 card-bodys1 d-flex justify-content-between border-none">
             <div class="first-div">
               <!-- Content of the first div goes here -->
 
@@ -54,6 +56,7 @@
             </div>
           </div>
         </div>
+        </a>
       </div>
 
       <div class="col">

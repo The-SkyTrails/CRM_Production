@@ -488,3 +488,22 @@ def reset_psw(request):
 
 def Error404(request, exception):
     return render(request, "Admin/404.html")
+
+
+
+
+def chats(request):
+    user = request.user
+    user_type = user.user_type
+
+    if user_type == "2":
+        base_template = "dashboard/base.html"
+    elif user_type == "3":
+        base_template = "Employee/Base/base.html"
+    else:
+        base_template = "Agent/Base/base.html"
+
+    context = {
+        "base_template": base_template,
+    }
+    return render(request, "chat/chat.html", context)
