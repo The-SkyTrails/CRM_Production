@@ -125,8 +125,8 @@ class EmployeeResource(resources.ModelResource):
         exclude = ("id",)  # Exclude fields if necessary
 
 
-class CustomUserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = CustomUserResource
+# class CustomUserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+#     resource_class = CustomUserResource
 
 
 class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
