@@ -114,7 +114,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     ]
 
 
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = "users", "contact_no", "department"
 
 
@@ -144,6 +144,10 @@ class FollowupAdmin(admin.ModelAdmin):
     )
 
 
+class FaqAdmin(admin.ModelAdmin):
+    list_display = ["id", "user", "employee", "question", "answer", "last_updated_on"]
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory, visaCategoryResource)
@@ -170,6 +174,6 @@ admin.site.register(Background_Information)
 admin.site.register(Education_Summary)
 admin.site.register(TestScore)
 admin.site.register(Work_Experience)
-admin.site.register(FAQ)
+admin.site.register(FAQ, FaqAdmin)
 admin.site.register(FollowUp, FollowupAdmin)
 admin.site.register(ActivityLog)

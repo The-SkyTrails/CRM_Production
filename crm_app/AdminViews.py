@@ -673,6 +673,7 @@ def import_branch(request):
 def add_employee(request):
     branches = Branch.objects.all()
     groups = Group.objects.all()
+    dep = Department_Choices
 
     if request.method == "POST":
         department = request.POST.get("department")
@@ -775,7 +776,7 @@ def add_employee(request):
             messages.warning(request, str(e))
             return redirect("emp_personal_details")
 
-    context = {"branch": branches, "group": groups}
+    context = {"branch": branches, "group": groups, "dep": dep}
     return render(request, "Admin/Employee Management/addemp1.html", context)
 
 
