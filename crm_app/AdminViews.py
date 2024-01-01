@@ -79,11 +79,6 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
 
 
 @login_required
-def admin_profile(request):
-    return render(request, "Admin/Profile/profile.html")
-
-
-@login_required
 def add_visacountry(request):
     visacountry = VisaCountry.objects.all().order_by("-id")
     form = VisaCountryForm(request.POST or None)
