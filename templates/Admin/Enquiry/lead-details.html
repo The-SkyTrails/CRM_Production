@@ -216,7 +216,7 @@
                                 <input type="text" value="{{i.lead_status}}" name="lead" hidden>
                                 {% if i.lead_status == "Active" %}
                                 <button class="btn btn-primary btn-sm" type="submit">PreEntrolled</button>
-                                {% if i.lead_status == "New Lead" %}
+                                {% elif i.lead_status == "New Lead" %}
                                 <button class="btn btn-primary btn-sm" type="submit">Active</button>
                                 {% elif i.lead_status == "PreEnrolled"  %}
                                 <button class="btn btn-warning btn-sm" type="submit">Enrolled</button
@@ -294,6 +294,7 @@
                         </td> {% endcomment %}
                     </tr>
                     {% endif %}
+                    
                     {% include "Admin/Enquiry/add_notes_modal.html" %}
 
                     {% endfor %}
