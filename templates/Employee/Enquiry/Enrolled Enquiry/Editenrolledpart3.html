@@ -251,8 +251,8 @@
 
                 <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Product</label>
-                  <select class="form-select" name="Package" id="Package">
-                    <option value="Select">Select</option>
+                  <select class="form-select" name="Package" id="Package" required>
+                    <option value="">Select</option>
                     {% for package in product %}
                       <option value="{{package.id}}" {% if enquiry.Package_id == package.id %}selected{% endif%}>{{package.title}}</option>
                     {% endfor %}
