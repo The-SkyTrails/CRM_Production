@@ -432,3 +432,19 @@ class FAQForm(forms.ModelForm):
             ),
             "answer": forms.Textarea(attrs={"class": "form-control"}),
         }
+
+
+class ChatGroupForm(forms.ModelForm):
+    class Meta:
+        model = ChatGroup
+        fields = ["group_name", "group_member"]
+        widgets = {
+            "group_name": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Group Name"}
+            ),
+        }
+
+    group_member = forms.ModelMultipleChoiceField(
+        queryset=CustomUser.objects.exclude(user_type=1),
+        widget=forms.CheckboxSelectMultiple,
+    )

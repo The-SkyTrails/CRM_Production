@@ -35,7 +35,7 @@ urlpatterns = (
         path("FrontWebsite/", FrontWebsite.as_view({"get": "list", "post": "create"})),
         path("Api/VisaCountry/", apiVisaCountry.as_view({"get": "list"})),
         path("Api/VisaCategory/", apiVisaCategory.as_view({"get": "list"})),
-        path("chat/", views.chats, name="chat"),
+        path("Chat/", views.chats, name="chat"),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

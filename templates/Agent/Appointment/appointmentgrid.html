@@ -13,7 +13,7 @@
 
         </div>
         <div class="text-container">
-            <a href="http://" style="text-decoration: none;">
+            <a href="{% url "agent_dashboard" %}" style="text-decoration: none;">
                 <div class="text">Dashboard</div>
             </a>
         </div>
@@ -37,8 +37,9 @@
         </div>
 
         <div class="tabsBox">
+            <a href="{% url "Appointment_list" %}">
             <div class="GridtabsOne">
-                <a href="{% url "agent_appointment_list" %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                     style="margin-right: 2px;">
                     <path
                         d="M2.58337 4H1.75004C1.51992 4 1.33337 4.17909 1.33337 4.4V5.2C1.33337 5.42091 1.51992 5.6 1.75004 5.6H2.58337C2.81349 5.6 3.00004 5.42091 3.00004 5.2V4.4C3.00004 4.17909 2.81349 4 2.58337 4Z"
@@ -58,9 +59,11 @@
                     <path
                         d="M13.8334 12H5.50004C5.27903 12 5.06707 11.9157 4.91079 11.7657C4.75451 11.6157 4.66671 11.4122 4.66671 11.2C4.66671 10.9878 4.75451 10.7843 4.91079 10.6343C5.06707 10.4843 5.27903 10.4 5.50004 10.4H13.8334C14.0544 10.4 14.2664 10.4843 14.4226 10.6343C14.5789 10.7843 14.6667 10.9878 14.6667 11.2C14.6667 11.4122 14.5789 11.6157 14.4226 11.7657C14.2664 11.9157 14.0544 12 13.8334 12Z"
                         fill="#111928" />
-                </svg>List View</a>
+                </svg>List View
             </div>
+        </a>
             <hr>
+            <a href="{% url "Appointment_grid" %}">
             <div class="GridtabsTwo">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                     style="margin-right: 2px;">
@@ -78,6 +81,7 @@
                         fill="#111928" />
                 </svg>Grid View
             </div>
+        </a>
         </div>
 
     </div>
@@ -85,53 +89,29 @@
     <div class="profile-container" style="background-color: #EBF5FF;">
         <div class="container">
             <div class="row">
+                {% for i in appointment %}
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-5">
-                            <span><b>Client Name</b> : Vijay Singh</span> <br>
-                            <span><b>Date</b> : 2-12-2023</span> <br>
-                            <span><b>Total Amount</b> : 10000</span> <br>
+                            <span><b>Enq No.</b> : {{i.enquiry.enquiry_number}}</span> <br>
+                            <span><b>Name</b> : {{i.enquiry.FirstName}} {{i.enquiry.LastName}}</span> <br>
+                            <span><b>Scheduled For</b> : {{request.user}}</span> <br>
                         </div>
                         <div class="col-md-5">
-                            <span><b>Assigned To</b> : Vijay Singh</span> <br>
-                            <span><b>Purpose</b> : Visa</span> <br>
-                            <span><b>Pending Amount</b> : 1000</span>
+                            <span><b>PURPOSE</b> : Visa</span> <br>
+                            <span><b>Date-Time</b> : {{i.date}}-{{i.time}}</span> <br>
+                            <span><b>Description</b> : {{i.description}}</span>
                         </div>
                         <div class="col-md-2">
-                            <div class="complete-button">
-                                <div class="button-content">Complete</div>
-                            </div>
-                            <br><br>
+                            
                             <div class="reject-button">
-                                <div class="button-content">Pending</div>
+                                <div class="button-content">{{i.status}}</div>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        <h5><b>Add Notes:</b></h5>
-                        <div class="notes-container">
-                            <div class="notes-content">
-                                <div class="notes-text">
-                                    <div class="notes-text-inner">
-                                        Add your notes here
-                                    </div>
-                                </div>
-
-                                
-                            </div>
-                            <div class="notes-indicator">
-                                <div class="indicator-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M8.00016 3.33333V8M8.00016 8V12.6667M8.00016 8H12.6668M8.00016 8H3.3335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                      </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
 
             </div>
         </div>

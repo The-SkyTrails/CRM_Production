@@ -202,4 +202,13 @@ urlpatterns = [
     path("Profile/", profileview.as_view(), name="admin_profile"),
     path("edit_profile/", edit_profile, name="edit_profile"),
     path("PreEnrolled/<int:id>", leadupated, name="leadupated"),
+    # ---------------------------------- chat group -------------------
+    path("chatgroup/", CreateChatGroupView.as_view(), name="chatgroup"),
+    path("chatgroupList/", ChatGroupListView.as_view(), name="ChatGroup_list"),
+    path("chatgroupEdit/<int:pk>", editGroupChat.as_view(), name="EditChatGroup"),
+    path(
+        "chatgroup/delete/<int:id>/",
+        chat_group_delete_group,
+        name="chat_group_delete_group",
+    ),
 ]

@@ -959,3 +959,34 @@ def edit_profile(request):
         return redirect("Agent_profile")
 
     return render(request, "Agent/Profile/Profile.html")
+
+
+################################################# APPOINTMENT ###################################################
+
+
+class AppointmentListView(LoginRequiredMixin, ListView):
+    model = EnqAppointment
+    template_name = "Agent/Appointment/appointmentlist.html"
+    context_object_name = "appointment"
+
+    def get_queryset(self):
+        user = self.request.user
+        user_enquiries = Enquiry.objects.filter(created_by=user)
+        user_appointments = EnqAppointment.objects.filter(
+            enquiry__in=user_enquiries
+        ).order_by("-id")
+        return user_appointments
+
+
+class AppointmentGridView(LoginRequiredMixin, ListView):
+    model = EnqAppointment
+    template_name = "Agent/Appointment/appointmentgrid.html"
+    context_object_name = "appointment"
+
+    def get_queryset(self):
+        user = self.request.user
+        user_enquiries = Enquiry.objects.filter(created_by=user)
+        user_appointments = EnqAppointment.objects.filter(
+            enquiry__in=user_enquiries
+        ).order_by("-id")
+        return user_appointments

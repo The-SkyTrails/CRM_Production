@@ -917,6 +917,37 @@ class ActivityLog(models.Model):
         return f"{self.user} - {self.action} - {self.timestamp}"
 
 
+# --------------------------- Chat Group ------------------------
+
+
+class ChatGroup(models.Model):
+    group_name = models.CharField(max_length=100, unique=True)
+    group_member = models.ManyToManyField(CustomUser, related_name="chat_member")
+    create_by = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def _str_(self):
+        return self.group_name
+
+
+class ChatMessage(models.Model):
+    group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE)
+    message_by = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True, blank=True
+    )
+    message_content = models.CharField(max_length=1000)
+    filename = models.CharField(max_length=100, null=True, blank=True)
+    attachment = models.FileField(
+        upload_to="chat_attachments/",
+        # validators=[validate_file_extension],
+        null=True,
+        blank=True,
+    )
+    msg_time = models.DateTimeField(auto_now=True)
+
+
 @receiver(post_save, sender=CustomUser)
 def create_admin_profile(sender, instance, created, **kwargs):
     # if instance.user_type==''

@@ -47,4 +47,7 @@ urlpatterns = [
     path("pending-queries/", PendingFAQListView.as_view(), name="pending_queries"),
     path("profile", profileview.as_view(), name="Agent_profile"),
     path("edit_profile/", edit_profile, name="edit_agent_profile"),
+    # ------------------------ Appointment url -----------------------
+    path("appointmentlist/", AppointmentListView.as_view(), name="Appointment_list"),
+    path("appointmentgrid/", AppointmentGridView.as_view(), name="Appointment_grid"),
 ]

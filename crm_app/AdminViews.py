@@ -15,6 +15,7 @@ from django.views.generic import (
 from django.views import View
 from django.urls import reverse_lazy
 import pandas as pd
+
 # from .whatsapp_api import send_whatsapp_message
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
@@ -29,6 +30,7 @@ from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth import authenticate, logout, login as auth_login
 from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
+
 ######################################### COUNTRY #################################################
 
 
@@ -2447,7 +2449,6 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
 
 
 class profileview(TemplateView, LoginRequiredMixin):
-    print("sssssssssssss")
     template_name = "Admin/Profile/Profile.html"
 
     def get_context_data(self, **kwargs):
@@ -2527,3 +2528,55 @@ def leadupated(request, id):
             enquiry.save()
 
     return redirect("admin_new_leads_details")
+
+
+# ------------------------------------ GROUP CHAT --------------------
+
+
+class CreateChatGroupView(LoginRequiredMixin, CreateView):
+    model = ChatGroup
+    form_class = ChatGroupForm
+    template_name = "chat/chatgroup.html"
+    success_url = reverse_lazy("chatgroup")
+
+    def form_valid(self, form):
+        chat_group = form.save(commit=False)
+
+        chat_group.create_by = self.request.user
+
+        chat_group.save()
+
+        chat_group.group_member.add(self.request.user)
+
+        messages.success(self.request, "ChatGroup Added Successfully.")
+        return super().form_valid(form)
+
+
+class ChatGroupListView(LoginRequiredMixin, ListView):
+    model = ChatGroup
+    template_name = "chat/grouplist.html"
+    context_object_name = "group"
+
+    def get_queryset(self):
+        return ChatGroup.objects.order_by("-id")
+
+
+class editGroupChat(LoginRequiredMixin, UpdateView):
+    model = ChatGroup
+    form_class = ChatGroupForm
+    template_name = "chat/updategroup.html"
+    success_url = reverse_lazy("ChatGroup_list")
+
+    def form_valid(self, form):
+        form.instance.lastupdated_by = self.request.user
+
+        messages.success(self.request, "ChatGroup Updated Successfully.")
+
+        return super().form_valid(form)
+
+
+def chat_group_delete_group(request, id):
+    group = get_object_or_404(ChatGroup, id=id)
+    group.delete()
+    messages.success(request, f"{group.group_name} deleted successfully..")
+    return redirect("ChatGroup_list")

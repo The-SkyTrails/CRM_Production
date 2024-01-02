@@ -13,7 +13,7 @@
 
         </div>
         <div class="text-container">
-            <a href="http://" style="text-decoration: none;">
+            <a href="{% url "agent_dashboard" %}" style="text-decoration: none;">
                 <div class="text">Dashboard</div>
             </a>
         </div>
@@ -37,6 +37,7 @@
         </div>
 
         <div class="tabsBox">
+            <a href="{% url "Appointment_list" %}">
             <div class="tabsOne">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
                     style="margin-right: 2px;">
@@ -60,9 +61,11 @@
                         fill="#111928" />
                 </svg>List View
             </div>
+        </a>
             <hr>
+            <a href="{% url "Appointment_grid" %}">
             <div class="tabsTwo">
-                <a href="{% url "agent_appointment_grid" %}"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                <svg xmlns="http://www.w3.org/2000/svg" width="16"
                         height="16" viewBox="0 0 16 16" fill="none" style="margin-right: 2px;">
                         <path
                             d="M6.09533 2H3.238C2.55427 2 2 2.55427 2 3.238V6.09533C2 6.77906 2.55427 7.33333 3.238 7.33333H6.09533C6.77906 7.33333 7.33333 6.77906 7.33333 6.09533V3.238C7.33333 2.55427 6.77906 2 6.09533 2Z"
@@ -76,8 +79,9 @@
                         <path
                             d="M12.762 8.66667H9.90467C9.22094 8.66667 8.66667 9.22094 8.66667 9.90467V12.762C8.66667 13.4457 9.22094 14 9.90467 14H12.762C13.4457 14 14 13.4457 14 12.762V9.90467C14 9.22094 13.4457 8.66667 12.762 8.66667Z"
                             fill="#111928" />
-                    </svg>Grid View</a>
+                    </svg>Grid View
             </div>
+        </a>
         </div>
 
     </div>
@@ -88,370 +92,35 @@
             <table id="example" class="display">
                 <thead>
                     <tr>
-                        <th>Case No.</th>
+                        <th>Enq No.</th>
                         <th>Name</th>
                         <th>Scheduled For</th>
                         <th>PURPOSE</th>
-                        <th>Assigned</th>
-                        <th>TOTAL AMOUNT</th>
-                        <th>PAID AMOUNT</th>
-                        <th> PAYMENT status</th>
-                        <th> APPOINTMENT status</th>
-                        <th>NOTES</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>APPOINTMENT status</th>
+                        <th>Create By</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
-
+{% for i in appointment %}
                     <tr>
-                        <td>1</td>
-                        <td>Radhika</td>
-                        <td>Dec 2 2024</td>
+                        <td>{{i.enquiry.enquiry_number}}</td>
+                        <td>{{i.enquiry.FirstName}} {{i.enquiry.LastName}}</td>
+                        <td>{{request.user}}</td>
                         <td>Visa</td>
-
-                        <td>Radhika</td>
-                        <td>11</td>
-                        <td>1</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.date}}</td>
+                        <td>{{i.time}}</td>
                         <td>
-                            <span class="badge rounded-pill1">Paid</span>
+                            <span class="badge rounded-pill1">{{i.status}}</span>
                         </td>
-                        <td>
-                            <div class="complete-button">
-                                <div class="button-content">Complete</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="add-notes-container answerclass" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                                <div class="addnotes-label">Add notes</div>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                    fill="none">
-                                    <path
-                                        d="M7.99992 3.33337V8.00004M7.99992 8.00004V12.6667M7.99992 8.00004H12.6666M7.99992 8.00004H3.33325"
-                                        stroke="#1A56DB" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-
-
-                            </div>
-                        </td>
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="notesmodal-body">
-                                        <div class="content">
-                                            <div class="header">
-                                                <div class="title">Add Notes</div>
-                                            </div>
-                                            <div class="text-area">
-                                                <div class="placeholder-text">Write text here ...</div>
-                                            </div>
-                                            <div class="character-limit">Character Limit: 120 words</div>
-                                            <div class="file-upload">
-                                                <div class="upload-info">
-                                                    <div class="upload-text">
-                                                        <span class="bold-text">Click to upload Max. File Size:
-                                                            30MB</span>
-
-                                                    </div>
-                                                    <!-- <div class="file-size"></div> -->
-                                                </div>
-                                                <div class="upload-button">
-                                                    <input type="file" id="fileInput" style="display:none">
-                                                    <label for="fileInput" class="notes-button-text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17"
-                                                            viewBox="0 0 16 17" fill="none" style="margin-left: 3px;">
-                                                            <path
-                                                                d="M9.9046 9.39105L9.6597 9.73549L9.95854 10.0343L13.8084 13.8841C13.8615 13.9405 13.8909 14.0152 13.8903 14.0928C13.8896 14.1714 13.858 14.2467 13.8024 14.3023L14.156 14.6558L13.8024 14.3023C13.7468 14.3579 13.6715 14.3895 13.5929 14.3901C13.5153 14.3908 13.4406 14.3614 13.3842 14.3082L9.53525 10.4592L9.23639 10.1604L8.89195 10.4053C8.24864 10.8627 7.49183 11.1343 6.70445 11.1901C5.91707 11.246 5.1295 11.0841 4.42805 10.722C3.72659 10.36 3.13832 9.81191 2.7277 9.13776L2.30068 9.39786L2.7277 9.13776C2.31708 8.46361 2.09994 7.68944 2.1001 6.90008L2.1001 6.89991C2.10001 6.22317 2.25966 5.55596 2.56605 4.95255C2.87245 4.34913 3.31694 3.82656 3.86338 3.42732C4.40982 3.02809 5.04278 2.76347 5.71077 2.65498C6.37876 2.54649 7.06293 2.5972 7.70763 2.80298C8.35233 3.00877 8.93936 3.36381 9.42097 3.83924C9.90258 4.31468 10.2652 4.89707 10.4793 5.53906C10.6933 6.18105 10.7529 6.86451 10.653 7.53384C10.5532 8.20318 10.2967 8.8395 9.9046 9.39105ZM6.4001 3.19998C5.4188 3.19998 4.47769 3.5898 3.7838 4.28368C3.08992 4.97757 2.7001 5.91868 2.7001 6.89998C2.7001 7.88128 3.08992 8.82239 3.7838 9.51627C4.47769 10.2102 5.4188 10.6 6.4001 10.6C7.3814 10.6 8.32251 10.2102 9.01639 9.51627C9.71028 8.82239 10.1001 7.88128 10.1001 6.89998C10.1001 5.91868 9.71028 4.97757 9.01639 4.28368C8.32251 3.5898 7.3814 3.19998 6.4001 3.19998Z"
-                                                                fill="white" stroke="#071C2C" />
-                                                        </svg>
-                                                        Choose File
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-
-                                            <div class="btn btn-color">Save</div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
+                        <td>{{i.created_by}}</td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Radhika</td>
-                        <td>Dec 2 2024</td>
-                        <td>Visa</td>
-
-                        <td>Radhika</td>
-                        <td>11</td>
-                        <td>1</td>
-                        <td>
-                            <span class="badge rounded-pill1">Paid</span>
-                        </td>
-                        <td>
-                            <div class="accept-button">
-                                <div class="button-content">Completed</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="add-notes-container" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <div class="addnotes-label">Add notes</div>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                    fill="none">
-                                    <path
-                                        d="M7.99992 3.33337V8.00004M7.99992 8.00004V12.6667M7.99992 8.00004H12.6666M7.99992 8.00004H3.33325"
-                                        stroke="#1A56DB" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-
-
-                            </div>
-                        </td>
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="notesmodal-body">
-                                        <div class="content">
-                                            <div class="header">
-                                                <div class="title">Add Notes</div>
-                                            </div>
-                                            <div class="text-area">
-                                                <div class="placeholder-text">Write text here ...</div>
-                                            </div>
-                                            <div class="character-limit">Character Limit: 120 words</div>
-                                            <div class="file-upload">
-                                                <div class="upload-info">
-                                                    <div class="upload-text">
-                                                        <span class="bold-text">Click to upload Max. File Size:
-                                                            30MB</span>
-
-                                                    </div>
-                                                    <!-- <div class="file-size"></div> -->
-                                                </div>
-                                                <div class="upload-button">
-                                                    <input type="file" id="fileInput" style="display:none">
-                                                    <label for="fileInput" class="notes-button-text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17"
-                                                            viewBox="0 0 16 17" fill="none" style="margin-left: 3px;">
-                                                            <path
-                                                                d="M9.9046 9.39105L9.6597 9.73549L9.95854 10.0343L13.8084 13.8841C13.8615 13.9405 13.8909 14.0152 13.8903 14.0928C13.8896 14.1714 13.858 14.2467 13.8024 14.3023L14.156 14.6558L13.8024 14.3023C13.7468 14.3579 13.6715 14.3895 13.5929 14.3901C13.5153 14.3908 13.4406 14.3614 13.3842 14.3082L9.53525 10.4592L9.23639 10.1604L8.89195 10.4053C8.24864 10.8627 7.49183 11.1343 6.70445 11.1901C5.91707 11.246 5.1295 11.0841 4.42805 10.722C3.72659 10.36 3.13832 9.81191 2.7277 9.13776L2.30068 9.39786L2.7277 9.13776C2.31708 8.46361 2.09994 7.68944 2.1001 6.90008L2.1001 6.89991C2.10001 6.22317 2.25966 5.55596 2.56605 4.95255C2.87245 4.34913 3.31694 3.82656 3.86338 3.42732C4.40982 3.02809 5.04278 2.76347 5.71077 2.65498C6.37876 2.54649 7.06293 2.5972 7.70763 2.80298C8.35233 3.00877 8.93936 3.36381 9.42097 3.83924C9.90258 4.31468 10.2652 4.89707 10.4793 5.53906C10.6933 6.18105 10.7529 6.86451 10.653 7.53384C10.5532 8.20318 10.2967 8.8395 9.9046 9.39105ZM6.4001 3.19998C5.4188 3.19998 4.47769 3.5898 3.7838 4.28368C3.08992 4.97757 2.7001 5.91868 2.7001 6.89998C2.7001 7.88128 3.08992 8.82239 3.7838 9.51627C4.47769 10.2102 5.4188 10.6 6.4001 10.6C7.3814 10.6 8.32251 10.2102 9.01639 9.51627C9.71028 8.82239 10.1001 7.88128 10.1001 6.89998C10.1001 5.91868 9.71028 4.97757 9.01639 4.28368C8.32251 3.5898 7.3814 3.19998 6.4001 3.19998Z"
-                                                                fill="white" stroke="#071C2C" />
-                                                        </svg>
-                                                        Choose File
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-
-                                            <div class="btn btn-color">Save</div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Radhika</td>
-                        <td>Dec 2 2024</td>
-                        <td>Visa</td>
-
-                        <td>Radhika</td>
-                        <td>11</td>
-                        <td>1</td>
-                        <td>
-                            <span class="badge rounded-pill1">Paid</span>
-                        </td>
-                        <td>
-                            <div class="accept-button">
-                                <div class="button-content"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" viewBox="0 0 16 16" fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M8.0001 14.4C9.69748 14.4 11.3253 13.7257 12.5256 12.5255C13.7258 11.3252 14.4001 9.69736 14.4001 7.99998C14.4001 6.30259 13.7258 4.67472 12.5256 3.47449C11.3253 2.27426 9.69748 1.59998 8.0001 1.59998C6.30271 1.59998 4.67485 2.27426 3.47461 3.47449C2.27438 4.67472 1.6001 6.30259 1.6001 7.99998C1.6001 9.69736 2.27438 11.3252 3.47461 12.5255C4.67485 13.7257 6.30271 14.4 8.0001 14.4ZM10.9657 6.96558C11.1114 6.81469 11.1921 6.61261 11.1902 6.40285C11.1884 6.1931 11.1043 5.99245 10.956 5.84412C10.8076 5.69579 10.607 5.61166 10.3972 5.60984C10.1875 5.60801 9.98538 5.68865 9.8345 5.83438L7.2001 8.46878L6.1657 7.43438C6.01482 7.28865 5.81273 7.20801 5.60298 7.20984C5.39322 7.21166 5.19257 7.29579 5.04424 7.44412C4.89592 7.59245 4.81178 7.7931 4.80996 8.00285C4.80814 8.21261 4.88877 8.41469 5.0345 8.56558L6.6345 10.1656C6.78452 10.3156 6.98797 10.3998 7.2001 10.3998C7.41223 10.3998 7.61567 10.3156 7.7657 10.1656L10.9657 6.96558Z"
-                                            fill="white" />
-                                    </svg> Completed</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="add-notes-container" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <div class="addnotes-label">Add notes</div>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                    fill="none">
-                                    <path
-                                        d="M7.99992 3.33337V8.00004M7.99992 8.00004V12.6667M7.99992 8.00004H12.6666M7.99992 8.00004H3.33325"
-                                        stroke="#1A56DB" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-
-
-                            </div>
-                        </td>
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="notesmodal-body">
-                                        <div class="content">
-                                            <div class="header">
-                                                <div class="title">Add Notes</div>
-                                            </div>
-                                            <div class="text-area">
-                                                <div class="placeholder-text">Write text here ...</div>
-                                            </div>
-                                            <div class="character-limit">Character Limit: 120 words</div>
-                                            <div class="file-upload">
-                                                <div class="upload-info">
-                                                    <div class="upload-text">
-                                                        <span class="bold-text">Click to upload Max. File Size:
-                                                            30MB</span>
-
-                                                    </div>
-                                                    <!-- <div class="file-size"></div> -->
-                                                </div>
-                                                <div class="upload-button">
-                                                    <input type="file" id="fileInput" style="display:none">
-                                                    <label for="fileInput" class="notes-button-text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17"
-                                                            viewBox="0 0 16 17" fill="none" style="margin-left: 3px;">
-                                                            <path
-                                                                d="M9.9046 9.39105L9.6597 9.73549L9.95854 10.0343L13.8084 13.8841C13.8615 13.9405 13.8909 14.0152 13.8903 14.0928C13.8896 14.1714 13.858 14.2467 13.8024 14.3023L14.156 14.6558L13.8024 14.3023C13.7468 14.3579 13.6715 14.3895 13.5929 14.3901C13.5153 14.3908 13.4406 14.3614 13.3842 14.3082L9.53525 10.4592L9.23639 10.1604L8.89195 10.4053C8.24864 10.8627 7.49183 11.1343 6.70445 11.1901C5.91707 11.246 5.1295 11.0841 4.42805 10.722C3.72659 10.36 3.13832 9.81191 2.7277 9.13776L2.30068 9.39786L2.7277 9.13776C2.31708 8.46361 2.09994 7.68944 2.1001 6.90008L2.1001 6.89991C2.10001 6.22317 2.25966 5.55596 2.56605 4.95255C2.87245 4.34913 3.31694 3.82656 3.86338 3.42732C4.40982 3.02809 5.04278 2.76347 5.71077 2.65498C6.37876 2.54649 7.06293 2.5972 7.70763 2.80298C8.35233 3.00877 8.93936 3.36381 9.42097 3.83924C9.90258 4.31468 10.2652 4.89707 10.4793 5.53906C10.6933 6.18105 10.7529 6.86451 10.653 7.53384C10.5532 8.20318 10.2967 8.8395 9.9046 9.39105ZM6.4001 3.19998C5.4188 3.19998 4.47769 3.5898 3.7838 4.28368C3.08992 4.97757 2.7001 5.91868 2.7001 6.89998C2.7001 7.88128 3.08992 8.82239 3.7838 9.51627C4.47769 10.2102 5.4188 10.6 6.4001 10.6C7.3814 10.6 8.32251 10.2102 9.01639 9.51627C9.71028 8.82239 10.1001 7.88128 10.1001 6.89998C10.1001 5.91868 9.71028 4.97757 9.01639 4.28368C8.32251 3.5898 7.3814 3.19998 6.4001 3.19998Z"
-                                                                fill="white" stroke="#071C2C" />
-                                                        </svg>
-                                                        Choose File
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-
-                                            <div class="btn btn-color">Save</div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Radhika</td>
-                        <td>Dec 2 2024</td>
-                        <td>Visa</td>
-
-                        <td>Radhika</td>
-                        <td>11</td>
-                        <td>1</td>
-                        <td>
-                            <span class="badge rounded-pill1">Paid</span>
-                        </td>
-                        <td>
-                            <div class="accept-button">
-                                <div class="button-content">Completed</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="add-notes-container" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <div class="addnotes-label">Add notes</div>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
-                                    fill="none">
-                                    <path
-                                        d="M7.99992 3.33337V8.00004M7.99992 8.00004V12.6667M7.99992 8.00004H12.6666M7.99992 8.00004H3.33325"
-                                        stroke="#1A56DB" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-
-
-                            </div>
-                        </td>
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="notesmodal-body">
-                                        <div class="content">
-                                            <div class="header">
-                                                <div class="title">Add Notes</div>
-                                            </div>
-                                            <div class="text-area">
-                                                <div class="placeholder-text">Write text here ...</div>
-                                            </div>
-                                            <div class="character-limit">Character Limit: 120 words</div>
-                                            <div class="file-upload">
-                                                <div class="upload-info">
-                                                    <div class="upload-text">
-                                                        <span class="bold-text">Click to upload Max. File Size:
-                                                            30MB</span>
-
-                                                    </div>
-                                                    <!-- <div class="file-size"></div> -->
-                                                </div>
-                                                <div class="upload-button">
-                                                    <input type="file" id="fileInput" style="display:none">
-                                                    <label for="fileInput" class="notes-button-text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17"
-                                                            viewBox="0 0 16 17" fill="none" style="margin-left: 3px;">
-                                                            <path
-                                                                d="M9.9046 9.39105L9.6597 9.73549L9.95854 10.0343L13.8084 13.8841C13.8615 13.9405 13.8909 14.0152 13.8903 14.0928C13.8896 14.1714 13.858 14.2467 13.8024 14.3023L14.156 14.6558L13.8024 14.3023C13.7468 14.3579 13.6715 14.3895 13.5929 14.3901C13.5153 14.3908 13.4406 14.3614 13.3842 14.3082L9.53525 10.4592L9.23639 10.1604L8.89195 10.4053C8.24864 10.8627 7.49183 11.1343 6.70445 11.1901C5.91707 11.246 5.1295 11.0841 4.42805 10.722C3.72659 10.36 3.13832 9.81191 2.7277 9.13776L2.30068 9.39786L2.7277 9.13776C2.31708 8.46361 2.09994 7.68944 2.1001 6.90008L2.1001 6.89991C2.10001 6.22317 2.25966 5.55596 2.56605 4.95255C2.87245 4.34913 3.31694 3.82656 3.86338 3.42732C4.40982 3.02809 5.04278 2.76347 5.71077 2.65498C6.37876 2.54649 7.06293 2.5972 7.70763 2.80298C8.35233 3.00877 8.93936 3.36381 9.42097 3.83924C9.90258 4.31468 10.2652 4.89707 10.4793 5.53906C10.6933 6.18105 10.7529 6.86451 10.653 7.53384C10.5532 8.20318 10.2967 8.8395 9.9046 9.39105ZM6.4001 3.19998C5.4188 3.19998 4.47769 3.5898 3.7838 4.28368C3.08992 4.97757 2.7001 5.91868 2.7001 6.89998C2.7001 7.88128 3.08992 8.82239 3.7838 9.51627C4.47769 10.2102 5.4188 10.6 6.4001 10.6C7.3814 10.6 8.32251 10.2102 9.01639 9.51627C9.71028 8.82239 10.1001 7.88128 10.1001 6.89998C10.1001 5.91868 9.71028 4.97757 9.01639 4.28368C8.32251 3.5898 7.3814 3.19998 6.4001 3.19998Z"
-                                                                fill="white" stroke="#071C2C" />
-                                                        </svg>
-                                                        Choose File
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-
-                                            <div class="btn btn-color">Save</div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </tr>
+                    {% endfor %}
+                    
 
 
                 </tbody>

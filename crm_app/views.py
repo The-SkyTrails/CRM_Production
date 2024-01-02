@@ -490,14 +490,12 @@ def Error404(request, exception):
     return render(request, "Admin/404.html")
 
 
-
-
 def chats(request):
     user = request.user
     user_type = user.user_type
 
     if user_type == "2":
-        base_template = "dashboard/base.html"
+        base_template = "Admin/Base/base.html"
     elif user_type == "3":
         base_template = "Employee/Base/base.html"
     else:
