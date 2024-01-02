@@ -161,6 +161,7 @@
                     <p class="card-text">No. Of Visa :<Span  class="txt">{{i.number_of_visa}}</Span></p>
                     <p class="card-text">Expiry Date: <Span  class="txt">{{i.package_expiry_date}}</Span></p>
                   </div>
+                  <a href="{% url "emp_enquiry_form1" %}">
                   <div class="Button">
                     <div class="Text">Apply Now</div>
                     <div class="ArrowRight">
@@ -178,6 +179,7 @@
                       </svg>
                     </div>
                   </div>
+                </a>
             </div>
           {% endfor %}
           </div>

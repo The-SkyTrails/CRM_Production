@@ -6,16 +6,25 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
-from .models import CustomUser, LoginLog, Employee, Agent, OutSourcingAgent, Admin
+from .models import (
+    CustomUser,
+    LoginLog,
+    Employee,
+    Agent,
+    OutSourcingAgent,
+    Admin,
+    ChatGroup,
+)
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from rest_framework import viewsets
 import random
 from django.db.utils import IntegrityError
 from django.core.mail import send_mail
-from .whatsapp_api import send_whatsapp_message
+from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 from django.http import JsonResponse
 from django.core.cache import cache
+from django.template import loader
 
 
 def get_public_ip():
@@ -495,6 +504,11 @@ def chats(request):
     user_type = user.user_type
 
     if user_type == "2":
+        chat_groups = ChatGroup.objects.all()
+    else:
+        chat_groups = user.chat_member.all()
+
+    if user_type == "2":
         base_template = "Admin/Base/base.html"
     elif user_type == "3":
         base_template = "Employee/Base/base.html"
@@ -503,5 +517,24 @@ def chats(request):
 
     context = {
         "base_template": base_template,
+        "groups": chat_groups,
     }
-    return render(request, "chat/chat.html", context)
+    return render(request, "chat/chat2.html", context)
+
+
+def get_group_chat_messages(request):
+    group_id = request.GET.get("group_id")
+    user = request.user
+
+    chat_group = ChatGroup.objects.get(id=group_id)
+    print("chat_group idddd", chat_group)
+    # chat = ChatMessage.objects.filter(group=chat_group)
+
+    context = {
+        "chat_group": chat_group,
+        # "chat": chat,
+        "user": user,
+    }
+
+    chat_content = loader.render_to_string("chat/group_chat_content.html", context)
+    return HttpResponse(chat_content)

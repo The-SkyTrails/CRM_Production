@@ -36,6 +36,11 @@ urlpatterns = (
         path("Api/VisaCountry/", apiVisaCountry.as_view({"get": "list"})),
         path("Api/VisaCategory/", apiVisaCategory.as_view({"get": "list"})),
         path("Chat/", views.chats, name="chat"),
+        path(
+            "get_group_chat_messages/",
+            views.get_group_chat_messages,
+            name="get_group_chat_messages",
+        ),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

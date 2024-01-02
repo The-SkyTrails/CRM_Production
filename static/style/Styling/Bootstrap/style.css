@@ -2553,7 +2553,7 @@ margin-left: 15px;
 }
 .card-body {
   line-height: normal;
-  padding-left:10px !important;
+ 
   text-align: left;
 }
 
@@ -3723,7 +3723,7 @@ line-height: 150%;
 
 
 .text1{
-  border-radius: 9999px;
+  border-radius: 100%;
   background: #DEF7EC;
   padding: 5px;
    color: #03543F;
