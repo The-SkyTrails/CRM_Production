@@ -6,7 +6,7 @@ def send_whatsapp_message(mobile_number, message):
     url = "https://api.bulkwhatsapp.net/wapp/api/send"
 
     payload_data = {
-        "apikey": "1edc3df293324143a960137e2c7584aa",
+        "apikey": "e0c31251049e44b9a02ed485e127d02f",
         "mobile": mobile_number,
         "msg": message,
         # Add other payload parameters as needed

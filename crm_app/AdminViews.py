@@ -15,7 +15,7 @@ from django.views.generic import (
 from django.views import View
 from django.urls import reverse_lazy
 import pandas as pd
-from .whatsapp_api import send_whatsapp_message
+# from .whatsapp_api import send_whatsapp_message
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Prefetch
@@ -28,7 +28,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth import authenticate, logout, login as auth_login
-
+from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 ######################################### COUNTRY #################################################
 
 
