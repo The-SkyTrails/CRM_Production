@@ -29,11 +29,19 @@
         </svg>
       </div>
     </div>
-    <a href="{% url "employee_enrolled_lead" %}">
-    <div class="text-container">
-      <div class="text">Enrolled Lead</div>
-    </div>
-    </a>
+    {% if enquiry.lead_status == "New Lead" or enquiry.lead_status == "Active" or enquiry.lead_status == "PreEnrolled" %}
+         <a href="{% url "employee_lead_list" %}">
+            <div class="text-container">
+                  <div class="text">Leads</div>
+            </div>
+         </a>
+         {% else %}
+            <a href="{% url "employee_enrolled_lead" %}">
+                  <div class="text-container">
+                     <div class="text">Enrolled Lead</div>
+                  </div>
+            </a>
+         {% endif %}
     <div class="icon-container">
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="text-container">
-                <a href="{% url "admin_dashboard" %}" style="text-decoration: none;">
+                <a href="{% url "employee_dashboard" %}" style="text-decoration: none;">
                     <div class="text">Dashboard</div>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                 <div class="custom-text">Queries</div>
             </div>
             <div class="tabBox">
-                <a href="{% url "empqueirylist" %}">
+                <a href="{% url "Emp_resolved_queries" %}">
                     <div class="tabOnes">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-right: 3px;">
                             <path d="M14.128 6.586L13.5293 5.98667C13.4027 5.86067 13.3333 5.69267 13.3333 5.51467V4.66667C13.3333 3.564 12.436 2.66667 11.3333 2.66667H10.4853C10.31 2.66667 10.138 2.59534 10.014 2.47134L9.41468 1.872C8.63468 1.092 7.36668 1.092 6.58668 1.872L5.98601 2.47134C5.86201 2.59534 5.69001 2.66667 5.51468 2.66667H4.66668C3.56401 2.66667 2.66668 3.564 2.66668 4.66667V5.51467C2.66668 5.69267 2.59734 5.86067 2.47134 5.98667L1.87201 6.58534C1.49401 6.96334 1.28601 7.466 1.28601 8C1.28601 8.534 1.49468 9.03667 1.87201 9.414L2.47068 10.0133C2.59734 10.1393 2.66668 10.3073 2.66668 10.4853V11.3333C2.66668 12.436 3.56401 13.3333 4.66668 13.3333H5.51468C5.69001 13.3333 5.86201 13.4047 5.98601 13.5287L6.58534 14.1287C6.97534 14.518 7.48734 14.7127 7.99934 14.7127C8.51134 14.7127 9.02334 14.518 9.41334 14.128L10.0127 13.5287C10.138 13.4047 10.31 13.3333 10.4853 13.3333H11.3333C12.436 13.3333 13.3333 12.436 13.3333 11.3333V10.4853C13.3333 10.3073 13.4027 10.1393 13.5293 10.0133L14.128 9.41467C14.5053 9.03667 14.714 8.53467 14.714 8C14.714 7.46534 14.506 6.96334 14.128 6.586ZM11.0367 7.22134L7.03668 9.888C6.92401 9.96334 6.79468 10 6.66668 10C6.49468 10 6.32401 9.93334 6.19534 9.80467L4.86201 8.47134C4.60134 8.21067 4.60134 7.78934 4.86201 7.52867C5.12268 7.268 5.54401 7.268 5.80468 7.52867L6.75134 8.47534L10.2967 6.112C10.604 5.90734 11.0173 5.99 11.2213 6.29667C11.426 6.60334 11.3433 7.01734 11.0367 7.22134Z" fill="#03543F"/>
@@ -46,7 +46,7 @@
                     </div>
                 </a>
                 <hr>
-                <a href="#">
+                <a href="{% url "Emp_pending_queries" %}">
                     <div class="tabTwos">
                         <div class="pendingcontentcircle">
                             Pending Queries  <div class="pendingquerycircle"><div class="circlecontent">{{pending_queries_count}}</div></div>
@@ -55,10 +55,18 @@
                     </div>
                 </a>
             </div>
-            
+            <div class="scheduleappointment">
+                <!-- <div class="appointment-text">Appointments</div> -->
+                <a href="{% url "emp_FAQCreateView" %}">
+                  <div
+                  class="appointment-text">
+                  Add New
+                </div>
+                </a>
+              </div>
 
         </div>
-
+        {% include "Employee/Base/messages.html" %}
 
         <div class="table-container">
             <div class="table-responsive">
@@ -78,23 +86,15 @@
                            
                             <td>{{forloop.counter}}</td>
                             <td>{{i.question}}</td>
-
-                           {% comment %} {% for x in faq_emp_wise %} {% endcomment %}
-                           
-                            {% comment %} {% endfor %} {% endcomment %}
-                           
-                             <td class="answerclass" data-toggle="modal" data-target="#myModal-{{i.id}}">
+                            <td class="answerclass" data-toggle="modal" data-target="#myModal-{{i.id}}">
                                 Add answer 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M7.99998 3.33334V8.00001M7.99998 8.00001V12.6667M7.99998 8.00001H12.6666M7.99998 8.00001H3.33331" stroke="#1A56DB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                            </td> 
-                           
-                            
+                            </td>
                             <td>{{i.last_updated_on}}</td>
                             <td>{{i.user}}</td>
-                            {% include "Employee/Queries/add_answer_modal.html" %}
-                           
+                            {% include "Employee/Queries/update_query_modal.html" %}
                             
                         </tr>
                         {% endfor %}

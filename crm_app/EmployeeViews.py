@@ -1839,12 +1839,14 @@ def ChangePassword(request):
 
 # ----------------------------------------- FAQ ------------------------
 
+# ----------------------------------------- FAQ ------------------------
+
 
 class emp_FAQCreateView(LoginRequiredMixin, CreateView):
     model = FAQ
     form_class = FAQForm
     template_name = "Employee/Queries/add_query.html"
-    success_url = reverse_lazy("emp_ResolvedFAQListView")
+    success_url = reverse_lazy("Emp_pending_queries")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -1854,16 +1856,11 @@ class emp_FAQCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# def get_pending_queries_count(request):
-#     user = request.user
-#     return FAQ.objects.filter(user=user, answer__exact='').exclude(answer__isnull=True)
-
-
 def get_pending_queries_count():
-    return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
+    return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True).count()
 
 
-class queirylist(LoginRequiredMixin, ListView):
+class ResolvedFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
     template_name = "Employee/Queries/Queries.html"
     context_object_name = "resolved_queries"
@@ -1877,95 +1874,37 @@ class queirylist(LoginRequiredMixin, ListView):
         return context
 
 
-class pending_queirylist(LoginRequiredMixin, ListView):
+class PendingFAQListView(LoginRequiredMixin, ListView):
     model = FAQ
     template_name = "Employee/Queries/PendingQueries.html"
     context_object_name = "pending_queries"
 
     def get_queryset(self):
-        return FAQ.objects.all().exclude(answer__isnull=True)
+        return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
-        faq_emp_wise = FAQ.objects.filter(employee=user.employee)
-
         context["pending_queries_count"] = self.get_queryset().count()
-        context["faq_emp_wise"] = faq_emp_wise
         return context
 
 
-def emp_faq_ans(request, id):
-    faq = FAQ.objects.get(id=id)
+def FAQUpdateView(request):
+    user = request.user
     if request.method == "POST":
+        question_id = request.POST.get("question_id")
+        question = request.POST.get("question")
         answer = request.POST.get("answer")
-        faq.answer = answer
-        faq.save()
-        return redirect("emppending_queirylist")
 
+        question_id = FAQ.objects.get(id=question_id)
+        question_id.question = question
+        question_id.answer = answer
 
-def emp_ResolvedFAQListView(request):
-    faq = FAQ.objects.all()
-    pending = FAQ.objects.filter(answer__exact="").count()
+        question_id.user = user
 
-    print("pendinggg", pending)
-    context = {"faq": faq, "pending": pending}
-    return render(request, "Employee/Queries/resolvedquery.html", context)
+        question_id.save()
+        messages.success(request, "Question Updated successfully")
+        return HttpResponseRedirect(reverse("Emp_resolved_queries"))
 
-
-# class emp_ResolvedFAQListView(LoginRequiredMixin, ListView):
-#     model = FAQ
-#     template_name = "Employee/Queries/resolvedquery.html"
-#     context_object_name = "emp_ResolvedFAQListView"
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["pending_queries_count"] = self.get_pending_queries_count(
-#             self.request.user
-#         )
-#         return context
-
-#     def get_pending_queries_count(self, user):
-#         return (
-#             FAQ.objects.filter(user=user, answer__exact="")
-#             .exclude(answer__isnull=True)
-#             .count()
-#         )
-
-
-def emp_PendingFAQListView(request):
-    faq = FAQ.objects.all()
-    pending = FAQ.objects.filter(answer__exact="").count()
-
-    print("pendinggg", pending)
-    context = {"faq": faq, "pending": pending}
-
-    # pending_queries = FAQ.objects.filter(user=request.user, answer__exact="").exclude(
-    #     answer__isnull=True
-    # )
-    # pending_queries_count = pending_queries.count()
-    # context = {
-    #     "pending_queries": pending_queries,
-    #     "pending_queries_count": pending_queries_count,
-    # }
-
-    return render(request, "Employee/Queries/quries.html", context)
-
-
-# class emp_PendingFAQListView(LoginRequiredMixin, ListView):
-#     model = FAQ
-#     template_name = "Employee/Queries/quries.html"
-#     context_object_name = "pending_queries"
-
-#     def get_queryset(self):
-#         return FAQ.objects.filter(user=self.request.user, answer__exact="").exclude(
-#             answer__isnull=True
-#         )
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["pending_queries_count"] = self.get_queryset().count()
-#         return context
 
 ################################################## PRODUCT ################################################
 

@@ -2003,16 +2003,43 @@ class enrolledGrid_Application(LoginRequiredMixin, ListView):
         return context
 
 
+######################################### EMPLOYEE FILTER ##################################################
+
+
+def get_sale_employee():
+    return Employee.objects.filter(department="Sales")
+
+
+def get_presale_employee():
+    return Employee.objects.filter(department="Presales/Assesment")
+
+
+def get_documentation_team_employee():
+    return Employee.objects.filter(department="Documentation")
+
+
+def get_visa_team_employee():
+    return Employee.objects.filter(department="Visa Team")
+
+
 @login_required
 def edit_enrolled_application(request, id):
     enquiry = Enquiry.objects.get(id=id)
     country = VisaCountry.objects.all()
     category = VisaCategory.objects.all()
-    # form = FollowUpForm()
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+
     context = {
         "enquiry": enquiry,
         "country": country,
         "category": category,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
     }
 
     if request.method == "POST":
@@ -2075,6 +2102,55 @@ def edit_enrolled_application(request, id):
         studystatus = request.POST.get("studystatus")
 
         citizen = request.POST.get("citizen")
+
+        ######### ASSIGN CODE #########
+        try:
+            assign_to_employee = request.POST.get("assign_to_employee")
+            emp = Employee.objects.get(id=assign_to_employee)
+            enquiry.assign_to_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_employee is None:
+                enquiry.assign_to_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_sales_employee = request.POST.get("assign_to_sales_employee")
+            emp = Employee.objects.get(id=assign_to_sales_employee)
+            enquiry.assign_to_sales_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_sales_employee is None:
+                enquiry.assign_to_sales_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_documentation_employee = request.POST.get(
+                "assign_to_documentation_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_documentation_employee)
+            enquiry.assign_to_documentation_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_documentation_employee is None:
+                enquiry.assign_to_documentation_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_visa_team_employee = request.POST.get(
+                "assign_to_visa_team_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_visa_team_employee)
+            enquiry.assign_to_visa_team_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_visa_team_employee is None:
+                enquiry.assign_to_visa_team_employee = None
+            else:
+                pass
 
         enquiry.FirstName = firstname
         enquiry.LastName = lastname
@@ -2417,7 +2493,7 @@ def activity_log_view(request):
 
 
 def get_pending_queries_count():
-    return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
+    return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True).count()
 
 
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
@@ -2440,12 +2516,38 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
     context_object_name = "pending_queries"
 
     def get_queryset(self):
-        return FAQ.objects.all().exclude(answer__isnull=True)
+        return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["pending_queries_count"] = self.get_queryset().count()
         return context
+
+
+def FAQUpdateView(request):
+    user = request.user
+    if request.method == "POST":
+        question_id = request.POST.get("question_id")
+        question = request.POST.get("question")
+        answer = request.POST.get("answer")
+
+        question_id = FAQ.objects.get(id=question_id)
+        question_id.question = question
+        question_id.answer = answer
+
+        question_id.user = user
+
+        question_id.save()
+        messages.success(request, "Question Updated successfully")
+        return HttpResponseRedirect(reverse("Admin_resolved_queries"))
+
+
+@login_required
+def delete_query(request, id):
+    query = FAQ.objects.get(id=id)
+    query.delete()
+    messages.success(request, "Query deleted successfully..")
+    return HttpResponseRedirect(reverse("Admin_resolved_queries"))
 
 
 class profileview(TemplateView, LoginRequiredMixin):

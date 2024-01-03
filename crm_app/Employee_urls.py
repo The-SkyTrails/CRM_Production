@@ -143,21 +143,13 @@ urlpatterns = [
     path("ChangePassword", ChangePassword, name="EmployeeChangePassword"),
     #  --------------------------------- FaQ -------------------------
     path("AddQueries/", emp_FAQCreateView.as_view(), name="emp_FAQCreateView"),
-    path("querilist/", queirylist.as_view(), name="empqueirylist"),
-    path("faq/Answer/<int:id>", emp_faq_ans, name="emp_faq_ans"),
-    path(
-        "Pending/querilist/", pending_queirylist.as_view(), name="emppending_queirylist"
-    ),
     path(
         "resolved-queries/",
-        emp_ResolvedFAQListView,
-        name="emp_ResolvedFAQListView",
+        ResolvedFAQListView.as_view(),
+        name="Emp_resolved_queries",
     ),
-    path(
-        "pending-queries/",
-        emp_PendingFAQListView,
-        name="emp_PendingFAQListView",
-    ),
+    path("pending-queries/", PendingFAQListView.as_view(), name="Emp_pending_queries"),
+    path("emp_add_answer/", FAQUpdateView, name="emp_add_answer"),
     path("PackageList/", PackageListView.as_view(), name="Employee_Package_list"),
     path(
         "packages/<int:pk>/",

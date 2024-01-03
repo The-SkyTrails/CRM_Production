@@ -31,11 +31,19 @@
         </svg>
       </div>
     </div>
-    <a href="{% url "Enrolled_leads" %}">
-    <div class="text-container">
-      <div class="text">Enrolled Lead</div>
-    </div>
-    </a>
+    {% if enquiry.lead_status == "New Lead" or enquiry.lead_status == "Active" or enquiry.lead_status == "PreEnrolled" %}
+         <a href="{% url "admin_new_leads_details" %}">
+            <div class="text-container">
+                  <div class="text">Leads</div>
+            </div>
+         </a>
+         {% else %}
+            <a href="{% url "Enrolled_leads" %}">
+                  <div class="text-container">
+                     <div class="text">Enrolled Lead</div>
+                  </div>
+            </a>
+         {% endif %}
     <div class="icon-container">
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -82,18 +90,46 @@
 
         </div>
         <div class="detail-values">
-          <div class="detail-documentinput">
-            <div class="document1-value">Agent 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">Employee 2</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
+
+         
+          
+              <select class="form-select" name="assign_to_employee" id="assign_to_employee">
+                <option value="Select">Select</option>
+                
+                {% for employee in presales_employees %}
+                
+                    <option value="{{ employee.id }}" {% if enquiry.assign_to_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                {% endfor %}
+            </select>
+         
+           
+            <select class="form-select" name="assign_to_sales_employee" id="assign_to_sales_employee">
+              <option value="Select">Select</option>
+              
+              {% for employee in sales_employees %}
+              
+                  <option value="{{ employee.id }}" {% if enquiry.assign_to_sales_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+              {% endfor %}
+          </select>
+       
+          <select class="form-select" name="assign_to_documentation_employee" id="assign_to_documentation_employee">
+            <option value="Select">Select</option>
+            
+            {% for employee in documentation_employees %}
+            
+                <option value="{{ employee.id }}" {% if enquiry.assign_to_documentation_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+            {% endfor %}
+        </select>
+     
+       
+        <select class="form-select" name="assign_to_visa_team_employee" id="assign_to_visa_team_employee">
+          <option value="Select">Select</option>
+          
+          {% for employee in visa_team %}
+          
+              <option value="{{ employee.id }}" {% if enquiry.assign_to_visa_team_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+          {% endfor %}
+      </select>
 
         </div>
 
@@ -101,22 +137,6 @@
 
     </div>
 
-
-
-    {% comment %} <div class="container">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-color" type="button" data-toggle="modal" data-target="#followUpModal1-{{enquiry.id}}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M16.3028 4.303C16.5242 4.07378 16.789 3.89094 17.0818 3.76516C17.3746 3.63938 17.6896 3.57317 18.0082 3.5704C18.3269 3.56763 18.6429 3.62836 18.9379 3.74903C19.2329 3.86971 19.5008 4.04791 19.7262 4.27326C19.9515 4.4986 20.1297 4.76656 20.2504 5.06151C20.3711 5.35647 20.4318 5.6725 20.429 5.99117C20.4262 6.30984 20.36 6.62477 20.2343 6.91757C20.1085 7.21038 19.9256 7.47521 19.6964 7.6966L18.7448 8.6482L15.3512 5.2546L16.3028 4.303ZM13.6544 6.9514L3.59961 17.0062V20.3998H6.99321L17.0492 10.345L13.6532 6.9514H13.6544Z"
-              fill="white" />
-          </svg>Create Follow Up
-        </button>
-      </div>
-    </div> {% endcomment %}
-
-    <!-- Bootstrap Modal -->
-    {% comment %} {% include "Admin/Enquiry/Enrolled Enquiry/addfollowup_modal.html" %} {% endcomment %}
   </div>
 
   <div class="status-container">
@@ -2822,5 +2842,57 @@
       }
   });
 </script>
+
+<script>
+  // Assuming you have a variable leadStatus that holds the current lead status
+  var leadStatus = "{{ enquiry.lead_status }}";
+
+  // Get references to the select elements
+  var assignToEmployeeSelect = document.getElementById("assign_to_employee");
+  var assignToSalesEmployeeSelect = document.getElementById("assign_to_sales_employee");
+  var assignToDocumentationSelect = document.getElementById("assign_to_documentation_employee");
+  var assignToVisaTeamSelect = document.getElementById("assign_to_visa_team_employee");
+
+  // Disable all select elements initially
+  assignToEmployeeSelect.disabled = true;
+  assignToSalesEmployeeSelect.disabled = true;
+  assignToDocumentationSelect.disabled = true;
+  assignToVisaTeamSelect.disabled = true;
+
+  // Function to enable/disable select elements based on lead status
+  function updateSelectElements() {
+      if (["Inprocess", "Ready To Submit", "Delivery", "Result", "Ready To Collection", "Appointment"].includes(leadStatus)) {
+          assignToEmployeeSelect.disabled = true;
+          assignToSalesEmployeeSelect.disabled = true;
+          assignToDocumentationSelect.disabled = true;
+          assignToVisaTeamSelect.disabled = false;
+      } else if (leadStatus === "Active") {
+          assignToEmployeeSelect.disabled = false;
+          assignToSalesEmployeeSelect.disabled = true;
+          assignToDocumentationSelect.disabled = true;
+          assignToVisaTeamSelect.disabled = true;
+      } else if (leadStatus === "PreEnrolled") {
+          assignToEmployeeSelect.disabled = true;
+          assignToSalesEmployeeSelect.disabled = false;
+          assignToDocumentationSelect.disabled = true;
+          assignToVisaTeamSelect.disabled = true;
+      } else if (leadStatus === "Enrolled") {
+          assignToEmployeeSelect.disabled = true;
+          assignToSalesEmployeeSelect.disabled = true;
+          assignToDocumentationSelect.disabled = false;
+          assignToVisaTeamSelect.disabled = true;
+      } else {
+          // Handle other cases if needed
+          assignToEmployeeSelect.disabled = true;
+          assignToSalesEmployeeSelect.disabled = true;
+          assignToDocumentationSelect.disabled = true;
+          assignToVisaTeamSelect.disabled = true;
+      }
+  }
+
+  // Call the function initially
+  updateSelectElements();
+</script>
+
 
 {% endblock main-content %}

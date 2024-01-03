@@ -1,6 +1,6 @@
-<div class="modal" id="myModal" tabindex="-1" role="dialog">
+<div class="modal" id="myModal-{{i.id}}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="" method="POST">
+        <form action="{% url "emp_add_answer" %}" method="POST">
             {% csrf_token %}
         <div class="modal-content">
             <div class="modal-header">
@@ -13,16 +13,17 @@
             <hr>
             <div class="modal-body">
                 <div class="row formrow">
+                    <input type="text" value="{{i.id}}" name="question_id" hidden>
                     <div class="col-md-12 ">
-                        <label for="exampleFormControlInput1" class="custom-form-label">Add Question</label>
-                        <input type="text" class="form-control" value="{{i.question}}" id="exampleFormControlInput1" placeholder="How can you become skytrails agent?">
+                        <label for="exampleFormControlInput1" class="custom-form-label"><b>Add Question</b></label>
+                        <input type="text" class="form-control" id="question" name="question" placeholder="How can you become skytrails agent?" value="{{i.question}}" readonly>
                     </div>
                     
                 </div>
                 <div class="row formrow">
                     <div class="col-md-12 ">
-                        <label for="exampleFormControlInput1" class="custom-form-label">Answer Here</label>
-                        <input type="text" class="form-control" rows="5" id="exampleFormControlInput1" name="answer" placeholder="Write text here ..." >
+                        <label for="exampleFormControlInput1" class="custom-form-label"><b>Answer Here</b></label>
+                        <textarea class="form-control" name="answer" id="" cols="30" rows="10">{{i.answer}}</textarea>
                         
                     </div>
                       

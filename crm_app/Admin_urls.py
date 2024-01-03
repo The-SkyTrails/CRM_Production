@@ -199,6 +199,8 @@ urlpatterns = [
     path(
         "pending-queries/", PendingFAQListView.as_view(), name="Admin_pending_queries"
     ),
+    path("add_answer/", FAQUpdateView, name="add_answer"),
+    path("delete_query/<int:id>", delete_query, name="delete_query"),
     path("Profile/", profileview.as_view(), name="admin_profile"),
     path("edit_profile/", edit_profile, name="edit_profile"),
     path("PreEnrolled/<int:id>", leadupated, name="leadupated"),

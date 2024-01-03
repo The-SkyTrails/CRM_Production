@@ -14,6 +14,7 @@ from .models import (
     OutSourcingAgent,
     Admin,
     ChatGroup,
+    ChatMessage,
 )
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
@@ -527,13 +528,15 @@ def get_group_chat_messages(request):
     user = request.user
 
     chat_group = ChatGroup.objects.get(id=group_id)
-    print("chat_group idddd", chat_group)
-    # chat = ChatMessage.objects.filter(group=chat_group)
+
+    chat = ChatMessage.objects.filter(group=chat_group)
+    group_name = chat_group.group_name
 
     context = {
         "chat_group": chat_group,
-        # "chat": chat,
+        "chat": chat,
         "user": user,
+        "group_name": group_name,
     }
 
     chat_content = loader.render_to_string("chat/group_chat_content.html", context)

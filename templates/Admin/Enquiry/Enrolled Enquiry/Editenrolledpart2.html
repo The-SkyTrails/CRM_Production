@@ -29,11 +29,19 @@
         </svg>
       </div>
     </div>
-    <a href="{% url "Enrolled_leads" %}">
-    <div class="text-container">
-      <div class="text">Enrolled Lead</div>
-    </div>
-    </a>
+    {% if enquiry.lead_status == "New Lead" or enquiry.lead_status == "Active" or enquiry.lead_status == "PreEnrolled" %}
+         <a href="{% url "admin_new_leads_details" %}">
+            <div class="text-container">
+                  <div class="text">Leads</div>
+            </div>
+         </a>
+         {% else %}
+            <a href="{% url "Enrolled_leads" %}">
+                  <div class="text-container">
+                     <div class="text">Enrolled Lead</div>
+                  </div>
+            </a>
+         {% endif %}
     <div class="icon-container">
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -80,20 +88,43 @@
 
         </div>
         <div class="detail-values">
-          <div class="detail-documentinput">
-            <div class="document1-value">Agent 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">Employee 2</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
-          <div class="detail-documentinput">
-            <div class="document1-value">OP 1</div>
-          </div>
-
+          <div class="detail-documentname">
+          {% if enquiry.assign_to_employee.users %}
+            {{ enquiry.assign_to_employee.users }}
+          {% else %}
+            -
+          {% endif %}
         </div>
+        
+        
+          <div class="detail-documentname">
+            {% if enquiry.assign_to_sales_employee.users %}
+            {{ enquiry.assign_to_sales_employee.users }}
+          {% else %}
+            -
+          {% endif %}
+            </div>
+           
+        
+          <div class="detail-documentname">
+            {% if enquiry.assign_to_documentation_employee.users %}
+            {{ enquiry.assign_to_documentation_employee.users }}
+          {% else %}
+            -
+          {% endif %}
+            </div>
+        
+        
+          <div class="detail-documentname">
+            {% if enquiry.assign_to_visa_team_employee.users %}
+            {{ enquiry.assign_to_visa_team_employee.users }}
+          {% else %}
+            -
+          {% endif %}
+           </div>
+        
+
+      </div>
 
       </div>
 
