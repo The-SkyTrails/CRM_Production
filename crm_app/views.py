@@ -81,13 +81,23 @@ def agent_signup(request):
 
                 mobile = contact_no
                 message = (
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )  # Custo
+                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
+                    f" Hello {firstname} {lastname}, \n\n"
+                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Account Details: \n\n"
+                    f" Email: {email} \n\n"
+                    f" Password: {password} \n\n"
+                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
+                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
+                    f" Stay connected on social media: \n\n"
+                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
+                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
+                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
+                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
+                    f" Got questions? Need assistance? We're here for you! \n\n"
+                    f" Best, \n\n"
+                    f" The Sky Trails Team \n\n"
+                )
                 response = send_whatsapp_message(mobile, message)
 
                 subject = "Congratulations! Your Account is Created"
@@ -136,13 +146,23 @@ def agent_signup(request):
 
                 mobile = contact_no
                 message = (
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )  # Customize this message as needed
+                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
+                    f" Hello {firstname} {lastname}, \n\n"
+                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Account Details: \n\n"
+                    f" Email: {email} \n\n"
+                    f" Password: {password} \n\n"
+                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
+                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
+                    f" Stay connected on social media: \n\n"
+                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
+                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
+                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
+                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
+                    f" Got questions? Need assistance? We're here for you! \n\n"
+                    f" Best, \n\n"
+                    f" The Sky Trails Team \n\n"
+                )
 
                 response = send_whatsapp_message(mobile, message)
                 if response.status_code == 200:

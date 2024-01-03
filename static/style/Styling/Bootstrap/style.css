@@ -4023,6 +4023,7 @@ color: #4B5563;
   align-items: flex-start;
   border-radius: 0px 20px 20px 20px;
   background: var(--white, #FFF);
+  margin-top: 20px;
   }
   
   .chatname{
