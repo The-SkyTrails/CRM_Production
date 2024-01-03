@@ -1894,7 +1894,7 @@ class emp_FAQCreateView(LoginRequiredMixin, CreateView):
 
 
 def get_pending_queries_count():
-    return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True).count()
+    return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
 
 
 class ResolvedFAQListView(LoginRequiredMixin, ListView):
@@ -1917,7 +1917,7 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
     context_object_name = "pending_queries"
 
     def get_queryset(self):
-        return FAQ.objects.filter(answer_exact="").exclude(answer_isnull=True)
+        return FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
