@@ -22,5 +22,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: " cd ~/CRM_Production/.scripts/ && sed -i -e 's/\r$//' deploy.sh'"
+          script: " cd ~/CRM_Production/.scripts/ && sed -i -e 's/\r$//' deploy.sh"
           
