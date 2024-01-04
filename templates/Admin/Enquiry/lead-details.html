@@ -1,5 +1,4 @@
 {% extends "Admin/Base/base.html" %}
-{% comment %} testttt {% endcomment %}
 {% block main-content %}
 <div class="form-container">
     <div class="custom-container">
@@ -142,6 +141,7 @@
                         <th>Package Name</th>
                         <th>CREATED BY</th>
                         <th>Assigned TO</th>
+                        <th>Update Assigned To</th>
                         <th>LEAD status</th>
                         <th>Lead Updated</th>
                         <th>NOTES</th>
@@ -207,6 +207,13 @@
                             
                             {% endif %}
                             
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}">
+                                Assigned
+                              </button>
+
+                              {% include "Admin/Enquiry/assigned_to_employee_modal.html" %}
                         </td>
                         <td>
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>

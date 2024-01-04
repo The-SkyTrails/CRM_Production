@@ -213,4 +213,7 @@ urlpatterns = [
         chat_group_delete_group,
         name="chat_group_delete_group",
     ),
+    path(
+        "UpdateAssign/<int:id>", update_assigned_employee, name="update_assign_employee"
+    ),
 ]

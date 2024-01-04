@@ -1864,8 +1864,76 @@ def delete_docfile(request, id):
 def admin_new_leads_details(request):
     enquiry = Enquiry.objects.all().order_by("-id")
 
-    context = {"enquiry": enquiry}
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+    }
     return render(request, "Admin/Enquiry/lead-details.html", context)
+
+
+@login_required
+def update_assigned_employee(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    if request.method == "POST":
+        ######### ASSIGN CODE #########
+        try:
+            assign_to_employee = request.POST.get("assign_to_employee")
+            emp = Employee.objects.get(id=assign_to_employee)
+            enquiry.assign_to_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_employee is None:
+                enquiry.assign_to_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_sales_employee = request.POST.get("assign_to_sales_employee")
+            emp = Employee.objects.get(id=assign_to_sales_employee)
+            enquiry.assign_to_sales_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_sales_employee is None:
+                enquiry.assign_to_sales_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_documentation_employee = request.POST.get(
+                "assign_to_documentation_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_documentation_employee)
+            enquiry.assign_to_documentation_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_documentation_employee is None:
+                enquiry.assign_to_documentation_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_visa_team_employee = request.POST.get(
+                "assign_to_visa_team_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_visa_team_employee)
+            enquiry.assign_to_visa_team_employee = emp
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_visa_team_employee is None:
+                enquiry.assign_to_visa_team_employee = None
+            else:
+                pass
+        enquiry.save()
+        return redirect("admin_new_leads_details")
+    return render(request, "Admin/Enquiry/lead-details.html")
 
 
 @login_required
