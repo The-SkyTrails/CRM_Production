@@ -892,6 +892,7 @@ def add_agent(request):
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
         files = request.FILES.get("files")
+        fullname = str(firstname + lastname)
 
         existing_agent = CustomUser.objects.filter(username=email)
 
@@ -928,6 +929,15 @@ def add_agent(request):
                     user.outsourcingagent.assign_employee = sales_team_employees[
                         next_index
                     ]
+                    chat_group_name = f"{fullname} Group"
+                    chat_group = ChatGroup.objects.create(
+                        group_name=chat_group_name,
+                        create_by=logged_in_user,
+                    )
+                    chat_group.group_member.add(
+                        user.outsourcingagent.assign_employee.users
+                    )  # Add assigned employee
+                    chat_group.group_member.add(user)
                     cache.set("last_assigned_index", next_index)
                 user.save()
 
@@ -985,6 +995,7 @@ def add_agent(request):
                     password=password,
                     user_type="4",
                 )
+                fullname = str(firstname + lastname)
                 logged_in_user = request.user
                 last_assigned_index = cache.get("last_assigned_index") or 0
                 sales_team_employees = Employee.objects.filter(department="Sales")
@@ -1004,6 +1015,15 @@ def add_agent(request):
                     ) % sales_team_employees.count()
                     user.agent.assign_employee = sales_team_employees[next_index]
                     cache.set("last_assigned_index", next_index)
+                    chat_group_name = f"{fullname} Group"
+                    chat_group = ChatGroup.objects.create(
+                        group_name=chat_group_name,
+                        create_by=logged_in_user,
+                    )
+                    chat_group.group_member.add(
+                        user.agent.assign_employee.users
+                    )  # Add assigned employee
+                    chat_group.group_member.add(user)
                 user.save()
 
                 context = {
@@ -1862,6 +1882,8 @@ def delete_docfile(request, id):
 
 @login_required
 def admin_new_leads_details(request):
+    excluded_statuses = ["Accept", "New Lead", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
     enquiry = Enquiry.objects.all().order_by("-id")
 
     presales_employees = get_presale_employee()
@@ -1875,6 +1897,7 @@ def admin_new_leads_details(request):
         "sales_employees": sales_employees,
         "documentation_employees": documentation_employees,
         "visa_team": visa_team,
+        "lead": lead,
     }
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
@@ -2806,3 +2829,63 @@ def chat_group_delete_group(request, id):
     group.delete()
     messages.success(request, f"{group.group_name} deleted successfully..")
     return redirect("ChatGroup_list")
+
+
+# ----------------------------- Lead Updated ---------------------------
+
+
+def admin_lead_updated(request, id):
+    if request.method == "POST":
+        lead_status = request.POST.get("lead_status")
+        enquiry = Enquiry.objects.get(id=id)
+        enquiry.lead_status = lead_status
+        enquiry.save()
+        messages.success(request, f"Lead {lead_status} Status Updated Successfully...")
+        return HttpResponseRedirect(reverse("admin_new_leads_details"))
+
+
+########################################## LEAD APPOINTMENT ########################################
+
+
+def admin_appointment_Save(request):
+    if request.method == "POST":
+        enq = request.POST.get("enq_id")
+        enq_id = Enquiry.objects.get(id=enq)
+
+        desc = request.POST.get("description")
+        date = request.POST.get("date")
+        time = request.POST.get("time")
+
+        try:
+            enqapp = EnqAppointment.objects.get(enquiry=enq_id)
+
+            # Existing EnqAppointment found
+
+            enqapp.description = desc
+            enqapp.enquiry = enq_id
+            enqapp.date = date
+            enqapp.time = time
+            enqapp.created_by = request.user
+            enqapp.save()
+        except EnqAppointment.DoesNotExist:
+            # No existing EnqAppointment found, create a new one
+            appt = EnqAppointment.objects.create(
+                enquiry=enq_id,
+                description=desc,
+                date=date,
+                time=time,
+                created_by=request.user,
+            )
+            appt.save()
+
+        return redirect("admin_new_leads_details")
+
+
+def admin_appointment_done(request, id):
+    enq = Enquiry.objects.get(id=id)
+
+    enq_appointment = EnqAppointment.objects.get(enquiry=enq)
+    enq_appointment.status = "Done"
+
+    enq_appointment.save()
+    return redirect("admin_new_leads_details")

@@ -4088,7 +4088,10 @@ color: #4B5563;
   
   
   .peopleview{
-    height: 65vh;
+    height: 90vh;
+    overflow: scroll;
+    overflow-x: hidden;
+   
   }
   
   

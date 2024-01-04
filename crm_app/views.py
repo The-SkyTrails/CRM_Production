@@ -224,7 +224,6 @@ def agent_signup(request):
 
 def verify_otp(request):
     mobile = request.session.get("mobile", "Default value if key does not exist")
-    print("mobileee", mobile)
     last_three_digits = str(mobile)[-3:]
 
     if request.method == "POST":
@@ -232,7 +231,9 @@ def verify_otp(request):
         num2 = request.POST.get("num2")
         num3 = request.POST.get("num3")
         num4 = request.POST.get("num4")
-        submitted_otp = num1 + num2 + num3 + num4
+        num5 = request.POST.get("num5")
+        num6 = request.POST.get("num6")
+        submitted_otp = num1 + num2 + num3 + num4 + num5 + num6
 
         username = request.session.get(
             "username", "Default value if key does not exist"
@@ -241,8 +242,6 @@ def verify_otp(request):
             "password", "Default value if key does not exist"
         )
         sendotp = request.session.get("sendotp", "Default value if key does not exist")
-
-        print("sendddd otp is:", sendotp)
 
         # submitted_otp = request.POST.get("submitted_otp")
 
@@ -273,8 +272,7 @@ def verify_otp(request):
                 )
 
         else:
-            messages.error(request, "Wrong Otp")
-            print("not success")
+            messages.error(request, "Wrong OTP")
 
     context = {"last_three_digits": last_three_digits}
 
@@ -290,7 +288,6 @@ def CustomLoginView(request):
 
         try:
             user = CustomUser.objects.get(username=username)
-            print("userrrr", user)
 
             if check_password(password, user.password):
                 user_type = user.user_type
@@ -331,8 +328,8 @@ def CustomLoginView(request):
                         mob = customeruser.outsourcingagent.contact_no
 
                     request.session["mobile"] = mob
-                    random_number = random.randint(0, 999)
-                    send_otp = str(random_number).zfill(4)
+                    random_number = random.randint(0, 99999)
+                    send_otp = str(random_number).zfill(6)
                     request.session["sendotp"] = send_otp
                     print("senddddd ot", send_otp)
                     url = "http://sms.txly.in/vb/apikey.php"
@@ -366,7 +363,6 @@ def CustomLoginView(request):
 def resend_otp(request):
     username = request.session.get("username")
     password = request.session.get("password")
-    print("kkkkkkkkkkk", username)
 
     if username and password:
         try:
@@ -388,8 +384,8 @@ def resend_otp(request):
                     elif user_type == "5":
                         mob = user.outsourcingagent.contact_no
 
-                    random_number = random.randint(0, 999)
-                    send_otp = str(random_number).zfill(4)
+                    random_number = random.randint(0, 99999)
+                    send_otp = str(random_number).zfill(6)
                     request.session["sendotp"] = send_otp
 
                     url = "http://sms.txly.in/vb/apikey.php"
@@ -477,7 +473,9 @@ def forget_otp(request):
         num2 = request.POST.get("num2")
         num3 = request.POST.get("num3")
         num4 = request.POST.get("num4")
-        submitted_otp = num1 + num2 + num3 + num4
+        num5 = request.POST.get("num5")
+        num6 = request.POST.get("num6")
+        submitted_otp = num1 + num2 + num3 + num4 + num5 + num6
         # submitted_otp = request.POST.get("submitted_otp")
         if submitted_otp == sendotp:
             return redirect("reset_psw")

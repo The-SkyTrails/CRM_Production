@@ -216,4 +216,11 @@ urlpatterns = [
     path(
         "UpdateAssign/<int:id>", update_assigned_employee, name="update_assign_employee"
     ),
+    path("lead_update/<int:id>", admin_lead_updated, name="admin_lead_updated"),
+    path("Enq/Appointment/Save", admin_appointment_Save, name="admin_appointment_Save"),
+    path(
+        "Enq/Appointment/Done/<int:id>/",
+        admin_appointment_done,
+        name="admin_appointment_done",
+    ),
 ]

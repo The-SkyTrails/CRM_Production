@@ -311,6 +311,9 @@ class Agent(models.Model):
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
 
+    def __str__(self):
+        return self.users
+
 
 class OutSourcingAgent(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -493,9 +496,7 @@ leads_status = [
     ("Ready To Collection", "Ready To Collection"),
     ("Result", "Result"),
     ("Delivery", "Delivery"),
-    ("Pending", "Pending"),
     ("Reject", "Reject"),
-    ("Archive", "Archive"),
     ("Case Initiated", "Case Initiated"),
 ]
 

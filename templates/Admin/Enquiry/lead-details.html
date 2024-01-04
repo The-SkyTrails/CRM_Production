@@ -144,6 +144,8 @@
                         <th>Update Assigned To</th>
                         <th>LEAD status</th>
                         <th>Lead Updated</th>
+                        <th>Appointment</th>
+                        <th>Appointment Status</th>
                         <th>NOTES</th>
                         <th>ACTION</th>
                         {% comment %} <th>Approval Status</th> {% endcomment %}
@@ -219,32 +221,47 @@
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>
                         </td>
                         <td>
-                            <form action="{% url "leadupated" i.id %}" method="POST">
-                                {% csrf_token %}
-                                <input type="text" value="{{i.lead_status}}" name="lead" hidden>
-                                {% if i.lead_status == "Active" %}
-                                <button class="btn btn-primary btn-sm" type="submit">PreEntrolled</button>
-                                {% elif i.lead_status == "New Lead" %}
-                                <button class="btn btn-primary btn-sm" type="submit">Active</button>
-                                {% elif i.lead_status == "PreEnrolled"  %}
-                                <button class="btn btn-warning btn-sm" type="submit">Enrolled</button
-                                {% elif i.lead_status == "Enrolled"  %}
-                                <button class="btn btn-info btn-sm" type="submit">Inprocess</button
-                                {% elif i.lead_status == "Inprocess"  %}
-                                <button class="btn btn-dark btn-sm" type="submit">Ready to Submit</button
-                                {% elif i.lead_status == "Ready To Submit"  %}
-                                <button class="btn btn-dark btn-sm" type="submit">Appointment</button
-                                {% elif i.lead_status == "Appointment"  %}
-                                <button class="btn btn-dark btn-sm" type="submit">Ready To Collection</button
-                                {% elif i.lead_status == "Ready To Collection"  %}
-                                <button class="btn btn-warning btn-sm" type="submit">Result</button
-                                {% elif i.lead_status == "Result"  %}
-                                <button class="btn btn-info btn-sm" type="submit">Delivery</button
-                                {% elif i.lead_status == "Delivery"  %}
-                                <button class="btn btn-success btn-sm" type="submit" disabled>Delivery</button
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#leadstatusupdateModal-{{i.id}}">
+                                Update
+                              </button>
+                              {% include "Admin/Enquiry/lead_status_update_modal.html" %}
+                           
+                            
+                        </td>
+                        <td>
+
+                            
+                            {% if i.lead_status == "Appointment" %}
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#addappointment{{i.id}}"">Add Appointment</button>
+                            
+                            {% endif %}
+    
+                            
+                            {% if i.enqappointment_set.exists %}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal-{{i.id}}" data-bs-whatever="@getbootstrap"  style="margin-top:4px;">View Appointment</button>
+                            {% endif %}
+    
+                            {% if i.enqappointment_set.exists %}
+                                {% if i.enqappointment_set.last.status == "Done" %}
+                                    {% comment %} <button class="btn btn-info" style="margin-top:2px; width:180px;" disabled>Appointment Done</button> {% endcomment %}
+                                {% elif dep == "Sales" %}
+                                <a href="{% url "appointment_done" i.id %}"><button class="btn btn-info" style="margin-top:2px; width:180px;">Appointment Done</button></a>
+                                
                                 {% endif %}
-                            </form>
-                            {% comment %} <a href="{% url "leadupated" i.id %}"><button class="btn btn-primary btn-sm">PreEntrolled</button></a></td> {% endcomment %}
+                            {% else %}
+                                <p>No appointments available</p>
+                            {% endif %}
+    
+                               
+                             {% include "Admin/Enquiry/view_appointment_modal.html" %}
+                             {% include "Admin/Enquiry/add_appointment_lead_modal.html" %}
+                            </td>
+                            <td>
+                             {% if i.enqappointment_set.exists %}
+                             <span class="badge rounded-pill text-bg-success">{{ i.enqappointment_set.last.status }}</span>
+                             {% endif %}
+                            </td>
+
                         <td>
                             <div class="add-notes-container answerclass" data-bs-toggle="modal"
                                 data-bs-target="#addnotesModal-{{i.id}}">
@@ -313,5 +330,14 @@
 </div>
 {% for i in enquiry %}
 {% include "Admin/Enquiry/view_notes_modal.html" %}
+{% endfor %}
+
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<script>
+ alertify.set('notifier','position', 'top-right');
+ alertify.success('{{ message }}');
+</script>
+{% endif %}
 {% endfor %}
 {% endblock main-content %}
