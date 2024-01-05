@@ -49,7 +49,7 @@ def agent_signup(request):
         existing_agent = CustomUser.objects.filter(email=email)
         last_assigned_index = cache.get("last_assigned_index") or 0
         sales_team_employees = Employee.objects.filter(department="Sales")
-
+        fullname = str(firstname + lastname)
         try:
             if existing_agent:
                 messages.warning(request, f'"{email}" already exists.')
@@ -74,6 +74,15 @@ def agent_signup(request):
                     user.outsourcingagent.assign_employee = sales_team_employees[
                         next_index
                     ]
+
+                    chat_group_name = f"{fullname} Group"
+                    chat_group = ChatGroup.objects.create(
+                        group_name=chat_group_name,
+                    )
+                    chat_group.group_member.add(
+                        user.outsourcingagent.assign_employee.users
+                    )
+                    chat_group.group_member.add(user)
                     cache.set("last_assigned_index", next_index)
 
                 user.save()
@@ -138,6 +147,13 @@ def agent_signup(request):
                         last_assigned_index + 1
                     ) % sales_team_employees.count()
                     user2.agent.assign_employee = sales_team_employees[next_index]
+
+                    chat_group_name = f"{fullname} Group"
+                    chat_group = ChatGroup.objects.create(
+                        group_name=chat_group_name,
+                    )
+                    chat_group.group_member.add(user2.agent.assign_employee.users)
+                    chat_group.group_member.add(user2)
                     cache.set("last_assigned_index", next_index)
 
                 user2.save()
