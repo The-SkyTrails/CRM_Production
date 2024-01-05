@@ -14,7 +14,6 @@ urlpatterns = (
     [
         re_path("media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
         re_path("static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
-        path("__debug__/", include("debug_toolbar.urls")),
         path("admin/", admin.site.urls),
         path("Signup/", views.agent_signup, name="agent_signup"),
         path("", views.CustomLoginView, name="login"),
