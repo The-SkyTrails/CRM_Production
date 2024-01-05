@@ -62,6 +62,7 @@ cover/
 *.log
 SkyTrails/settings.py
 crm_app/__pycache__/
+SkyTrails/__pycache__/
 db.sqlite3
 db.sqlite3-journal
 
