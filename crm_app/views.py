@@ -543,6 +543,7 @@ def chats(request):
 
 
 
+
 def get_group_chat_messages(request):
     group_id = request.GET.get("group_id")
     user = request.user
