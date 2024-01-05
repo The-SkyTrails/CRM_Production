@@ -50,4 +50,5 @@ urlpatterns = [
     # ------------------------ Appointment url -----------------------
     path("appointmentlist/", AppointmentListView.as_view(), name="Appointment_list"),
     path("appointmentgrid/", AppointmentGridView.as_view(), name="Appointment_grid"),
+    path("AddPackage/", PackageCreateView.as_view(), name="Agent_Package"),
 ]

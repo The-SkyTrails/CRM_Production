@@ -223,4 +223,6 @@ urlpatterns = [
         admin_appointment_done,
         name="admin_appointment_done",
     ),
+    path("approve_product/<int:id>/", approve_product, name="approve_product"),
+    path("disapprove_product/<int:id>/", disapprove_product, name="disapprove_product"),
 ]

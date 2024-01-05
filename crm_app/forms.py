@@ -24,7 +24,7 @@ class VisaCategoryForm(forms.ModelForm):
         widgets = {
             "visa_country_id": forms.Select(
                 attrs={
-                    "class": "form-control",
+                    "class": "form-select",
                 }
             ),
             "category": forms.TextInput(
@@ -69,7 +69,7 @@ class DocumentForm(forms.ModelForm):
             ),
             "document_category": forms.Select(
                 attrs={
-                    "class": "form-control",
+                    "class": "form-select",
                 }
             ),
         }
@@ -81,8 +81,8 @@ class CaseCategoryDocumentForm(forms.ModelForm):
         fields = ["country", "category", "document"]
 
         widgets = {
-            "country": forms.Select(attrs={"class": "form-control"}),
-            "category": forms.Select(attrs={"class": "form-control"}),
+            "country": forms.Select(attrs={"class": "form-select"}),
+            "category": forms.Select(attrs={"class": "form-select"}),
             # 'subcategory': forms.Select(attrs={'class': 'form-control'}),
             "document": forms.CheckboxSelectMultiple(),
         }
@@ -99,7 +99,7 @@ class BranchForm(forms.ModelForm):
         fields = ["branch_name", "branch_source"]
         widgets = {
             "branch_name": forms.TextInput(attrs={"class": "form-control"}),
-            "branch_source": forms.Select(attrs={"class": "form-control"}),
+            "branch_source": forms.Select(attrs={"class": "form-select"}),
         }
 
 
@@ -159,7 +159,7 @@ class CompanyCourierDetailsForm(forms.ModelForm):
             "courier_no": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Number"}
             ),
-            "status": forms.Select(attrs={"class": "form-control"}),
+            "status": forms.Select(attrs={"class": "form-select"}),
         }
 
 
@@ -200,8 +200,8 @@ class PackageForm(forms.ModelForm):
             "image",
         ]
         widgets = {
-            "visa_country": forms.Select(attrs={"class": "form-control"}),
-            "visa_category": forms.Select(attrs={"class": "form-control"}),
+            "visa_country": forms.Select(attrs={"class": "form-select"}),
+            "visa_category": forms.Select(attrs={"class": "form-select"}),
             "title": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Title Name"}
             ),
@@ -212,10 +212,13 @@ class PackageForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Enter Number of Visa"}
             ),
             "amount": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Amount"}
+                attrs={"class": "form-control", "placeholder": "Enter Product Code"}
             ),
             "advance_amount": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Advance Amount"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Advance Product Code",
+                }
             ),
             "file_charges": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter File Charges"}
@@ -227,7 +230,7 @@ class PackageForm(forms.ModelForm):
                     "type": "date",
                 }
             ),
-            "assign_to_group": forms.Select(attrs={"class": "form-control"}),
+            "assign_to_group": forms.Select(attrs={"class": "form-select"}),
             "image": forms.FileInput(attrs={"class": "form-control"}),
         }
 
@@ -244,9 +247,9 @@ class VisasubCategoryForm(forms.ModelForm):
             "sgst",
         ]
         widgets = {
-            "country_id": forms.Select(attrs={"class": "form-control"}),
-            "category_id": forms.Select(attrs={"class": "form-control"}),
-            "subcategory_name": forms.Select(attrs={"class": "form-control"}),
+            "country_id": forms.Select(attrs={"class": "form-select"}),
+            "category_id": forms.Select(attrs={"class": "form-select"}),
+            "subcategory_name": forms.Select(attrs={"class": "form-select"}),
             "estimate_amt": forms.NumberInput(attrs={"class": "form-controls"}),
             "cgst": forms.NumberInput(attrs={"class": "form-controls"}),
             "sgst": forms.NumberInput(attrs={"class": "form-controls"}),
@@ -290,8 +293,8 @@ class EnquiryForm1(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Enter Last Name"}
             ),
             "Dob": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-            "Gender": forms.Select(attrs={"class": "form-control"}),
-            "Country": forms.Select(attrs={"class": "form-control"}),
+            "Gender": forms.Select(attrs={"class": "form-select"}),
+            "Country": forms.Select(attrs={"class": "form-select"}),
             "passport_no": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Passport Number"}
             ),

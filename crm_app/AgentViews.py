@@ -990,3 +990,21 @@ class AppointmentGridView(LoginRequiredMixin, ListView):
             enquiry__in=user_enquiries
         ).order_by("-id")
         return user_appointments
+
+
+class PackageCreateView(LoginRequiredMixin, CreateView):
+    model = Package
+    form_class = PackageForm
+    template_name = "Admin/Product/addproduct.html"
+    success_url = reverse_lazy("Agent_Package_list")
+
+    def form_valid(self, form):
+        try:
+            form.instance.last_updated_by = self.request.user
+            form.save()
+            messages.success(self.request, "Package Added Successfully & Send To Admin for Approval .")
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f"Error: {e}")
+            print("Error Occured ", e)
+            return self.form_invalid(form)

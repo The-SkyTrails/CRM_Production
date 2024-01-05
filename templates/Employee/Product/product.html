@@ -52,9 +52,10 @@
       <div class="custom-text">All Product</div>
     </div>
   </div>
-  
+  {% include "Employee/Base/messages.html" %}
   <div class="row">
     {% for i in Package  %}
+    {% if i.approval == True %}
     <div class="col-md-4" style="margin-bottom:4px;">
       <div class="card">
         <a href="{% url "employee_package_detail" i.id %}">
@@ -101,6 +102,7 @@
 
       </div>
     </div>
+    {% endif %}
     {% endfor %}
   </div>
 

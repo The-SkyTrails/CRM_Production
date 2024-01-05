@@ -3037,3 +3037,23 @@ def delete_pricing(request, id):
     pricing.delete()
     messages.success(request, "Pricing deleted successfully..")
     return HttpResponseRedirect(reverse("emp_subcategory_list"))
+
+
+
+
+class PackageCreateView(LoginRequiredMixin, CreateView):
+    model = Package
+    form_class = PackageForm
+    template_name = "Employee/Product/addproduct.html"
+    success_url = reverse_lazy("Employee_Package_list")
+
+    def form_valid(self, form):
+        try:
+            form.instance.last_updated_by = self.request.user
+            form.save()
+            messages.success(self.request, "Package Added Successfully & Send To Admin for Approval .")
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f"Error: {e}")
+            print("Error Occured ", e)
+            return self.form_invalid(form)

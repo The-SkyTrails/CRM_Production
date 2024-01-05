@@ -1516,6 +1516,7 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         try:
             form.instance.last_updated_by = self.request.user
+            form.instance.approval = "True"
             form.save()
             messages.success(self.request, "Package Added Successfully.")
             return super().form_valid(form)
@@ -2889,3 +2890,23 @@ def admin_appointment_done(request, id):
 
     enq_appointment.save()
     return redirect("admin_new_leads_details")
+
+
+@login_required
+def approve_product(request, id):
+    instance = get_object_or_404(Package, id=id)
+
+    instance.approval = True
+    instance.save()
+
+    return redirect("Package_list")
+
+
+@login_required
+def disapprove_product(request, id):
+    instance = get_object_or_404(Package, id=id)
+
+    instance.approval = False
+    instance.save()
+
+    return redirect("Package_list")

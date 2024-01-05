@@ -261,4 +261,5 @@ urlpatterns = [
         name="emp_visa_subcategory_edit",
     ),
     path("pricing/delete/<int:id>/", delete_pricing, name="emp_delete_pricing"),
+    path("AddPackage/", PackageCreateView.as_view(), name="Emp_Package"),
 ]

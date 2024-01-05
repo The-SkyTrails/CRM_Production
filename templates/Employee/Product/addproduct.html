@@ -1,4 +1,4 @@
-{% extends "Agent/Base/base.html" %}
+{% extends "Employee/Base/base.html" %}
 {% load static %}
 {% block main-content %}
 
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="text-container">
-      <a href="{% url "agent_dashboard" %}" style="text-decoration: none">
+      <a href="{% url "employee_dashboard" %}" style="text-decoration: none">
         <div class="text">Dashboard</div>
       </a>
     </div>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="text-container">
-      <a href="{% url "Agent_Package_list" %}" style="text-decoration: none">
+      <a href="{% url "Employee_Package_list" %}" style="text-decoration: none">
       <div class="text">Products</div>
       </a>
     </div>
@@ -43,69 +43,118 @@
       </div>
     </div>
     <div class="text-container">
-      <div class="text">All Product</div>
+      <div class="text">Add Product</div>
     </div>
   </div>
 
   <div class="customs-container">
     <div class="custom-box">
-      <div class="custom-text">All Product</div>
+      <div class="custom-text">Add Product</div>
     </div>
   </div>
-  {% include "Agent/Base/messages.html" %}
-  <div class="row">
-    {% for i in Package  %}
-    {% if i.approval == True %}
-    <div class="col-md-4" style="margin-bottom:4px;">
-      <div class="card">
-        <a href="{% url "Agent_package_detail" i.id %}">
-          {% if i.image %}
-           <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image"/>
-          {% else %}
-           <img src="{% static 'assets/images/noimage.png' %}" class="card-img-top" alt="Product Image" />
-          {% endif %}
-          </a>
-        <div class="card-body">
-          <h5 class="card-title">{{i.title}}</h5>
-          <p class="card-text">
-            Category: <span class="txt">{{i.visa_category}}</span>
-          </p>
-          <p class="card-text">
-            No. Of Visa :<span class="txt">{{i.number_of_visa}}</span>
-          </p>
-          <p class="card-text">
-            Expiry Date: <span class="txt">{{i.package_expiry_date}}</span>
-          </p>
-        </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-between">
-          <a href="{% url "Agent_package_detail" i.id %}">
-          <div class="Button">
-            <div class="Text">All Details</div>
-            <div class="ArrowRight">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="21"
-                viewBox="0 0 20 21"
-                fill="none"
-              >
-                <path
-                  d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
-                  fill="white"
-                />
-              </svg>
+
+  <div class="resolvedquerycontent1">
+    <ul class="list-group">
+      <div class="list-item">
+        <!-- <li class="list-group-item agentitem">Add New Agreement </li> -->
+        <li class="list-group-item flexibilityListItem agentitem">Add Information
+          <img src="Styling/Bootstrap/img/downArrow.svg" alt="">
+        </li>
+      </div>
+      <form action="" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+      <li class="list-group-item item-content">
+        <div class="inputforms-agentcontainer">
+          <div class="row formrow">
+            <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">Select Visa Country</label>
+              {{form.visa_country}}
+            </div>
+            <div class="col-md-6 ">
+
+              <label for="exampleFormControlInput1" class="custom-form-label">Select Visa Category-SubCategory</label>
+              {{form.visa_category}}
+            </div>
+
+
+          </div>
+
+          <div class="row formrow">
+
+            <div class="col-md-6 ">
+
+              <label for="exampleFormControlInput1" class="custom-form-label">Product Title</label>
+              {{form.title}}
+            </div>
+            <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">Description</label>
+              {{form.description}}
+            </div>
+
+          </div>
+
+          <div class="row formrow">
+
+            <div class="col-md-6 ">
+
+              <label for="exampleFormControlInput1" class="custom-form-label">Assign To Group</label>
+              {{form.assign_to_group}}
+            </div>
+            <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">Number of Visa</label>
+              {{form.number_of_visa}}
+            </div>
+
+          </div>
+
+          <div class="row formrow">
+
+            <div class="col-md-6 ">
+
+              <label for="exampleFormControlInput1" class="custom-form-label">Product Code</label>
+              {{form.amount}}
+            </div>
+            <div class="col-md-6 ">
+
+              <label for="exampleFormControlInput1" class="custom-form-label">Advance Product Code</label>
+              {{form.advance_amount}}
+
+            </div>
+
+
+          </div>
+
+          <div class="row formrow">
+
+            <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">File Charges</label>
+              {{form.file_charges}}
+            </div>
+            <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">Package Expiry Date</label>
+              {{form.package_expiry_date}}
             </div>
           </div>
-        </a>
+          <div class="row formrow">
+            <label for="exampleFormControlInput1" class="custom-form-label">Upload Image</label>
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" id="image" name="image">
+                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+              </div>
+        </div>
           
-        </div> 
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-color" type="submit">Save
 
-      </div>
-    </div>
-    {% endif %}
-    {% endfor %}
+            </button>
+          </div>
+
+        </div>
+      </li>
+    </form>
+    </ul>
+
   </div>
-
-  
 </div>
+
 {% endblock main-content %}
