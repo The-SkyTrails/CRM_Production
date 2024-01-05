@@ -542,6 +542,7 @@ def chats(request):
     return render(request, "chat/chat2.html", context)
 
 
+
 def get_group_chat_messages(request):
     group_id = request.GET.get("group_id")
     user = request.user
