@@ -152,7 +152,7 @@
 
         </div>
     </div>
-    <input type="hidden" id="group-name" value="{{ chat_group.id }}">
+    <input type="hidden" id="group-name" value="{{chat_group.id }}">
     <input type="text" value="{{user}}" id="current-user" hidden>
 </div>
 <script>
@@ -184,7 +184,7 @@ function timeAgo(timestamp) {
 
 </script>
 <script>
-    const user = document.getElementById('current-user').value;
+    var user = document.getElementById('current-user').value;
     var groupName = document.getElementById('group-name').value;
     {% comment %} var groupName = JSON.parse(document.getElementById('group-name').value); {% endcomment %}
     {% comment %} console.log("ssssssssssss",roomName) {% endcomment %}
