@@ -1,6 +1,171 @@
 {% extends base_template %}
 {% load static %}
 {% block main-content %}
+<style>
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .custom-container {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+    }
+
+    .icon-container,
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .icon {
+        background-color: #3490dc; /* Add a background color to the icon container */
+        padding: 10px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    .icon svg {
+        fill: #ffffff; /* Set the fill color for the SVG icons */
+    }
+
+    .text {
+        font-size: 14px;
+        color: #6b7280;
+        text-align: center;
+    }
+
+    .appointment-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+    }
+
+    .custom-box {
+        background-color: #edf2f7; /* Add a background color to the box */
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .custom-text {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a202c;
+    }
+
+    .scheduleappointment {
+        position: relative;
+    }
+
+    .appointment-text {
+        font-size: 14px;
+        color: #ffffff;
+        padding: 8px 12px;
+        background-color: #3490dc; /* Add a background color to the button */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .appointment-text svg {
+        margin-left: 5px;
+    }
+
+    .modal-header {
+        background-color: #3490dc; /* Add a background color to the modal header */
+        color: #ffffff;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        background-color: #f9fafb; /* Add a background color to the modal footer */
+        border-top: 1px solid #d2d6dc;
+        padding: 15px 20px;
+    }
+
+    .custom-form-label {
+        font-size: 14px;
+        color: #374151;
+        font-weight: bold;
+    }
+
+    .formrow {
+        margin-bottom: 20px;
+    }
+
+    .btn-color {
+        background-color: #3490dc; /* Add a background color to the button */
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .chats-conatiner {
+        width: 100%;
+    }
+
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    .peopleview {
+        flex: 0 0 25%;
+        padding-right: 20px;
+    }
+
+    .chatserach {
+        margin-bottom: 20px;
+    }
+
+    .people-chat {
+        margin-bottom: 20px;
+    }
+
+    .chat-messages {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 10px;
+        background-color: #f9fafb; /* Add a background color to the chat messages container */
+        border: 1px solid #d2d6dc;
+        border-radius: 8px;
+    }
+
+    .chat-group-link {
+        text-decoration: none;
+        color: #3490dc;
+        cursor: pointer;
+    }
+
+    .chat-group-link.active {
+        font-weight: bold;
+    }
+
+    hr {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 0;
+        border-top: 1px solid #d2d6dc; /* Add a border between chat groups */
+    }
+</style>
+
+
 <div class="form-container">
     <div class="custom-container">
         <div class="icon-container">
@@ -48,6 +213,7 @@
         <div class="custom-box">
             <div class="custom-text">Chats</div>
         </div>
+        {% if user_type == "2" %}
         <div class="scheduleappointment">
             <!-- <div class="appointment-text">Appointments</div> -->
             <a href="{% url "chatgroup" %}">
@@ -98,6 +264,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 
 
@@ -122,14 +289,14 @@
                                 {% comment %} <a href="javascript:void(0)" data-group-id="{{ chat_group.id }}"
                                     class="chat-group-link"> {% endcomment %}
                                     <div class="profilename">{{ chat_group.group_name }}</div>
-                                    <div class="icons-container">
+                                    {% comment %} <div class="icons-container">
                                         <div class="check-icons">
                                             <div class="inner-icon">
                                                 18
                                             </div>
                                         </div>
 
-                                    </div>
+                                    </div> {% endcomment %}
                                     {% comment %}
                                 </a> {% endcomment %}
                             </div>
@@ -202,5 +369,24 @@
         });
     }
 </script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            var searchQuery = $(this).val().toLowerCase();
+
+            // Hide all groups
+            $('.people-chat').hide();
+
+            // Show only the groups that match the search query
+            $('.people-chat').filter(function () {
+                return $(this).text().toLowerCase().includes(searchQuery);
+            }).show();
+        });
+    });
+</script>
+
 
 {% endblock main-content %}

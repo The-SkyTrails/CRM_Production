@@ -68,13 +68,13 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(default="1", choices=user_type_data, max_length=10)
     is_logged_in = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
     def generate_initials(self):
         first_initial = self.first_name[0].upper() if self.first_name else ""
         last_initial = self.last_name[0].upper() if self.last_name else ""
         return f"{first_initial}{last_initial}"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class Admin(models.Model):
@@ -312,7 +312,7 @@ class Agent(models.Model):
     )
 
     def __str__(self):
-        return self.users
+        return f"{self.users.first_name} {self.users.last_name}"
 
 
 class OutSourcingAgent(models.Model):
@@ -656,48 +656,6 @@ class Enquiry(models.Model):
         # Format the serial number as a zero-padded string (e.g., '00001')
         return f"{next_serial_number:05d}"
 
-    @classmethod
-    def get_monthly_report(cls):
-        return (
-            cls.objects.annotate(
-                year=models.functions.ExtractYear("registered_on"),
-                month=models.functions.ExtractMonth("registered_on"),
-            )
-            .values("year", "month")
-            .annotate(enquiry_count=Count("id"))
-            .order_by("-year", "-month")
-        )
-
-    @classmethod
-    def get_monthly_report_country_wise(cls, employee):
-        return (
-            cls.objects.filter(
-                assign_to_employee=employee
-            )  # Filter by the assigned employee
-            .values("Country")
-            .annotate(
-                year=models.functions.ExtractYear("registered_on"),
-                month=models.functions.ExtractMonth("registered_on"),
-                enquiry_count=Count("id"),
-            )
-            .order_by("Country", "-year", "-month")
-        )
-
-    @classmethod
-    def get_monthly_report_country_wise_agent(cls, current_Agent):
-        return (
-            cls.objects.filter(
-                assign_to_agent=current_Agent
-            )  # Filter by the assigned employee
-            .values("Country")
-            .annotate(
-                year=models.functions.ExtractYear("registered_on"),
-                month=models.functions.ExtractMonth("registered_on"),
-                enquiry_count=Count("id"),
-            )
-            .order_by("Country", "-year", "-month")
-        )
-
     def generate_initials(self):
         first_initial = self.FirstName[0].upper() if self.FirstName else ""
         last_initial = self.LastName[0].upper() if self.LastName else ""
@@ -721,8 +679,8 @@ class Enquiry(models.Model):
 
         super(Enquiry, self).save(*args, **kwargs)
 
-    def _str_(self):
-        return str(self.id)
+    # def __str__(self):
+    #     return str(self.id)
 
 
 class Notes(models.Model):

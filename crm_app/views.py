@@ -537,6 +537,7 @@ def chats(request):
     context = {
         "base_template": base_template,
         "groups": chat_groups,
+        "user_type": user_type,
     }
     return render(request, "chat/chat2.html", context)
 
