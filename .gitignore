@@ -61,6 +61,7 @@ cover/
 # Django stuff:
 *.log
 SkyTrails/settings.py
+crm_app/__pycache__/
 db.sqlite3
 db.sqlite3-journal
 
