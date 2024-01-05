@@ -203,7 +203,7 @@
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Highest Level Of Education</label>
                 <input type="text" value="{{enquiry.id}}" name="enq_id" hidden> 
-                <select class="form-control" name="highest_education" id="title">
+                <select class="form-select" name="highest_education" id="title">
                   <option value="Select">Select</option>
                   <option value="Grade 1" {% if education_summary.highest_level_education == "Grade 1" %}selected{% endif %}>Grade 1</option>
                   <option value="Grade 2" {% if education_summary.highest_level_education == "Grade 2" %}selected{% endif %}>Grade 2</option>
@@ -335,7 +335,7 @@
               </div>
               <div class="col-md-6 ">
                 <label for="exampleFormControlInput1" class="custom-form-label">Exam Type</label>
-                <select class="form-control" name="examtype" id="examtype">
+                <select class="form-select" name="examtype" id="examtype">
                   <option >Type</option>
                   <option value="IELTS" >IELTS</option>
                   <option value="PTE" >PTE</option>

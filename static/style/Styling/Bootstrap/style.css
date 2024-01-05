@@ -2553,7 +2553,7 @@ margin-left: 15px;
 }
 .card-body {
   line-height: normal;
- 
+  padding-left:15px;
   text-align: left;
 }
 
