@@ -65,7 +65,7 @@ crm_app/__pycache__/
 crm_app/migrations/
 SkyTrails/__pycache__/
 SkyTrails/urls.py
-
+media/
 db.sqlite3
 db.sqlite3-journal
 
