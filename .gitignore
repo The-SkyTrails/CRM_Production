@@ -62,8 +62,10 @@ cover/
 *.log
 SkyTrails/settings.py
 crm_app/__pycache__/
+crm_app/migrations/
 SkyTrails/__pycache__/
 SkyTrails/urls.py
+
 db.sqlite3
 db.sqlite3-journal
 
