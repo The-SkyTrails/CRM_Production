@@ -397,7 +397,6 @@ class Package(models.Model):
     )
     last_updated_on = models.DateTimeField(auto_now=True)
     image = models.FileField(upload_to="media/package_images/", null=True, blank=True)
-    approval = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
