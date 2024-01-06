@@ -18,6 +18,7 @@
 
           {% if agent.users.user_type == '4' %}
           {% if agent.profile_pic %}
+         
           <img src="{{agent.profile_pic.url}}" alt="user" />
           {% else %}
           <img src="{% static "style/Styling/Bootstrap/img/Avatar.png" %}" alt="user" />

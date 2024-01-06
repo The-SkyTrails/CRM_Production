@@ -1,11 +1,19 @@
 from rest_framework import viewsets
-from .models import Booking, FrontWebsiteEnquiry, VisaCountry, VisaCategory, Package
+from .models import (
+    Booking,
+    FrontWebsiteEnquiry,
+    VisaCountry,
+    VisaCategory,
+    Package,
+    Enquiry,
+)
 from .serializers import (
     BookingSerializer,
     FrontWebsiteSerializer,
     VisaCategorySerializer,
     VisaCountrySerializer,
     ProductSerializer,
+    EnquirySerializer,
 )
 from rest_framework.viewsets import ViewSet, ModelViewSet
 
@@ -33,3 +41,13 @@ class apiVisaCategory(ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.filter(approval="True")
     serializer_class = ProductSerializer
+
+
+class EnquiryViewSet(viewsets.ModelViewSet):
+    # queryset = Enquiry.objects.all()
+    serializer_class = EnquirySerializer
+
+    def get_queryset(self):
+        contact = self.request.query_params.get("contact")
+        queryset = Enquiry.objects.filter(contact=contact)
+        return queryset

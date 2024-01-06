@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Booking, FrontWebsiteEnquiry, VisaCountry, VisaCategory, Package
+from .models import (
+    Booking,
+    FrontWebsiteEnquiry,
+    VisaCountry,
+    VisaCategory,
+    Package,
+    Enquiry,
+)
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -41,4 +48,10 @@ class FrontWebsiteSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Package
+        fields = "__all__"
+
+
+class EnquirySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enquiry
         fields = "__all__"
