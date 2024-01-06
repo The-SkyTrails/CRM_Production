@@ -1002,9 +1002,36 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
         try:
             form.instance.last_updated_by = self.request.user
             form.save()
-            messages.success(self.request, "Package Added Successfully & Send To Admin for Approval .")
+            messages.success(
+                self.request,
+                "Package Added Successfully & Send To Admin for Approval .",
+            )
             return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f"Error: {e}")
             print("Error Occured ", e)
             return self.form_invalid(form)
+
+
+########################################### NEWS #####################################################
+
+
+class NewsList(LoginRequiredMixin, ListView):
+    model = News
+    template_name = "Agent/News/newslist.html"
+    context_object_name = "news"
+
+    def get_queryset(self):
+        return News.objects.all().order_by("-id")
+
+
+########################################## SUCCESSSTORY ################################################
+
+
+class SuccessStoryList(LoginRequiredMixin, ListView):
+    model = SuccessStory
+    template_name = "Agent/SuccessStory/successstorylist.html"
+    context_object_name = "story"
+
+    def get_queryset(self):
+        return SuccessStory.objects.all().order_by("-id")

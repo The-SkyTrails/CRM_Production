@@ -51,4 +51,8 @@ urlpatterns = [
     path("appointmentlist/", AppointmentListView.as_view(), name="Appointment_list"),
     path("appointmentgrid/", AppointmentGridView.as_view(), name="Appointment_grid"),
     path("AddPackage/", PackageCreateView.as_view(), name="Agent_Package"),
+    path("News_list/", NewsList.as_view(), name="Agent_News_list"),
+    path(
+        "Success_StoryList/", SuccessStoryList.as_view(), name="Agent_SuccessStoryList"
+    ),
 ]

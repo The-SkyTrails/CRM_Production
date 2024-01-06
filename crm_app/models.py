@@ -908,6 +908,21 @@ class ChatMessage(models.Model):
     msg_time = models.DateTimeField(auto_now=True)
 
 
+class SuccessStory(models.Model):
+    create_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    image = models.FileField(upload_to="images/general/successstories/")
+    last_updated_on = models.DateTimeField(auto_now_add=True)
+
+
+class News(models.Model):
+    create_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    news = models.TextField()
+    employee = models.BooleanField(default=False)
+    agent = models.BooleanField(default=False)
+    outsource_Agent = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 @receiver(post_save, sender=CustomUser)
 def create_admin_profile(sender, instance, created, **kwargs):
     # if instance.user_type==''

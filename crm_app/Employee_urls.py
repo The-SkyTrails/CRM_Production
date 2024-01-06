@@ -262,4 +262,6 @@ urlpatterns = [
     ),
     path("pricing/delete/<int:id>/", delete_pricing, name="emp_delete_pricing"),
     path("AddPackage/", PackageCreateView.as_view(), name="Emp_Package"),
+    path("News_list/", NewsList.as_view(), name="Emp_News_list"),
+    path("Success_StoryList/", SuccessStoryList.as_view(), name="Emp_SuccessStoryList"),
 ]

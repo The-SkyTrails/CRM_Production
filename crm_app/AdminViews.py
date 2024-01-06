@@ -1555,6 +1555,15 @@ class PackageDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "package"
 
 
+def PackageApplyView(request, id):
+    if request.method == "POST":
+        package = Package.objects.get(id=id)
+        package_id = package.id
+        request.session["package_id"] = package_id
+
+        return redirect("packageenquiry_form1")
+
+
 @login_required
 def delete_package(request, id):
     package = get_object_or_404(Package, id=id)
@@ -1795,6 +1804,125 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         enquiry_id = self.object.id
         return reverse_lazy("enquiry_form4", kwargs={"id": enquiry_id})
+
+
+# -----------------------------------------------------------
+
+
+def PackageEnquiry1View(request):
+    country_choices = Enquiry._meta.get_field("Country").get_choices()
+
+    # request.session["package_id"] = package_id
+    package_id = request.session.get("package_id")
+    if request.method == "POST":
+        country = request.POST.get("country")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        country = request.POST.get("country")
+        passport_no = request.POST.get("passport_no")
+        print("DOBB", dob)
+        print("passport number", passport_no)
+        request.session["country"] = country
+        request.session["first_name"] = first_name
+        request.session["last_name"] = last_name
+        request.session["email"] = email
+        request.session["contact"] = contact
+        request.session["dob"] = dob
+        request.session["gender"] = gender
+        request.session["passport_no"] = passport_no
+        return redirect("packageenquiry_form2")
+
+    context = {"country_choices": country_choices}
+    return render(request, "Admin/Enquiry/Package Leads/lead1.html", context)
+
+
+def PackageEnquiry2View(request):
+    if request.method == "POST":
+        spouse_name = request.POST.get("spouse_name")
+        spouse_contact = request.POST.get("spouse_contact")
+        spouse_email = request.POST.get("spouse_email")
+        spouse_passport = request.POST.get("spouse_passport")
+        spouse_dob = request.POST.get("spouse_dob")
+
+        request.session["spouse_name"] = spouse_name
+        request.session["spouse_contact"] = spouse_contact
+        request.session["spouse_email"] = spouse_email
+        request.session["spouse_passport"] = spouse_passport
+        request.session["spouse_dob"] = spouse_dob
+        return redirect("packageenquiry_form3")
+    return render(request, "Admin/Enquiry/Package Leads/lead2.html")
+
+
+def PackageEnquiry3View(request):
+    visa_type = Enquiry._meta.get_field("Visa_type").get_choices()
+
+    package_id = request.session.get("package_id")
+    package = Package.objects.get(id=package_id)
+    dob = request.session.get("dob")
+
+    if request.method == "POST":
+        visa_typ = request.POST.get("visa_type")
+        source = request.POST.get("source")
+        reference = request.POST.get("reference")
+
+        # ----------------------- Enquiry Detailss ------------------
+        country = request.session.get("country")
+        first_name = request.session.get("first_name")
+        last_name = request.session.get("last_name")
+        email = request.session.get("email")
+        contact = request.session.get("contact")
+        dob = request.session.get("dob")
+        gender = request.session.get("gender")
+        passport_no = request.session.get("passport_no")
+
+        # -------------------------------- Spouse Details ------------------
+        spouse_name = request.session.get("spouse_name")
+        spouse_contact = request.session.get("spouse_contact")
+        spouse_email = request.session.get("spouse_email")
+        spouse_passport = request.session.get("spouse_passport")
+        spouse_dob = request.session.get("spouse_dob")
+
+        enq = Enquiry.objects.create(
+            FirstName=first_name,
+            LastName=last_name,
+            email=email,
+            contact=contact,
+            Dob=dob,
+            Gender=gender,
+            Country=country,
+            passport_no=passport_no,
+            spouse_name=spouse_name,
+            spouse_no=spouse_contact,
+            spouse_email=spouse_email,
+            spouse_passport=spouse_passport,
+            spouse_dob=spouse_dob,
+            Source=source,
+            Reference=reference,
+            Visa_type=visa_typ,
+            Package=package,
+        )
+        last_assigned_index = cache.get("last_assigned_index") or 0
+        presales_team_employees = Employee.objects.filter(
+            department="Presales/Assesment"
+        )
+        if presales_team_employees.exists():
+            next_index = (last_assigned_index + 1) % presales_team_employees.count()
+            enq.assign_to_employee = presales_team_employees[next_index]
+            enq.assign_to_employee.save()
+
+            cache.set("last_assigned_index", next_index)
+        enq.save()
+        return redirect("enquiry_form4", enq.id)
+
+    context = {"package_id": package_id, "package": package, "visa_type": visa_type}
+    return render(request, "Admin/Enquiry/Package Leads/lead3.html", context)
+
+
+# ------------------------------------------
 
 
 @login_required
@@ -2910,3 +3038,57 @@ def disapprove_product(request, id):
     instance.save()
 
     return redirect("Package_list")
+
+
+########################################## SUCCESSSTORY ##################################################
+
+
+@login_required
+def add_successstory(request):
+    successstory = SuccessStory.objects.all().order_by("-id")
+    form = SuccessStoryForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        user = request.user
+        form.instance.create_by = user
+        form.save()
+        messages.success(request, "Success Story added successfully")
+        return HttpResponseRedirect(reverse("Successstory_list"))
+
+    context = {"form": form, "story": successstory}
+    return render(request, "Admin/SuccessStory/successstorylist.html", context)
+
+
+@login_required
+def delete_successstory(request, id):
+    successstory_id = SuccessStory.objects.get(id=id)
+    successstory_id.delete()
+    messages.success(request, "Success Story deleted successfully..")
+    return HttpResponseRedirect(reverse("Successstory_list"))
+
+
+############################################# NEWS #####################################################
+
+
+@login_required
+def add_news(request):
+    news = News.objects.all().order_by("-id")
+    form = NewsForm(request.POST or None)
+
+    if form.is_valid():
+        user = request.user
+        form.instance.create_by = user
+        form.save()
+        messages.success(request, "News added successfully")
+        return HttpResponseRedirect(reverse("News_list"))
+
+    context = {"form": form, "news": news}
+    return render(request, "Admin/News/newslist.html", context)
+
+
+@login_required
+def delete_news(request, id):
+    news_id = News.objects.get(id=id)
+    news_id.delete()
+    messages.success(request, "News deleted successfully..")
+    return HttpResponseRedirect(reverse("News_list"))

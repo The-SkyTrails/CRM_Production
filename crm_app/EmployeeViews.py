@@ -360,6 +360,7 @@ def emp_delete_docfile(request, id):
 
 # testrrrrrrrrrrrrrrrr
 
+
 @login_required
 def employee_lead_list(request):
     user = request.user
@@ -369,38 +370,28 @@ def employee_lead_list(request):
             emp = user.employee
             dep = emp.department
             if dep == "Presales/Assesment":
-                
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_employee=user.employee)
-            | Q(created_by=user)
+                    Q(assign_to_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
             elif dep == "Sales":
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_sales_employee=user.employee)
-            | Q(created_by=user)
-                   
-                    
+                    Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
-                
+
             elif dep == "Documentation":
                 enq = Enquiry.objects.filter(
                     Q(assign_to_documentation_employee=user.employee)
-            | Q(created_by=user)
-                   
+                    | Q(created_by=user)
                 ).order_by("-id")
             elif dep == "Visa Team":
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_visa_team_employee=user.employee)
-            | Q(created_by=user)
-                    
+                    Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
             else:
                 enq = Enquiry.objects.filter(created_by=request.user)
-                
-                
+
             context = {"enq": enq, "user": user, "dep": dep}
     return render(request, "Employee/Enquiry/lead_list.html", context)
-
 
 
 @login_required
@@ -412,35 +403,28 @@ def employee_lead_grid(request):
             emp = user.employee
             dep = emp.department
             if dep == "Presales/Assesment":
-                
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_employee=user.employee)
-            | Q(created_by=user)
+                    Q(assign_to_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
             elif dep == "Sales":
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_sales_employee=user.employee)
-            | Q(created_by=user)
-                   
-                    
+                    Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
-                
+
             elif dep == "Documentation":
                 enq = Enquiry.objects.filter(
                     Q(assign_to_documentation_employee=user.employee)
-            | Q(created_by=user)
-                   
+                    | Q(created_by=user)
                 ).order_by("-id")
             elif dep == "Visa Team":
                 enq = Enquiry.objects.filter(
-                    Q(assign_to_visa_team_employee=user.employee)
-            | Q(created_by=user)
-                    
+                    Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
             else:
                 enq = Enquiry.objects.filter(created_by=request.user)
             context = {"enq": enq, "user": user, "dep": dep}
     return render(request, "Employee/Enquiry/lead-grid.html", context)
+
 
 def employee_enrolled_lead(request):
     user = request.user
@@ -3039,8 +3023,6 @@ def delete_pricing(request, id):
     return HttpResponseRedirect(reverse("emp_subcategory_list"))
 
 
-
-
 class PackageCreateView(LoginRequiredMixin, CreateView):
     model = Package
     form_class = PackageForm
@@ -3051,9 +3033,50 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
         try:
             form.instance.last_updated_by = self.request.user
             form.save()
-            messages.success(self.request, "Package Added Successfully & Send To Admin for Approval .")
+            messages.success(
+                self.request,
+                "Package Added Successfully & Send To Admin for Approval .",
+            )
             return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f"Error: {e}")
             print("Error Occured ", e)
             return self.form_invalid(form)
+
+
+########################################### NEWS #####################################################
+
+
+class NewsList(LoginRequiredMixin, ListView):
+    model = News
+    template_name = "Employee/News/newslist.html"
+    context_object_name = "news"
+
+    def get_queryset(self):
+        return News.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+        return context
+
+
+########################################## SUCCESSSTORY ################################################
+
+
+class SuccessStoryList(LoginRequiredMixin, ListView):
+    model = SuccessStory
+    template_name = "Employee/SuccessStory/successstorylist.html"
+    context_object_name = "story"
+
+    def get_queryset(self):
+        return SuccessStory.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        dep = user.employee.department
+        context["dep"] = dep
+        return context

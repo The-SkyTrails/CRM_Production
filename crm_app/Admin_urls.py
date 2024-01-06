@@ -142,6 +142,7 @@ urlpatterns = [
     path("PackageList/", PackageListView.as_view(), name="Package_list"),
     path("PackageEdit/<int:pk>", editPackage.as_view(), name="editPackage"),
     path("packages/<int:pk>/", PackageDetailView.as_view(), name="package_detail"),
+    path("packages/<int:id>/apply/", PackageApplyView, name="package_apply"),
     path("package/delete/<int:id>/", delete_package, name="delete_package"),
     path("LoginLogs", loginlog.as_view(), name="loginlog"),
     path("AddSubCategory/", add_subcategory, name="add_subcategory"),
@@ -157,6 +158,10 @@ urlpatterns = [
     path("enquiry_form4/<int:id>/", admindocument, name="enquiry_form4"),
     path("Uploaddocument/", upload_document, name="uploaddocument"),
     path("Delete/UploadFile/<int:id>", delete_docfile, name="docfile"),
+    # ------------------------------ Package Leads -------------------
+    path("PacAddEnquiry/", PackageEnquiry1View, name="packageenquiry_form1"),
+    path("PacAddEnquiry2/", PackageEnquiry2View, name="packageenquiry_form2"),
+    path("PacAddEnquiry3/", PackageEnquiry3View, name="packageenquiry_form3"),
     # ------------------------------- LEADS ------------------------
     path("AllNewLeads", admin_new_leads_details, name="admin_new_leads_details"),
     path("AllGridLeads", admin_grid_leads_details, name="admin_grid_leads_details"),
@@ -225,4 +230,10 @@ urlpatterns = [
     ),
     path("approve_product/<int:id>/", approve_product, name="approve_product"),
     path("disapprove_product/<int:id>/", disapprove_product, name="disapprove_product"),
+    path("Successstory_list/", add_successstory, name="Successstory_list"),
+    path(
+        "Successstory_Delete/<int:id>/", delete_successstory, name="Successstory_Delete"
+    ),
+    path("News_list/", add_news, name="News_list"),
+    path("News_Delete/<int:id>/", delete_news, name="News_Delete"),
 ]

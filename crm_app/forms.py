@@ -451,3 +451,19 @@ class ChatGroupForm(forms.ModelForm):
         queryset=CustomUser.objects.exclude(user_type=1),
         widget=forms.CheckboxSelectMultiple,
     )
+
+
+class SuccessStoryForm(forms.ModelForm):
+    class Meta:
+        model = SuccessStory
+        fields = ["image"]
+        widgets = {"image": forms.FileInput(attrs={"class": "form-control"})}
+
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ["news", "employee", "agent", "outsource_Agent"]
+        widgets = {
+            "news": forms.Textarea(attrs={"class": "form-control"}),
+        }
