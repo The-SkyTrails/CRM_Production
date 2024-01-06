@@ -45,12 +45,6 @@ class FrontWebsiteSerializer(serializers.ModelSerializer):
         ]
 
 
-class VisaCountrySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VisaCountry
-        fields = ["id", "country"]
-
-
 class ProductSerializer(serializers.ModelSerializer):
     visa_country = VisaCountrySerializer()
 
