@@ -88,7 +88,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             lead_status="New Lead", created_by=self.request.user
         ).count()
 
-        package = Package.objects.all().order_by("-last_updated_on")[:10]
+        package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
+            :10
+        ]
 
         user = self.request.user
         if user.user_type == "4":
@@ -794,9 +796,10 @@ def emp_add_agent(request):
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
         files = request.FILES.get("files")
+        print("emiallll", email)
 
         existing_agent = CustomUser.objects.filter(username=email)
-
+        fullname = str(firstname + lastname)
         try:
             if existing_agent:
                 messages.warning(request, f'"{email}" already exists.')
@@ -823,6 +826,12 @@ def emp_add_agent(request):
                 user.outsourcingagent.profile_pic = files
                 user.outsourcingagent.registerdby = logged_in_user
                 user.outsourcingagent.assign_employee = logged_in_user.employee
+                chat_group_name = f"{fullname} Group"
+                chat_group = ChatGroup.objects.create(
+                    group_name=chat_group_name,
+                )
+                chat_group.group_member.add(user.outsourcingagent.assign_employee.users)
+                chat_group.group_member.add(user)
 
                 user.save()
 
@@ -889,6 +898,12 @@ def emp_add_agent(request):
                 user.agent.profile_pic = files
                 user.agent.registerdby = logged_in_user
                 user.agent.assign_employee = logged_in_user.employee
+                chat_group_name = f"{fullname} Group"
+                chat_group = ChatGroup.objects.create(
+                    group_name=chat_group_name,
+                )
+                chat_group.group_member.add(user.agent.assign_employee.users)
+                chat_group.group_member.add(user)
                 user.save()
 
                 context = {"employees": relevant_employees, "dep": dep}
@@ -3080,3 +3095,156 @@ class SuccessStoryList(LoginRequiredMixin, ListView):
         dep = user.employee.department
         context["dep"] = dep
         return context
+
+
+def empPackageApply(request, id):
+    print("sssssssssssss")
+    if request.method == "POST":
+        print("worminggg")
+        package = Package.objects.get(id=id)
+        package_id = package.id
+        request.session["package_id"] = package_id
+
+        return redirect("empPackageEnquiryForm1")
+
+
+def empPackageEnquiryForm1(request):
+    country_choices = Enquiry._meta.get_field("Country").get_choices()
+
+    # request.session["package_id"] = package_id
+    package_id = request.session.get("package_id")
+    if request.method == "POST":
+        country = request.POST.get("country")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        country = request.POST.get("country")
+        passport_no = request.POST.get("passport_no")
+
+        request.session["country"] = country
+        request.session["first_name"] = first_name
+        request.session["last_name"] = last_name
+        request.session["email"] = email
+        request.session["contact"] = contact
+        request.session["dob"] = dob
+        request.session["gender"] = gender
+        request.session["passport_no"] = passport_no
+        return redirect("emp_packageenquiry_form2")
+
+    context = {"country_choices": country_choices}
+    return render(request, "Employee/Enquiry/Package Leads/lead1.html", context)
+
+
+def empPackageEnquiry2View(request):
+    if request.method == "POST":
+        spouse_name = request.POST.get("spouse_name")
+        spouse_contact = request.POST.get("spouse_contact")
+        spouse_email = request.POST.get("spouse_email")
+        spouse_passport = request.POST.get("spouse_passport")
+        spouse_dob = request.POST.get("spouse_dob")
+
+        request.session["spouse_name"] = spouse_name
+        request.session["spouse_contact"] = spouse_contact
+        request.session["spouse_email"] = spouse_email
+        request.session["spouse_passport"] = spouse_passport
+        request.session["spouse_dob"] = spouse_dob
+        return redirect("emp_packageenquiry_form3")
+    return render(request, "Employee/Enquiry/Package Leads/lead2.html")
+
+
+def emp_PackageEnquiry3View(request):
+    visa_type = Enquiry._meta.get_field("Visa_type").get_choices()
+
+    package_id = request.session.get("package_id")
+    package = Package.objects.get(id=package_id)
+    dob = request.session.get("dob")
+
+    if request.method == "POST":
+        visa_typ = request.POST.get("visa_type")
+        source = request.POST.get("source")
+        reference = request.POST.get("reference")
+
+        # ----------------------- Enquiry Detailss ------------------
+        country = request.session.get("country")
+        first_name = request.session.get("first_name")
+        last_name = request.session.get("last_name")
+        email = request.session.get("email")
+        contact = request.session.get("contact")
+        dob = request.session.get("dob")
+        gender = request.session.get("gender")
+        passport_no = request.session.get("passport_no")
+
+        # -------------------------------- Spouse Details ------------------
+        spouse_name = request.session.get("spouse_name")
+        spouse_contact = request.session.get("spouse_contact")
+        spouse_email = request.session.get("spouse_email")
+        spouse_passport = request.session.get("spouse_passport")
+        spouse_dob = request.session.get("spouse_dob")
+
+        enq = Enquiry.objects.create(
+            FirstName=first_name,
+            LastName=last_name,
+            email=email,
+            contact=contact,
+            Dob=dob,
+            Gender=gender,
+            Country=country,
+            passport_no=passport_no,
+            spouse_name=spouse_name,
+            spouse_no=spouse_contact,
+            spouse_email=spouse_email,
+            spouse_passport=spouse_passport,
+            Source=source,
+            Reference=reference,
+            Visa_type=visa_typ,
+            Package=package,
+        )
+        user = request.user
+        emp_dep = user.employee
+        if emp_dep.department == "Presales/Assesment":
+            enq.assign_to_employee = user.employee
+
+        elif emp_dep.department == "Sales":
+            lat_assigned_index = cache.get("lst_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (lat_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_sales_employee = user.employee
+                cache.set("lst_assigned_index", next_index)
+
+        elif emp_dep.department == "Documentation":
+            last_assigned_index = cache.get("last_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (last_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_documentation_employee = user.employee
+
+                cache.set("last_assigned_index", next_index)
+
+        elif emp_dep.department == "Visa Team":
+            last_assigned_index = cache.get("last_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (last_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_documentation_employee = user.employee
+
+                cache.set("last_assigned_index", next_index)
+
+        if spouse_dob:
+            enq.spouse_dob = spouse_dob
+
+        enq.created_by = user
+        enq.lead_status = "Active"
+
+        enq.save()
+        messages.success(request, "Enquiry Added successfully")
+        return redirect("emp_enquiry_form4", enq.id)
+
+    context = {"package_id": package_id, "package": package, "visa_type": visa_type}
+    return render(request, "Employee/Enquiry/Package Leads/lead3.html", context)

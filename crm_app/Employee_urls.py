@@ -9,6 +9,20 @@ urlpatterns = [
     path("enquiry_form4/<int:id>/", empdocument, name="emp_enquiry_form4"),
     path("Uploaddocument/", emp_upload_document, name="emp_upload_document"),
     path("Delete/UploadFile/<int:id>", emp_delete_docfile, name="emp_delete_docfile"),
+    # -----------------------------------
+    path(
+        "Employee/PacAddEnquiry/", empPackageEnquiryForm1, name="empPackageEnquiryForm1"
+    ),
+    path(
+        "Employee/PacAddEnquiry2/",
+        empPackageEnquiry2View,
+        name="emp_packageenquiry_form2",
+    ),
+    path(
+        "Employee/PacAddEnquiry3/",
+        emp_PackageEnquiry3View,
+        name="emp_packageenquiry_form3",
+    ),
     path("Lead/List/", employee_lead_list, name="employee_lead_list"),
     path("Lead/Grid/", employee_lead_grid, name="employee_lead_grid"),
     path("Enrollled/Lead/", employee_enrolled_lead, name="employee_enrolled_lead"),
@@ -156,6 +170,7 @@ urlpatterns = [
         PackageDetailView.as_view(),
         name="employee_package_detail",
     ),
+    path("packages/<int:id>/apply/", empPackageApply, name="empPackageApply"),
     path("Employee/profile", profileview.as_view(), name="Employee_profile"),
     path("Employee/edit_profile/", edit_profile, name="edit_employee_profile"),
     # --------------------------------------------------------------------------

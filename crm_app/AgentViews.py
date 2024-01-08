@@ -42,7 +42,9 @@ class agent_dashboard(TemplateView):
 
         lead_count = Enquiry.objects.filter(created_by=self.request.user).count()
 
-        package = Package.objects.all().order_by("-last_updated_on")[:10]
+        package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
+            :10
+        ]
 
         user = self.request.user
         faq_count = FAQ.objects.filter(user=user).count()

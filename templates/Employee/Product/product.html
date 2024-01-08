@@ -58,17 +58,27 @@
     {% if i.approval == True %}
     <div class="col-md-4" style="margin-bottom:4px;">
       <div class="card">
-        <a href="{% url "employee_package_detail" i.id %}">
-          {% if i.image %}
-           <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image"/>
-          {% else %}
-           <img src="{% static 'assets/images/noimage.png' %}" class="card-img-top" alt="Product Image" />
-          {% endif %}
-          </a>
+
+<div class="images-content" style="height:14rem;">
+               <div class="card-image1" style="width:100%">
+                  <a href="{% url "employee_package_detail" i.id %}">
+                  {% if i.image %}	
+                  <img src="{{ i.image.url }}" alt="Owl Image" class="card-img">
+                  {% else %}
+                  <img src="{% static "style/Styling\DashboardDesign\images\card-header.png" %}" alt="" class="card-img">
+                  {% endif %}
+                  </a>
+               </div>
+            </div>
+
+        
         <div class="card-body">
           <h5 class="card-title">{{i.title}}</h5>
           <p class="card-text">
             Category: <span class="txt">{{i.visa_category}}</span>
+          </p>
+          <p class="card-text">
+            Country: <span class="txt">{{i.visa_country}}</span>
           </p>
           <p class="card-text">
             No. Of Visa :<span class="txt">{{i.number_of_visa}}</span>

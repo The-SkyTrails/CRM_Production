@@ -80,9 +80,11 @@
           </div>
           <div class="col-md-2">
             <div class="card-body">
-             <a href="{% url "emp_enquiry_form1" %}">
+            <form action="{% url "empPackageApply" package.id %}" method="POST">
+            {% csrf_token %}
+             {% comment %} <a href="{% url "empPackageApply" package.id %}"> {% endcomment %}
                   <div class="Button">
-                    <div class="Text">Apply Now</div>
+                    <div class="Text"><button class="btn border-0 Text">Apply Now</button></div>
                     <div class="ArrowRight">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +100,8 @@
                       </svg>
                     </div>
                   </div>
-                </a>
+                {% comment %} </a> {% endcomment %}
+                </form>
             </div>
           </div>
         </div>

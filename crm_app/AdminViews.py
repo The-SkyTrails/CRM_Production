@@ -66,7 +66,9 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
 
         leadnew_count = Enquiry.objects.filter(lead_status="New Lead").count()
 
-        package = Package.objects.all().order_by("-last_updated_on")[:10]
+        package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
+            :10
+        ]
 
         context["total_agent_count"] = total_agent_count
         context["employee_count"] = employee_count
@@ -1573,7 +1575,19 @@ def delete_package(request, id):
 
 ############################################ LOGIN LOGS ######################################################
 
+# -----------------------------------------------
 
+
+def emp_package_apply(request, id):
+    if request.method == "POST":
+        package = Package.objects.get(id=id)
+        package_id = package.id
+        request.session["package_id"] = package_id
+
+        return redirect("packageenquiry_form1")
+
+
+# ----------------------------------------------
 class loginlog(LoginRequiredMixin, ListView):
     model = LoginLog
     template_name = "Admin/Login Logs/Loginlogs.html"
@@ -1899,7 +1913,6 @@ def PackageEnquiry3View(request):
             spouse_no=spouse_contact,
             spouse_email=spouse_email,
             spouse_passport=spouse_passport,
-            spouse_dob=spouse_dob,
             Source=source,
             Reference=reference,
             Visa_type=visa_typ,
@@ -1915,6 +1928,8 @@ def PackageEnquiry3View(request):
             enq.assign_to_employee.save()
 
             cache.set("last_assigned_index", next_index)
+        if spouse_dob:
+            enq.spouse_contact = spouse_dob
         enq.save()
         return redirect("enquiry_form4", enq.id)
 
