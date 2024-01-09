@@ -2750,42 +2750,19 @@ def enrolleddocument(request, id):
 @login_required
 def enrolled_upload_document(request):
     if request.method == "POST":
-        try:
-            document_id = request.POST.get("document_id")
-            enq_id = request.POST.get("enq_id")
-
-            document = Document.objects.get(pk=document_id)
-            document_file = request.FILES.get("document_file")
-            enq = Enquiry.objects.get(id=enq_id)
-
-            # Check if a DocumentFiles object with the same document exists
-            doc = DocumentFiles.objects.filter(
-                enquiry_id=enq_id, document_id=document
-            ).first()
-
-            if doc:
-                doc.document_file = document_file
-                doc.lastupdated_by = request.user
-                doc.save()
-                print("updatinggggggggggg")
-                return redirect("enrolled_document", id=enq_id)
-            else:
-                document_files = DocumentFiles.objects.create(
-                    document_file=document_file,
-                    document_id=document,
-                    enquiry_id=enq,
-                    lastupdated_by=request.user,
-                )
-                document_files.save()
-
-                return redirect("enrolled_document", id=enq_id)
-
-        except Exception as e:
-            pass
-
-    #         return HttpResponse("Error occurred while processing the request.")
-
-    # return HttpResponse("Invalid request method.")
+        document_id = request.POST.get("document_id")
+        enq_id = request.POST.get("enq_id")
+        document = Document.objects.get(pk=document_id)
+        document_file = request.FILES.get("document_file")
+        enq = Enquiry.objects.get(id=enq_id)
+        documest_files = DocumentFiles.objects.create(
+            document_file=document_file,
+            document_id=document,
+            enquiry_id=enq,
+            lastupdated_by=request.user,
+        )
+        documest_files.save()
+        return redirect("enrolled_document", id=enq_id)
 
 
 @login_required

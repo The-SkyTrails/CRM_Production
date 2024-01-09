@@ -320,33 +320,17 @@ def emp_upload_document(request):
     if request.method == "POST":
         document_id = request.POST.get("document_id")
         enq_id = request.POST.get("enq_id")
-
         document = Document.objects.get(pk=document_id)
         document_file = request.FILES.get("document_file")
         enq = Enquiry.objects.get(id=enq_id)
-        # Check if a DocumentFiles object with the same document exists
-        try:
-            doc = DocumentFiles.objects.filter(
-                enquiry_id=enq_id, document_id=document
-            ).first()
-            if doc:
-                doc.document_file = document_file
-                doc.lastupdated_by = request.user
-                doc.save()
-
-                return redirect("enquiry_form4", id=enq_id)
-            else:
-                documest_files = DocumentFiles.objects.create(
-                    document_file=document_file,
-                    document_id=document,
-                    enquiry_id=enq,
-                    lastupdated_by=request.user,
-                )
-                documest_files.save()
-                return redirect("emp_enquiry_form4", enq_id)
-
-        except Exception as e:
-            pass
+        documest_files = DocumentFiles.objects.create(
+            document_file=document_file,
+            document_id=document,
+            enquiry_id=enq,
+            lastupdated_by=request.user,
+        )
+        documest_files.save()
+        return redirect("emp_enquiry_form4", enq_id)
 
 
 @login_required
@@ -1734,38 +1718,19 @@ def emp_enrolleddocument(request, id):
 
 def emp_enrolled_upload_document(request):
     if request.method == "POST":
-        try:
-            document_id = request.POST.get("document_id")
-            enq_id = request.POST.get("enq_id")
-
-            document = Document.objects.get(pk=document_id)
-            document_file = request.FILES.get("document_file")
-            enq = Enquiry.objects.get(id=enq_id)
-
-            # Check if a DocumentFiles object with the same document exists
-            doc = DocumentFiles.objects.filter(
-                enquiry_id=enq_id, document_id=document
-            ).first()
-
-            if doc:
-                doc.document_file = document_file
-                doc.lastupdated_by = request.user
-                doc.save()
-
-                return redirect("enrolled_document", id=enq_id)
-            else:
-                document_files = DocumentFiles.objects.create(
-                    document_file=document_file,
-                    document_id=document,
-                    enquiry_id=enq,
-                    lastupdated_by=request.user,
-                )
-                document_files.save()
-
-                return redirect("emp_enrolleddocument", id=enq_id)
-
-        except Exception as e:
-            pass
+        document_id = request.POST.get("document_id")
+        enq_id = request.POST.get("enq_id")
+        document = Document.objects.get(pk=document_id)
+        document_file = request.FILES.get("document_file")
+        enq = Enquiry.objects.get(id=enq_id)
+        documest_files = DocumentFiles.objects.create(
+            document_file=document_file,
+            document_id=document,
+            enquiry_id=enq,
+            lastupdated_by=request.user,
+        )
+        documest_files.save()
+        return redirect("emp_enrolleddocument", id=enq_id)
 
 
 def emp_enrolled_delete_docfile(request, id):
