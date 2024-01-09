@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.db.models import Count
 import datetime
 from django.db.models import Q
+import json
 
 BRANCH_SOURCES = [
     ("COCO", "Company Owned Company Operated"),
@@ -629,6 +630,16 @@ class Enquiry(models.Model):
 
     archive = models.BooleanField(null=True, blank=True, default=False)
 
+    def set_spouse_name(self, spouse_names):
+        self.spouse_name = json.dumps(spouse_names)
+
+    def get_spouse_name(self):
+        try:
+            return json.loads(self.spouse_name) if self.spouse_name else []
+        except json.JSONDecodeError:
+            # Handle the error (e.g., log it) and return a default value
+            return []
+
     def generate_case_id(self):
         # Get the current date
         current_date = datetime.date.today()
@@ -920,6 +931,12 @@ class News(models.Model):
     employee = models.BooleanField(default=False)
     agent = models.BooleanField(default=False)
     outsource_Agent = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Report(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    notes = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
 

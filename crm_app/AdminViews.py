@@ -31,6 +31,10 @@ from datetime import datetime
 from django.contrib.auth import authenticate, logout, login as auth_login
 from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 
+# from wkhtmltopdf.utils import render_to_pdf_response
+from wkhtmltopdf.views import PDFTemplateResponse
+from .Email.email_utils import send_congratulatory_email
+
 ######################################### COUNTRY #################################################
 
 
@@ -751,9 +755,9 @@ def add_employee(request):
                 f"Best regards,\nThe Sky Trails"
             )
 
-            recipient_list = [email]
-
-            send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+            send_congratulatory_email(
+                firstname, lastname, email, password, user_type="3"
+            )
             messages.success(
                 request,
                 "Employee Added Successfully , Congratulation Mail Send Successfully!!",
@@ -763,7 +767,7 @@ def add_employee(request):
             message = (
                 f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                 f" Hello {firstname} {lastname}, \n\n"
-                f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                f" Welcome to Sky Trails! Your Employee account is ready to roll. \n\n"
                 f" Account Details: \n\n"
                 f" Email: {email} \n\n"
                 f" Password: {password} \n\n"
@@ -941,6 +945,9 @@ def add_agent(request):
                     )  # Add assigned employee
                     chat_group.group_member.add(user)
                     cache.set("last_assigned_index", next_index)
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="5"
+                )
                 user.save()
 
                 subject = "Congratulations! Your Account is Created"
@@ -954,17 +961,11 @@ def add_agent(request):
                     f"Best regards,\nThe Sky Trails"
                 )
 
-                recipient_list = [email]
-
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
-                )
-
                 mobile = contact
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -1026,7 +1027,11 @@ def add_agent(request):
                         user.agent.assign_employee.users
                     )  # Add assigned employee
                     chat_group.group_member.add(user)
+
                 user.save()
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="4"
+                )
 
                 context = {
                     "employees": relevant_employees,
@@ -1043,17 +1048,16 @@ def add_agent(request):
                     f"Best regards,\nThe Sky Trails"
                 )
 
-                recipient_list = [email]
+                # recipient_list = [email]
 
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="4"
                 )
-
                 mobile = contact
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -1782,6 +1786,14 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
                 **form3.cleaned_data,
             }
 
+            # if "spouse_name" in form2_data:
+            #     # Convert the input string into a list for spouse_name
+            #     spouse_names = [
+            #         item.strip() for item in form2_data["spouse_name"].split(",")
+            #     ]
+            #     merged_data["spouse_name"] = spouse_names
+            # merged_data["spouse_name"] = spouse_names
+
             # Save the merged data to the database
             enquiry = Enquiry(**merged_data)
             # ---------------------------------------
@@ -1977,38 +1989,55 @@ def admindocument(request, id):
     return render(request, "Admin/Enquiry/lead4.html", context)
 
 
-@login_required
+# @login_required
+# def upload_document(request):
+#     if request.method == "POST":
+#         document_id = request.POST.get("document_id")
+#         enq_id = request.POST.get("enq_id")
+
+#         document = Document.objects.get(pk=document_id)
+#         document_file = request.FILES.get("document_file")
+#         enq = Enquiry.objects.get(id=enq_id)
+#         # Check if a DocumentFiles object with the same document exists
+#         try:
+#             doc = DocumentFiles.objects.filter(
+#                 enquiry_id=enq_id, document_id=document
+#             ).first()
+#             if doc:
+#                 doc.document_file = document_file
+#                 doc.lastupdated_by = request.user
+#                 doc.save()
+
+#                 return redirect("enquiry_form4", id=enq_id)
+#             else:
+#                 documest_files = DocumentFiles.objects.create(
+#                     document_file=document_file,
+#                     document_id=document,
+#                     enquiry_id=enq,
+#                     lastupdated_by=request.user,
+#                 )
+#                 documest_files.save()
+#                 return redirect("enquiry_form4", enq_id)
+
+#         except Exception as e:
+#             pass
+
+
 def upload_document(request):
     if request.method == "POST":
         document_id = request.POST.get("document_id")
         enq_id = request.POST.get("enq_id")
-
         document = Document.objects.get(pk=document_id)
         document_file = request.FILES.get("document_file")
         enq = Enquiry.objects.get(id=enq_id)
-        # Check if a DocumentFiles object with the same document exists
-        try:
-            doc = DocumentFiles.objects.filter(
-                enquiry_id=enq_id, document_id=document
-            ).first()
-            if doc:
-                doc.document_file = document_file
-                doc.lastupdated_by = request.user
-                doc.save()
-
-                return redirect("enquiry_form4", id=enq_id)
-            else:
-                documest_files = DocumentFiles.objects.create(
-                    document_file=document_file,
-                    document_id=document,
-                    enquiry_id=enq,
-                    lastupdated_by=request.user,
-                )
-                documest_files.save()
-                return redirect("enquiry_form4", enq_id)
-
-        except Exception as e:
-            pass
+        documest_files = DocumentFiles.objects.create(
+            document_file=document_file,
+            document_id=document,
+            enquiry_id=enq,
+            lastupdated_by=request.user,
+        )
+        documest_files.save()
+        return redirect("enquiry_form4", enq_id)
 
 
 @login_required
@@ -2035,6 +2064,14 @@ def admin_new_leads_details(request):
     documentation_employees = get_documentation_team_employee()
     visa_team = get_visa_team_employee()
 
+    # enquiries_with_spouse_names = []
+
+    # for enquiry_instance in enquiry:
+    #     spouse_names = enquiry_instance.spouse_name
+    #     print("ssssss", spouse_names)
+    #     enquiries_with_spouse_names.append((enquiry_instance, spouse_names))
+
+    # print("gggggggggggggggg", enquiries_with_spouse_names)
     context = {
         "enquiry": enquiry,
         "presales_employees": presales_employees,
@@ -2042,6 +2079,7 @@ def admin_new_leads_details(request):
         "documentation_employees": documentation_employees,
         "visa_team": visa_team,
         "lead": lead,
+        # "enquiries_with_spouse_names": enquiries_with_spouse_names,
     }
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
@@ -3107,3 +3145,106 @@ def delete_news(request, id):
     news_id.delete()
     messages.success(request, "News deleted successfully..")
     return HttpResponseRedirect(reverse("News_list"))
+
+
+def switch_to_outsource_agent(request, agent_id):
+    try:
+        agent = Agent.objects.get(id=agent_id)
+        print("sssss", agent.gender)
+        custom_user = agent.users
+        # Update user_type to OutSourcing Agent
+        custom_user.user_type = (
+            "5"  # Update to the appropriate value for OutSourcing Agent
+        )
+
+        # Create an OutSourcingAgent instance with the same data as Agent
+        outsource_agent = OutSourcingAgent.objects.create(
+            users=custom_user,
+            type="Outsourcing Partner",
+            contact_no=agent.contact_no,
+            country=agent.country,
+            state=agent.state,
+            City=agent.City,
+            Address=agent.Address,
+            zipcode=agent.zipcode,
+            dob=agent.dob,
+            marital_status=agent.marital_status,
+            status=agent.status,
+            activeinactive=agent.activeinactive,
+            profile_pic=agent.profile_pic,
+            assign_employee=agent.assign_employee,
+            organization_name=agent.organization_name,
+            business_type=agent.business_type,
+            registration_number=agent.registration_number,
+            account_holder=agent.account_holder,
+            bank_name=agent.bank_name,
+            branch_name=agent.branch_name,
+            account_no=agent.account_no,
+            ifsc_code=agent.ifsc_code,
+            last_updated=agent.last_updated,
+            registeron=agent.registeron,
+            registerdby=custom_user,
+            # Copy other fields as needed
+        )
+        if agent.gender:
+            outsource_agent.gender = (agent.gender,)
+
+        custom_user.save()
+
+        agent_agreements = AgentAgreement.objects.filter(agent=agent)
+        for agreement in agent_agreements:
+            agreement.outsourceagent = OutSourcingAgent.objects.get(users=custom_user)
+            agreement.agent = None
+            agreement.save()
+
+        enquiries_assigned_to_agent = Enquiry.objects.filter(assign_to_agent=agent)
+        print("enquriddddd", enquiries_assigned_to_agent)
+        for enquiry in enquiries_assigned_to_agent:
+            enquiry.assign_to_outsourcingagent = custom_user.outsourcingagent
+            enquiry.assign_to_agent = None
+
+            enquiry.save()
+        try:
+            agent_kyc = AgentKyc.objects.get(agent=agent)
+
+            agent_kyc.outsourceagent = OutSourcingAgent.objects.get(users=custom_user)
+            agent_kyc.agent = None
+            agent_kyc.save()
+        except AgentKyc.DoesNotExist:
+            # Handle the case when no AgentKyc record is found
+            # You can create a new AgentKyc record or perform any other desired action
+            agent_kyc = AgentKyc.objects.create(
+                agent=agent,
+                outsourceagent=OutSourcingAgent.objects.get(users=custom_user),
+                # Set other fields as needed
+            )
+            # Optionally, you can log the error or display a message
+            print(f"AgentKyc not found for Agent ID {agent.id}. Created a new record.")
+
+            # Handle any additional logic or related models here
+
+            messages.success(request, "Agent switched to Outsource Agent successfully.")
+        agent.delete()
+    except Agent.DoesNotExist:
+        messages.error(request, "Agent not found.")
+
+    return redirect("agent_list")
+
+
+class ReportList(LoginRequiredMixin, ListView):
+    model = Report
+    template_name = "Admin/Report/report.html"
+    context_object_name = "report"
+
+    def get_queryset(self):
+        return Report.objects.order_by("-id")
+
+
+import pdfkit
+
+
+def email_template(request):
+    context = {"hello": "hello"}
+    # return render(request, "email_template.html")
+    return PDFTemplateResponse(request, "email_template.html", context)
+    # pdfkit.from_file("email_template.html", "file.pdf")

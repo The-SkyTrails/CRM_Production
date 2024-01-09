@@ -25,6 +25,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.views import View
 import pandas as pd
+from .Email.email_utils import send_congratulatory_email
 
 
 def employee_query_list(request):
@@ -848,8 +849,8 @@ def emp_add_agent(request):
 
                 recipient_list = [email]
 
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="5"
                 )
 
                 mobile_number = contact
@@ -857,7 +858,7 @@ def emp_add_agent(request):
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -919,10 +920,8 @@ def emp_add_agent(request):
                     f"Best regards,\nThe Sky Trails"
                 )
 
-                recipient_list = [email]
-
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="4"
                 )
 
                 mobile_number = contact
@@ -930,7 +929,7 @@ def emp_add_agent(request):
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -2817,7 +2816,10 @@ def add_employee(request):
 
             recipient_list = [email]
 
-            send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+            # send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+            send_congratulatory_email(
+                firstname, lastname, email, password, user_type="3"
+            )
             messages.success(
                 request,
                 "Employee Added Successfully , Congratulation Mail Send Successfully!!",
@@ -2827,7 +2829,7 @@ def add_employee(request):
             message = (
                 f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                 f" Hello {firstname} {lastname}, \n\n"
-                f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                f" Welcome to Sky Trails! Your Employee account is ready to roll. \n\n"
                 f" Account Details: \n\n"
                 f" Email: {email} \n\n"
                 f" Password: {password} \n\n"

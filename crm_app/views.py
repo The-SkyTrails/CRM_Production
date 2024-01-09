@@ -26,6 +26,7 @@ from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 from django.http import JsonResponse
 from django.core.cache import cache
 from django.template import loader
+from .Email.email_utils import send_congratulatory_email
 
 
 def get_public_ip():
@@ -50,6 +51,7 @@ def agent_signup(request):
         last_assigned_index = cache.get("last_assigned_index") or 0
         sales_team_employees = Employee.objects.filter(department="Sales")
         fullname = str(firstname + lastname)
+
         try:
             if existing_agent:
                 messages.warning(request, f'"{email}" already exists.')
@@ -92,7 +94,7 @@ def agent_signup(request):
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -122,13 +124,16 @@ def agent_signup(request):
 
                 # Change this to your email
                 recipient_list = [email]  # List of recipient email addresses
-
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type
                 )
+                # send_mail(
+                #     subject, message, from_email=None, recipient_list=recipient_list
+                # )
 
                 request.session["username"] = email
                 request.session["password"] = password
+                request.session["mobile"] = contact_no
 
             else:
                 user2 = CustomUser.objects.create_user(
@@ -164,7 +169,7 @@ def agent_signup(request):
                 message = (
                     f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
                     f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
                     f" Account Details: \n\n"
                     f" Email: {email} \n\n"
                     f" Password: {password} \n\n"
@@ -202,16 +207,20 @@ def agent_signup(request):
                 # Change this to your email
                 recipient_list = [email]  # List of recipient email addresses
 
-                send_mail(
-                    subject, message, from_email=None, recipient_list=recipient_list
+                # send_mail(
+                #     subject, message, from_email=None, recipient_list=recipient_list
+                # )
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type
                 )
 
                 request.session["username"] = email
                 request.session["password"] = password
+                request.session["contact_no"] = contact_no
 
             # Send OTP via SMS for both user types
-            random_number = random.randint(0, 999)
-            send_otp = str(random_number).zfill(4)
+            random_number = random.randint(0, 99999)
+            send_otp = str(random_number).zfill(6)
             request.session["sendotp"] = send_otp
 
             if user_type == "4":
@@ -240,7 +249,9 @@ def agent_signup(request):
 
 def verify_otp(request):
     mobile = request.session.get("mobile", "Default value if key does not exist")
+    print("mobileeeeee", mobile)
     last_three_digits = str(mobile)[-3:]
+    print("ggggggggggggggg", last_three_digits)
 
     if request.method == "POST":
         num1 = request.POST.get("num1")

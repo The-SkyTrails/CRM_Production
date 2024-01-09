@@ -55,4 +55,6 @@ urlpatterns = [
     path(
         "Success_StoryList/", SuccessStoryList.as_view(), name="Agent_SuccessStoryList"
     ),
+    path("create_report/", create_report, name="create_report"),
+    path("reportlist/", ReportList.as_view(), name="Agent_reportlist"),
 ]

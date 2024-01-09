@@ -189,7 +189,7 @@ function timeAgo(timestamp) {
     {% comment %} var groupName = JSON.parse(document.getElementById('group-name').value); {% endcomment %}
     {% comment %} console.log("ssssssssssss",roomName) {% endcomment %}
     var ws = new WebSocket(
-                'wss://'
+                'ws://'
                 + window.location.host
                 + '/ws/chat/'
                 + groupName
@@ -302,6 +302,7 @@ function timeAgo(timestamp) {
     document.getElementById('send-button').onclick = function (event) {
        const messageInputDom = document.getElementById('message-input');
        const message = messageInputDom.value;
+
        ws.send(JSON.stringify({
            'msg': message
        }));
@@ -318,6 +319,7 @@ function timeAgo(timestamp) {
                    'msg': message
                }));
                messageInputDom.value = '';
+               console.log("sssssssssss")
            }
        }
    });
@@ -355,3 +357,11 @@ function timeAgo(timestamp) {
 
 
 </script>
+
+<script>
+    $(function () {
+        $("#message-input").emojioneArea({
+            pickerPosition: "bottom"
+        });
+    });
+</script> 

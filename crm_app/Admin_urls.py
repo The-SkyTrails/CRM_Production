@@ -236,4 +236,12 @@ urlpatterns = [
     ),
     path("News_list/", add_news, name="News_list"),
     path("News_Delete/<int:id>/", delete_news, name="News_Delete"),
+    # -----------------------------------------
+    path(
+        "switch-to-outsource/<int:agent_id>/",
+        switch_to_outsource_agent,
+        name="switch_to_outsource",
+    ),
+    path("reportlist/", ReportList.as_view(), name="reportlist"),
+    path("email_template/", email_template, name="email_template"),
 ]

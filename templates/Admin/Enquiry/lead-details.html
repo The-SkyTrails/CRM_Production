@@ -148,6 +148,7 @@
                         <th>Appointment Status</th>
                         <th>NOTES</th>
                         <th>ACTION</th>
+                        {% comment %} <th>ddddd</th> {% endcomment %}
                         {% comment %} <th>Approval Status</th> {% endcomment %}
                     </tr>
                 </thead>
@@ -307,6 +308,13 @@
                                 </div>
                             </div>
                         </td>
+                        {% comment %} <td>
+                        {% for enquiry_instance, spouse_names in enquiries_with_spouse_names %}
+                        {% for spouse_name in spouse_names %}
+                            {{ spouse_name }}
+                        {% endfor %}
+                        {% endfor %}
+                        </td> {% endcomment %}
                         {% comment %} <td>
                             <div class="buttons-container">
                                 <div class="accept-button">

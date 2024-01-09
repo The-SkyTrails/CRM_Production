@@ -8,6 +8,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from .Email.email_utils import send_congratulatory_email
 
 
 def logout_user(request):
@@ -27,6 +30,7 @@ def add_admin(request):
         email = request.POST.get("email")
         contact = request.POST.get("contact")
         password = request.POST.get("password")
+        user_type = "2"
 
         try:
             if CustomUser.objects.filter(username=email).exists():
@@ -50,24 +54,46 @@ def add_admin(request):
             user.admin.contact_no = contact
             user.save()
             subject = "Congratulations! Your Account is Created"
-            message = (
-                f"Hello {firstname} {lastname},\n\n"
-                f"Welcome to SSDC \n\n"
-                f"Congratulations! Your account has been successfully created as an admin.\n\n"
-                f" Your id is {email} and your password is {password}.\n\n"
-                f" go to login : https://crm.theskytrails.com/ \n\n"
-                f"Thank you for joining us!\n\n"
-                f"Best regards,\nThe Sky Trails"
-            )  # Customize this message as needed
+            # message = (
+            #     f"Hello {firstname} {lastname},\n\n"
+            #     f"Welcome to SSDC \n\n"
+            #     f"Congratulations! Your account has been successfully created as an admin.\n\n"
+            #     f" Your id is {email} and your password is {password}.\n\n"
+            #     f" go to login : https://crm.theskytrails.com/ \n\n"
+            #     f"Thank you for joining us!\n\n"
+            #     f"Best regards,\nThe Sky Trails"
+            # )  # Customize this message as needed
+
+            html_message = render_to_string(
+                "email_template.html",
+                {
+                    "firstname": firstname,
+                    "lastname": lastname,
+                    "email": email,
+                    "password": password,
+                    "user_type": "2",
+                },
+            )
+            plain_message = strip_tags(html_message)
 
             mobile = contact
             message = (
-                f"Welcome to SSDC \n\n"
-                f"Congratulations! Your account has been successfully created as an Admin.\n\n"
-                f" Your id is {email} and your password is {password}.\n\n"
-                f" go to login : https://crm.theskytrails.com/ \n\n"
-                f"Thank you for joining us!\n\n"
-                f"Best regards,\nThe Sky Trails"
+                f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
+                f" Hello {firstname} {lastname}, \n\n"
+                f" Welcome to Sky Trails! Your admin account is ready to roll. \n\n"
+                f" Account Details: \n\n"
+                f" Email: {email} \n\n"
+                f" Password: {password} \n\n"
+                f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
+                f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
+                f" Stay connected on social media: \n\n"
+                f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
+                f" 🐦 https://twitter.com/TheSkytrails \n\n"
+                f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
+                f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
+                f" Got questions? Need assistance? We're here for you! \n\n"
+                f" Best, \n\n"
+                f" The Sky Trails Team \n\n"
             )
             response = send_whatsapp_message(mobile, message)
             if response.status_code == 200:
@@ -75,10 +101,7 @@ def add_admin(request):
             else:
                 pass
 
-            # Change this to your email
-            recipient_list = [email]  # List of recipient email addresses
-
-            send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+            send_congratulatory_email(firstname, lastname, email, password, user_type)
             messages.success(
                 request,
                 f"{email} Created Successfully and Congratulatory Email Sent!!!",

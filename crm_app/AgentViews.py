@@ -21,6 +21,7 @@ import requests
 from datetime import datetime
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.hashers import check_password
+from django.utils import timezone
 
 
 class agent_dashboard(TemplateView):
@@ -1037,3 +1038,29 @@ class SuccessStoryList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return SuccessStory.objects.all().order_by("-id")
+
+
+@login_required
+def create_report(request):
+    if request.method == "POST":
+        notes = request.POST.get("notes")
+
+        user = request.user
+
+        report = Report.objects.create(
+            user=user, notes=notes, created_at=timezone.now()
+        )
+
+        messages.success(request, "Complain Added Successfully & Sent To Admin.")
+        return redirect("agent_dashboard")
+
+    return render(request, "Agent/Dashboard/dashboard.html")
+
+
+class ReportList(LoginRequiredMixin, ListView):
+    model = Report
+    template_name = "Agent/Report/report.html"
+    context_object_name = "report"
+
+    def get_queryset(self):
+        return Report.objects.filter(user=self.request.user).order_by("-id")

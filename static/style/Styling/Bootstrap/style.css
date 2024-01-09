@@ -4072,7 +4072,6 @@ color: #4B5563;
   background: var(--white, #FFF);
   }
   
-  
   .searchbar{
     display: flex;
   width: 100%;
@@ -4097,13 +4096,7 @@ color: #4B5563;
   
   .searchbartypetext{
     display: flex;
-  padding: var(--2, 8px) var(--4, 16px);
-  align-items: flex-start;
-  gap: var(--0, 0px);
-  flex-shrink: 0;
-  border-radius: var(--rounded-lg, 8px) 0px 0px var(--rounded-lg, 8px);
-  border: 1px solid var(--gray-300, #D1D5DB);
-  background: var(--white, #FFF);
+
   }
   
   
@@ -4121,6 +4114,54 @@ color: #4B5563;
     display: flex;
     flex-direction: row;
   }
+
+
+  .searchbartypetext {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid lightgray;
+    border-right: none !important;
+    border-radius: 0px 10px 10px 0px ;
+  }
   .inputtypetext{
     width: 100%;
+    border: none !important;
   }
+
+
+  .emojionearea.emojionearea-inline {
+    height: 100% !important; 
+}
+
+
+.searchbartypetext .btn {
+  padding: 0 !important;
+}
+
+
+.emojionearea {
+  border: none !important;
+} 
+
+
+
+.emojionearea-inline>.emojionearea-editor {
+  height: 41px !important;
+  min-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  top: 0px;
+  left: 12px;
+  right: 24px;
+  padding: 6px 0;
+}
+
+
+.emojionearea .emojionearea-button>div {
+  display: block;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 5px !important;
+}
