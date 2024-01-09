@@ -1247,7 +1247,9 @@ def admin_agent_agreement_delete(request, id):
 @login_required
 def admin_agent_kyc(request, id):
     agent = Agent.objects.get(id=id)
-    kyc_agent = AgentKyc.objects.get(agent=agent)
+    kyc_agent = AgentKyc.objects.filter(agent=agent).last
+    print("ssssssssssssss", kyc_agent)
+
     kyc_id = None
 
     if request.method == "POST":
