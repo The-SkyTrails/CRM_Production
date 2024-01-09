@@ -1248,7 +1248,6 @@ def admin_agent_agreement_delete(request, id):
 def admin_agent_kyc(request, id):
     agent = Agent.objects.get(id=id)
     kyc_agent = AgentKyc.objects.filter(agent=agent).last
-    print("ssssssssssssss", kyc_agent)
 
     kyc_id = None
 
@@ -1417,7 +1416,7 @@ def admin_outsource_agent_agreement(request, id):
 @login_required
 def admin_outsource_agent_kyc(request, id):
     outsourceagent = OutSourcingAgent.objects.get(id=id)
-    outsourcekyc = AgentKyc.objects.get(outsourceagent=outsourceagent)
+    outsourcekyc = AgentKyc.objects.filter(outsourceagent=outsourceagent).last
 
     # context = {"outsourceagent": outsourceagent}
 
