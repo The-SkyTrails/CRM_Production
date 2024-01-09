@@ -51,6 +51,7 @@ def agent_signup(request):
         last_assigned_index = cache.get("last_assigned_index") or 0
         sales_team_employees = Employee.objects.filter(department="Sales")
         fullname = str(firstname + lastname)
+        request.session["mobile"] = contact_no
 
         try:
             if existing_agent:
@@ -133,7 +134,6 @@ def agent_signup(request):
 
                 request.session["username"] = email
                 request.session["password"] = password
-                request.session["mobile"] = contact_no
 
             else:
                 user2 = CustomUser.objects.create_user(
