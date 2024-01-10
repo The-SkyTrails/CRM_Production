@@ -189,7 +189,7 @@ function timeAgo(timestamp) {
     {% comment %} var groupName = JSON.parse(document.getElementById('group-name').value); {% endcomment %}
     {% comment %} console.log("ssssssssssss",roomName) {% endcomment %}
     var ws = new WebSocket(
-                'ws://'
+                'wss://'
                 + window.location.host
                 + '/ws/chat/'
                 + groupName
@@ -357,11 +357,11 @@ function timeAgo(timestamp) {
 
 
 </script>
-
+{% comment %} 
 <script>
     $(function () {
         $("#message-input").emojioneArea({
             pickerPosition: "bottom"
         });
     });
-</script> 
+</script>  {% endcomment %}
