@@ -139,7 +139,20 @@ class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = EmployeeResource
     list_display = "users", "contact_no", "department"
 
-    list_filter = ["users"]
+    # list_filter = ["users"]
+    search_fields = ["users__username", "users__first_name", "users__last_name"]
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super().get_search_results(
+            request, queryset, search_term
+        )
+
+        # Filter the queryset to include only employees
+        queryset = queryset.filter(
+            users__user_type="3"
+        )  # Assuming 'user_type' for employees is "3"
+
+        return queryset, use_distinct
 
 
 class EnquiryAppointmentAdmin(admin.ModelAdmin):
