@@ -139,7 +139,7 @@ class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = EmployeeResource
     list_display = "users", "contact_no", "department"
 
-    list_filter = ("users__user_type",)
+    list_filter = ["users"]
 
 
 class EnquiryAppointmentAdmin(admin.ModelAdmin):
