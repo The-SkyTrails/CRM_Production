@@ -1,4 +1,4 @@
-{% extends "Admin/Base/base.html" %}
+{% extends "Employee/Base/base.html" %}
 {% load static %}
 {% block main-content %}
 <div class="form-container">
@@ -12,7 +12,7 @@
           
       </div>
       <div class="text-container">
-        <a href="{% url "admin_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
+        <a href="{% url "employee_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
       </div>
       <div class="icon-container">
         <div class="icon">
@@ -21,7 +21,7 @@
               </svg>
         </div>
       </div>
-      <a href="{% url "admin_new_leads_details" %}">
+      <a href="{% url "employee_lead_list" %}">
       <div class="text-container">
         <div class="text">Lead</div>
       </div>
@@ -114,8 +114,10 @@
           </div>
       </div>
       <div class="inputformss-container">
+
         <form action="" method="POST">
           {% csrf_token %}
+          <div id="spouse1">
           <div class="row formrow">
               <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
@@ -141,12 +143,191 @@
                   <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
                   <input type="date" class="form-control" name="spouse_dob">
               </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation">
+            </div>
               
           </div>
+          <hr>
+        </div>
+        <div id="spouse2" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  <input type="text" class="form-control" name="spouse_name1" placeholder="Spouse Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="spouse_contact1" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="spouse_email1" placeholder="Spouse Email">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  <input type="text" class="form-control" name="spouse_passport1" placeholder="Spouse Passport">
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" name="spouse_dob1">
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation1" placeholder="Relation with Applicant">
+            </div>
+              
+          </div>
+          <hr>
+        </div>
+
+        <div id="spouse3" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  <input type="text" class="form-control" name="spouse_name2" placeholder="Spouse Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="spouse_contact2" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="spouse_email2" placeholder="Spouse Email">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  <input type="text" class="form-control" name="spouse_passport2" placeholder="Spouse Passport">
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" name="spouse_dob2">
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation2" placeholder="Relation with Applicant">
+            </div>
+              
+          </div>
+          <hr>
+        </div>
+
+        <div id="spouse4" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  <input type="text" class="form-control" name="spouse_name3" placeholder="Spouse Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="spouse_contact3" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="spouse_email3" placeholder="Spouse Email">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  <input type="text" class="form-control" name="spouse_passport3" placeholder="Spouse Passport">
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" name="spouse_dob3">
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation3" placeholder="Relation with Applicant">
+            </div>
+              
+          </div>
+          <hr>
+        </div>
           
-      
+        <div id="spouse5" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  <input type="text" class="form-control" name="spouse_name4" placeholder="Spouse Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="spouse_contact4" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="spouse_email4" placeholder="Spouse Email">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  <input type="text" class="form-control" name="spouse_passport4" placeholder="Spouse Passport">
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" name="spouse_dob4">
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation4" placeholder="Relation with Applicant">
+            </div>
+              
+          </div>
+          <hr>
+        </div>
+
+        <div id="spouse6" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  <input type="text" class="form-control" name="spouse_name5" placeholder="Spouse Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="spouse_contact5" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="spouse_email5" placeholder="Spouse Email">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  <input type="text" class="form-control" name="spouse_passport5" placeholder="Spouse Passport">
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" name="spouse_dob5">
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                <input type="text" class="form-control" name="spouse_relation5" placeholder="Relation with Applicant">
+            </div>
+              
+          </div>
+          <hr>
+        </div>
+        <button type="button" class="btn btn-color" id="addMoreButton" onclick="addMoreForm()">Add More</button>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-             <a href="{% url "packageenquiry_form3" %}"> <button class="btn btn-skip" type="button"><b>Skip</b></a>
+             <a href="{% url "emp_packageenquiry_form3" %}"> <button class="btn btn-skip" type="button"><b>Skip</b></a>
                   
               </button>
               <button class="btn btn-color" type="submit">Save & Proceed
@@ -156,9 +337,32 @@
               </button>
           </div>
 
-          </form>
+          </form>  
+
+       
 
       </div>
   </div>
 </div>
+
+<script>
+  var formCount = 1;
+  var maxForms = 6;
+
+  function addMoreForm() {
+      if (formCount < maxForms) {
+          formCount++;
+          var currentForm = document.getElementById('spouse' + formCount);
+          
+          if (currentForm) {
+              currentForm.style.display = 'block';
+          }
+
+          // Disable add more button after reaching the maximum limit
+          if (formCount === maxForms) {
+              document.getElementById('addMoreButton').disabled = true;
+          }
+      }
+  }
+</script>
 {% endblock main-content %}

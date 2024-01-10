@@ -1,4 +1,4 @@
-{% extends "Admin/Base/base.html" %}
+{% extends "Employee/Base/base.html" %}
 {% load static %}
 {% block main-content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
@@ -21,7 +21,7 @@
           
       </div>
       <div class="text-container">
-        <a href="{% url "admin_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
+        <a href="{% url "employee_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
       </div>
       <div class="icon-container">
         <div class="icon">
@@ -30,7 +30,7 @@
               </svg>
         </div>
       </div>
-      <a href="{% url "admin_new_leads_details" %}">
+      <a href="{% url "employee_lead_list" %}">
         <div class="text-container">
         <div class="text">Lead</div>
       </div>

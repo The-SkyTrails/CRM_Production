@@ -29,6 +29,7 @@ urlpatterns = [
     path("Enrollled/Grid/", employee_enrolled_grid, name="employee_enrolled_grid"),
     # ------------------------------ Add lead staging --------------------------
     path("PreEnrolled/Save/<int:id>/", preenrolled_save, name="preenrolled_save"),
+    path("Active/Save/<int:id>/", active_save, name="active_save"),
     path("Enrolled/Save/<int:id>/", enrolled_save, name="enrolled_save"),
     path("Enprocess/Save/<int:id>/", enprocess_save, name="enprocess_save"),
     path(

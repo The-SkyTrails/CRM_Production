@@ -104,14 +104,20 @@ class OutsourceAdmin(admin.ModelAdmin):
 class EnquiryAdmin(admin.ModelAdmin):
     list_display = [
         "id",
+        "Visa_country",
         "enquiry_number",
         "assign_to_employee",
+        "assign_to_assesment_employee",
         "assign_to_sales_employee",
         "assign_to_documentation_employee",
         "assign_to_agent",
         "assign_to_visa_team_employee",
         "lead_status",
     ]
+    list_filter = [
+        "Visa_country",
+    ]
+    # search_fields = ["Visa_country"]
 
 
 class CustomUserResource(resources.ModelResource):

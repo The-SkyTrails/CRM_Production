@@ -166,9 +166,11 @@
                           <p class="card-text">No. Of Visa :<Span  class="txt">{{i.number_of_visa}}</Span></p>
                           <p class="card-text">Expiry Date: <Span  class="txt">{{i.package_expiry_date}}</Span></p>
                         </div>
-                       <a href="{% url "agent_enquiry_form1" %}">
+                       {% comment %} <a href="{% url "agent_PackageApplyView" i.id %}"> {% endcomment %}
+                        <form action="{% url "agent_PackageApplyView" i.id %}" method="POST">
+                        {% csrf_token %}
                         <div class="Button">
-                          <div class="Text">Apply Now</div>
+                           <div class="Text"><button class="btn border-0 Text">Apply Now</button></div>
                           <div class="ArrowRight">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +186,8 @@
                             </svg>
                           </div>
                         </div>
-                      </a>
+                      {% comment %} </a> {% endcomment %}
+                      </form>
                   </div>
                 {% endfor %}
                   

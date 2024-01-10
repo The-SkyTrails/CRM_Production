@@ -178,8 +178,9 @@
                   fill="#233876" />
               </svg>
             </div>
-
-            <div class="tab-label">Personal Info</div>
+            <a href="{% url "edit_enrolled_application" enq.id %}">
+              <div class="tab-label">Personal Info</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -196,8 +197,9 @@
                   fill="#1E429F" />
               </svg>
             </div>
-
-            <div class="tab-label">Other Details</div>
+            <a href="{% url "education_summary" enq.id %}">
+              <div class="tab-label">Other Details</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -214,8 +216,9 @@
                   fill="#1E429F" />
               </svg>
             </div>
-
-            <div class="tab-label">Product Selection</div>
+            <a href="{% url "edit_product_details" enq.id %}">
+              <div class="tab-label">Product Selection</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -232,8 +235,9 @@
                   fill="#1E429F" />
               </svg>
             </div>
-
-            <div class="tab-label">Documents</div>
+            <a href="{% url "enrolled_document" enq.id %}">
+              <div class="tab-label">Documents</div>
+            </a>
           </div>
         </div>
       </div>

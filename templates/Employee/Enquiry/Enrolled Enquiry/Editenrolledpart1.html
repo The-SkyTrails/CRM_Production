@@ -278,40 +278,254 @@
             </h2>
             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                <div class="accordion-body">
-                  <div class="inputforms-agentcontainer">
-                     <div class="row formrow">
-                        <div class="col-md-6 ">
-                           <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
-                           <input type="text" name="spouse_name" id="spouse_name"
-                              class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name}}">
-                        </div>
-                        <div class="col-md-6 ">
-                           <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
-                           <input type="text" name="spouse_no" id="spouse_no"
-                              class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no}}">
-                        </div>
-                     </div>
-                     <div class="row formrow">
-                        <div class="col-md-6 ">
-                           <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
-                           <input type="text" name="spouse_email" id="spouse_email"
-                              class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email}}">
-                        </div>
-                        <div class="col-md-6 ">
-                           <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
-                           <input type="text" name="spouse_passport" id="spouse_passport"
-                              class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport}}">
-                        </div>
-                     </div>
-                     <div class="row formrow">
-                        <div class="col-md-6 ">
-                           <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
-                           <input type="date" name="spouse_dob" id="spouse_dob"
-                              class="form-control border-left-0" value="{{enquiry.spouse_dob|date:'Y-m-d'}}">
-                        </div>
-                     </div>
+                  <div class="inputforms-agentcontainer" id="spouse1">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name" id="spouse_name"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no" id="spouse_no"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email" id="spouse_email"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport" id="spouse_passport"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob" id="spouse_dob"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation" id="spouse_relation"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation}}">
+                      </div>
+                      
+                    </div>
+                    
+                    <hr>
                   </div>
-               </div>
+                  <div class="inputforms-agentcontainer" id="spouse2" style="display: none;">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name1" id="spouse_name1"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name1}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no1" id="spouse_no1"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no1}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email1" id="spouse_email1"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email1}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport1" id="spouse_passport1"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport1}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob1" id="spouse_dob1"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob1|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation1" id="spouse_relation1"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation1}}">
+                      </div>
+                      
+                    </div>
+                    
+                    <hr>
+                  </div>
+                  <div class="inputforms-agentcontainer" id="spouse3" style="display: none;">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name2" id="spouse_name2"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name2}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no2" id="spouse_no2"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no2}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email2" id="spouse_email2"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email2}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport2" id="spouse_passport2"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport2}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob2" id="spouse_dob2"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob2|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation2" id="spouse_relation2"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation2}}">
+                      </div>
+                      
+                    </div>
+                    
+                    <hr>
+                  </div>
+                  <div class="inputforms-agentcontainer" id="spouse4" style="display: none;">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name3" id="spouse_name3"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name3}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no3" id="spouse_no3"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no3}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email3" id="spouse_email3"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email3}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport3" id="spouse_passport3"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport3}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob3" id="spouse_dob3"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob3|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation3" id="spouse_relation3"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation3}}">
+                      </div>
+                      
+                    </div>
+                    
+                      <hr>
+                  </div>
+                  <div class="inputforms-agentcontainer" id="spouse5" style="display: none;">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name4" id="spouse_name4"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name4}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no4" id="spouse_no4"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no4}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email4" id="spouse_email4"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email4}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport4" id="spouse_passport4"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport4}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob4" id="spouse_dob4"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob4|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation4" id="spouse_relation4"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation4}}">
+                      </div>
+                      
+                    </div>
+                    
+                      <hr>
+                  </div>
+                  <div class="inputforms-agentcontainer" id="spouse6" style="display: none;">
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                        <input type="text" name="spouse_name5" id="spouse_name5"
+                                                                    class="form-control border-left-0" placeholder="Spouse Name" value="{{enquiry.spouse_name5}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Phone Number</label>
+                        <input type="text" name="spouse_no5" id="spouse_no5"
+                                                                    class="form-control border-left-0" placeholder="Spouse Phone Number"  value="{{enquiry.spouse_no5}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Email</label>
+                        <input type="text" name="spouse_email5" id="spouse_email5"
+                                                                    class="form-control border-left-0" placeholder="Spouse Email"  value="{{enquiry.spouse_email5}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Spouse Passport Number</label>
+                        <input type="text" name="spouse_passport5" id="spouse_passport5"
+                                                                    class="form-control border-left-0" placeholder="Spouse Passport No" value="{{enquiry.spouse_passport5}}">
+                      </div>
+                    </div>
+                    <div class="row formrow">
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                        <input type="date" name="spouse_dob5" id="spouse_dob5"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_dob5|date:'Y-m-d'}}">
+                      </div>
+                      <div class="col-md-6 ">
+                        <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                        <input type="text" name="spouse_relation5" id="spouse_relation5"
+                                                                    class="form-control border-left-0" value="{{enquiry.spouse_relation5}}">
+                      </div>
+                      
+                    </div>
+                    
+                    <hr>
+                  </div>
+                  <button type="button" class="btn btn-color" id="addMoreButton" onclick="addMoreForm()">View More</button>
+                </div>
             </div>
          </div>
          <div class="accordion-item">
@@ -2406,6 +2620,26 @@
        }
    });
 </script>
+<script>
+   var formCount = 1;
+   var maxForms = 6;
+ 
+   function addMoreForm() {
+       if (formCount < maxForms) {
+           formCount++;
+           var currentForm = document.getElementById('spouse' + formCount);
+           
+           if (currentForm) {
+               currentForm.style.display = 'block';
+           }
+ 
+           // Disable add more button after reaching the maximum limit
+           if (formCount === maxForms) {
+               document.getElementById('addMoreButton').disabled = true;
+           }
+       }
+   }
+ </script>
 
    {% include "Employee/Enquiry/Enrolled Enquiry/followup_modal.html" %}
 

@@ -138,8 +138,9 @@
                   fill="#233876" />
               </svg>
             </div>
-
-            <div class="tab-label">Personal Info</div>
+            <a href="{% url "agent_edit_enrolled_application" enquiry.id %}">
+              <div class="tab-label">Personal Info</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -157,7 +158,9 @@
               </svg>
             </div>
 
-            <div class="tab-label">Other Details</div>
+            <a href="{% url "agent_education_summary" enquiry.id %}">
+              <div class="tab-label">Other Details</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -175,7 +178,9 @@
               </svg>
             </div>
 
-            <div class="tab-label">Product Selection</div>
+            <a href="{% url "agent_edit_product_details" enquiry.id %}">
+              <div class="tab-label">Product Selection</div>
+            </a>
           </div>
         </div>
         <div class="tab-separator"></div>
@@ -193,7 +198,9 @@
               </svg>
             </div>
 
-            <div class="tab-label">Documents</div>
+            <a href="{% url "agent_enrolled_document" enquiry.id %}">
+              <div class="tab-label">Documents</div>
+            </a>
           </div>
         </div>
       </div>

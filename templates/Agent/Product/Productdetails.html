@@ -81,11 +81,12 @@
           <div class="col-md-2">
             <div class="card-body">
               {% comment %} <a href="{% url "agent_enquiry_form1" %}"> {% endcomment %}
-                <form action="{% url "agent_enquiry_form1" %}" method="GET">
-                <input type="text" value="{{package.id}}" hidden>
+                <form action="{% url "agent_PackageApplyView" package.id %}" method="POST">
+                {% csrf_token %}
+                
                 <div class="Button">
-                  {% comment %} <div class="Text">Apply Now</div> {% endcomment %}
-                  <input type="submit" value="Apply Now">
+                  <div class="Text"><button class="btn border-0 Text">Apply Now</button></div>
+                  
                   <div class="ArrowRight">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                       <path

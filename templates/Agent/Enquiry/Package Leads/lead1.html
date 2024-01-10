@@ -1,7 +1,15 @@
-{% extends "Admin/Base/base.html" %}
+{% extends "Agent/Base/base.html" %}
 {% load static %}
 {% block main-content %}
- 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+    <!-- Include jQuery (Select2 requires it) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Select2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
 <div class="form-container">
   <div class="custom-container">
       <div class="icon-container">
@@ -13,7 +21,7 @@
           
       </div>
       <div class="text-container">
-        <a href="{% url "admin_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
+        <a href="{% url "agent_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
       </div>
       <div class="icon-container">
         <div class="icon">
@@ -22,8 +30,8 @@
               </svg>
         </div>
       </div>
-      <a href="{% url "admin_new_leads_details" %}">
-      <div class="text-container">
+      <a href="{% url "agent_new_leads_details" %}">
+        <div class="text-container">
         <div class="text">Lead</div>
       </div>
       </a>
@@ -66,10 +74,10 @@
               </div>
                 <div class="info-section">
                   <div class="icons-container">
-                    <div class="check-icons">
+                    <div class="icons">
                       <div class="inner-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                              <path d="M8.10361 15C7.88601 15.0009 7.6767 14.9089 7.52046 14.7437L3.58497 10.5775C3.50653 10.4939 3.44394 10.3943 3.40078 10.2844C3.35761 10.1745 3.33472 10.0563 3.3334 9.93674C3.33075 9.69522 3.41614 9.46244 3.57081 9.28961C3.72547 9.11678 3.93673 9.01806 4.15811 9.01516C4.3795 9.01226 4.59287 9.10543 4.75129 9.27416L8.10695 12.8251L15.2481 5.25881C15.4068 5.09007 15.6204 4.99701 15.8419 5.00007C16.0634 5.00314 16.2748 5.1021 16.4294 5.27517C16.5841 5.44824 16.6694 5.68125 16.6666 5.92294C16.6638 6.16463 16.5731 6.3952 16.4145 6.56393L8.68677 14.7437C8.53053 14.9089 8.32122 15.0009 8.10361 15Z" fill="#03543F"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8.1036 15C7.88599 15.0009 7.67668 14.9089 7.52044 14.7437L3.58495 10.5775C3.50651 10.4939 3.44392 10.3943 3.40076 10.2844C3.3576 10.1745 3.3347 10.0563 3.33339 9.93674C3.33073 9.69522 3.41613 9.46244 3.57079 9.28961C3.72546 9.11678 3.93672 9.01806 4.1581 9.01516C4.37948 9.01226 4.59285 9.10543 4.75127 9.27416L8.10693 12.8251L15.2481 5.25881C15.4068 5.09007 15.6203 4.99701 15.8419 5.00007C16.0634 5.00314 16.2748 5.1021 16.4294 5.27517C16.5841 5.44824 16.6694 5.68125 16.6666 5.92294C16.6638 6.16463 16.5731 6.3952 16.4144 6.56393L8.68676 14.7437C8.53051 14.9089 8.32121 15.0009 8.1036 15Z" fill="#111928"/>
                             </svg>
                       </div>
                     </div>
@@ -83,10 +91,10 @@
                 </div>
                 <div class="info-section">
                   <div class="icons-container">
-                    <div class="check-icons">
+                    <div class="icons">
                       <div class="inner-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                              <path d="M8.10361 15C7.88601 15.0009 7.6767 14.9089 7.52046 14.7437L3.58497 10.5775C3.50653 10.4939 3.44394 10.3943 3.40078 10.2844C3.35761 10.1745 3.33472 10.0563 3.3334 9.93674C3.33075 9.69522 3.41614 9.46244 3.57081 9.28961C3.72547 9.11678 3.93673 9.01806 4.15811 9.01516C4.3795 9.01226 4.59287 9.10543 4.75129 9.27416L8.10695 12.8251L15.2481 5.25881C15.4068 5.09007 15.6204 4.99701 15.8419 5.00007C16.0634 5.00314 16.2748 5.1021 16.4294 5.27517C16.5841 5.44824 16.6694 5.68125 16.6666 5.92294C16.6638 6.16463 16.5731 6.3952 16.4145 6.56393L8.68677 14.7437C8.53053 14.9089 8.32122 15.0009 8.10361 15Z" fill="#03543F"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8.1036 15C7.88599 15.0009 7.67668 14.9089 7.52044 14.7437L3.58495 10.5775C3.50651 10.4939 3.44392 10.3943 3.40076 10.2844C3.3576 10.1745 3.3347 10.0563 3.33339 9.93674C3.33073 9.69522 3.41613 9.46244 3.57079 9.28961C3.72546 9.11678 3.93672 9.01806 4.1581 9.01516C4.37948 9.01226 4.59285 9.10543 4.75127 9.27416L8.10693 12.8251L15.2481 5.25881C15.4068 5.09007 15.6203 4.99701 15.8419 5.00007C16.0634 5.00314 16.2748 5.1021 16.4294 5.27517C16.5841 5.44824 16.6694 5.68125 16.6666 5.92294C16.6638 6.16463 16.5731 6.3952 16.4144 6.56393L8.68676 14.7437C8.53051 14.9089 8.32121 15.0009 8.1036 15Z" fill="#111928"/>
                             </svg>
                       </div>
                     </div>
@@ -114,51 +122,65 @@
                 </div>
           </div>
       </div>
+      
       <div class="inputformss-container">
         <form action="" method="POST">
           {% csrf_token %}
           <div class="row formrow">
               <div class="col-md-6 ">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Visa Country</label>
+                  <label for="exampleFormControlInput1" class="custom-form-label">First Name</label>
+                  <input type="text" class="form-control" name="first_name" placeholder="First Name">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Last Name</label>
+                  <input type="text" class="form-control" name="last_name" placeholder="Last Name">
                   
-                  <input class="form-control" type="text" value="{{package.visa_country}}" name="visa_country" readonly>
-              </div>
-              <div class="col-md-6 ">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Visa Category-SubCategory</label>
-                  <input class="form-control" type="text" value="{{package.visa_category}}" name="visa_category" readonly>
               </div>  
           </div>
           <div class="row formrow">
               <div class="col-md-6 ">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Visa Type</label>
-                  <select name="visa_type" id="" class="form-select">
-                    {% for i in visa_type %}
-                    <option value="{{i.0}}">{{i.1}}</option>
-                    {% endfor %}
-                  </select>
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  <input type="email" class="form-control" name="email" placeholder="Email">
               </div>
               <div class="col-md-6 ">
-                <label for="exampleFormControlInput1" class="custom-form-label">Package</label>
-                <input type="text" value={{package.title}} name="package_title" class="form-control" readonly>
-            </div>
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="contact" placeholder="Contact Number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+
+
+              </div>  
           </div>
           <div class="row formrow">
-              
               <div class="col-md-6 ">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Source(Optional)</label>
-                  {% comment %} <input type="text" class="form-control" name="source" placeholder="Source"> {% endcomment %}
-                   <select name="source" id="" class="form-select">
-                    {% for i in source %}
-                    <option value="{{i.0}}">{{i.1}}</option>
-                    {% endfor %}
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date of Birth</label>
+                  <input type="date" class="form-control" name="dob">
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Gender</label>
+                  <select name="gender" id="" class="form-select">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                   </select>
               </div>  
-              <div class="col-md-6 ">
-                  <label for="exampleFormControlInput1" class="custom-form-label">Reference(Optional)</label>
-                  <input type="text" class="form-control" name="reference" placeholder="Reference">
-              </div>
           </div>
-          
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Current Resident</label>
+                                
+                  <select name="country"  class="form-select">
+                      
+                      <option value="">Select a country</option>
+                      {% for i in country_choices %}
+                      <option value="{{i.0}}">{{i.1}}</option>
+                      
+                      {% endfor %}
+                  </select>
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport Number</label>
+                  <input type="text" class="form-control" name="passport_no" placeholder="Passport No">
+              </div>  
+          </div>
       
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button class="btn btn-color" type="submit">Save & Proceed
@@ -167,10 +189,32 @@
                       </svg>
               </button>
             </div>
-
-      </form>
+</form>
       </div>
+      
   </div>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch the list of countries from the API
+    fetch('https://restcountries.com/v3.1/all')
+        .then(response => response.json())
+        .then(data => {
+            // Get the select element
+            const countrySelect = document.getElementById('countrySelect');
+
+            // Iterate through the countries and create an option for each
+            data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common; // You can use a different property depending on your preference
+                option.textContent = country.name.common;
+                countrySelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching country list:', error));
+});
+</script>
 
 {% endblock main-content %}

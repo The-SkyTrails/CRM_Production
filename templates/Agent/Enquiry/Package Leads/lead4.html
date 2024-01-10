@@ -1,4 +1,4 @@
-{% extends "Employee/Base/base.html" %}
+{% extends "Admin/Base/base.html" %}
 {% load static %}
 {% load custom_filters %}
 {% block main-content %}
@@ -15,7 +15,7 @@
 
     </div>
     <div class="text-container">
-      <a href="{% url "employee_dashboard" %}" style="text-decoration: none;">
+      <a href="{% url "admin_dashboard" %}" style="text-decoration: none;">
         <div class="text">Dashboard</div>
       </a>
     </div>
@@ -28,7 +28,7 @@
         </svg>
       </div>
     </div>
-    <a href="{% url "employee_lead_list" %}">
+    <a href="{% url "admin_new_leads_details" %}">
     <div class="text-container">
       <div class="text">Lead</div>
     </div>
@@ -51,7 +51,7 @@
       <div class="custom-text">Add Lead</div>
     </div>
   </div>
-  {% include "Employee/Base/messages.html" %}
+  {% include "Admin/Base/messages.html" %}
 
   <div class="main-container">
     <div class="forms-container">
@@ -213,11 +213,11 @@
                       <button class="btn-upload" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ document.id }}" type="submit">
                         Upload
                       </button>
-                      {% include "Employee/Enquiry/DocumentUpload/upload_document.html" %}
+                      {% include "Admin/Enquiry/DocumentUpload/upload_document.html" %}
                       {% for testing in doc_file %}
                                 {% if document.id == testing.document_id_id %}
                                 <input type="text" value={{testing.id}} name="doc_file_id" hidden>
-                      <a href="{% url "emp_delete_docfile" testing.id %}">
+                      <a href="{% url "docfile" testing.id %}">
                       <button class="btn-delete" type="submit">
                         Delete
                       </button>
@@ -244,7 +244,7 @@
       {% endfor %}
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a href="{% url "employee_lead_list" %}"><button class="btn btn-color" type="submit">Go To Enquiry List
+        <a href="{% url "admin_new_leads_details" %}"><button class="btn btn-color" type="submit">Go To Enquiry List
 
         </button></a>
       </div>

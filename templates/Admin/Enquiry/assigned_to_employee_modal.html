@@ -9,8 +9,8 @@
                 </div>
                 <hr>
                 <div class="modal-body">
-                    
-                    {% if i.lead_status == "Active" %}
+
+                    {% if i.lead_status == "New Lead" %}
                 <label class="custom-form-label" for="">Assigned To Presales Employee</label>
                 <select class="form-select" name="assign_to_employee" id="assign_to_employee">
                     <option value="0">Select</option>
@@ -18,6 +18,18 @@
                     {% for employee in presales_employees %}
                     
                         <option value="{{ employee.id }}" {% if enquiry.assign_to_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                    
+                    {% if i.lead_status == "Active" %}
+                <label class="custom-form-label" for="">Assigned To Assesment Employee</label>
+                <select class="form-select" name="assign_to_assesment_employee" id="assign_to_assesment_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in assesment_employee %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_assesment_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
                     {% endfor %}
                 </select>
                 {% endif %}

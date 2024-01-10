@@ -1,4 +1,4 @@
-{% extends "Admin/Base/base.html" %}
+{% extends "Employee/Base/base.html" %}
 {% load static %}
 {% block main-content %}
  
@@ -13,7 +13,7 @@
           
       </div>
       <div class="text-container">
-        <a href="{% url "admin_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
+        <a href="{% url "employee_dashboard" %}" style="text-decoration: none;"><div class="text">Dashboard</div></a>
       </div>
       <div class="icon-container">
         <div class="icon">
@@ -22,7 +22,7 @@
               </svg>
         </div>
       </div>
-      <a href="{% url "admin_new_leads_details" %}">
+      <a href="{% url "employee_lead_list" %}">
       <div class="text-container">
         <div class="text">Lead</div>
       </div>
@@ -146,7 +146,12 @@
               
               <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Source(Optional)</label>
-                  <input type="text" class="form-control" name="source" placeholder="Source">
+                  {% comment %} <input type="text" class="form-control" name="source" placeholder="Source"> {% endcomment %}
+                  <select name="source" id="" class="form-select">
+                    {% for i in source %}
+                    <option value="{{i.0}}">{{i.1}}</option>
+                    {% endfor %}
+                  </select>
               </div>  
               <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Reference(Optional)</label>

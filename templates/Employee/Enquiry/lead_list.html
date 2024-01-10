@@ -185,7 +185,7 @@
                             {% else %}
                             
                             {% endif %}
-                            <br>
+                            
                             {% if i.assign_to_sales_employee %}
                             <b>{{i.assign_to_sales_employee.users.first_name }} {{i.assign_to_sales_employee.users.last_name}}</b>
                             ({{i.assign_to_sales_employee.department}})
@@ -193,7 +193,7 @@
                             {% else %}
                             
                             {% endif %}
-                            <br>
+                            
                             {% if i.assign_to_documentation_employee %}
                             <b>{{i.assign_to_documentation_employee.users.first_name }} {{i.assign_to_documentation_employee.users.last_name}}</b>
                             ({{i.assign_to_documentation_employee.department}})
@@ -201,7 +201,7 @@
                             {% else %}
                             
                             {% endif %}
-                            <br>
+                           
                             {% if i.assign_to_visa_team_employee %}
                             <b>{{i.assign_to_visa_team_employee.users.first_name }} {{i.assign_to_visa_team_employee.users.last_name}}</b>
                             ({{i.assign_to_visa_team_employee.department}})
@@ -210,6 +210,15 @@
                             
                             {% endif %}
                             
+                            {% comment %} ---------------- {% endcomment %}
+                           
+                            {% if i.assign_to_assesment_employee %}
+                            <b>{{i.assign_to_assesment_employee.users.first_name }} {{i.assign_to_assesment_employee.users.last_name}}</b>
+                            ({{i.assign_to_assesment_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
 
                         </td>
                         <td>
@@ -331,13 +340,15 @@
                         <td>
                          {% if i.enqappointment_set.exists %}
                          <span class="badge rounded-pill text-bg-success">{{ i.enqappointment_set.last.status }}</span>
+                         {% else %}
+                         No Appointment
                          {% endif %}
                         </td>
 
                         <td>
                             <div class="buttons-container">
                             
-                                {% if dep == "Presales/Assesment" %}
+                                {% if dep == "Presales" %}
                                     {% if i.lead_status == "PreEnrolled" %}
                                         <Button class="btn btn-success" disabled>Accept</Button>
                                  
@@ -346,6 +357,10 @@
                                     
                                  
                                     {% elif i.lead_status == "Enrolled" %}
+                                        <Button class="btn btn-success" disabled>Accept</Button>
+                                    
+                                 
+                                    {% elif i.lead_status == "Active" %}
                                         <Button class="btn btn-success" disabled>Accept</Button>
                                     
                                  
@@ -374,10 +389,25 @@
                                     
                                     {% else %}
 
-                                        <a href="{% url "preenrolled_save" i.id %}"><button class="btn btn-success btn-sm" style="width:98px;">Accept</button></a>
+                                        <a href="{% url "active_save" i.id %}"><button class="btn btn-success btn-sm" style="width:98px;">Accept</button></a>
                                         <a href="{% url "reject_save" i.id %}"><button class="btn btn-danger btn-sm" style="width:98px; margin-top:2px">Reject</button></a>
                                     {% endif %}
                                     
+                                {% endif %}
+
+                                {% if dep == "Assesment" %}
+                                {% if i.lead_status == "Active" %}
+                                <a href="{% url "preenrolled_save" i.id %}"><button class="btn btn-success btn-sm" style="width:98px;">Accept</button></a>
+                                <a href="{% url "reject_save" i.id %}"><button class="btn btn-danger btn-sm" style="width:98px; margin-top:2px">Reject</button></a>
+                                 {% elif i.lead_status == "New Lead"  %}
+                                 <button class="btn btn-success btn-sm" style="width:98px;" disabled>Waiting for Presale Accept</button>
+                                 {% elif i.lead_status == "Reject"  %}
+                                 <button class="btn btn-danger btn-sm" style="width:98px;" disabled>Reject</button>
+                                {% else %}
+                                <button class="btn btn-success btn-sm" style="width:98px;" disabled>Accept</button>
+                                
+                                {% endif %}
+                                
                                 {% endif %}
 
 
@@ -477,7 +507,7 @@
                             {% endif %}
 
                             
-                            {% if dep == "Presales/Assesment" %}
+                            {% if dep == "Presales" %}
                             {% if i.lead_status == "Reject" %}
                             <a href="{% url "preenrolled_save" i.id %}"><Button class="btn btn-warning">Resend</Button></a>
                             {% else %}
@@ -485,6 +515,10 @@
                             {% endif %}
                             {% endif %}
                             {% if dep == "Visa Team" %}
+                            <button class="btn btn-primary" disabled>Resend</button>
+                            {% endif %}
+                            
+                            {% if dep == "Assesment" %}
                             <button class="btn btn-primary" disabled>Resend</button>
                             {% endif %}
                             

@@ -315,6 +315,37 @@ class EnquiryForm2(forms.ModelForm):
             "spouse_email",
             "spouse_passport",
             "spouse_dob",
+            "spouse_relation",
+            "spouse_name1",
+            "spouse_no1",
+            "spouse_email1",
+            "spouse_passport1",
+            "spouse_dob1",
+            "spouse_relation1",
+            "spouse_name2",
+            "spouse_no2",
+            "spouse_email2",
+            "spouse_passport2",
+            "spouse_dob2",
+            "spouse_relation2",
+            "spouse_name3",
+            "spouse_no3",
+            "spouse_email3",
+            "spouse_passport3",
+            "spouse_dob3",
+            "spouse_relation3",
+            "spouse_name4",
+            "spouse_no4",
+            "spouse_email4",
+            "spouse_passport4",
+            "spouse_dob4",
+            "spouse_relation4",
+            "spouse_name5",
+            "spouse_no5",
+            "spouse_email5",
+            "spouse_passport5",
+            "spouse_dob5",
+            "spouse_relation5",
         ]
 
         widgets = {
@@ -342,10 +373,166 @@ class EnquiryForm2(forms.ModelForm):
                     "type": "date",
                 },
             ),
+            "spouse_relation": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
+            "spouse_name1": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no1": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email1": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport1": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob1": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
+            ),
+            "spouse_relation1": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
+            "spouse_name2": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no2": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email2": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport2": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob2": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
+            ),
+            "spouse_relation2": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
+            "spouse_name3": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no3": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email3": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport3": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob3": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
+            ),
+            "spouse_relation3": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
+            "spouse_name4": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no4": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email4": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport4": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob4": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
+            ),
+            "spouse_relation4": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
+            "spouse_name5": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+            ),
+            "spouse_no5": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Contact Number",
+                }
+            ),
+            "spouse_email5": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+            ),
+            "spouse_passport5": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Spouse Passport Number",
+                }
+            ),
+            "spouse_dob5": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                },
+            ),
+            "spouse_relation5": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Relation With Applicant",
+                }
+            ),
         }
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+        def _init_(self, *args, **kwargs):
+            super()._init_(*args, **kwargs)
             # Customize the Package field queryset if needed
             self.fields["Package"].queryset = Package.objects.all()
 

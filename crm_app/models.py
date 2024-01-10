@@ -35,7 +35,8 @@ status = [
 ]
 
 Department_Choices = [
-    ("Presales/Assesment", "Presales/Assesment"),
+    ("Presales", "Presales"),
+    ("Assesment", "Assesment"),
     ("Sales", "Sales"),
     ("Documentation", "Documentation"),
     ("Visa Team", "Visa Team"),
@@ -548,6 +549,13 @@ class Enquiry(models.Model):
     assign_to_employee = models.ForeignKey(
         Employee, on_delete=models.SET_NULL, null=True, blank=True
     )
+    assign_to_assesment_employee = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assesment_emp",
+    )
     assign_to_sales_employee = models.ForeignKey(
         Employee,
         on_delete=models.SET_NULL,
@@ -582,11 +590,48 @@ class Enquiry(models.Model):
     )
 
     # Spouse Details
+    spouse_relation = models.CharField(max_length=50, null=True, blank=True)
     spouse_name = models.CharField(max_length=50, null=True, blank=True)
     spouse_no = models.CharField(max_length=15, null=True, blank=True)
     spouse_email = models.EmailField(blank=True)
     spouse_passport = models.CharField(max_length=50, null=True, blank=True)
     spouse_dob = models.DateField(null=True, blank=True)
+
+    # ------------------------------ Spouse 1 -------------------------
+    spouse_relation1 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_name1 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_no1 = models.CharField(max_length=15, null=True, blank=True)
+    spouse_email1 = models.EmailField(blank=True)
+    spouse_passport1 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_dob1 = models.DateField(null=True, blank=True)
+    # ------------------------------ Spouse 2 -------------------------
+    spouse_relation2 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_name2 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_no2 = models.CharField(max_length=15, null=True, blank=True)
+    spouse_email2 = models.EmailField(blank=True)
+    spouse_passport2 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_dob2 = models.DateField(null=True, blank=True)
+    # ------------------------------ Spouse 3 -------------------------
+    spouse_relation3 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_name3 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_no3 = models.CharField(max_length=15, null=True, blank=True)
+    spouse_email3 = models.EmailField(blank=True)
+    spouse_passport3 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_dob3 = models.DateField(null=True, blank=True)
+    # ------------------------------ Spouse 4 -------------------------
+    spouse_relation4 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_name4 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_no4 = models.CharField(max_length=15, null=True, blank=True)
+    spouse_email4 = models.EmailField(blank=True)
+    spouse_passport4 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_dob4 = models.DateField(null=True, blank=True)
+    # ------------------------------ Spouse 5 -------------------------
+    spouse_relation5 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_name5 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_no5 = models.CharField(max_length=15, null=True, blank=True)
+    spouse_email5 = models.EmailField(blank=True)
+    spouse_passport5 = models.CharField(max_length=50, null=True, blank=True)
+    spouse_dob5 = models.DateField(null=True, blank=True)
 
     # Mailing Address
     email = models.EmailField(blank=True)

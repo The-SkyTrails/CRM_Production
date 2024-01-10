@@ -121,18 +121,46 @@ class Enquiry2View(LoginRequiredMixin, CreateView):
             enquiry_form1 = request.session.get("agent_enquiry_form1", {})
 
             # Safely retrieve spouse_dob and format it if available
-            spouse_dob = form.cleaned_data.get("spouse_dob")
             cleaned_data = {
                 "spouse_name": form.cleaned_data["spouse_name"],
                 "spouse_no": form.cleaned_data["spouse_no"],
                 "spouse_email": form.cleaned_data["spouse_email"],
                 "spouse_passport": form.cleaned_data["spouse_passport"],
+                "spouse_relation": form.cleaned_data["spouse_relation"],
+                "spouse_name1": form.cleaned_data["spouse_name1"],
+                "spouse_no1": form.cleaned_data["spouse_no1"],
+                "spouse_email1": form.cleaned_data["spouse_email1"],
+                "spouse_passport1": form.cleaned_data["spouse_passport1"],
+                "spouse_relation1": form.cleaned_data["spouse_relation1"],
+                "spouse_name2": form.cleaned_data["spouse_name2"],
+                "spouse_no2": form.cleaned_data["spouse_no2"],
+                "spouse_email2": form.cleaned_data["spouse_email2"],
+                "spouse_passport2": form.cleaned_data["spouse_passport2"],
+                "spouse_relation2": form.cleaned_data["spouse_relation2"],
+                "spouse_name3": form.cleaned_data["spouse_name3"],
+                "spouse_no3": form.cleaned_data["spouse_no3"],
+                "spouse_email3": form.cleaned_data["spouse_email3"],
+                "spouse_passport3": form.cleaned_data["spouse_passport3"],
+                "spouse_relation3": form.cleaned_data["spouse_relation3"],
+                "spouse_name4": form.cleaned_data["spouse_name4"],
+                "spouse_no4": form.cleaned_data["spouse_no4"],
+                "spouse_email4": form.cleaned_data["spouse_email4"],
+                "spouse_passport4": form.cleaned_data["spouse_passport4"],
+                "spouse_relation4": form.cleaned_data["spouse_relation4"],
+                "spouse_name5": form.cleaned_data["spouse_name5"],
+                "spouse_no5": form.cleaned_data["spouse_no5"],
+                "spouse_email5": form.cleaned_data["spouse_email5"],
+                "spouse_passport5": form.cleaned_data["spouse_passport5"],
+                "spouse_relation5": form.cleaned_data["spouse_relation5"],
             }
 
-            # Add spouse_dob to cleaned_data if it exists
-            if spouse_dob:
-                cleaned_data["spouse_dob"] = spouse_dob.strftime("%Y-%m-%d")
+            for i in range(1, 6):
+                spouse_dob = form.cleaned_data.get("spouse_dob")
+                spouse_dob = form.cleaned_data.get(f"spouse_dob{i}")
 
+                if spouse_dob:
+                    cleaned_data["spouse_dob"] = spouse_dob.strftime("%Y-%m-%d")
+                    cleaned_data[f"spouse_dob{i}"] = spouse_dob.strftime("%Y-%m-%d")
             # Merge personal details with receiver details
             merged_data = {**enquiry_form1, **cleaned_data}
 
@@ -179,9 +207,7 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
 
             last_assigned_index = cache.get("last_assigned_index") or 0
             # If no student is assigned, find the next available student in a circular manner
-            presales_team_employees = Employee.objects.filter(
-                department="Presales/Assesment"
-            )
+            presales_team_employees = Employee.objects.filter(department="Presales")
 
             if presales_team_employees.exists():
                 next_index = (last_assigned_index + 1) % presales_team_employees.count()
@@ -192,7 +218,7 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
 
             # ------------------------------
             enquiry.created_by = user
-            enquiry.lead_status = "Active"
+            enquiry.lead_status = "New Lead"
             enquiry.save()
             messages.success(request, "Enquiry Added successfully")
 
@@ -368,10 +394,72 @@ def edit_enrolled_application(request, id):
         spouse_email = request.POST.get("spouse_email")
         spouse_passport = request.POST.get("spouse_passport")
         spouse_dob = request.POST.get("spouse_dob")
+        spouse_relation = request.POST.get("spouse_relation")
+
+        spouse_name1 = request.POST.get("spouse_name1")
+        spouse_no1 = request.POST.get("spouse_no1")
+        spouse_email1 = request.POST.get("spouse_email1")
+        spouse_passport1 = request.POST.get("spouse_passport1")
+        spouse_dob1 = request.POST.get("spouse_dob1")
+        spouse_relation1 = request.POST.get("spouse_relation1")
+
+        spouse_name2 = request.POST.get("spouse_name2")
+        spouse_no2 = request.POST.get("spouse_no2")
+        spouse_email2 = request.POST.get("spouse_email2")
+        spouse_passport2 = request.POST.get("spouse_passport2")
+        spouse_dob2 = request.POST.get("spouse_dob2")
+        spouse_relation2 = request.POST.get("spouse_relation2")
+
+        spouse_name3 = request.POST.get("spouse_name3")
+        spouse_no3 = request.POST.get("spouse_no3")
+        spouse_email3 = request.POST.get("spouse_email3")
+        spouse_passport3 = request.POST.get("spouse_passport3")
+        spouse_dob3 = request.POST.get("spouse_dob3")
+        spouse_relation3 = request.POST.get("spouse_relation3")
+
+        spouse_name4 = request.POST.get("spouse_name4")
+        spouse_no4 = request.POST.get("spouse_no4")
+        spouse_email4 = request.POST.get("spouse_email4")
+        spouse_passport4 = request.POST.get("spouse_passport4")
+        spouse_dob4 = request.POST.get("spouse_dob4")
+        spouse_relation4 = request.POST.get("spouse_relation4")
+
+        spouse_name5 = request.POST.get("spouse_name5")
+        spouse_no5 = request.POST.get("spouse_no5")
+        spouse_email5 = request.POST.get("spouse_email5")
+        spouse_passport5 = request.POST.get("spouse_passport5")
+        spouse_dob5 = request.POST.get("spouse_dob5")
+        spouse_relation5 = request.POST.get("spouse_relation5")
+
         try:
             spouse_dob_obj = datetime.strptime(spouse_dob, "%Y-%m-%d").date()
         except ValueError:
             spouse_dob_obj = None
+
+        try:
+            spouse_dob_obj1 = datetime.strptime(spouse_dob1, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj1 = None
+
+        try:
+            spouse_dob_obj2 = datetime.strptime(spouse_dob2, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj2 = None
+
+        try:
+            spouse_dob_obj3 = datetime.strptime(spouse_dob3, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj3 = None
+
+        try:
+            spouse_dob_obj4 = datetime.strptime(spouse_dob4, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj4 = None
+
+        try:
+            spouse_dob_obj5 = datetime.strptime(spouse_dob5, "%Y-%m-%d").date()
+        except ValueError:
+            spouse_dob_obj5 = None
 
         email = request.POST.get("email")
         contact = request.POST.get("contact")
@@ -424,6 +512,41 @@ def edit_enrolled_application(request, id):
         enquiry.spouse_email = spouse_email
         enquiry.spouse_passport = spouse_passport
         enquiry.spouse_dob = spouse_dob_obj
+        enquiry.spouse_relation = spouse_relation
+        enquiry.spouse_name1 = spouse_name1
+        enquiry.spouse_no1 = spouse_no1
+        enquiry.spouse_email1 = spouse_email1
+        enquiry.spouse_passport1 = spouse_passport1
+        enquiry.spouse_dob1 = spouse_dob_obj1
+        enquiry.spouse_relation1 = spouse_relation1
+
+        enquiry.spouse_name2 = spouse_name2
+        enquiry.spouse_no2 = spouse_no2
+        enquiry.spouse_email2 = spouse_email2
+        enquiry.spouse_passport2 = spouse_passport2
+        enquiry.spouse_dob2 = spouse_dob_obj2
+        enquiry.spouse_relation2 = spouse_relation2
+
+        enquiry.spouse_name3 = spouse_name3
+        enquiry.spouse_no3 = spouse_no3
+        enquiry.spouse_email3 = spouse_email3
+        enquiry.spouse_passport3 = spouse_passport3
+        enquiry.spouse_dob3 = spouse_dob_obj3
+        enquiry.spouse_relation3 = spouse_relation3
+
+        enquiry.spouse_name4 = spouse_name4
+        enquiry.spouse_no4 = spouse_no4
+        enquiry.spouse_email4 = spouse_email4
+        enquiry.spouse_passport4 = spouse_passport4
+        enquiry.spouse_dob4 = spouse_dob_obj4
+        enquiry.spouse_relation4 = spouse_relation4
+
+        enquiry.spouse_name5 = spouse_name5
+        enquiry.spouse_no5 = spouse_no5
+        enquiry.spouse_email5 = spouse_email5
+        enquiry.spouse_passport5 = spouse_passport5
+        enquiry.spouse_dob5 = spouse_dob_obj5
+        enquiry.spouse_relation5 = spouse_relation5
         enquiry.email = email
         enquiry.contact = contact
         enquiry.Country = Country
@@ -727,6 +850,16 @@ class PackageDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+def agent_PackageApplyView(request, id):
+    if request.method == "POST":
+        package = Package.objects.get(id=id)
+        package_id = package.id
+
+        request.session["package_id"] = package_id
+
+        return redirect("agent_packageenquiry_form1")
+
+
 class PackageListView(LoginRequiredMixin, ListView):
     model = Package
     template_name = "Agent/Product/product.html"
@@ -1027,3 +1160,274 @@ class ReportList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Report.objects.filter(user=self.request.user).order_by("-id")
+
+
+def agent_PackageEnquiry1View(request):
+    country_choices = Enquiry._meta.get_field("Country").get_choices()
+
+    # request.session["package_id"] = package_id
+    package_id = request.session.get("package_id")
+    if request.method == "POST":
+        country = request.POST.get("country")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        country = request.POST.get("country")
+        passport_no = request.POST.get("passport_no")
+        print("DOBB", dob)
+        print("passport number", passport_no)
+        request.session["country"] = country
+        request.session["first_name"] = first_name
+        request.session["last_name"] = last_name
+        request.session["email"] = email
+        request.session["contact"] = contact
+        request.session["dob"] = dob
+        request.session["gender"] = gender
+        request.session["passport_no"] = passport_no
+        return redirect("agent_packageenquiry_form2")
+
+    context = {"country_choices": country_choices}
+    return render(request, "Agent/Enquiry/Package Leads/lead1.html", context)
+
+
+def agent_PackageEnquiry2View(request):
+    if request.method == "POST":
+        spouse_name = request.POST.get("spouse_name")
+        spouse_contact = request.POST.get("spouse_contact")
+        spouse_email = request.POST.get("spouse_email")
+        spouse_passport = request.POST.get("spouse_passport")
+        spouse_dob = request.POST.get("spouse_dob")
+        spouse_relation = request.POST.get("spouse_relation")
+
+        spouse_name1 = request.POST.get("spouse_name1")
+        spouse_contact1 = request.POST.get("spouse_contact1")
+        spouse_email1 = request.POST.get("spouse_email1")
+        spouse_passport1 = request.POST.get("spouse_passport1")
+        spouse_dob1 = request.POST.get("spouse_dob1")
+        spouse_relation1 = request.POST.get("spouse_relation1")
+
+        spouse_name2 = request.POST.get("spouse_name2")
+        spouse_contact2 = request.POST.get("spouse_contact2")
+        spouse_email2 = request.POST.get("spouse_email2")
+        spouse_passport2 = request.POST.get("spouse_passport2")
+        spouse_dob2 = request.POST.get("spouse_dob2")
+        spouse_relation2 = request.POST.get("spouse_relation2")
+
+        spouse_name3 = request.POST.get("spouse_name3")
+        spouse_contact3 = request.POST.get("spouse_contact3")
+        spouse_email3 = request.POST.get("spouse_email3")
+        spouse_passport3 = request.POST.get("spouse_passport3")
+        spouse_dob3 = request.POST.get("spouse_dob3")
+        spouse_relation3 = request.POST.get("spouse_relation3")
+
+        spouse_name4 = request.POST.get("spouse_name4")
+        spouse_contact4 = request.POST.get("spouse_contact4")
+        spouse_email4 = request.POST.get("spouse_email4")
+        spouse_passport4 = request.POST.get("spouse_passport4")
+        spouse_dob4 = request.POST.get("spouse_dob4")
+        spouse_relation4 = request.POST.get("spouse_relation4")
+
+        spouse_name5 = request.POST.get("spouse_name5")
+        spouse_contact5 = request.POST.get("spouse_contact5")
+        spouse_email5 = request.POST.get("spouse_email5")
+        spouse_passport5 = request.POST.get("spouse_passport5")
+        spouse_dob5 = request.POST.get("spouse_dob5")
+        spouse_relation5 = request.POST.get("spouse_relation5")
+
+        request.session["spouse_name"] = spouse_name
+        request.session["spouse_contact"] = spouse_contact
+        request.session["spouse_email"] = spouse_email
+        request.session["spouse_passport"] = spouse_passport
+        request.session["spouse_dob"] = spouse_dob
+        request.session["spouse_relation"] = spouse_relation
+
+        request.session["spouse_name1"] = spouse_name1
+        request.session["spouse_contact1"] = spouse_contact1
+        request.session["spouse_email1"] = spouse_email1
+        request.session["spouse_passport1"] = spouse_passport1
+        request.session["spouse_dob1"] = spouse_dob1
+        request.session["spouse_relation1"] = spouse_relation1
+
+        request.session["spouse_name2"] = spouse_name2
+        request.session["spouse_contact2"] = spouse_contact2
+        request.session["spouse_email2"] = spouse_email2
+        request.session["spouse_passport2"] = spouse_passport2
+        request.session["spouse_dob2"] = spouse_dob2
+        request.session["spouse_relation2"] = spouse_relation2
+
+        request.session["spouse_name3"] = spouse_name3
+        request.session["spouse_contact3"] = spouse_contact3
+        request.session["spouse_email3"] = spouse_email3
+        request.session["spouse_passport3"] = spouse_passport3
+        request.session["spouse_dob3"] = spouse_dob3
+        request.session["spouse_relation3"] = spouse_relation3
+
+        request.session["spouse_name4"] = spouse_name4
+        request.session["spouse_contact4"] = spouse_contact4
+        request.session["spouse_email4"] = spouse_email4
+        request.session["spouse_passport4"] = spouse_passport4
+        request.session["spouse_dob4"] = spouse_dob4
+        request.session["spouse_relation4"] = spouse_relation4
+
+        request.session["spouse_name5"] = spouse_name5
+        request.session["spouse_contact5"] = spouse_contact5
+        request.session["spouse_email5"] = spouse_email5
+        request.session["spouse_passport5"] = spouse_passport5
+        request.session["spouse_dob5"] = spouse_dob5
+        request.session["spouse_relation5"] = spouse_relation5
+        return redirect("agent_packageenquiry_form3")
+    return render(request, "Agent/Enquiry/Package Leads/lead2.html")
+
+
+def agent_PackageEnquiry3View(request):
+    visa_type = Enquiry._meta.get_field("Visa_type").get_choices()
+    source = Enquiry._meta.get_field("Source").get_choices()
+
+    package_id = request.session.get("package_id")
+    package = Package.objects.get(id=package_id)
+    visa_contry_id = package.visa_country.id
+    visa_category_id = package.visa_category.id
+
+    visa_country = VisaCountry.objects.get(id=visa_contry_id)
+    visa_category = VisaCategory.objects.get(id=visa_category_id)
+
+    dob = request.session.get("dob")
+
+    if request.method == "POST":
+        visa_typ = request.POST.get("visa_type")
+        source = request.POST.get("source")
+        reference = request.POST.get("reference")
+
+        # ----------------------- Enquiry Detailss ------------------
+        country = request.session.get("country")
+        first_name = request.session.get("first_name")
+        last_name = request.session.get("last_name")
+        email = request.session.get("email")
+        contact = request.session.get("contact")
+        dob = request.session.get("dob")
+        gender = request.session.get("gender")
+        passport_no = request.session.get("passport_no")
+
+        # -------------------------------- Spouse Details ------------------
+        spouse_name = request.session.get("spouse_name")
+        spouse_contact = request.session.get("spouse_contact")
+        spouse_email = request.session.get("spouse_email")
+        spouse_passport = request.session.get("spouse_passport")
+        spouse_dob = request.session.get("spouse_dob")
+        spouse_relation = request.session.get("spouse_relation")
+
+        spouse_name1 = request.session.get("spouse_name1")
+        spouse_contact1 = request.session.get("spouse_contact1")
+        spouse_email1 = request.session.get("spouse_email1")
+        spouse_passport1 = request.session.get("spouse_passport1")
+        spouse_dob1 = request.session.get("spouse_dob1")
+        spouse_relation1 = request.session.get("spouse_relation1")
+
+        spouse_name2 = request.session.get("spouse_name2")
+        spouse_contact2 = request.session.get("spouse_contact2")
+        spouse_email2 = request.session.get("spouse_email2")
+        spouse_passport2 = request.session.get("spouse_passport2")
+        spouse_dob2 = request.session.get("spouse_dob2")
+        spouse_relation2 = request.session.get("spouse_relation2")
+
+        spouse_name3 = request.session.get("spouse_name3")
+        spouse_contact3 = request.session.get("spouse_contact3")
+        spouse_email3 = request.session.get("spouse_email3")
+        spouse_passport3 = request.session.get("spouse_passport3")
+        spouse_dob3 = request.session.get("spouse_dob3")
+        spouse_relation3 = request.session.get("spouse_relation3")
+
+        spouse_name4 = request.session.get("spouse_name4")
+        spouse_contact4 = request.session.get("spouse_contact4")
+        spouse_email4 = request.session.get("spouse_email4")
+        spouse_passport4 = request.session.get("spouse_passport4")
+        spouse_dob4 = request.session.get("spouse_dob4")
+        spouse_relation4 = request.session.get("spouse_relation4")
+
+        spouse_name5 = request.session.get("spouse_name5")
+        spouse_contact5 = request.session.get("spouse_contact5")
+        spouse_email5 = request.session.get("spouse_email5")
+        spouse_passport5 = request.session.get("spouse_passport5")
+        spouse_dob5 = request.session.get("spouse_dob5")
+        spouse_relation5 = request.session.get("spouse_relation5")
+
+        enq = Enquiry.objects.create(
+            FirstName=first_name,
+            LastName=last_name,
+            email=email,
+            contact=contact,
+            Dob=dob,
+            Gender=gender,
+            Country=country,
+            passport_no=passport_no,
+            spouse_name=spouse_name,
+            spouse_no=spouse_contact,
+            spouse_email=spouse_email,
+            spouse_passport=spouse_passport,
+            spouse_relation=spouse_relation,
+            spouse_name1=spouse_name1,
+            spouse_no1=spouse_contact1,
+            spouse_email1=spouse_email1,
+            spouse_passport1=spouse_passport1,
+            spouse_relation1=spouse_relation1,
+            spouse_name2=spouse_name2,
+            spouse_no2=spouse_contact2,
+            spouse_email2=spouse_email2,
+            spouse_passport2=spouse_passport2,
+            spouse_relation2=spouse_relation2,
+            spouse_name3=spouse_name3,
+            spouse_no3=spouse_contact3,
+            spouse_email3=spouse_email3,
+            spouse_passport3=spouse_passport3,
+            spouse_relation3=spouse_relation3,
+            spouse_name4=spouse_name4,
+            spouse_no4=spouse_contact4,
+            spouse_email4=spouse_email4,
+            spouse_passport4=spouse_passport4,
+            spouse_relation4=spouse_relation4,
+            spouse_name5=spouse_name5,
+            spouse_no5=spouse_contact5,
+            spouse_email5=spouse_email5,
+            spouse_passport5=spouse_passport5,
+            spouse_relation5=spouse_relation5,
+            Source=source,
+            Reference=reference,
+            Visa_type=visa_typ,
+            Package=package,
+            Visa_country=visa_country,
+            Visa_category=visa_category,
+        )
+        last_assigned_index = cache.get("last_assigned_index") or 0
+        presales_team_employees = Employee.objects.filter(department="Presales")
+        if presales_team_employees.exists():
+            next_index = (last_assigned_index + 1) % presales_team_employees.count()
+            enq.assign_to_employee = presales_team_employees[next_index]
+            enq.assign_to_employee.save()
+
+            cache.set("last_assigned_index", next_index)
+        if spouse_dob:
+            enq.spouse_dob = spouse_dob
+        if spouse_dob1:
+            enq.spouse_dob1 = spouse_dob1
+        if spouse_dob2:
+            enq.spouse_dob2 = spouse_dob2
+        if spouse_dob3:
+            enq.spouse_dob3 = spouse_dob3
+        if spouse_dob4:
+            enq.spouse_dob4 = spouse_dob4
+        if spouse_dob5:
+            enq.spouse_dob5 = spouse_dob5
+        enq.created_by = request.user
+        enq.save()
+        return redirect("agent_enquiry_form4", enq.id)
+
+    context = {
+        "package_id": package_id,
+        "package": package,
+        "visa_type": visa_type,
+        "source": source,
+    }
+    return render(request, "Agent/Enquiry/Package Leads/lead3.html", context)

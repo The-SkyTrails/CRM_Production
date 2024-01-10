@@ -9,6 +9,16 @@ urlpatterns = [
     path("enquiry_form4/<int:id>/", agentdocument, name="agent_enquiry_form4"),
     path("Uploaddocument/", upload_document, name="agent_uploaddocument"),
     path("Delete/UploadFile/<int:id>", delete_docfile, name="agent_docfile"),
+    # ---------------------------------------------------------------
+    path(
+        "PacAddEnquiry/", agent_PackageEnquiry1View, name="agent_packageenquiry_form1"
+    ),
+    path(
+        "PacAddEnquiry2/", agent_PackageEnquiry2View, name="agent_packageenquiry_form2"
+    ),
+    path(
+        "PacAddEnquiry3/", agent_PackageEnquiry3View, name="agent_packageenquiry_form3"
+    ),
     # ------------------------------- LEADS ------------------------
     path("AllNewLeads", agent_new_leads_details, name="agent_new_leads_details"),
     path("AddNotes/", agent_add_notes, name="agent_add_notes"),
@@ -39,6 +49,11 @@ urlpatterns = [
     path("PackageList/", PackageListView.as_view(), name="Agent_Package_list"),
     path(
         "packages/<int:pk>/", PackageDetailView.as_view(), name="Agent_package_detail"
+    ),
+    path(
+        "Agent/packages/<int:id>/apply/",
+        agent_PackageApplyView,
+        name="agent_PackageApplyView",
     ),
     path("logout", agent_logout, name="agent_logout"),
     path("ChangePassword", ChangePassword, name="AgentChangePassword"),

@@ -116,6 +116,8 @@
       <div class="inputformss-container">
         <form action="" method="POST">
           {% csrf_token %}
+          
+        <div id="spouse1">
           <div class="row formrow">
               <div class="col-md-6 ">
                   <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
@@ -141,10 +143,186 @@
                   <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
                   {{form.spouse_dob}}
               </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                  {{form.spouse_relation}}
+              </div>
               
           </div>
-          
-      
+          <hr>
+        </div>
+        
+        <div id="spouse2" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  {{form.spouse_name1}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  {{form.spouse_no1}}
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  {{form.spouse_email1}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  {{form.spouse_passport1}}
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  {{form.spouse_dob1}}
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                {{form.spouse_relation1}}
+            </div>
+          </div>
+          <hr>
+        </div>
+        
+        <div id="spouse3" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  {{form.spouse_name2}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  {{form.spouse_no2}}
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  {{form.spouse_email2}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  {{form.spouse_passport2}}
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  {{form.spouse_dob2}}
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                {{form.spouse_relation2}}
+            </div>
+          </div>
+          <hr>
+        </div>
+       
+        <div id="spouse4" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  {{form.spouse_name3}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  {{form.spouse_no3}}
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  {{form.spouse_email3}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  {{form.spouse_passport3}}
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  {{form.spouse_dob3}}
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                {{form.spouse_relation3}}
+            </div>
+          </div>
+          <hr>
+        </div>
+        
+        <div id="spouse5" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  {{form.spouse_name4}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  {{form.spouse_no4}}
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  {{form.spouse_email4}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  {{form.spouse_passport4}}
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  {{form.spouse_dob4}}
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                {{form.spouse_relation4}}
+            </div>
+          </div>
+          <hr>
+        </div>
+        
+        <div id="spouse6" style="display: none;">
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Spouse Name</label>
+                  {{form.spouse_name5}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Contact Number</label>
+                  {{form.spouse_no5}}
+              </div>  
+          </div>
+          <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Email ID</label>
+                  {{form.spouse_email5}}
+              </div>
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Passport</label>
+                  {{form.spouse_passport5}}
+              </div>  
+          </div>
+         <div class="row formrow">
+              <div class="col-md-6 ">
+                  <label for="exampleFormControlInput1" class="custom-form-label">Date Of Birth</label>
+                  {{form.spouse_dob5}}
+              </div>
+              <div class="col-md-6 ">
+                <label for="exampleFormControlInput1" class="custom-form-label">Relation With Applicant</label>
+                {{form.spouse_relation5}}
+            </div>
+          </div>
+          <hr>
+        </div>
+        
+        <button type="button" class="btn btn-color" id="addMoreButton" onclick="addMoreForm()">Add More</button>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button class="btn btn-skip" type="submit"><b>Skip</b>
                   
@@ -156,9 +334,32 @@
               </button>
           </div>
 
+          
+
           </form>
 
       </div>
   </div>
 </div>
+<script>
+  var formCount = 1;
+  var maxForms = 6;
+
+  function addMoreForm() {
+      if (formCount < maxForms) {
+          formCount++;
+          var currentForm = document.getElementById('spouse' + formCount);
+          
+          if (currentForm) {
+              currentForm.style.display = 'block';
+          }
+
+          // Disable add more button after reaching the maximum limit
+          if (formCount === maxForms) {
+              document.getElementById('addMoreButton').disabled = true;
+          }
+      }
+  }
+</script>
+
 {% endblock main-content %}
