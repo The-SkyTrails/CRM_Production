@@ -599,15 +599,7 @@ tbody tr:hover {
   word-wrap: break-word !important;
 }
 
-/* 
-table.dataTable.display tbody tr.odd {
-  background-color: transparent !important;
-}
 
-table.dataTable.display tbody tr.odd > .sorting_1,
-table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
-  background-color: transparent !important;
-} */
 
 table.dataTable.display tbody tr > .sorting_1,
 table.dataTable.display tbody tr > .sorting_2,
