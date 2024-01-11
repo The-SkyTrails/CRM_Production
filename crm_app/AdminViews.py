@@ -75,7 +75,7 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
             :10
         ]
-        enq_count = Enquiry.objects.all().count()
+        # enq_count = Enquiry.objects.all().count()
         enq_enrolled_count = Enquiry.objects.filter(lead_status="Enrolled").count()
 
         enrolled_monthly_counts = (
@@ -92,8 +92,9 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             .annotate(count=Count("id"))
             .order_by("month__month")
         )
-
-        print("alll enquiry:", all_enq)
+        if all_enq.exists():
+            enq_count = all_enq[0]["count"]
+            # print("Count of Enquiries:", count)
 
         context["total_agent_count"] = total_agent_count
         context["employee_count"] = employee_count
