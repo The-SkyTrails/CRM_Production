@@ -26,6 +26,8 @@ from django.db.models import Q
 from django.views import View
 import pandas as pd
 from .Email.email_utils import send_congratulatory_email
+from django.db.models.functions import TruncMonth
+from django.db.models import Case, When, Value, IntegerField
 
 
 def employee_query_list(request):
@@ -106,35 +108,147 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         print("departmentt", dep)
 
         if dep == "Presales":
-            enq_count = Enquiry.objects.filter(
-                Q(assign_to_employee=user.employee) | Q(created_by=user)
-            ).count()
-            enq_enrolled_count = Enquiry.objects.filter(
-                Q(lead_status="Enrolled")
-                & Q(assign_to_employee=user.employee) |
-                 (Q(created_by=user))
-            ).count()
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(lead_status="Enrolled", assign_to_employee=user.employee)
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_employee=user.employee) | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
 
         elif dep == "Sales":
-            enq_count = Enquiry.objects.filter(
-                Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
-            ).count()
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(lead_status="Enrolled", assign_to_sales_employee=user.employee)
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
 
         elif dep == "Documentation":
-            enq_count = Enquiry.objects.filter(
-                Q(assign_to_documentation_employee=user.employee) | Q(created_by=user)
-            ).count()
-        elif dep == "Visa Team":
-            enq_count = Enquiry.objects.filter(
-                Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
-            ).count()
-        elif dep == "Assesment":
-            enq_count = Enquiry.objects.filter(
-                Q(assign_to_assesment_employee=user.employee) | Q(created_by=user)
-            ).count()
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_documentation_employee=user.employee,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
 
-        print("countinggg:", enq_count)
-        print("Enrolleddd:", enq_enrolled_count)
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_documentation_employee=user.employee)
+                    | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
+
+        elif dep == "Visa Team":
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_visa_team_employee=user.employee,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
+
+        elif dep == "Assesment":
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_assesment_employee=user.employee,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_assesment_employee=user.employee) | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
+
+        # print("countinggg:", enq_count)
+        print("Enrolleddd:", all_enq)
 
         # enq_count = Enquiry.objects.all().count()
         context["dep"] = dep
@@ -147,7 +261,12 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["package"] = package
         context["agent_count"] = agent_count
         context["outsourceagent_count"] = outsourceagent_count
+        context["enrolled_monthly_counts"] = enrolled_monthly_counts
+        context["all_enq"] = all_enq
         context["enq_count"] = enq_count
+        context["enq_enrolled_count"] = enq_enrolled_count
+
+        # context["enq_count"] = enq_count
 
         return context
 
