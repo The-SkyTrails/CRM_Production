@@ -142,11 +142,13 @@
                         <th>CREATED BY</th>
                         <th>Assigned TO</th>
                         <th>Update Assigned To</th>
+                        <th>Assign to Agent/OP</th>
                         <th>LEAD status</th>
                         <th>Lead Updated</th>
                         <th>Appointment</th>
                         <th>Appointment Status</th>
                         <th>NOTES</th>
+                        <th>Color Code</th>
                         <th>ACTION</th>
                         {% comment %} <th>ddddd</th> {% endcomment %}
                         {% comment %} <th>Approval Status</th> {% endcomment %}
@@ -155,7 +157,7 @@
                 <tbody>
                     {% for i in enquiry %}
                     {% if i.archive == False %}
-                    <tr>
+                    <tr style="background-color: {% if i.color_code == 'Grey' %}#efe5e5{% elif i.color_code == 'Blue' %}#89CFF0{% elif i.color_code == 'White' %}#FAF9F6{% elif i.color_code == 'Red' %}#ff9090{% elif i.color_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
                         <td>{{forloop.counter}}</td>
                         <td>
                             <a href="{% url "edit_enrolled_application" i.id %}">
@@ -319,6 +321,12 @@
 
                             </div>
 
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#colorModal-{{i.id}}">
+                                Color
+                              </button>
+                              {% include "Admin/Enquiry/color_modal.html" %}
                         </td>
                         <td>
                             <div class="row" style="display: flex;">

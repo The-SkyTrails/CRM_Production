@@ -1556,6 +1556,7 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
 
             return self.form_invalid(form)
 
+
 class PackageListView(LoginRequiredMixin, ListView):
     model = Package
     template_name = "Admin/Product/product.html"
@@ -1563,8 +1564,7 @@ class PackageListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Package.objects.filter(approval=True).order_by("-id")
-    
-    
+
 
 class DisapprivePackageListView(LoginRequiredMixin, ListView):
     model = Package
@@ -1575,7 +1575,6 @@ class DisapprivePackageListView(LoginRequiredMixin, ListView):
         return Package.objects.filter(approval=False).order_by("-id")
 
 
-        
 class editPackage(LoginRequiredMixin, UpdateView):
     model = Package
     form_class = PackageForm
@@ -3533,3 +3532,13 @@ def email_template(request):
     # return render(request, "email_template.html")
     return PDFTemplateResponse(request, "email_template.html", context)
     # pdfkit.from_file("email_template.html", "file.pdf")
+
+
+def color_code(request, id):
+    if request.method == "POST":
+        color_code = request.POST.get("color_code")
+        enquiry = Enquiry.objects.get(id=id)
+        enquiry.color_code = color_code
+        enquiry.save()
+        messages.success(request, f"Lead Color {color_code} Updated Successfully...")
+        return HttpResponseRedirect(reverse("admin_new_leads_details"))

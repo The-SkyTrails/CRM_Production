@@ -255,4 +255,5 @@ urlpatterns = [
         DisapprivePackageListView.as_view(),
         name="Disapprove_Package_list",
     ),
+    path("color_code/<int:id>", color_code, name="color_code"),
 ]

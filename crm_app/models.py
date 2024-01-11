@@ -506,7 +506,13 @@ leads_status = [
     ("Case Initiated", "Case Initiated"),
 ]
 
-
+COLOR_CODE = [
+    ("Grey","Grey"),
+    ("Blue","Blue"),
+    ("White","White"),
+    ("Red","Red"),
+    ("Green","Green"),
+]
 class Enquiry(models.Model):
     Salutation = models.CharField(
         max_length=20, choices=SALUTATION_CHOICES, null=True, blank=True
@@ -677,6 +683,12 @@ class Enquiry(models.Model):
     case_id = models.CharField(max_length=15, unique=True, editable=False)
 
     archive = models.BooleanField(null=True, blank=True, default=False)
+
+    # --------------------- Color ----------------------------
+
+    color_code = models.CharField(
+        max_length=20, choices=COLOR_CODE, blank=True, null=True
+    )
 
     def set_spouse_name(self, spouse_names):
         self.spouse_name = json.dumps(spouse_names)

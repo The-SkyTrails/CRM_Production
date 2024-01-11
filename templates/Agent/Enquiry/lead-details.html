@@ -128,7 +128,7 @@
                <tbody>
                     {% for i in enquiry %}
                     {% if i.archive == False %}
-                    <tr>
+                    <tr style="background-color: {% if i.color_code == 'Grey' %}#efe5e5{% elif i.color_code == 'Blue' %}#89CFF0{% elif i.color_code == 'White' %}#FAF9F6{% elif i.color_code == 'Red' %}#ff9090{% elif i.color_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
                         <td>{{forloop.counter}}</td>
                         <td>
                             <a href="{% url "agent_edit_enrolled_application" i.id %}">
