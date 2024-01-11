@@ -114,6 +114,7 @@ class EnquiryAdmin(admin.ModelAdmin):
         "assign_to_agent",
         "assign_to_visa_team_employee",
         "lead_status",
+        "registered_on",
     ]
     list_filter = [
         "Visa_country",

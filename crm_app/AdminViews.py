@@ -77,7 +77,6 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         ]
         enq_count = Enquiry.objects.all().count()
         enq_enrolled_count = Enquiry.objects.filter(lead_status="Enrolled").count()
-        
 
         enrolled_monthly_counts = (
             Enquiry.objects.filter(lead_status="Enrolled")
@@ -93,6 +92,8 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             .annotate(count=Count("id"))
             .order_by("month__month")
         )
+
+        print("alll enquiry:", all_enq)
 
         context["total_agent_count"] = total_agent_count
         context["employee_count"] = employee_count
