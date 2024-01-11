@@ -108,15 +108,24 @@
                         <th>VISA TYPE</th>
                         <th>Package Name</th>
                         <th>CREATED BY</th>
+
+                        {% if user.user_type == "4" %}
                         <th>Assigned TO</th>
+                        {% elif user.user_type == "5" %}
+                        <th>Update Status</th>
+                        {% endif %}
                         <th>LEAD status</th>
                         <th>Notes</th>
                         <th>Appointment</th>
+                        {% if user.user_type == "4" %}
                         <th>Resend</th>
+                        {% elif user.user_type == "5" %}
+                        
+                        {% endif %}
                         
                     </tr>
                 </thead>
-                <tbody>
+               <tbody>
                     {% for i in enquiry %}
                     {% if i.archive == False %}
                     <tr>
@@ -140,7 +149,8 @@
                         <td>{{i.Visa_type}}</td>
                         <td>{{i.Package}}</td>
                         <td>{{i.created_by}}</td>
-
+                        
+                        {% if user.user_type == "4" %}
                         <td>
                             {% if i.assign_to_employee %}
                             <b>{{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}}</b>
@@ -183,6 +193,14 @@
                             {% endif %}
                             
                         </td>
+                        {% elif user.user_type == "5" %}
+                        <td>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#leadstatusupdateModal-{{i.id}}">
+                                Update
+                            </button>
+                            {% include "Agent/Enquiry/lead_status_update_modal.html" %}
+                        </td>
+                        {% endif %}
                         <td>
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>
                         </td>
@@ -228,6 +246,8 @@
                         {% endif %}
                         {% include "Agent/Enquiry/view_appointment_modal.html" %}
                         </td>
+                        {% if user.user_type == "4" %}
+                       
                         <td>
                         {% if i.lead_status == "Reject" %}
                            <a href="{% url "resend" i.id %}"><button class="badge rounded-pill2">Resend</button></a>
@@ -235,6 +255,8 @@
                            <button class="badge rounded-pill2" disabled>Resend</button>
                            {% endif %}
                         </td>
+                        
+                        {% endif %}
                         
                     </tr>
                     {% endif %}

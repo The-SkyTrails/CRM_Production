@@ -51,7 +51,7 @@
       </div>
       <div class="tabBox">
          <a href="{% url "Package_list" %}">
-             <div class="tabOne">
+             <div class="tabOnes">
                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
                      style="padding-right: 2px;">
                      <path
@@ -65,7 +65,7 @@
          </a>
          <hr>
          <a href="{% url "Disapprove_Package_list" %}">
-             <div class="tabTwo">
+             <div class="tabTwos">
                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
                      style="padding-right: 2px;">
                      <path
@@ -133,12 +133,12 @@
                   </div>
                </div>
                </a>
-               {% if i.approval %}
-               <a href="{% url "disapprove_product" i.id %}">
-                  <div class="Button" style="background-color:#9B1C1C;">
-                     <div class="Text">Disapprove</div>
-                  </div>
-                  </a>
+               {% if not i.approval %}
+               <a href="{% url "approve_product" i.id %}">
+               <div class="Button" style="background-color:Green;">
+                  <div class="Text">Approve</div>
+               </div>
+               </a>
                {% else %}
                
                {% endif %}

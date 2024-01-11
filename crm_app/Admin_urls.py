@@ -244,4 +244,15 @@ urlpatterns = [
     ),
     path("reportlist/", ReportList.as_view(), name="reportlist"),
     path("email_template/", email_template, name="email_template"),
+    path(
+        "UpdateAssignAgent/<int:id>",
+        update_assigned_agent,
+        name="update_assigned_agent",
+    ),
+    path("UpdateAssignOP/<int:id>", update_assigned_op, name="update_assigned_op"),
+    path(
+        "Disapprove_PackageList/",
+        DisapprivePackageListView.as_view(),
+        name="Disapprove_Package_list",
+    ),
 ]

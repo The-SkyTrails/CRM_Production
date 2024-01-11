@@ -372,6 +372,9 @@ class OutSourcingAgent(models.Model):
         upload_to="media/Agent/Kyc", null=True, blank=True
     )
 
+    def _str_(self):
+        return f"{self.users.first_name} {self.users.last_name}"
+
 
 class Package(models.Model):
     visa_country = models.ForeignKey(

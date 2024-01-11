@@ -674,7 +674,7 @@ def delete_courierdetails(request, id):
 def import_branch(request):
     if request.method == "POST":
         file = request.FILES["file"]
-        print("filesss", file)
+
         path = str(file)
 
         try:
@@ -1100,7 +1100,7 @@ def add_agent(request):
                 )
 
                 response = send_whatsapp_message(mobile, message)
-                print(message)
+
                 if response.status_code == 200:
                     pass
                 else:
@@ -1189,8 +1189,6 @@ def admin_agent_details(request, id):
         branchname = request.POST.get("branchname")
         account = request.POST.get("account")
         ifsc = request.POST.get("ifsc")
-
-        print("first nameeee", firstname)
 
         if dob:
             users.agent.dob = dob
@@ -1298,7 +1296,7 @@ def admin_agent_kyc(request, id):
                 messages.success(request, "Kyc Added Successfully..")
                 return redirect("admin_agent_kyc", id)
             else:
-                print("workingggggggg")
+                pass
 
         except AgentKyc.DoesNotExist:
             kyc_id = None
@@ -1469,7 +1467,7 @@ def admin_outsource_agent_kyc(request, id):
                 messages.success(request, "Kyc Added Successfully..")
                 return redirect("admin_outsource_agent_kyc", id)
             else:
-                print("workingggggggg")
+                pass
 
         except AgentKyc.DoesNotExist:
             kyc_id = None
@@ -1555,9 +1553,8 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f"Error: {e}")
-            print("Error Occured ", e)
-            return self.form_invalid(form)
 
+            return self.form_invalid(form)
 
 class PackageListView(LoginRequiredMixin, ListView):
     model = Package
@@ -1565,9 +1562,20 @@ class PackageListView(LoginRequiredMixin, ListView):
     context_object_name = "Package"
 
     def get_queryset(self):
-        return Package.objects.order_by("-id")
+        return Package.objects.filter(approval=True).order_by("-id")
+    
+    
+
+class DisapprivePackageListView(LoginRequiredMixin, ListView):
+    model = Package
+    template_name = "Admin/Product/disapproveproduct.html"
+    context_object_name = "Package"
+
+    def get_queryset(self):
+        return Package.objects.filter(approval=False).order_by("-id")
 
 
+        
 class editPackage(LoginRequiredMixin, UpdateView):
     model = Package
     form_class = PackageForm
@@ -1668,10 +1676,6 @@ def add_subcategory(request):
 
         messages.success(request, "Pricing Added Successfully !!")
         return redirect("subcategory_list")
-        # except Exception as e:
-        #     # Handle any exceptions here and possibly log them
-        #     # messages.error(request, str(e))
-        #     print("eeee",e)
 
     return render(request, "Admin/mastermodule/Pricing/add_pricing.html", context)
 
@@ -1833,7 +1837,7 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
 
         if form3.is_valid():
             user = self.request.user
-            print("userssssss", user)
+
             # Merge data from all three forms
             merged_data = {
                 **form1_data,
@@ -1904,8 +1908,7 @@ def PackageEnquiry1View(request):
         gender = request.POST.get("gender")
         country = request.POST.get("country")
         passport_no = request.POST.get("passport_no")
-        print("DOBB", dob)
-        print("passport number", passport_no)
+
         request.session["country"] = country
         request.session["first_name"] = first_name
         request.session["last_name"] = last_name
@@ -2170,7 +2173,6 @@ def admindocument(request, id):
     doc_file = DocumentFiles.objects.filter(enquiry_id=enq)
 
     case_categories = CaseCategoryDocument.objects.filter(country=enq.Visa_country)
-    print("gggg", case_categories)
 
     documents_prefetch = Prefetch(
         "document",
@@ -2262,6 +2264,12 @@ def delete_docfile(request, id):
 
 
 # ----------------------------------- Leads Details --------------------------
+def get_agent():
+    return Agent.objects.all()
+
+
+def get_outsourcepartner():
+    return OutSourcingAgent.objects.all()
 
 
 @login_required
@@ -2275,15 +2283,9 @@ def admin_new_leads_details(request):
     documentation_employees = get_documentation_team_employee()
     visa_team = get_visa_team_employee()
     assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
 
-    # enquiries_with_spouse_names = []
-
-    # for enquiry_instance in enquiry:
-    #     spouse_names = enquiry_instance.spouse_name
-    #     print("ssssss", spouse_names)
-    #     enquiries_with_spouse_names.append((enquiry_instance, spouse_names))
-
-    # print("gggggggggggggggg", enquiries_with_spouse_names)
     context = {
         "enquiry": enquiry,
         "presales_employees": presales_employees,
@@ -2291,10 +2293,54 @@ def admin_new_leads_details(request):
         "documentation_employees": documentation_employees,
         "visa_team": visa_team,
         "lead": lead,
-        "assesment_employee": assesment_employee
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner
         # "enquiries_with_spouse_names": enquiries_with_spouse_names,
     }
     return render(request, "Admin/Enquiry/lead-details.html", context)
+
+
+@login_required
+def update_assigned_agent(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    if request.method == "POST":
+        try:
+            assign_to_agent = request.POST.get("assign_to_agent")
+            agent = Agent.objects.get(id=assign_to_agent)
+            enquiry.assign_to_agent = agent
+
+        except Agent.DoesNotExist:
+            if enquiry.assign_to_agent is None:
+                enquiry.assign_to_agent = None
+            else:
+                pass
+
+        enquiry.save()
+        return redirect("admin_new_leads_details")
+    return render(request, "Admin/Enquiry/lead-details.html")
+
+
+@login_required
+def update_assigned_op(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    if request.method == "POST":
+        try:
+            assign_to_outsourcingagent = request.POST.get("assign_to_outsourcingagent")
+            outsourcepartner = OutSourcingAgent.objects.get(
+                id=assign_to_outsourcingagent
+            )
+            enquiry.assign_to_outsourcingagent = outsourcepartner
+
+        except OutSourcingAgent.DoesNotExist:
+            if enquiry.assign_to_outsourcingagent is None:
+                enquiry.assign_to_outsourcingagent = None
+            else:
+                pass
+
+        enquiry.save()
+        return redirect("admin_new_leads_details")
+    return render(request, "Admin/Enquiry/lead-details.html")
 
 
 @login_required
@@ -3177,31 +3223,24 @@ def leadupated(request, id):
             enquiry.lead_status = "PreEnrolled"  # sales
             enquiry.save()
         elif lead == "PreEnrolled":
-            print("heloooo ggg")
             enquiry.lead_status = "Enrolled"  # visa team
             enquiry.save()
         elif lead == "Enrolled":
-            print("Inprocess ggg")
             enquiry.lead_status = "Inprocess"  # Documentation team
             enquiry.save()
         elif lead == "Inprocess":
-            print("Inprocess ggg")
             enquiry.lead_status = "Ready To Submit"  # Documentation team
             enquiry.save()
         elif lead == "Ready To Submit":
-            print("Inprocess ggg")
             enquiry.lead_status = "Appointment"  # Documentation team
             enquiry.save()
         elif lead == "Appointment":
-            print("Inprocess ggg")
             enquiry.lead_status = "Ready To Collection"  # Documentation team
             enquiry.save()
         elif lead == "Ready To Collection":
-            print("Inprocess ggg")
             enquiry.lead_status = "Result"  # Documentation team
             enquiry.save()
         elif lead == "Result":
-            print("Inprocess ggg")
             enquiry.lead_status = "Delivery"  # Documentation team
             enquiry.save()
 
@@ -3397,7 +3436,7 @@ def delete_news(request, id):
 def switch_to_outsource_agent(request, agent_id):
     try:
         agent = Agent.objects.get(id=agent_id)
-        print("sssss", agent.gender)
+
         custom_user = agent.users
         # Update user_type to OutSourcing Agent
         custom_user.user_type = (
@@ -3445,7 +3484,7 @@ def switch_to_outsource_agent(request, agent_id):
             agreement.save()
 
         enquiries_assigned_to_agent = Enquiry.objects.filter(assign_to_agent=agent)
-        print("enquriddddd", enquiries_assigned_to_agent)
+
         for enquiry in enquiries_assigned_to_agent:
             enquiry.assign_to_outsourcingagent = custom_user.outsourcingagent
             enquiry.assign_to_agent = None
@@ -3466,7 +3505,6 @@ def switch_to_outsource_agent(request, agent_id):
                 # Set other fields as needed
             )
             # Optionally, you can log the error or display a message
-            print(f"AgentKyc not found for Agent ID {agent.id}. Created a new record.")
 
             # Handle any additional logic or related models here
 

@@ -72,4 +72,5 @@ urlpatterns = [
     ),
     path("create_report/", create_report, name="create_report"),
     path("reportlist/", ReportList.as_view(), name="Agent_reportlist"),
+    path("lead_update/<int:id>", agent_lead_updated, name="agent_lead_updated"),
 ]

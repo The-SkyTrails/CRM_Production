@@ -105,8 +105,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             context["agent"] = outagent
 
         dep = user.employee.department
-        print("departmentt", dep)
-
+        
         if dep == "Presales":
             enrolled_monthly_counts = (
                 Enquiry.objects.filter(
@@ -247,8 +246,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
 
-        # print("countinggg:", enq_count)
-        print("Enrolleddd:", all_enq)
 
         # enq_count = Enquiry.objects.all().count()
         context["dep"] = dep
@@ -780,7 +777,7 @@ def preenrolled_save(request, id):
         enquiry.save()
         return redirect("employee_lead_list")
     if visa_Emp:
-        print("vissaaa", visa_Emp)
+        
         enquiry.lead_status = "PreEnrolled"
         enquiry.save()
         return redirect("employee_lead_list")
@@ -805,10 +802,10 @@ def active_save(request, id):
     enquiry = Enquiry.objects.get(id=id)
 
     assesment_Emp = enquiry.assign_to_assesment_employee
-    print("heooooo", assesment_Emp)
+    
 
     if assesment_Emp:
-        print("vissaaa", assesment_Emp)
+        
         enquiry.lead_status = "Active"
         enquiry.save()
         return redirect("employee_lead_list")
@@ -1014,7 +1011,7 @@ def emp_add_agent(request):
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
         files = request.FILES.get("files")
-        print("emiallll", email)
+        
 
         existing_agent = CustomUser.objects.filter(username=email)
         fullname = str(firstname + lastname)
@@ -1253,8 +1250,6 @@ def emp_agent_details(request, id):
         account = request.POST.get("account")
         ifsc = request.POST.get("ifsc")
 
-        print("first nameeee", firstname)
-
         if dob:
             users.agent.dob = dob
         if gender:
@@ -1363,7 +1358,7 @@ def emp_agent_kyc(request, id):
                 messages.success(request, "Kyc Added Successfully..")
                 return redirect("admin_agent_kyc", id)
             else:
-                print("workingggggggg")
+                pass
 
         except AgentKyc.DoesNotExist:
             kyc_id = None
@@ -1553,7 +1548,7 @@ def emp_outstsourceagent_delete(request, id):
 
 def emp_outsource_agent_kyc(request, id):
     agent = OutSourcingAgent.objects.get(id=id)
-    print("out soruce agent", id)
+    
     kyc_agent = AgentKyc.objects.filter(outsourceagent=agent).first
     user = request.user
     dep = user.employee.department

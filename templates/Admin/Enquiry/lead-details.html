@@ -178,6 +178,18 @@
                         <td>{{i.created_by}}</td>
 
                         <td>
+                            {% if i.assign_to_outsourcingagent %}
+                            <b>{{i.assign_to_outsourcingagent.users}}</b>(OP)
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
+                            {% if i.assign_to_agent %}
+                            <b>{{i.assign_to_agent.users}}</b>(AGENT)
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
                             {% if i.assign_to_employee %}
                             <b>{{i.assign_to_employee.users.first_name }} {{i.assign_to_employee.users.last_name}}</b>
                             ({{i.assign_to_employee.department}})
@@ -205,10 +217,11 @@
                             {% if i.assign_to_visa_team_employee %}
                             <b>{{i.assign_to_visa_team_employee.users.first_name }} {{i.assign_to_visa_team_employee.users.last_name}}</b>
                             ({{i.assign_to_visa_team_employee.department}})
-                            
+                            <br>
                             {% else %}
                             
                             {% endif %}
+                            
                             
                         </td>
                         <td>
@@ -217,6 +230,20 @@
                               </button>
 
                               {% include "Admin/Enquiry/assigned_to_employee_modal.html" %}
+                        </td>
+                        <td>
+                            
+                            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#agentModal-{{i.id}}" style="background-color: darkcyan; color:white;">
+                                Assigned To Agent
+                              </button><br><br>
+                              {% include "Admin/Enquiry/assigned_to_agent_modal.html" %}
+                             
+                              
+                              <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#opModal-{{i.id}}" style="background-color: darkcyan; color:white;">
+                                Assigned To OP
+                              </button>
+                              {% include "Admin/Enquiry/assigned_to_op_modal.html" %}
+                           
                         </td>
                         <td>
                             <span class="badge rounded-pill1">{{i.lead_status}}</span>

@@ -204,20 +204,24 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
             # Save the merged data to the database
             enquiry = Enquiry(**merged_data)
             # ---------------------------------------
+            if user.user_type == "4":
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                # If no student is assigned, find the next available student in a circular manner
+                presales_team_employees = Employee.objects.filter(department="Presales")
 
-            last_assigned_index = cache.get("last_assigned_index") or 0
-            # If no student is assigned, find the next available student in a circular manner
-            presales_team_employees = Employee.objects.filter(department="Presales")
+                if presales_team_employees.exists():
+                    next_index = (
+                        last_assigned_index + 1
+                    ) % presales_team_employees.count()
+                    enquiry.assign_to_employee = presales_team_employees[next_index]
+                    enquiry.assign_to_employee.save()
 
-            if presales_team_employees.exists():
-                next_index = (last_assigned_index + 1) % presales_team_employees.count()
-                enquiry.assign_to_employee = presales_team_employees[next_index]
-                enquiry.assign_to_employee.save()
-
-                cache.set("last_assigned_index", next_index)
+                    cache.set("last_assigned_index", next_index)
 
             # ------------------------------
             enquiry.created_by = user
+            if user.user_type == "5":
+                enquiry.assign_to_outsourcingagent = user.outsourcingagent
             enquiry.lead_status = "New Lead"
             enquiry.save()
             messages.success(request, "Enquiry Added successfully")
@@ -309,12 +313,24 @@ def delete_docfile(request, id):
 # ----------------------------------- Leads Details --------------------------
 
 
-@login_required
 def agent_new_leads_details(request):
-    enquiry = Enquiry.objects.filter(created_by=request.user).order_by("-id")
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+
     faq_count = FAQ.objects.filter(user=user).count()
-    context = {"enquiry": enquiry, "faq_count": faq_count}
+    user_type = user.user_type
+    if user_type == "5":
+        enquiry = Enquiry.objects.filter(
+            Q(assign_to_outsourcingagent=user.outsourcingagent) | Q(created_by=user)
+        ).order_by("-id")
+    elif user_type == "4":
+        enquiry = Enquiry.objects.filter(
+            Q(assign_to_agent=user.agent) | Q(created_by=user)
+        ).order_by("-id")
+
+    context = {"enquiry": enquiry, "faq_count": faq_count, "lead": lead}
+
     return render(request, "Agent/Enquiry/lead-details.html", context)
 
 
@@ -1108,7 +1124,7 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f"Error: {e}")
-            print("Error Occured ", e)
+
             return self.form_invalid(form)
 
 
@@ -1177,8 +1193,7 @@ def agent_PackageEnquiry1View(request):
         gender = request.POST.get("gender")
         country = request.POST.get("country")
         passport_no = request.POST.get("passport_no")
-        print("DOBB", dob)
-        print("passport number", passport_no)
+
         request.session["country"] = country
         request.session["first_name"] = first_name
         request.session["last_name"] = last_name
@@ -1431,3 +1446,15 @@ def agent_PackageEnquiry3View(request):
         "source": source,
     }
     return render(request, "Agent/Enquiry/Package Leads/lead3.html", context)
+
+
+########################################### STATUS UPDATE #################################################
+
+
+def agent_lead_updated(request, id):
+    if request.method == "POST":
+        lead_status = request.POST.get("lead_status")
+        enquiry = Enquiry.objects.get(id=id)
+        enquiry.lead_status = lead_status
+        enquiry.save()
+        return HttpResponseRedirect(reverse("agent_new_leads_details"))
