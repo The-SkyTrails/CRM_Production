@@ -104,6 +104,7 @@ class OutsourceAdmin(admin.ModelAdmin):
 class EnquiryAdmin(admin.ModelAdmin):
     list_display = [
         "id",
+        "created_by",
         "Visa_country",
         "enquiry_number",
         "assign_to_employee",

@@ -129,38 +129,40 @@
       });
     });
   </script>
-  <script>
-    const monthlyData = [
-        { month: 'Mon', completed: 75, uncompleted: 25 },
-        { month: 'Tue', completed: 85, uncompleted: 15 },
-        { month: ' Wed', completed: 75, uncompleted: 25 },
-        { month: 'Thu', completed: 85, uncompleted: 15 },
-        { month: ' Fri', completed: 75, uncompleted: 25 },
-        { month: 'Sat', completed: 85, uncompleted: 15 },
-        { month: 'Sun', completed: 75, uncompleted: 25 },
-       
-        // Add data for other months
+  {% comment %} <script>
+  
+    const enrolledData = [
+        {% for entry in enrolled_monthly_counts %}
+        
+            { month: '{{ entry.month__month__name }}', enrolled: {{ entry.count }} },
+        {% endfor %}
     ];
+
+    const allEnqData = [
+        {% for entry in all_enq %}
+            { month: '{{ entry.month__month__name }}', completed: {{ entry.count }} },
+        {% endfor %}
+    ];
+
     const verticalChartCanvas = document.getElementById('chartjs-bar');
     const verticalChart = new Chart(verticalChartCanvas, {
         type: 'bar',
         data: {
-            labels: monthlyData.map(data => data.month),
+            labels: enrolledData.map(data => data.month),
             datasets: [
                 {
-                    label: 'Online',
+                    label: 'Enrolled',
                     backgroundColor: '#1A56DB',
                     borderColor: '#1A56DB',
-                    borderradius: "8px 8px 0px 0px",
                     borderWidth: 1,
-                    data: monthlyData.map(data => data.completed),
+                    data: enrolledData.map(data => data.enrolled),
                 },
                 {
-                  label: 'Online',
+                    label: 'All Enquiries',
                     backgroundColor: '#2DC48B',
-                    borderradius: "8px 8px 0px 0px",
+                    borderColor: '#2DC48B',
                     borderWidth: 1,
-                    data: monthlyData.map(data => data.uncompleted),
+                    data: allEnqData.map(data => data.completed),
                 },
             ],
         },
@@ -168,23 +170,75 @@
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100,
                     title: {
                         display: true,
-                        
+                        text: 'Number of Enquiries',
                     },
                 },
                 x: {
                     title: {
                         display: true,
-                       
+                        text: 'Month',
                     },
                 },
             },
         },
     });
+</script> {% endcomment %}
 
+<script>
+    const enrolledData = [
+        {% for entry in enrolled_monthly_counts %}
+            { month: '{{ entry.month|date:"F" }}', enrolled: {{ entry.count }} },
+        {% endfor %}
+    ];
 
+    const allEnqData = [
+        {% for entry in all_enq %}
+            { month: '{{ entry.month|date:"F" }}', completed: {{ entry.count }} },
+        {% endfor %}
+    ];
+
+    const verticalChartCanvas = document.getElementById('chartjs-bar');
+    const verticalChart = new Chart(verticalChartCanvas, {
+        type: 'bar',
+        data: {
+            labels: enrolledData.map(data => data.month),
+            datasets: [
+                {
+                    label: 'Enrolled',
+                    backgroundColor: '#1A56DB',
+                    borderColor: '#1A56DB',
+                    borderWidth: 1,
+                    data: enrolledData.map(data => data.enrolled),
+                },
+                {
+                    label: 'All Enquiries',
+                    backgroundColor: '#2DC48B',
+                    borderColor: '#2DC48B',
+                    borderWidth: 1,
+                    data: allEnqData.map(data => data.completed),
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Enquiries',
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
+                    },
+                },
+            },
+        },
+    });
 </script>
 <script src="https://unpkg.com/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
 </body>

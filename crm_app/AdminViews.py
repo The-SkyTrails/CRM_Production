@@ -34,6 +34,8 @@ from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 # from wkhtmltopdf.utils import render_to_pdf_response
 from wkhtmltopdf.views import PDFTemplateResponse
 from .Email.email_utils import send_congratulatory_email
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 ######################################### COUNTRY #################################################
 
@@ -73,6 +75,24 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
             :10
         ]
+        enq_count = Enquiry.objects.all().count()
+        enq_enrolled_count = Enquiry.objects.filter(lead_status="Enrolled").count()
+        
+
+        enrolled_monthly_counts = (
+            Enquiry.objects.filter(lead_status="Enrolled")
+            .annotate(month=TruncMonth("registered_on"))
+            .values("month")
+            .annotate(count=Count("id"))
+            .order_by("month__month")
+        )
+        all_enq = (
+            Enquiry.objects.all()
+            .annotate(month=TruncMonth("registered_on"))
+            .values("month")
+            .annotate(count=Count("id"))
+            .order_by("month__month")
+        )
 
         context["total_agent_count"] = total_agent_count
         context["employee_count"] = employee_count
@@ -82,6 +102,10 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         context["leadtotal_count"] = leadtotal_count
         context["leadnew_count"] = leadnew_count
         context["package"] = package
+        context["enrolled_monthly_counts"] = enrolled_monthly_counts
+        context["all_enq"] = all_enq
+        context["enq_count"] = enq_count
+        context["enq_enrolled_count"] = enq_enrolled_count
 
         return context
 

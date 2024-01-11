@@ -103,6 +103,40 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             context["agent"] = outagent
 
         dep = user.employee.department
+        print("departmentt", dep)
+
+        if dep == "Presales":
+            enq_count = Enquiry.objects.filter(
+                Q(assign_to_employee=user.employee) | Q(created_by=user)
+            ).count()
+            enq_enrolled_count = Enquiry.objects.filter(
+                Q(lead_status="Enrolled")
+                & Q(assign_to_employee=user.employee) |
+                 (Q(created_by=user))
+            ).count()
+
+        elif dep == "Sales":
+            enq_count = Enquiry.objects.filter(
+                Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
+            ).count()
+
+        elif dep == "Documentation":
+            enq_count = Enquiry.objects.filter(
+                Q(assign_to_documentation_employee=user.employee) | Q(created_by=user)
+            ).count()
+        elif dep == "Visa Team":
+            enq_count = Enquiry.objects.filter(
+                Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
+            ).count()
+        elif dep == "Assesment":
+            enq_count = Enquiry.objects.filter(
+                Q(assign_to_assesment_employee=user.employee) | Q(created_by=user)
+            ).count()
+
+        print("countinggg:", enq_count)
+        print("Enrolleddd:", enq_enrolled_count)
+
+        # enq_count = Enquiry.objects.all().count()
         context["dep"] = dep
 
         context["leadcomplete_count"] = leadcomplete_count
@@ -113,6 +147,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["package"] = package
         context["agent_count"] = agent_count
         context["outsourceagent_count"] = outsourceagent_count
+        context["enq_count"] = enq_count
 
         return context
 
@@ -451,6 +486,10 @@ def employee_lead_grid(request):
             elif dep == "Visa Team":
                 enq = Enquiry.objects.filter(
                     Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_assesment_employee=user.employee) | Q(created_by=user)
                 ).order_by("-id")
             else:
                 enq = Enquiry.objects.filter(created_by=request.user)
@@ -3542,5 +3581,10 @@ def emp_PackageEnquiry3View(request):
         messages.success(request, "Enquiry Added successfully")
         return redirect("emp_enquiry_form4", enq.id)
 
-    context = {"package_id": package_id, "package": package, "visa_type": visa_type,"source":source}
+    context = {
+        "package_id": package_id,
+        "package": package,
+        "visa_type": visa_type,
+        "source": source,
+    }
     return render(request, "Employee/Enquiry/Package Leads/lead3.html", context)

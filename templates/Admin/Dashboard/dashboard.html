@@ -167,7 +167,7 @@
               <path d="M22.6666 15.2983H22.0946C21.5493 16.5899 20.65 17.6807 19.512 18.4309C21.1861 18.9314 22.6598 19.9922 23.7101 21.4528C24.7605 22.9134 25.3302 24.6945 25.3333 26.5263H28C28.3536 26.5263 28.6927 26.3785 28.9428 26.1153C29.1928 25.8521 29.3333 25.4951 29.3333 25.1228V22.3158C29.3312 20.4554 28.6281 18.6717 27.3783 17.3562C26.1285 16.0406 24.4341 15.3005 22.6666 15.2983Z" fill="#1C64F2"/>
               <path d="M9.33329 12.4913C9.33498 10.8741 9.86641 9.307 10.838 8.05422C11.8095 6.80145 13.1617 5.93964 14.6666 5.61414C14.2313 4.76332 13.5941 4.04564 12.8172 3.53094C12.0402 3.01625 11.1498 2.72208 10.2327 2.67707C9.3157 2.63206 8.4032 2.83774 7.58408 3.27409C6.76495 3.71044 6.06711 4.3626 5.55847 5.16708C5.04983 5.97157 4.74773 6.90097 4.68157 7.86482C4.61541 8.82866 4.78745 9.79412 5.18094 10.6672C5.57443 11.5403 6.17597 12.2913 6.927 12.8471C7.67802 13.4028 8.55296 13.7445 9.46663 13.8387C9.38017 13.3953 9.33551 12.944 9.33329 12.4913Z" fill="#1C64F2"/>
             </svg></div> 
-            <div><span class="personno">64</span> <br> <span class="leads">Leads generated this week</span></div>
+            <div><span class="personno">{{enq_count}}</span> <br> <span class="leads">Leads generated this Month</span></div>
           </div>
             
             
@@ -181,18 +181,18 @@
      </div>
       <hr>
       <div class="totalleads"> 
-          <div class="totaldays">
+          <div class="enrolled1">
         
           
-          Total Leads:64</div>
-      <div class="enrolled1">
+          Total Leads:{{enq_count}}</div>
+      <div class="totaldays">
         
 
-          Enrolled: 04</div>
+          Enrolled: {{enq_enrolled_count}}</div>
      </div>
       <canvas id="chartjs-bar"></canvas><hr>
       <div class="totalleads"><div>Last 7 days</div>
-      <a href="" class="anchartag"> <div class="totaldays">                
+      <a href="{% url "admin_new_leads_details" %}" class="anchartag"> <div class="totaldays">                
           Total Leads</div></a>
      </div>
     </div>
