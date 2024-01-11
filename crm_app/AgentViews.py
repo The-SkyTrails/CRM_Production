@@ -22,6 +22,8 @@ from datetime import datetime
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.hashers import check_password
 from django.utils import timezone
+from django.db.models.functions import TruncMonth
+from django.db.models import Count, Case, When, IntegerField, Q
 
 
 class agent_dashboard(TemplateView):
@@ -54,14 +56,86 @@ class agent_dashboard(TemplateView):
             agent = Agent.objects.get(users=user)
             context["agent"] = agent
 
+            outagent = OutSourcingAgent.objects.get(users=user)
+            context["agent"] = outagent
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_agent=user.agent,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_agent=user.agent) | Q(created_by=user)
+                )
+                .values(
+                    "id", "registered_on"
+                )  # Include the id to ensure distinct on Enquiry objects
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(
+                    count=Count("id", distinct=True)
+                )  # Count only distinct Enquiry objects
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
+
         if user.user_type == "5":
             outagent = OutSourcingAgent.objects.get(users=user)
             context["agent"] = outagent
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_outsourcingagent=user.outsourcingagent,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_outsourcingagent=user.outsourcingagent)
+                    | Q(created_by=user)
+                )
+                .values(
+                    "id", "registered_on"
+                )  # Include the id to ensure distinct on Enquiry objects
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(
+                    count=Count("id", distinct=True)
+                )  # Count only distinct Enquiry objects
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
 
         context["leadaccept_count"] = leadaccept_count
         context["lead_count"] = lead_count
         context["package"] = package
         context["faq_count"] = faq_count
+        context["enrolled_monthly_counts"] = enrolled_monthly_counts
+        context["enq_enrolled_count"] = enq_enrolled_count
+        context["all_enq"] = all_enq
+        context["enq_count"] = enq_count
 
         return context
 
