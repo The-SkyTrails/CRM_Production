@@ -2,6 +2,26 @@
 {% block main-content %}
 {% load static %}
 
+<style>
+
+  .newscroll {
+    overflow-y: auto;
+    max-height: 380px; 
+  }
+  
+  .newscroll::-webkit-scrollbar {
+    display: none;
+  }
+  .news-card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color:#A87C7C;
+      color:white ;
+  }
+  </style>
+
 <div class="container mt-4">
   <div class="row mb-2">
     <div class="col-md-4 mb-4">
@@ -252,7 +272,45 @@
   
  </div>
 
+<div class="div5">
+  <div class="left11">
+    <div class="container" >
+      <h4><b>SuccessStories</b></h4>
+      <hr>
+      <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for i in story %}
+                <div class="carousel-item active" data-bs-interval="2000">
+                    <img src="{{ i.image.url }}" class="d-block w-100" alt="..." style="height: 380px;">
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
+    </div>
+  </div>
+  <div class="left11 newsdiv">
+    <h4><b>News</b></h4>
+    <hr>
+    <div class="container newscroll">
+      {% for newsItem in latest_news %}
+      <div class="news-card">
+          
+          {{ newsItem.news }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+</div>
 
 
  

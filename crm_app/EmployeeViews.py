@@ -96,6 +96,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        story = SuccessStory.objects.all()
+        latest_news = News.objects.filter(employee=True).order_by("-created_at")[:10]
+
         user = self.request.user
         if user.user_type == "4":
             agent = Agent.objects.get(users=user)
@@ -261,6 +264,8 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["all_enq"] = all_enq
         context["enq_count"] = enq_count
         context["enq_enrolled_count"] = enq_enrolled_count
+        context["story"] = story
+        context["latest_news"] = latest_news
 
         # context["enq_count"] = enq_count
 
@@ -3353,7 +3358,7 @@ class NewsList(LoginRequiredMixin, ListView):
     context_object_name = "news"
 
     def get_queryset(self):
-        return News.objects.all().order_by("-id")
+        return News.objects.filter(employee=True).order_by("-id")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

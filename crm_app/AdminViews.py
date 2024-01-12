@@ -76,6 +76,10 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        story = SuccessStory.objects.all()
+
+        latest_news = News.objects.order_by("-created_at")[:10]
+
         enrolled_monthly_counts = (
             Enquiry.objects.filter(lead_status="Enrolled")
             .annotate(month=TruncMonth("registered_on"))
@@ -108,6 +112,8 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         context["all_enq"] = all_enq
         context["enq_count"] = enq_count
         context["enq_enrolled_count"] = enq_enrolled_count
+        context["story"] = story
+        context["latest_news"] = latest_news
 
         return context
 
@@ -3547,6 +3553,37 @@ def color_code(request, id):
 def demo(request):
     return render(request, "Admin/Dashboard/demo.html")
 
+
 def dashboard2(request):
-    
     return render(request, "Admin/Dashboard/dashboard2.html")
+
+
+def NewsUpdateView(request):
+    user = request.user
+
+    if request.method == "POST":
+        news_id = request.POST.get("news_id")
+        news_text = request.POST.get("news")
+        employee = request.POST.get("employee")  # This might be "on" or None
+        agent = request.POST.get("agent")
+        outsource_Agent = request.POST.get("outsource_Agent")
+
+        # Fetch the News object by ID
+        news_instance = News.objects.get(id=news_id)
+
+        # Update the fields
+        news_instance.news = news_text
+        news_instance.agent = agent
+        news_instance.outsource_Agent = outsource_Agent
+
+        news_instance.employee = True if employee == "on" else False
+        news_instance.agent = True if agent == "on" else False
+        news_instance.outsource_Agent = True if outsource_Agent == "on" else False
+
+        news_instance.create_by = user
+
+        # Save the changes
+        news_instance.save()
+
+        messages.success(request, "News Updated successfully")
+        return HttpResponseRedirect(reverse("News_list"))

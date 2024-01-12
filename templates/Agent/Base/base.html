@@ -143,7 +143,7 @@
     const verticalChart = new Chart(verticalChartCanvas, {
         type: 'bar',
         data: {
-            labels: enrolledData.map(data => data.month),
+            labels: allEnqData.map(data => data.month),
             datasets: [
                 {
                     label: 'Enrolled',

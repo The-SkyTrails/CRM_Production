@@ -59,13 +59,11 @@
   
   <div class="row">
     {% for i in story  %}
-    <div class="col-md-4" style="margin-bottom:4px;">
+    <div class="col-md-4" style="margin-bottom:6px;">
       <div class="card">
-       
-        
-           <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image"/>
-         
-  
+
+        <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image" style="border-radius: 8px;"/>
+
       </div>
     </div>
     {% endfor %}

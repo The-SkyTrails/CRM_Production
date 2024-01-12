@@ -68,7 +68,7 @@
         </thead>
         <tbody>
           {% for i in news %}
-          {% if i.agent == True %}
+          
           <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.news}}</td>
@@ -76,7 +76,7 @@
             <td>{{i.created_at}}</td>
             
           </tr>
-          {% endif %}
+          
           {% endfor %}
         </tbody>
       </table>

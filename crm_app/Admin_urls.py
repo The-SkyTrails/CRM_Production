@@ -258,4 +258,5 @@ urlpatterns = [
     path("color_code/<int:id>", color_code, name="color_code"),
     path("demo/", demo, name="demo"),
     path("dashboard2/", dashboard2, name="dashboard2"),
+    path("update_news/", NewsUpdateView, name="update_news"),
 ]
