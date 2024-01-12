@@ -3540,5 +3540,5 @@ def color_code(request, id):
         enquiry = Enquiry.objects.get(id=id)
         enquiry.color_code = color_code
         enquiry.save()
-        # messages.success(request, f"Lead Color {color_code} Updated Successfully...")
+        messages.success(request, f"Lead Color {color_code} Updated Successfully...")
         return HttpResponseRedirect(reverse("admin_new_leads_details"))
