@@ -59,8 +59,8 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        enq_count = 0
         enq_enrolled_count = 0
-
         agent_count = Agent.objects.filter(registerdby=self.request.user).count
 
         outsourceagent_count = OutSourcingAgent.objects.filter(
@@ -247,7 +247,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
 
-        # enq_count = Enquiry.objects.all().count()
         context["dep"] = dep
 
         context["leadcomplete_count"] = leadcomplete_count
