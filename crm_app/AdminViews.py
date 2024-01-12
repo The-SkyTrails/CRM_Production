@@ -3542,3 +3542,11 @@ def color_code(request, id):
         enquiry.save()
         messages.success(request, f"Lead Color {color_code} Updated Successfully...")
         return HttpResponseRedirect(reverse("admin_new_leads_details"))
+
+
+def demo(request):
+    return render(request, "Admin/Dashboard/demo.html")
+
+def dashboard2(request):
+    
+    return render(request, "Admin/Dashboard/dashboard2.html")

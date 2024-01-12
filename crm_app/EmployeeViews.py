@@ -59,6 +59,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        enq_enrolled_count = 0
 
         agent_count = Agent.objects.filter(registerdby=self.request.user).count
 
@@ -105,7 +106,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             context["agent"] = outagent
 
         dep = user.employee.department
-        
+
         if dep == "Presales":
             enrolled_monthly_counts = (
                 Enquiry.objects.filter(
@@ -245,7 +246,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             )
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
-
 
         # enq_count = Enquiry.objects.all().count()
         context["dep"] = dep
@@ -777,7 +777,6 @@ def preenrolled_save(request, id):
         enquiry.save()
         return redirect("employee_lead_list")
     if visa_Emp:
-        
         enquiry.lead_status = "PreEnrolled"
         enquiry.save()
         return redirect("employee_lead_list")
@@ -802,10 +801,8 @@ def active_save(request, id):
     enquiry = Enquiry.objects.get(id=id)
 
     assesment_Emp = enquiry.assign_to_assesment_employee
-    
 
     if assesment_Emp:
-        
         enquiry.lead_status = "Active"
         enquiry.save()
         return redirect("employee_lead_list")
@@ -1011,7 +1008,6 @@ def emp_add_agent(request):
         address = request.POST.get("address")
         zipcode = request.POST.get("zipcode")
         files = request.FILES.get("files")
-        
 
         existing_agent = CustomUser.objects.filter(username=email)
         fullname = str(firstname + lastname)
@@ -1548,7 +1544,7 @@ def emp_outstsourceagent_delete(request, id):
 
 def emp_outsource_agent_kyc(request, id):
     agent = OutSourcingAgent.objects.get(id=id)
-    
+
     kyc_agent = AgentKyc.objects.filter(outsourceagent=agent).first
     user = request.user
     dep = user.employee.department

@@ -256,4 +256,6 @@ urlpatterns = [
         name="Disapprove_Package_list",
     ),
     path("color_code/<int:id>", color_code, name="color_code"),
+    path("demo/", demo, name="demo"),
+    path("dashboard2/", dashboard2, name="dashboard2"),
 ]

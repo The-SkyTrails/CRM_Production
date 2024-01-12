@@ -125,7 +125,7 @@
       });
     });
   </script>
- 
+{% comment %}  
 <script>
     const enrolledData = [
         {% for entry in enrolled_monthly_counts %}
@@ -179,6 +179,68 @@
             },
         },
     });
+</script> {% endcomment %}
+<script>
+    const enrolledData = [
+        {% for entry in enrolled_monthly_counts %}
+            { month: '{{ entry.month|date:"F" }}', count: {{ entry.count }} },
+        {% endfor %}
+    ];
+
+    const allEnqData = [
+        {% for entry in all_enq %}
+            { month: '{{ entry.month|date:"F" }}', count: {{ entry.count }} },
+        {% endfor %}
+    ];
+
+    // Check if enrolledData is not empty
+    if (enrolledData.length > 0) {
+        const verticalChartCanvas = document.getElementById('chartjs-bar');
+        const verticalChart = new Chart(verticalChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: enrolledData.map(data => data.month),
+                datasets: [
+                    {
+                        label: 'Enrolled',
+                        backgroundColor: '#1A56DB',
+                        borderColor: '#1A56DB',
+                        borderWidth: 1,
+                        data: enrolledData.map(data => data.count),
+                    },
+                    {
+                        label: 'All Enquiries',
+                        backgroundColor: '#2DC48B',
+                        borderColor: '#2DC48B',
+                        borderWidth: 1,
+                        data: allEnqData.map(data => data.count),
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Enquiries',
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month',
+                        },
+                    },
+                },
+            },
+        });
+    } else {
+        // Handle the case where there is no enrolled data
+        console.log("No enrolled data available. Handle accordingly.");
+    }
 </script>
+
+
 </body>
 </html>
