@@ -259,4 +259,8 @@ urlpatterns = [
     path("demo/", demo, name="demo"),
     path("dashboard2/", dashboard2, name="dashboard2"),
     path("update_news/", NewsUpdateView, name="update_news"),
+    path("all_appointment/", all_appointment, name="all_appointment"),
+    path("add_appointment/", add_appointment, name="add_appointment"),
+    path("update/", update, name="update"),
+    path("remove/", remove, name="remove"),
 ]

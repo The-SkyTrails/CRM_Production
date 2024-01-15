@@ -9,6 +9,7 @@ import datetime
 from django.db.models import Q
 import json
 
+
 BRANCH_SOURCES = [
     ("COCO", "Company Owned Company Operated"),
     ("COFO", "Company Owned Franchise Operated"),
@@ -507,12 +508,14 @@ leads_status = [
 ]
 
 COLOR_CODE = [
-    ("Grey","Grey"),
-    ("Blue","Blue"),
-    ("White","White"),
-    ("Red","Red"),
-    ("Green","Green"),
+    ("Grey", "Grey"),
+    ("Blue", "Blue"),
+    ("White", "White"),
+    ("Red", "Red"),
+    ("Green", "Green"),
 ]
+
+
 class Enquiry(models.Model):
     Salutation = models.CharField(
         max_length=20, choices=SALUTATION_CHOICES, null=True, blank=True
@@ -998,6 +1001,13 @@ class Report(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     notes = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Appointment(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    start = models.DateField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
 
 
 @receiver(post_save, sender=CustomUser)

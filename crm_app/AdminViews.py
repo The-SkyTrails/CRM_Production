@@ -36,6 +36,7 @@ from wkhtmltopdf.views import PDFTemplateResponse
 from .Email.email_utils import send_congratulatory_email
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
+from django.utils import timezone
 
 ######################################### COUNTRY #################################################
 
@@ -3551,7 +3552,10 @@ def color_code(request, id):
 
 
 def demo(request):
-    return render(request, "Admin/Dashboard/demo.html")
+    all_events = Appointment.objects.all()
+    print("ssssssssssss")
+    context = {"events": all_events}
+    return render(request, "Admin/Dashboard/demo.html", context)
 
 
 def dashboard2(request):
@@ -3587,3 +3591,81 @@ def NewsUpdateView(request):
 
         messages.success(request, "News Updated successfully")
         return HttpResponseRedirect(reverse("News_list"))
+
+
+def add_appointment(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("time", None)
+    print("start", start)
+    title = request.GET.get("title", None)
+    event = Appointment(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+
+# def all_appointment(request):
+#     try:
+#         all_appointment = Appointment.objects.all()
+#         out = []
+#         for appointment in all_appointment:
+#             formatted_start = appointment.start.astimezone(
+#                 timezone.get_current_timezone()
+#             ).strftime("%Y-%m-%dT%H:%M:%S")
+#             formatted_end = appointment.start.astimezone(
+#                 timezone.get_current_timezone()
+#             ).strftime("%Y-%m-%dT%H:%M:%S")
+#             out.append(
+#                 {
+#                     "title": appointment.name,
+#                     "id": appointment.id,
+#                     "start": formatted_start,
+#                     "end": formatted_end,
+#                 }
+#             )
+#         return JsonResponse(out, safe=False)
+#     except Exception as e:
+#         print(
+#             f"Error in all_events view: {str(e)}"
+#         )  # Print the error message to the console
+#         return JsonResponse({"error": "Internal Server Error"}, status=500)
+
+from django.core.serializers.json import DjangoJSONEncoder
+
+
+def all_appointment(request):
+    all_events = Appointment.objects.all()
+    print("demooooooooooooo")
+    out = []
+    for event in all_events:
+        out.append(
+            {
+                "title": event.name,
+                "id": event.id,
+                "start": event.start.strftime("%m/%d/%Y"),
+                # "end": event.end.strftime("%m/%d/%Y, %H:%M:%S"),
+            }
+        )
+    return JsonResponse(out, safe=False)
+
+
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = Appointment.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+
+def remove(request):
+    id = request.GET.get("id", None)
+    event = Appointment.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
