@@ -4183,3 +4183,8 @@ color: #4B5563;
     list-style: 150%;
     color:#03543F !important;
   }
+
+
+.fc-time {
+    display: none;
+}

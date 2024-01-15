@@ -111,6 +111,8 @@
     </div>
   </div>
 
+  {% include "Employee/Base/messages.html" %}
+
   <div class="leadconatiner">
     <div class="detail-info">
       <div class="tab-container">
@@ -186,6 +188,11 @@
 
     </div>
   </div>
+
+  {% if dep == "Documentation" or dep == "Visa Team" %}
+  <a href="{% url 'download_all_documents' enq.id %}" class="btn btn-primary">Download All Documents</a>
+{% endif %}
+
 
   <div class="inputforms-container">
     {% for document_category, documents in grouped_documents.items %}
@@ -311,7 +318,15 @@
     </div>
     {% endfor %}
 
+    
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      {% if dep == "Documentation" %}
+
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#colorModal">
+      Colour
+    </button>
+    {% include "Employee/Enquiry/color_modal.html" %}
+    {% endif %}
       <a href="{% url "Enrolled_leads" %}">
         <button class="btn btn-color" type="submit">Submit
 

@@ -133,6 +133,8 @@
                         <th>ACTION</th>
                         <th>ENQUIRY No.</th>
                         <th>Name</th>
+                        <th>DOB</th>
+                        <th>Passport No</th>
                         <th>Registered No.</th>
                         <th>Updated on</th>
                         <th>VISA COUNTRY</th>
@@ -148,7 +150,7 @@
                         <th>Appointment</th>
                         <th>Appointment Status</th>
                         <th>NOTES</th>
-                        <th>Color Code</th>
+                        <th>Colour Code</th>
                         <th>ACTION</th>
                         {% comment %} <th>ddddd</th> {% endcomment %}
                         {% comment %} <th>Approval Status</th> {% endcomment %}
@@ -171,6 +173,8 @@
                         </td>
                         <td>{{i.enquiry_number}}</td>
                         <td>{{i.FirstName}} {{i.LastName}}</td>
+                        <td>{{i.Dob}}</td>
+                        <td>{{i.passport_no}}</td>
                         <td>{{i.registered_on}}</td>
                         <td>{{i.last_updated_on}}</td>
                         <td>{{i.Visa_country}}</td>
@@ -324,7 +328,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#colorModal-{{i.id}}">
-                                Color
+                                Colour
                               </button>
                               {% include "Admin/Enquiry/color_modal.html" %}
                         </td>
@@ -343,23 +347,8 @@
                                 </div>
                             </div>
                         </td>
-                        {% comment %} <td>
-                        {% for enquiry_instance, spouse_names in enquiries_with_spouse_names %}
-                        {% for spouse_name in spouse_names %}
-                            {{ spouse_name }}
-                        {% endfor %}
-                        {% endfor %}
-                        </td> {% endcomment %}
-                        {% comment %} <td>
-                            <div class="buttons-container">
-                                <div class="accept-button">
-                                    <div class="button-content">Accept</div>
-                                </div>
-                                <div class="reject-button">
-                                    <div class="button-content">Reject</div>
-                                </div>
-                            </div>
-                        </td> {% endcomment %}
+                        
+                       
                     </tr>
                     {% endif %}
                     

@@ -135,6 +135,8 @@
                         <th>Action</th>
                         <th>Enquiry No</th>
                         <th>Name</th>
+                        <th>DOB</th>
+                        <th>Passport No</th>
                         <th>Registered on</th>
                         <th>updated on</th>
                         <th>VISA COUNTRY</th>
@@ -157,8 +159,9 @@
                 <tbody>
                     {% for i in enq  %}
                     {% if i.archive == False %}
-                    <tr style="background-color: {% if i.color_code == 'Grey' %}#efe5e5{% elif i.color_code == 'Blue' %}#89CFF0{% elif i.color_code == 'White' %}#FAF9F6{% elif i.color_code == 'Red' %}#ff9090{% elif i.color_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
-                        <td>
+                    <tr style="background-color: {% if dep == 'Documentation' or dep == 'Visa Team' %}{% if i.color_code == 'Grey' %}#efe5e5{% elif i.color_code == 'Blue' %}#89CFF0{% elif i.color_code == 'White' %}#FAF9F6{% elif i.color_code == 'Red' %}#ff9090{% elif i.color_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
+
+                               <td>
                             <a href="{% url "emp_edit_enrolled_application" i.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 16 16" fill="none">
                                     <path
@@ -168,6 +171,8 @@
                         </td>
                         <td>{{i.enquiry_number}}</td>
                         <td>{{i.FirstName}} {{i.LastName}}</td>
+                        <td>{{i.Dob}}</td>
+                        <td>{{i.passport_no}}</td>
                         <td>{{i.registered_on}}</td>
                         <td>{{i.last_updated_on}}</td>
                         <td>{{i.Visa_country}}</td>

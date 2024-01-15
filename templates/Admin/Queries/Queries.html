@@ -1,5 +1,3 @@
-
-
 {% extends "Admin/Base/base.html" %}
 {% load static %}
 {% block main-content %}
@@ -39,6 +37,7 @@
             <div class="custom-box">
                 <div class="custom-text">Queries</div>
             </div>
+
             <div class="tabBox">
                 <a href="{% url "Admin_resolved_queries" %}">
                     <div class="tabOne">
@@ -54,6 +53,15 @@
                             Pending Queries  <div class="pendingquerycircle"><div class="circlecontent">{{pending_queries_count}}</div></div>
                         </div>
                     </div>
+                </a>
+            </div>
+
+            <div class="scheduleappointment">
+                <a href="{% url "Admin_addfaq" %}">
+                  <div
+                  class="appointment-text">
+                  Add New
+                </div>
                 </a>
             </div>
             

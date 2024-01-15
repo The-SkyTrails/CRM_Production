@@ -133,8 +133,10 @@ class agent_dashboard(LoginRequiredMixin, TemplateView):
                 )  # Count only distinct Enquiry objects
                 .order_by("month__month")
             )
+
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
+        todo = Todo.objects.filter(user=self.request.user).order_by("-id")
 
         context["leadaccept_count"] = leadaccept_count
         context["lead_count"] = lead_count
@@ -145,6 +147,7 @@ class agent_dashboard(LoginRequiredMixin, TemplateView):
         context["enq_enrolled_count"] = enq_enrolled_count
         context["all_enq"] = all_enq
         context["enq_count"] = enq_count
+        context["todo"] = todo
 
         return context
 
@@ -1661,3 +1664,46 @@ def agent_lead_updated(request, id):
         enquiry.lead_status = lead_status
         enquiry.save()
         return HttpResponseRedirect(reverse("agent_new_leads_details"))
+
+
+# --------------------------------- Todo ------------------------------
+
+
+def Agent_add_todo(request):
+    description = request.POST.get("todoDescription")
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+        task = Todo.objects.create(user=request.user, description=description)
+
+        return HttpResponseRedirect(reverse("agent_dashboard"))
+    except Exception as e:
+        pass
+
+
+def Agent_update_todo(request, id):
+    todo = Todo.objects.get(id=id)
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+        description = request.POST.get("todoDescription")
+
+        todo.description = description
+        todo.save()
+
+        return HttpResponseRedirect(reverse("agent_dashboard"))
+    except Exception as e:
+        pass
+
+
+def Agent_delete_todo(request, id):
+    todo = Todo.objects.get(id=id)
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+
+        todo.delete()
+
+        return HttpResponseRedirect(reverse("agent_dashboard"))
+    except Exception as e:
+        pass

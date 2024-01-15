@@ -73,4 +73,8 @@ urlpatterns = [
     path("create_report/", create_report, name="create_report"),
     path("reportlist/", ReportList.as_view(), name="Agent_reportlist"),
     path("lead_update/<int:id>", agent_lead_updated, name="agent_lead_updated"),
+    # ----------------------------- TODO -----------------------------
+    path("Todo/", Agent_add_todo, name="Agent_add_todo"),
+    path("Update/Todo/<int:id>/", Agent_update_todo, name="Agent_update_todo"),
+    path("Delete/Todo/<int:id>/", Agent_delete_todo, name="Agent_delete_todo"),
 ]

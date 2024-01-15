@@ -1,6 +1,6 @@
-<div class="modal fade" id="colorModal-{{i.id}}" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
+<div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="{% url "color_code" i.id %}" method="post">
+        <form action="{% url "Employee_color_code" %}" method="post">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
@@ -9,15 +9,17 @@
                 </div>
                 <hr>
                 <div class="modal-body">
+                    
 
                 <label class="custom-form-label" for="">Give Colour For Lead</label>
+                <input type="text" name="enq_id" value={{enq.id}} hidden>
                 <select class="form-select" name="color_code" id="color_code">
                    
-                    <option value="Grey" {% if i.color_code == "Grey" %}selected{% endif %}>Grey</option>
-                    <option value="Blue" {% if i.color_code == "Blue" %}selected{% endif %}>Blue</option>
-                    <option value="White" {% if i.color_code == "White" %}selected{% endif %}>White</option>
-                    <option value="Red" {% if i.color_code == "Red" %}selected{% endif %}>Red</option>
-                    <option value="Green" {% if i.color_code == "Green" %}selected{% endif %}>Green</option>
+                    <option value="Grey" {% if enq.color_code == "Grey" %}selected{% endif %}>Grey</option>
+                    <option value="Blue" {% if enq.color_code == "Blue" %}selected{% endif %}>Blue</option>
+                    <option value="White" {% if enq.color_code == "White" %}selected{% endif %}>White</option>
+                    <option value="Red" {% if enq.color_code == "Red" %}selected{% endif %}>Red</option>
+                    <option value="Green" {% if enq.color_code == "Green" %}selected{% endif %}>Green</option>
                 </select>
   
                     

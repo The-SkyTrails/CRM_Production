@@ -28,6 +28,7 @@ import pandas as pd
 from .Email.email_utils import send_congratulatory_email
 from django.db.models.functions import TruncMonth
 from django.db.models import Case, When, Value, IntegerField
+from django.http import JsonResponse
 
 
 def employee_query_list(request):
@@ -250,6 +251,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
 
+        todo = Todo.objects.filter(user=self.request.user).order_by("-id")
         context["dep"] = dep
 
         context["leadcomplete_count"] = leadcomplete_count
@@ -266,6 +268,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["enq_enrolled_count"] = enq_enrolled_count
         context["story"] = story
         context["latest_news"] = latest_news
+        context["todo"] = todo
 
         # context["enq_count"] = enq_count
 
@@ -3702,3 +3705,200 @@ def emp_PackageEnquiry3View(request):
         "source": source,
     }
     return render(request, "Employee/Enquiry/Package Leads/lead3.html", context)
+
+
+# ---------------------------------- Appointment ----------------------------
+
+
+def emp_appointment(request):
+    user = request.user.employee
+    all_events = Appointment.objects.filter(employee=user)
+
+    context = {"events": all_events}
+    return render(request, "Employee/Appointment/appointment.html", context)
+
+
+def all_appointment(request):
+    user = request.user.employee
+    all_events = Appointment.objects.filter(employee=user)
+    print("demooooooooooooo", all_events)
+    out = []
+    for event in all_events:
+        formatted_date = event.start.strftime("%Y-%m-%d")
+        out.append(
+            {
+                "title": event.name,
+                "id": event.id,
+                "start": event.start.strftime("%Y-%m-%dT%H:%M:%S"),
+                "time": event.time,
+            }
+        )
+    return JsonResponse(out, safe=False)
+
+
+def add_appointment(request):
+    user = request.user.employee
+    start = request.GET.get("start", None)
+    end = request.GET.get("time", None)
+    time = request.GET.get("time", None)
+    title = request.GET.get("title", None)
+    event = Appointment(employee=user, name=str(title), start=start, time=time)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+
+    event = Appointment.objects.get(id=id)
+    event.start = start
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+
+def remove(request):
+    id = request.GET.get("id", None)
+    event = Appointment.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
+
+
+# --------------------------------- Todo ------------------------------
+
+
+def emp_add_todo(request):
+    description = request.POST.get("todoDescription")
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+        task = Todo.objects.create(user=request.user, description=description)
+
+        return HttpResponseRedirect(reverse("employee_dashboard"))
+    except Exception as e:
+        pass
+
+
+def emp_update_todo(request, id):
+    todo = Todo.objects.get(id=id)
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+        description = request.POST.get("todoDescription")
+
+        todo.description = description
+        todo.save()
+
+        return HttpResponseRedirect(reverse("employee_dashboard"))
+    except Exception as e:
+        pass
+
+
+def emp_delete_todo(request, id):
+    todo = Todo.objects.get(id=id)
+
+    try:
+        # Assuming you have a Task model with 'title' and 'description' fields
+
+        todo.delete()
+
+        return HttpResponseRedirect(reverse("employee_dashboard"))
+    except Exception as e:
+        pass
+
+
+def color_code(request):
+    if request.method == "POST":
+        enq_id = request.POST.get("enq_id")
+        color_code = request.POST.get("color_code")  # Corrected this line
+        enquiry = Enquiry.objects.get(id=enq_id)
+        enquiry.color_code = color_code
+        enquiry.save()
+        messages.success(request, f"Lead Color {color_code} Updated Successfully...")
+        return redirect("emp_enrolleddocument", id=enq_id)
+
+
+
+
+############################################# RAR #############################################################
+
+
+import os
+import tempfile
+import zipfile
+import requests
+import logging
+import mimetypes
+from django.http import HttpResponse
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def download_all_documents(request, id):
+    enq = Enquiry.objects.get(id=id)
+    doc_files = DocumentFiles.objects.filter(enquiry_id=enq)
+
+    # Collect document URLs
+    document_urls = [request.build_absolute_uri(doc_file.document_file.url) for doc_file in doc_files if doc_file.document_file]
+
+    logger.info(f"Document URLs: {document_urls}")
+
+    # Create a temporary directory to store the files
+    temp_dir = tempfile.mkdtemp()
+
+    try:
+        # Download each document to the temporary directory
+        for index, document_url in enumerate(document_urls):
+            response = requests.get(document_url, stream=True)
+            content_type = response.headers.get('Content-Type', 'application/octet-stream')  # Get the content type
+
+            if response.status_code == 200:
+                # Determine file extension based on content type
+                file_extension = get_file_extension(content_type)
+                document_path = os.path.join(temp_dir, f"document_{index + 1}{file_extension}")
+                with open(document_path, 'wb') as file:
+                    for chunk in response.iter_content(chunk_size=128):
+                        file.write(chunk)
+            else:
+                logger.warning(f"Failed to download document from {document_url}")
+
+        # Create the ZIP archive
+        zip_file_path = os.path.join(temp_dir, 'documents.zip')
+        with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as archive:
+            for index, document_url in enumerate(document_urls):
+                response = requests.head(document_url)
+                content_type = response.headers.get('Content-Type', 'application/octet-stream')
+                file_extension = get_file_extension(content_type)
+                document_path = os.path.join(temp_dir, f"document_{index + 1}{file_extension}")
+                if os.path.exists(document_path):
+                    archive.write(document_path, os.path.basename(document_path))
+                else:
+                    logger.warning(f"Document file not found: {document_path}")
+
+        # Serve the ZIP archive for download
+        with open(zip_file_path, 'rb') as archive_file:
+            response = HttpResponse(archive_file.read(), content_type='application/zip')
+            response['Content-Disposition'] = f'attachment; filename=documents.zip'
+            return response
+
+    except Exception as e:
+        logger.error(f"Error during download_all_documents: {e}")
+        raise  # Reraise the exception to see the traceback in the console
+
+    finally:
+        # Clean up temporary files and directory
+        for file_path in os.listdir(temp_dir):
+            file_path = os.path.join(temp_dir, file_path)
+            os.remove(file_path)
+        os.rmdir(temp_dir)
+
+def get_file_extension(content_type):
+    
+    extension = mimetypes.guess_extension(content_type, strict=False)
+    return extension if extension else ".dat"

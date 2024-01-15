@@ -245,6 +245,7 @@
 
     </div>
   </div>
+  <a href="{% url 'admin_download_all_documents' enq.id %}" class="btn btn-primary">Download All Documents</a>
 
   <div class="inputforms-container">
     {% for document_category, documents in grouped_documents.items %}

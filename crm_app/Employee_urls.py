@@ -280,4 +280,20 @@ urlpatterns = [
     path("AddPackage/", PackageCreateView.as_view(), name="Emp_Package"),
     path("News_list/", NewsList.as_view(), name="Emp_News_list"),
     path("Success_StoryList/", SuccessStoryList.as_view(), name="Emp_SuccessStoryList"),
+    path("Appointment/", emp_appointment, name="emp_appointment"),
+    path("all_appointment/", all_appointment, name="emp_all_appointment"),
+    path("add_appointment/", add_appointment, name="emp_add_appointment"),
+    path("update/", update, name="update"),
+    path("remove/", remove, name="remove"),
+    # ------------------------- Todo List -------------------------
+    path("Todo/", emp_add_todo, name="emp_add_todo"),
+    path("Update/Todo/<int:id>/", emp_update_todo, name="emp_update_todo"),
+    path("Delete/Todo/<int:id>/", emp_delete_todo, name="emp_delete_todo"),
+    # ---------------------------- download zip -------------------------
+    path("Employee_color_code/", color_code, name="Employee_color_code"),
+    path(
+        "download_all_documents/<int:id>/",
+        download_all_documents,
+        name="download_all_documents",
+    ),
 ]

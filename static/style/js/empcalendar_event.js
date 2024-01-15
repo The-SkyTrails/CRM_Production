@@ -126,7 +126,7 @@ $(document).ready(function(){
         //     center: 'title',
         //     right: 'month,agendaWeek,agendaDay'
         // },
-        events: '/Admin/all_appointment/',
+        events: '/Employee/all_appointment/',
         selectable: true,
         selectHelper: true,
         editable: true,
@@ -149,7 +149,7 @@ $(document).ready(function(){
                 if (title) {
                     $.ajax({
                         type: "GET",
-                        url: '/Admin/add_appointment/',
+                        url: '/Employee/add_appointment/',
                         data: {'title': title, 'start': formattedStart, 'time': time},
                         dataType: "json",
                         success: function (data) {
@@ -171,7 +171,7 @@ $(document).ready(function(){
                    var id = event.id;
                    $.ajax({
                        type: "GET",
-                       url: '/Admin/remove',
+                       url: '/Employee/remove',
                        data: {'id': id},
                        dataType: "json",
                        success: function (data) {
@@ -192,7 +192,7 @@ $(document).ready(function(){
             var id = event.id;
             $.ajax({
                 type: "GET",
-                url: '/Admin/update/',
+                url: '/Employee/update/',
                 data: {'title': title,'start':start,'id': id},
                 dataType: "json",
                 success: function (data) {

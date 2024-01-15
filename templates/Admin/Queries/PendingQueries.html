@@ -55,10 +55,17 @@
                     </div>
                 </a>
             </div>
-            
+            <div class="scheduleappointment">
+                <a href="{% url "Admin_addfaq" %}">
+                  <div
+                  class="appointment-text">
+                  Add New
+                </div>
+                </a>
+            </div>
 
         </div>
-
+        {% include "Admin/Base/messages.html" %}
 
         <div class="table-container">
             <div class="table-responsive">

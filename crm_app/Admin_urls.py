@@ -196,6 +196,7 @@ urlpatterns = [
     ),
     path("logout", admin_logout, name="admin_logout"),
     path("activity_logs/", activity_log_view, name="activity_logs"),
+    path("AddQueries/", FAQCreateView.as_view(), name="Admin_addfaq"),
     path(
         "resolved-queries/",
         ResolvedFAQListView.as_view(),
@@ -256,11 +257,20 @@ urlpatterns = [
         name="Disapprove_Package_list",
     ),
     path("color_code/<int:id>", color_code, name="color_code"),
-    path("demo/", demo, name="demo"),
+    path("Appointment/", admin_appointment, name="admin_appointment"),
     path("dashboard2/", dashboard2, name="dashboard2"),
     path("update_news/", NewsUpdateView, name="update_news"),
     path("all_appointment/", all_appointment, name="all_appointment"),
     path("add_appointment/", add_appointment, name="add_appointment"),
     path("update/", update, name="update"),
     path("remove/", remove, name="remove"),
+    path("Todo/", add_todo, name="add_todo"),
+    path("Update/Todo/<int:id>/", update_todo, name="update_todo"),
+    path("Delete/Todo/<int:id>/", delete_todo, name="delete_todo"),
+    # ------------------------ Download Zip ---------------------
+    path(
+        "download_all_documents/<int:id>/",
+        download_all_documents,
+        name="admin_download_all_documents",
+    ),
 ]

@@ -1005,9 +1005,18 @@ class Report(models.Model):
 
 class Appointment(models.Model):
     id = models.AutoField(primary_key=True)
+    employee = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, null=True, blank=True
+    )
     name = models.CharField(max_length=100, null=True, blank=True)
     start = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
+
+
+class Todo(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now=True)
 
 
 @receiver(post_save, sender=CustomUser)
