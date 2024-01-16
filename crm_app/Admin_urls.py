@@ -273,4 +273,6 @@ urlpatterns = [
         download_all_documents,
         name="admin_download_all_documents",
     ),
+    path("search_enquiries/", search_enquiries, name="search_enquiries"),
+    path("search_employee/", search_employee, name="search_employee"),
 ]

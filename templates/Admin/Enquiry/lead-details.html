@@ -1,5 +1,10 @@
 {% extends "Admin/Base/base.html" %}
 {% block main-content %}
+<style>
+    .custom-form-label{
+        margin-bottom:5px;
+    }
+</style>
 <div class="form-container">
     <div class="custom-container">
         <div class="icon-container">
@@ -124,6 +129,78 @@
         </div>
 
     </div>
+    <form action="{% url "search_enquiries" %}" method="post">
+        {% csrf_token %}
+        <div class="search">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="custom-form-label">Enquiry Id</label>
+                    <input type="text" class="form-control" name="enquiry_id" id="enquiry_id" placeholder="Enquiry Id">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Date Of Birth</label>
+                    <input type="date" class="form-control" name="date_of_birth" id="date_of_birth">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Passport No</label>
+                    <input type="text" class="form-control" name="passport_no" id="passport_no" placeholder="Passport No">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="custom-form-label">Product</label>
+                    <input type="text" class="form-control" name="package" id="package" placeholder="Product Name">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Lead Status</label>
+                    <select name="lead_status" id="lead_status" class="form-select">
+                        <option>Select</option>
+                        <option value="New Lead">New Lead</option>
+                        <option value="Active">Active</option>
+                        <option value="PreEnrolled">PreEnrolled</option>
+                        <option value="Enrolled">Enrolled</option>
+                        <option value="Inprocess">Inprocess</option>
+                        <option value="Ready To Submit">Ready To Submit</option>
+                        <option value="Appointment">Appointment</option>
+                        <option value="Ready To Collection">Ready To Collection</option>
+                        <option value="Result">Result</option>
+                        <option value="Delivery">Delivery</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Colour</label>
+                    <select name="color_code" id="color_code" class="form-select">
+                        <option>Select</option>
+                        <option value="Grey">Grey</option>
+                        <option value="Blue">Blue</option>
+                        <option value="White">White</option>
+                        <option value="Red">Red</option>
+                        <option value="Green">Green</option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Visa Country</label>
+                    <input type="text" class="form-control" name="Visa_country" id="Visa_country" placeholder="Visa Country">
+                </div>
+
+                
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="custom-form-label">Created By</label>
+                    <input type="text" class="form-control" name="created_by" id="created_by" placeholder="Created By">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-color" style="margin-top: 20px;">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
     <div class="table-container">
         <div class="table-responsive">
             <table id="example" class="display">

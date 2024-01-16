@@ -3824,8 +3824,6 @@ def color_code(request):
         return redirect("emp_enrolleddocument", id=enq_id)
 
 
-
-
 ############################################# RAR #############################################################
 
 
@@ -3839,13 +3837,18 @@ from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
+
 @login_required
 def download_all_documents(request, id):
     enq = Enquiry.objects.get(id=id)
     doc_files = DocumentFiles.objects.filter(enquiry_id=enq)
 
     # Collect document URLs
-    document_urls = [request.build_absolute_uri(doc_file.document_file.url) for doc_file in doc_files if doc_file.document_file]
+    document_urls = [
+        request.build_absolute_uri(doc_file.document_file.url)
+        for doc_file in doc_files
+        if doc_file.document_file
+    ]
 
     logger.info(f"Document URLs: {document_urls}")
 
@@ -3856,35 +3859,43 @@ def download_all_documents(request, id):
         # Download each document to the temporary directory
         for index, document_url in enumerate(document_urls):
             response = requests.get(document_url, stream=True)
-            content_type = response.headers.get('Content-Type', 'application/octet-stream')  # Get the content type
+            content_type = response.headers.get(
+                "Content-Type", "application/octet-stream"
+            )  # Get the content type
 
             if response.status_code == 200:
                 # Determine file extension based on content type
                 file_extension = get_file_extension(content_type)
-                document_path = os.path.join(temp_dir, f"document_{index + 1}{file_extension}")
-                with open(document_path, 'wb') as file:
+                document_path = os.path.join(
+                    temp_dir, f"document_{index + 1}{file_extension}"
+                )
+                with open(document_path, "wb") as file:
                     for chunk in response.iter_content(chunk_size=128):
                         file.write(chunk)
             else:
                 logger.warning(f"Failed to download document from {document_url}")
 
         # Create the ZIP archive
-        zip_file_path = os.path.join(temp_dir, 'documents.zip')
-        with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as archive:
+        zip_file_path = os.path.join(temp_dir, "documents.zip")
+        with zipfile.ZipFile(zip_file_path, "w", zipfile.ZIP_DEFLATED) as archive:
             for index, document_url in enumerate(document_urls):
                 response = requests.head(document_url)
-                content_type = response.headers.get('Content-Type', 'application/octet-stream')
+                content_type = response.headers.get(
+                    "Content-Type", "application/octet-stream"
+                )
                 file_extension = get_file_extension(content_type)
-                document_path = os.path.join(temp_dir, f"document_{index + 1}{file_extension}")
+                document_path = os.path.join(
+                    temp_dir, f"document_{index + 1}{file_extension}"
+                )
                 if os.path.exists(document_path):
                     archive.write(document_path, os.path.basename(document_path))
                 else:
                     logger.warning(f"Document file not found: {document_path}")
 
         # Serve the ZIP archive for download
-        with open(zip_file_path, 'rb') as archive_file:
-            response = HttpResponse(archive_file.read(), content_type='application/zip')
-            response['Content-Disposition'] = f'attachment; filename=documents.zip'
+        with open(zip_file_path, "rb") as archive_file:
+            response = HttpResponse(archive_file.read(), content_type="application/zip")
+            response["Content-Disposition"] = f"attachment; filename=documents.zip"
             return response
 
     except Exception as e:
@@ -3898,7 +3909,104 @@ def download_all_documents(request, id):
             os.remove(file_path)
         os.rmdir(temp_dir)
 
+
 def get_file_extension(content_type):
-    
     extension = mimetypes.guess_extension(content_type, strict=False)
     return extension if extension else ".dat"
+
+
+@login_required
+def search_enquiries(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_employee=user.employee) | Q(created_by=user)
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_sales_employee=user.employee) | Q(created_by=user)
+                ).order_by("-id")
+
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_documentation_employee=user.employee)
+                    | Q(created_by=user)
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_visa_team_employee=user.employee) | Q(created_by=user)
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    Q(assign_to_assesment_employee=user.employee) | Q(created_by=user)
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(created_by=request.user)
+
+    if request.method == "POST":
+        enquiry_id = request.POST.get("enquiry_id")
+        name = request.POST.get("name")
+        dob = request.POST.get("date_of_birth")
+        passport_no = request.POST.get("passport_no")
+        Package = request.POST.get("package")
+        lead_status = request.POST.get("lead_status")
+        color_code = request.POST.get("color_code")
+        created_by = request.POST.get("created_by")
+        Visa_country = request.POST.get("Visa_country")
+
+        filter_conditions = Q()
+
+        if enquiry_id:
+            filter_conditions &= Q(enquiry_number__icontains=enquiry_id)
+
+        if name:
+            names = name.split()
+
+            first_name_condition = Q()
+            last_name_condition = Q()
+
+            for n in names:
+                first_name_condition |= Q(FirstName__icontains=n)
+                last_name_condition |= Q(LastName__icontains=n)
+
+            filter_conditions &= first_name_condition & last_name_condition
+
+        if dob:
+            filter_conditions &= Q(Dob=dob)
+
+        if passport_no:
+            filter_conditions &= Q(passport_no__icontains=passport_no)
+
+        if Package:
+            filter_conditions &= Q(Package_title__icontains=Package)
+
+        if lead_status and lead_status != "Select":
+            filter_conditions &= Q(lead_status=lead_status)
+
+        if color_code and color_code != "Select":
+            filter_conditions &= Q(color_code=color_code)
+
+        if created_by:
+            created_bys = created_by.split()
+
+            first_name_condition = Q()
+            last_name_condition = Q()
+
+            for n in created_bys:
+                first_name_condition |= Q(created_by__first_name__icontains=n)
+                last_name_condition |= Q(created_by__last_name__icontains=n)
+
+            filter_conditions &= first_name_condition & last_name_condition
+
+        if Visa_country:
+            filter_conditions &= Q(Visa_country__country__icontains=Visa_country)
+
+        if filter_conditions:
+            enq = enq.filter(filter_conditions)
+
+    return render(request, "Employee/Enquiry/lead_list.html", {"enq": enq})

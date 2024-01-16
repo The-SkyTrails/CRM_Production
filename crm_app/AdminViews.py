@@ -3821,3 +3821,123 @@ def download_all_documents(request, id):
 def get_file_extension(content_type):
     extension = mimetypes.guess_extension(content_type, strict=False)
     return extension if extension else ".dat"
+
+
+######################################## FILTER SEARCH ##################################################
+
+
+@login_required
+def search_enquiries(request):
+    enquiry = Enquiry.objects.all().order_by("-id")
+
+    if request.method == "POST":
+        enquiry_id = request.POST.get("enquiry_id")
+        name = request.POST.get("name")
+        dob = request.POST.get("date_of_birth")
+        passport_no = request.POST.get("passport_no")
+        Package = request.POST.get("package")
+        lead_status = request.POST.get("lead_status")
+        color_code = request.POST.get("color_code")
+        created_by = request.POST.get("created_by")
+        Visa_country = request.POST.get("Visa_country")
+
+        filter_conditions = Q()
+
+        if enquiry_id:
+            filter_conditions &= Q(enquiry_number__icontains=enquiry_id)
+
+        if name:
+            names = name.split()
+
+            first_name_condition = Q()
+            last_name_condition = Q()
+
+            for n in names:
+                first_name_condition |= Q(FirstName__icontains=n)
+                last_name_condition |= Q(LastName__icontains=n)
+
+            filter_conditions &= first_name_condition & last_name_condition
+
+        if dob:
+            filter_conditions &= Q(Dob=dob)
+
+        if passport_no:
+            filter_conditions &= Q(passport_no__icontains=passport_no)
+
+        if Package:
+            filter_conditions &= Q(Package_title__icontains=Package)
+
+        if lead_status and lead_status != "Select":
+            filter_conditions &= Q(lead_status=lead_status)
+
+        if color_code and color_code != "Select":
+            filter_conditions &= Q(color_code=color_code)
+
+        if created_by:
+            created_bys = created_by.split()
+
+            first_name_condition = Q()
+            last_name_condition = Q()
+
+            for n in created_bys:
+                first_name_condition |= Q(created_by__first_name__icontains=n)
+                last_name_condition |= Q(created_by__last_name__icontains=n)
+
+            filter_conditions &= first_name_condition & last_name_condition
+
+        if Visa_country:
+            filter_conditions &= Q(Visa_country__country__icontains=Visa_country)
+
+        if filter_conditions:
+            enquiry = enquiry.filter(filter_conditions)
+
+    return render(request, "Admin/Enquiry/lead-details.html", {"enquiry": enquiry})
+
+
+@login_required
+def search_employee(request):
+    employee = Employee.objects.all().order_by("-id")
+
+    if request.method == "POST":
+        emp_code = request.POST.get("emp_code")
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        contact_no = request.POST.get("contact_no")
+        branch = request.POST.get("branch")
+        department = request.POST.get("department")
+
+        filter_conditions = Q()
+
+        if emp_code:
+            filter_conditions &= Q(emp_code__icontains=emp_code)
+
+        if name:
+            names = name.split()
+
+            first_name_condition = Q()
+            last_name_condition = Q()
+
+            for n in names:
+                first_name_condition |= Q(users__first_name__icontains=n)
+                last_name_condition |= Q(users__last_name__icontains=n)
+
+            filter_conditions &= first_name_condition & last_name_condition
+
+        if email:
+            filter_conditions &= Q(users__email__icontains=email)
+
+        if contact_no:
+            filter_conditions &= Q(contact_no__icontains=contact_no)
+
+        if branch:
+            filter_conditions &= Q(branch__branch_name__icontains=branch)
+
+        if department and department != "Select":
+            filter_conditions &= Q(department=department)
+
+        if filter_conditions:
+            employee = employee.filter(filter_conditions)
+
+    return render(
+        request, "Admin/Employee Management/Employeelist.html", {"employee": employee}
+    )

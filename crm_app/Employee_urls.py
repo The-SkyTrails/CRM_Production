@@ -296,4 +296,5 @@ urlpatterns = [
         download_all_documents,
         name="download_all_documents",
     ),
+    path("search_enquiries/", search_enquiries, name="Emp_search_enquiries"),
 ]

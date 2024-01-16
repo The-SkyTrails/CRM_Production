@@ -2,6 +2,11 @@
 <!-- {% load crispy_forms_tags %} -->
 {% load static %}
 {% block main-content %}
+<style>
+    .custom-form-label{
+        margin-bottom:5px;
+    }
+</style>
 
 
     <div class="form-container">
@@ -86,6 +91,57 @@
       {% include "Admin/Base/messages.html" %}
 
       <!-- //////////////////////////////////////////////// -->
+
+      <form action="{% url "search_employee" %}" method="post">
+        {% csrf_token %}
+        <div class="search">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="custom-form-label">Emp Code</label>
+                    <input type="text" class="form-control" name="emp_code" id="emp_code" placeholder="Employee Code">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Email Id</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Id">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Contact No</label>
+                    <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="custom-form-label">Branch</label>
+                    <input type="text" class="form-control" name="branch" id="branch" placeholder="Branch Name">
+                </div>
+                <div class="col-md-3">
+                    <label class="custom-form-label">Department</label>
+                    <select name="department" id="department" class="form-select">
+                        <option>Select</option>
+                        <option value="Presales">Presales</option>
+                        <option value="Assesment">Assesment</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Documentation">Documentation</option>
+                        <option value="Visa Team">Visa Team</option>
+                        <option value="HR">HR</option>
+                        <option value="Developement Team">Developement Team</option>
+                        <option value="Design Team">Design Team</option>
+                        <option value="Account Team">Account Team</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-color" style="margin-top: 20px;">Search</button>
+              </div>
+
+                
+            </div>
+            
+        </div>
+    </form>
          
       <div class="table-container">
         <div class="table-responsive">
