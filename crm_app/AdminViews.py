@@ -37,6 +37,9 @@ from .Email.email_utils import send_congratulatory_email
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from .notifications import create_notification, send_notification
 
 ######################################### COUNTRY #################################################
 
@@ -47,6 +50,8 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        enq_count = 0
+        enq_enrolled_count = 0
         agent_count = Agent.objects.count()
 
         outsourceagent_count = OutSourcingAgent.objects.count()
@@ -1880,6 +1885,15 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
             # ------------------------------
             enquiry.created_by = user
             enquiry.save()
+
+            create_notification(enquiry.assign_to_employee, "New Enquiry Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=enquiry.assign_to_employee
+            ).count()
+            employee_id = enquiry.assign_to_employee.id
+            send_notification(employee_id, "New Enquiry Added", current_count)
+
             messages.success(request, "Enquiry Added successfully")
 
             # Clear session data after successful submission
@@ -2103,32 +2117,26 @@ def PackageEnquiry3View(request):
             passport_no=passport_no,
             spouse_name=spouse_name,
             spouse_no=spouse_contact,
-            spouse_email=spouse_email,
             spouse_passport=spouse_passport,
             spouse_relation=spouse_relation,
             spouse_name1=spouse_name1,
             spouse_no1=spouse_contact1,
-            spouse_email1=spouse_email1,
             spouse_passport1=spouse_passport1,
             spouse_relation1=spouse_relation1,
             spouse_name2=spouse_name2,
             spouse_no2=spouse_contact2,
-            spouse_email2=spouse_email2,
             spouse_passport2=spouse_passport2,
             spouse_relation2=spouse_relation2,
             spouse_name3=spouse_name3,
             spouse_no3=spouse_contact3,
-            spouse_email3=spouse_email3,
             spouse_passport3=spouse_passport3,
             spouse_relation3=spouse_relation3,
             spouse_name4=spouse_name4,
             spouse_no4=spouse_contact4,
-            spouse_email4=spouse_email4,
             spouse_passport4=spouse_passport4,
             spouse_relation4=spouse_relation4,
             spouse_name5=spouse_name5,
             spouse_no5=spouse_contact5,
-            spouse_email5=spouse_email5,
             spouse_passport5=spouse_passport5,
             spouse_relation5=spouse_relation5,
             Source=source,
@@ -2146,6 +2154,20 @@ def PackageEnquiry3View(request):
             enq.assign_to_employee.save()
 
             cache.set("last_assigned_index", next_index)
+        if spouse_email:
+            enq.spouse_email = spouse_email
+        if spouse_email1:
+            enq.spouse_email1 = spouse_email1
+
+        if spouse_email2:
+            enq.spouse_email2 = spouse_email2
+        if spouse_email3:
+            enq.spouse_email3 = spouse_email3
+        if spouse_email4:
+            enq.spouse_email4 = spouse_email4
+        if spouse_email5:
+            enq.spouse_email5 = spouse_email5
+
         if spouse_dob:
             enq.spouse_dob = spouse_dob
         if spouse_dob1:

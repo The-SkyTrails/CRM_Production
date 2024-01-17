@@ -297,4 +297,5 @@ urlpatterns = [
         name="download_all_documents",
     ),
     path("search_enquiries/", search_enquiries, name="Emp_search_enquiries"),
+    path("NewLead/Save/", submit, name="newlead_save"),
 ]

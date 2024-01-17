@@ -62,7 +62,18 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         enq_count = 0
         enq_enrolled_count = 0
-        agent_count = Agent.objects.filter(registerdby=self.request.user).count
+        emp_idd = self.request.user.employee.id
+        notification_Count = Notification.objects.filter(
+            employee=self.request.user.employee, is_seen=False
+        ).count()
+        notification = Notification.objects.filter(
+            employee=self.request.user.employee, is_seen=False
+        )
+
+        agent_count = Agent.objects.filter(
+            Q(registerdby=self.request.user)
+            | Q(assign_employee=self.request.user.employee)
+        ).count
 
         outsourceagent_count = OutSourcingAgent.objects.filter(
             registerdby=self.request.user
@@ -269,6 +280,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["story"] = story
         context["latest_news"] = latest_news
         context["todo"] = todo
+        context["emp_idd"] = emp_idd
+        context["notification_Count"] = notification_Count
+        context["notification"] = notification
 
         # context["enq_count"] = enq_count
 
@@ -400,54 +414,7 @@ class emp_Enquiry3View(LoginRequiredMixin, CreateView):
 
             # Save the merged data to the database
             enquiry = Enquiry(**merged_data)
-            user = self.request.user
-            emp_dep = user.employee
-            if emp_dep.department == "Presales":
-                enquiry.assign_to_employee = self.request.user.employee
 
-            elif emp_dep.department == "Assesment":
-                lat_assigned_index = cache.get("lst_assigned_index") or 0
-                presale_employees = get_presale_employee()
-                if presale_employees.exists():
-                    next_index = (lat_assigned_index + 1) % presale_employees.count()
-                    enquiry.assign_to_employee = presale_employees[next_index]
-                    enquiry.assign_to_assesment_employee = self.request.user.employee
-
-                    cache.set("lst_assigned_index", next_index)
-
-            elif emp_dep.department == "Sales":
-                lat_assigned_index = cache.get("lst_assigned_index") or 0
-                presale_employees = get_presale_employee()
-                if presale_employees.exists():
-                    next_index = (lat_assigned_index + 1) % presale_employees.count()
-                    enquiry.assign_to_employee = presale_employees[next_index]
-                    enquiry.assign_to_sales_employee = self.request.user.employee
-
-                    cache.set("lst_assigned_index", next_index)
-
-            elif emp_dep.department == "Documentation":
-                last_assigned_index = cache.get("last_assigned_index") or 0
-                presale_employees = get_presale_employee()
-                if presale_employees.exists():
-                    next_index = (last_assigned_index + 1) % presale_employees.count()
-                    enquiry.assign_to_employee = presale_employees[next_index]
-                    enquiry.assign_to_documentation_employee = (
-                        self.request.user.employee
-                    )
-
-                    cache.set("last_assigned_index", next_index)
-
-            elif emp_dep.department == "Visa Team":
-                last_assigned_index = cache.get("last_assigned_index") or 0
-                presale_employees = get_presale_employee()
-                if presale_employees.exists():
-                    next_index = (last_assigned_index + 1) % presale_employees.count()
-                    enquiry.assign_to_employee = presale_employees[next_index]
-                    enquiry.assign_to_documentation_employee = (
-                        self.request.user.employee
-                    )
-
-                    cache.set("last_assigned_index", next_index)
             enquiry.created_by = self.request.user
             enquiry.lead_status = "New Lead"
             enquiry.save()
@@ -1181,7 +1148,9 @@ class emp_all_agent(ListView):
 
     def get_queryset(self):
         user = self.request.user.employee
-        return Agent.objects.filter(assign_employee=user).order_by("-id")
+        return Agent.objects.filter(
+            Q(registerdby=self.request.user) | Q(assign_employee=user)
+        ).order_by("-id")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3606,27 +3575,22 @@ def emp_PackageEnquiry3View(request):
             spouse_relation=spouse_relation,
             spouse_name1=spouse_name1,
             spouse_no1=spouse_contact1,
-            spouse_email1=spouse_email1,
             spouse_passport1=spouse_passport1,
             spouse_relation1=spouse_relation1,
             spouse_name2=spouse_name2,
             spouse_no2=spouse_contact2,
-            spouse_email2=spouse_email2,
             spouse_passport2=spouse_passport2,
             spouse_relation2=spouse_relation2,
             spouse_name3=spouse_name3,
             spouse_no3=spouse_contact3,
-            spouse_email3=spouse_email3,
             spouse_passport3=spouse_passport3,
             spouse_relation3=spouse_relation3,
             spouse_name4=spouse_name4,
             spouse_no4=spouse_contact4,
-            spouse_email4=spouse_email4,
             spouse_passport4=spouse_passport4,
             spouse_relation4=spouse_relation4,
             spouse_name5=spouse_name5,
             spouse_no5=spouse_contact5,
-            spouse_email5=spouse_email5,
             spouse_passport5=spouse_passport5,
             spouse_relation5=spouse_relation5,
             Source=source,
@@ -3637,47 +3601,20 @@ def emp_PackageEnquiry3View(request):
             Visa_category=visa_category,
         )
         user = request.user
-        emp_dep = user.employee
-        if emp_dep.department == "Presales":
-            enq.assign_to_employee = user.employee
 
-        elif emp_dep.department == "Sales":
-            lat_assigned_index = cache.get("lst_assigned_index") or 0
-            presale_employees = get_presale_employee()
-            if presale_employees.exists():
-                next_index = (lat_assigned_index + 1) % presale_employees.count()
-                enq.assign_to_employee = presale_employees[next_index]
-                enq.assign_to_sales_employee = user.employee
-                cache.set("lst_assigned_index", next_index)
+        if spouse_email:
+            enq.spouse_email = spouse_email
+        if spouse_email1:
+            enq.spouse_email1 = spouse_email1
 
-        elif emp_dep.department == "Assesment":
-            lat_assigned_index = cache.get("lst_assigned_index") or 0
-            assesment_employees = get_assesment_employee()
-            if assesment_employees.exists():
-                next_index = (lat_assigned_index + 1) % assesment_employees.count()
-                enq.assign_to_assesment_employee = assesment_employees[next_index]
-                enq.assign_to_assesment_employee = user.employee
-                cache.set("lst_assigned_index", next_index)
-
-        elif emp_dep.department == "Documentation":
-            last_assigned_index = cache.get("last_assigned_index") or 0
-            presale_employees = get_presale_employee()
-            if presale_employees.exists():
-                next_index = (last_assigned_index + 1) % presale_employees.count()
-                enq.assign_to_employee = presale_employees[next_index]
-                enq.assign_to_documentation_employee = user.employee
-
-                cache.set("last_assigned_index", next_index)
-
-        elif emp_dep.department == "Visa Team":
-            last_assigned_index = cache.get("last_assigned_index") or 0
-            presale_employees = get_presale_employee()
-            if presale_employees.exists():
-                next_index = (last_assigned_index + 1) % presale_employees.count()
-                enq.assign_to_employee = presale_employees[next_index]
-                enq.assign_to_documentation_employee = user.employee
-
-                cache.set("last_assigned_index", next_index)
+        if spouse_email2:
+            enq.spouse_email2 = spouse_email2
+        if spouse_email3:
+            enq.spouse_email3 = spouse_email3
+        if spouse_email4:
+            enq.spouse_email4 = spouse_email4
+        if spouse_email5:
+            enq.spouse_email5 = spouse_email5
 
         if spouse_dob:
             enq.spouse_dob = spouse_dob
@@ -4010,3 +3947,56 @@ def search_enquiries(request):
             enq = enq.filter(filter_conditions)
 
     return render(request, "Employee/Enquiry/lead_list.html", {"enq": enq})
+
+
+@login_required
+def submit(request):
+    if request.method == "POST":
+        enq_id = request.POST.get("enq_id")
+        enq = Enquiry.objects.get(id=enq_id)
+        user = request.user
+        emp_dep = user.employee
+        if emp_dep.department == "Presales":
+            enq.assign_to_employee = request.user.employee
+
+        elif emp_dep.department == "Assesment":
+            lat_assigned_index = cache.get("lst_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (lat_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_assesment_employee = request.user.employee
+
+                cache.set("lst_assigned_index", next_index)
+
+        elif emp_dep.department == "Sales":
+            lat_assigned_index = cache.get("lst_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (lat_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_sales_employee = request.user.employee
+
+                cache.set("lst_assigned_index", next_index)
+
+        elif emp_dep.department == "Documentation":
+            last_assigned_index = cache.get("last_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (last_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_documentation_employee = request.user.employee
+
+                cache.set("last_assigned_index", next_index)
+
+        elif emp_dep.department == "Visa Team":
+            last_assigned_index = cache.get("last_assigned_index") or 0
+            presale_employees = get_presale_employee()
+            if presale_employees.exists():
+                next_index = (last_assigned_index + 1) % presale_employees.count()
+                enq.assign_to_employee = presale_employees[next_index]
+                enq.assign_to_documentation_employee = request.user.employee
+
+                cache.set("last_assigned_index", next_index)
+        enq.save()
+        return redirect("employee_lead_list")

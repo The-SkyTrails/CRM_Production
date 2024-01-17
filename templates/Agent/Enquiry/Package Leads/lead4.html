@@ -243,8 +243,18 @@
       </div>
       {% endfor %}
 
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a href="{% url "admin_new_leads_details" %}"><button class="btn btn-color" type="submit">Go To Enquiry List
+     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <form action="{% url "agent_newlead_save" %}" method="post">
+          {% csrf_token %}
+          <input type="text" value="{{ enq.id }}" name="enq_id" hidden>
+          
+          {% if enq.lead_status == "New Lead" %}
+      <button class="btn btn-primary mr-2" type="submit">Move Forward</button>
+      {% else %}
+      <button class="btn btn-primary mr-2" disabled >Move Forward</button>
+      {% endif %}
+      </form>
+      <a href="{% url "agent_new_leads_details" %}"><button class="btn btn-color" type="submit">Go To Enquiry List
 
         </button></a>
       </div>

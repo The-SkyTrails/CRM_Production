@@ -404,19 +404,6 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
             # Save the merged data to the database
             enquiry = Enquiry(**merged_data)
             # ---------------------------------------
-            if user.user_type == "4":
-                last_assigned_index = cache.get("last_assigned_index") or 0
-                # If no student is assigned, find the next available student in a circular manner
-                presales_team_employees = Employee.objects.filter(department="Presales")
-
-                if presales_team_employees.exists():
-                    next_index = (
-                        last_assigned_index + 1
-                    ) % presales_team_employees.count()
-                    enquiry.assign_to_employee = presales_team_employees[next_index]
-                    enquiry.assign_to_employee.save()
-
-                    cache.set("last_assigned_index", next_index)
 
             # ------------------------------
             enquiry.created_by = user
@@ -1586,32 +1573,26 @@ def agent_PackageEnquiry3View(request):
             passport_no=passport_no,
             spouse_name=spouse_name,
             spouse_no=spouse_contact,
-            spouse_email=spouse_email,
             spouse_passport=spouse_passport,
             spouse_relation=spouse_relation,
             spouse_name1=spouse_name1,
             spouse_no1=spouse_contact1,
-            spouse_email1=spouse_email1,
             spouse_passport1=spouse_passport1,
             spouse_relation1=spouse_relation1,
             spouse_name2=spouse_name2,
             spouse_no2=spouse_contact2,
-            spouse_email2=spouse_email2,
             spouse_passport2=spouse_passport2,
             spouse_relation2=spouse_relation2,
             spouse_name3=spouse_name3,
             spouse_no3=spouse_contact3,
-            spouse_email3=spouse_email3,
             spouse_passport3=spouse_passport3,
             spouse_relation3=spouse_relation3,
             spouse_name4=spouse_name4,
             spouse_no4=spouse_contact4,
-            spouse_email4=spouse_email4,
             spouse_passport4=spouse_passport4,
             spouse_relation4=spouse_relation4,
             spouse_name5=spouse_name5,
             spouse_no5=spouse_contact5,
-            spouse_email5=spouse_email5,
             spouse_passport5=spouse_passport5,
             spouse_relation5=spouse_relation5,
             Source=source,
@@ -1621,16 +1602,24 @@ def agent_PackageEnquiry3View(request):
             Visa_country=visa_country,
             Visa_category=visa_category,
         )
-        last_assigned_index = cache.get("last_assigned_index") or 0
-        presales_team_employees = Employee.objects.filter(department="Presales")
-        if presales_team_employees.exists():
-            next_index = (last_assigned_index + 1) % presales_team_employees.count()
-            enq.assign_to_employee = presales_team_employees[next_index]
-            enq.assign_to_employee.save()
 
-            cache.set("last_assigned_index", next_index)
+        if spouse_email:
+            enq.spouse_email = spouse_email
+        if spouse_email1:
+            enq.spouse_email1 = spouse_email1
+
+        if spouse_email2:
+            enq.spouse_email2 = spouse_email2
+        if spouse_email3:
+            enq.spouse_email3 = spouse_email3
+        if spouse_email4:
+            enq.spouse_email4 = spouse_email4
+        if spouse_email5:
+            enq.spouse_email5 = spouse_email5
+
         if spouse_dob:
             enq.spouse_dob = spouse_dob
+
         if spouse_dob1:
             enq.spouse_dob1 = spouse_dob1
         if spouse_dob2:
@@ -1707,3 +1696,24 @@ def Agent_delete_todo(request, id):
         return HttpResponseRedirect(reverse("agent_dashboard"))
     except Exception as e:
         pass
+
+
+@login_required
+def submit(request):
+    if request.method == "POST":
+        enq_id = request.POST.get("enq_id")
+        enq = Enquiry.objects.get(id=enq_id)
+        user = request.user
+        if user.user_type == "4":
+            last_assigned_index = cache.get("last_assigned_index") or 0
+            # If no student is assigned, find the next available student in a circular manner
+            presales_team_employees = Employee.objects.filter(department="Presales")
+
+            if presales_team_employees.exists():
+                next_index = (last_assigned_index + 1) % presales_team_employees.count()
+                enq.assign_to_employee = presales_team_employees[next_index]
+                enq.assign_to_employee.save()
+
+                cache.set("last_assigned_index", next_index)
+        enq.save()
+        return redirect("agent_new_leads_details")

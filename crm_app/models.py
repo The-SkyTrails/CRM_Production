@@ -523,7 +523,7 @@ class Enquiry(models.Model):
     FirstName = models.CharField(max_length=50, null=True, blank=True, default="")
     MiddleName = models.CharField(max_length=50, null=True, blank=True, default="")
     LastName = models.CharField(max_length=50, null=True, blank=True, default="")
-    Dob = models.DateField()
+    Dob = models.DateField(null=True, blank=True)
     Gender = models.CharField(max_length=10, choices=Gender, null=True, blank=True)
     marital_status = models.CharField(max_length=100, null=True, blank=True)
 
@@ -1017,6 +1017,14 @@ class Todo(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now=True)
+
+
+class Notification(models.Model):
+    employee = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, null=True, blank=True
+    )
+    name = models.CharField(max_length=100)
+    is_seen = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=CustomUser)

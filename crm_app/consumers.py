@@ -1,7 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 import json
 from asgiref.sync import async_to_sync
-from .models import ChatGroup, ChatMessage
+from .models import ChatGroup, ChatMessage, Employee
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -79,3 +79,34 @@ class ChatConsumer(WebsocketConsumer):
 
     def disconnect(self, code):
         print("Websocket Disconnected...", code)
+
+
+#  --------------------------- Notification ----------------------
+
+
+class NotificationConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        # Add the user to the "employees_group" group
+        self.employee_id = self.scope["url_route"]["kwargs"]["employee_id"]
+        print("helooooo connection...")
+        await self.channel_layer.group_add(self.employee_id, self.channel_name)
+
+    async def disconnect(self, close_code):
+        # Remove the user from the "employees_group" group
+        await self.channel_layer.group_discard(self.employee_id, self.channel_name)
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
+
+        # Send the received message to the client
+        await self.send(text_data=json.dumps({"message": message}))
+
+    # Custom method to handle notifications
+    async def notify(self, event):
+        message = event["message"]
+        count = event["count"]
+
+        # Send the notification to the client
+        await self.send(text_data=json.dumps({"message": message, "count": count}))

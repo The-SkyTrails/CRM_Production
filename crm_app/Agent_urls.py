@@ -77,4 +77,5 @@ urlpatterns = [
     path("Todo/", Agent_add_todo, name="Agent_add_todo"),
     path("Update/Todo/<int:id>/", Agent_update_todo, name="Agent_update_todo"),
     path("Delete/Todo/<int:id>/", Agent_delete_todo, name="Agent_delete_todo"),
+    path("NewLead/Save/", submit, name="agent_newlead_save"),
 ]
