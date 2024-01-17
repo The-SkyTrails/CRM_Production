@@ -430,7 +430,7 @@
             const EmployeeId = JSON.parse(document.getElementById('employee').textContent);
             notif = document.getElementById("notification");
             
-            const socket = new WebSocket('ws://' + window.location.host + '/ws/notifications/' + EmployeeId + '/');
+            const socket = new WebSocket('wss://' + window.location.host + '/ws/notifications/' + EmployeeId + '/');
     
             socket.onopen = function () {
                 console.log('WebSocket connection opened.');
