@@ -268,6 +268,15 @@
                             {% else %}
                             
                             {% endif %}
+                            <br>
+                            {% if i.assign_to_assesment_employee %}
+                            <b>{{i.assign_to_assesment_employee.users.first_name }} {{i.assign_to_assesment_employee.users.last_name}}</b>
+                            ({{i.assign_to_assesment_employee.department}})
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                            <br>
                             
                             {% if i.assign_to_sales_employee %}
                             <b>{{i.assign_to_sales_employee.users.first_name }} {{i.assign_to_sales_employee.users.last_name}}</b>
@@ -276,6 +285,7 @@
                             {% else %}
                             
                             {% endif %}
+                            <br>
                             
                             {% if i.assign_to_documentation_employee %}
                             <b>{{i.assign_to_documentation_employee.users.first_name }} {{i.assign_to_documentation_employee.users.last_name}}</b>
@@ -284,6 +294,7 @@
                             {% else %}
                             
                             {% endif %}
+                            <br>
                            
                             {% if i.assign_to_visa_team_employee %}
                             <b>{{i.assign_to_visa_team_employee.users.first_name }} {{i.assign_to_visa_team_employee.users.last_name}}</b>
@@ -292,6 +303,7 @@
                             {% else %}
                             
                             {% endif %}
+                            <br>
                             
                             {% comment %} ---------------- {% endcomment %}
                            
@@ -302,6 +314,7 @@
                             {% else %}
                             
                             {% endif %}
+                            <br>
 
                         </td>
                         <td>
