@@ -39,7 +39,7 @@ from django.db.models.functions import TruncMonth
 from django.utils import timezone
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .notifications import create_notification, send_notification
+from .notifications import create_notification, send_notification, assign_notification
 
 ######################################### COUNTRY #################################################
 
@@ -2383,6 +2383,13 @@ def update_assigned_employee(request, id):
             assign_to_employee = request.POST.get("assign_to_employee")
             emp = Employee.objects.get(id=assign_to_employee)
             enquiry.assign_to_employee = emp
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=assign_to_employee
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
 
         except Employee.DoesNotExist:
             if enquiry.assign_to_employee is None:
@@ -2397,6 +2404,14 @@ def update_assigned_employee(request, id):
             emp = Employee.objects.get(id=assign_to_assesment_employee)
             enquiry.assign_to_assesment_employee = emp
 
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
+
         except Employee.DoesNotExist:
             if enquiry.assign_to_assesment_employee is None:
                 enquiry.assign_to_assesment_employee = None
@@ -2407,6 +2422,14 @@ def update_assigned_employee(request, id):
             assign_to_sales_employee = request.POST.get("assign_to_sales_employee")
             emp = Employee.objects.get(id=assign_to_sales_employee)
             enquiry.assign_to_sales_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
 
         except Employee.DoesNotExist:
             if enquiry.assign_to_sales_employee is None:
@@ -2421,6 +2444,14 @@ def update_assigned_employee(request, id):
             emp = Employee.objects.get(id=assign_to_documentation_employee)
             enquiry.assign_to_documentation_employee = emp
 
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
+
         except Employee.DoesNotExist:
             if enquiry.assign_to_documentation_employee is None:
                 enquiry.assign_to_documentation_employee = None
@@ -2433,6 +2464,14 @@ def update_assigned_employee(request, id):
             )
             emp = Employee.objects.get(id=assign_to_visa_team_employee)
             enquiry.assign_to_visa_team_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
 
         except Employee.DoesNotExist:
             if enquiry.assign_to_visa_team_employee is None:

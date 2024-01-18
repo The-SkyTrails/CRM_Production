@@ -20,3 +20,11 @@ def send_notification(employee_id, message, current_count):
         str(employee_id),
         {"type": "notify", "message": message, "count": current_count},
     )
+
+
+def assign_notification(employee_id, message, current_count):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        str(employee_id),
+        {"type": "assign", "message": message, "count": current_count},
+    )
