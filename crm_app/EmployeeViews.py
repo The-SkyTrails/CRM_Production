@@ -62,13 +62,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         enq_count = 0
         enq_enrolled_count = 0
-        emp_idd = self.request.user.employee.id
-        notification_Count = Notification.objects.filter(
-            employee=self.request.user.employee, is_seen=False
-        ).count()
-        notification = Notification.objects.filter(
-            employee=self.request.user.employee, is_seen=False
-        )
 
         agent_count = Agent.objects.filter(
             Q(registerdby=self.request.user)
@@ -280,9 +273,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["story"] = story
         context["latest_news"] = latest_news
         context["todo"] = todo
-        context["emp_idd"] = emp_idd
-        context["notification_Count"] = notification_Count
-        context["notification"] = notification
 
         # context["enq_count"] = enq_count
 
@@ -824,7 +814,10 @@ def enprocess_save(request, id):
         enquiry.save()
 
     last_assigned_index = cache.get("last_assigned_index") or 0
-    visa_team_employees = get_visa_team_employee()
+    # visa_team_employees = get_visa_team_employee()
+    visa_team_employees = Employee.objects.filter(
+        department="Visa Team", color_code=enquiry.color_code
+    )
 
     if visa_team_employees.exists():
         next_index = (last_assigned_index + 1) % visa_team_employees.count()

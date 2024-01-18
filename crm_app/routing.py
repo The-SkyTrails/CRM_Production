@@ -6,4 +6,8 @@ websocket_urlpatterns = [
     path(
         "ws/notifications/<str:employee_id>/", consumers.NotificationConsumer.as_asgi()
     ),
+    path(
+        "ws/Agent/notifications/<str:agent_id>/",
+        consumers.NotificationAgentConsumer.as_asgi(),
+    ),
 ]

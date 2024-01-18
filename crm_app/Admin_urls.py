@@ -275,4 +275,7 @@ urlpatterns = [
     ),
     path("search_enquiries/", search_enquiries, name="search_enquiries"),
     path("search_employee/", search_employee, name="search_employee"),
+    path("visateam_color/", visa_team_color, name="visa_team_color"),
+    path("color_employee_list/", color_employee_list, name="color_employee_list"),
+    path("team_updated/", visateamcolorupdate_view, name="team_updated"),
 ]

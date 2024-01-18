@@ -14,6 +14,24 @@ def create_notification(employee, message):
     notification.save()
 
 
+def create_notification_agent(agent_id, message):
+    notification = Notification.objects.create(
+        agent=agent_id,
+        name=message,
+        is_seen=False,
+    )
+    notification.save()
+
+
+def create_notification_outsourceagent(outsourcepartner, message):
+    notification = Notification.objects.create(
+        outsourceagent=outsourcepartner,
+        name=message,
+        is_seen=False,
+    )
+    notification.save()
+
+
 def send_notification(employee_id, message, current_count):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
@@ -22,9 +40,17 @@ def send_notification(employee_id, message, current_count):
     )
 
 
-def assign_notification(employee_id, message, current_count):
+def assign_notification(agent_id, message, current_count):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
-        str(employee_id),
+        str(agent_id),
         {"type": "assign", "message": message, "count": current_count},
+    )
+
+
+def assignop_notification(agent_id, message, current_count):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        str(agent_id),
+        {"type": "assignop", "message": message, "count": current_count},
     )

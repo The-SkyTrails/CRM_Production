@@ -117,3 +117,45 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
         # Send the notification to the client
         await self.send(text_data=json.dumps({"message": message, "count": count}))
+
+
+class NotificationAgentConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        # Add the user to the "employees_group" group
+        self.agent_id = self.scope["url_route"]["kwargs"]["agent_id"]
+        print("helooooo connection...")
+        await self.channel_layer.group_add(self.agent_id, self.channel_name)
+
+    async def disconnect(self, close_code):
+        # Remove the user from the "employees_group" group
+        await self.channel_layer.group_discard(self.agent_id, self.channel_name)
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
+
+        # Send the received message to the client
+        await self.send(text_data=json.dumps({"message": message}))
+
+    # Custom method to handle notifications
+    async def notify(self, event):
+        message = event["message"]
+        count = event["count"]
+
+        # Send the notification to the client
+        await self.send(text_data=json.dumps({"message": message, "count": count}))
+
+    async def assign(self, event):
+        message = event["message"]
+        count = event["count"]
+
+        # Send the notification to the client
+        await self.send(text_data=json.dumps({"message": message, "count": count}))
+
+    async def assignop(self, event):
+        message = event["message"]
+        count = event["count"]
+
+        # Send the notification to the client
+        await self.send(text_data=json.dumps({"message": message, "count": count}))

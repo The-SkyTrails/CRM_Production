@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.core.cache import cache
@@ -213,6 +213,15 @@ class LoginLog(models.Model):
         return f"{self.user.username} - {self.login_datetime}"
 
 
+COLOR_CODE = [
+    ("Grey", "Grey"),
+    ("Blue", "Blue"),
+    ("White", "White"),
+    ("Red", "Red"),
+    ("Green", "Green"),
+]
+
+
 class Employee(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     emp_code = models.CharField(max_length=20, unique=True, null=True, blank=True)
@@ -234,6 +243,9 @@ class Employee(models.Model):
     tata_tele_authorization = models.CharField(max_length=500, null=True, blank=True)
     tata_tele_api_key = models.CharField(max_length=200, null=True, blank=True)
     tata_tele_agent_number = models.CharField(max_length=200, null=True, blank=True)
+    color_code = models.CharField(
+        max_length=20, choices=COLOR_CODE, blank=True, null=True
+    )
 
     def save(self, *args, **kwargs):
         # Check if a group is provided when saving the employee
@@ -505,14 +517,6 @@ leads_status = [
     ("Delivery", "Delivery"),
     ("Reject", "Reject"),
     ("Case Initiated", "Case Initiated"),
-]
-
-COLOR_CODE = [
-    ("Grey", "Grey"),
-    ("Blue", "Blue"),
-    ("White", "White"),
-    ("Red", "Red"),
-    ("Green", "Green"),
 ]
 
 
@@ -1023,8 +1027,24 @@ class Notification(models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, blank=True
     )
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, null=True, blank=True)
+    outsourceagent = models.ForeignKey(
+        OutSourcingAgent, on_delete=models.CASCADE, null=True, blank=True
+    )
     name = models.CharField(max_length=100)
     is_seen = models.BooleanField(default=False)
+
+
+@receiver(pre_delete, sender=Employee)
+def delete_custom_user(sender, instance, **kwargs):
+    # Disconnect the signal temporarily to avoid recursion
+    pre_delete.disconnect(delete_custom_user, sender=Employee)
+
+    # Delete the associated CustomUser before deleting the Employee
+    instance.users.delete()
+
+    # Reconnect the signal
+    pre_delete.connect(delete_custom_user, sender=Employee)
 
 
 @receiver(post_save, sender=CustomUser)

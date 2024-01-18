@@ -39,7 +39,14 @@ from django.db.models.functions import TruncMonth
 from django.utils import timezone
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .notifications import create_notification, send_notification, assign_notification
+from .notifications import (
+    create_notification,
+    send_notification,
+    assign_notification,
+    create_notification_agent,
+    assignop_notification,
+    create_notification_outsourceagent,
+)
 
 ######################################### COUNTRY #################################################
 
@@ -1891,8 +1898,11 @@ class Enquiry3View(LoginRequiredMixin, CreateView):
             current_count = Notification.objects.filter(
                 is_seen=False, employee=enquiry.assign_to_employee
             ).count()
-            employee_id = enquiry.assign_to_employee.id
-            send_notification(employee_id, "New Enquiry Added", current_count)
+            try:
+                employee_id = enquiry.assign_to_employee.id
+                send_notification(employee_id, "New Enquiry Added", current_count)
+            except Exception as e:
+                pass
 
             messages.success(request, "Enquiry Added successfully")
 
@@ -2341,6 +2351,14 @@ def update_assigned_agent(request, id):
             agent = Agent.objects.get(id=assign_to_agent)
             enquiry.assign_to_agent = agent
 
+            agent_id = agent.id
+            create_notification_agent(agent, "New Lead Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, agent=agent_id
+            ).count()
+            assign_notification(agent_id, "New Lead Assign Added", current_count)
+
         except Agent.DoesNotExist:
             if enquiry.assign_to_agent is None:
                 enquiry.assign_to_agent = None
@@ -2358,10 +2376,21 @@ def update_assigned_op(request, id):
     if request.method == "POST":
         try:
             assign_to_outsourcingagent = request.POST.get("assign_to_outsourcingagent")
+            print("heloo out source", assign_to_outsourcingagent)
             outsourcepartner = OutSourcingAgent.objects.get(
                 id=assign_to_outsourcingagent
             )
             enquiry.assign_to_outsourcingagent = outsourcepartner
+
+            agent_id = assign_to_outsourcingagent
+            create_notification_outsourceagent(
+                outsourcepartner, "New Lead Assign Added"
+            )
+
+            current_count = Notification.objects.filter(
+                is_seen=False, outsourceagent=assign_to_outsourcingagent
+            ).count()
+            assignop_notification(agent_id, "New Lead Assign Added", current_count)
 
         except OutSourcingAgent.DoesNotExist:
             if enquiry.assign_to_outsourcingagent is None:
@@ -2384,12 +2413,12 @@ def update_assigned_employee(request, id):
             emp = Employee.objects.get(id=assign_to_employee)
             enquiry.assign_to_employee = emp
             employee_id = emp.id
-            create_notification(emp, "New Assign Added")
+            create_notification(emp, "New Lead Assign Added")
 
             current_count = Notification.objects.filter(
                 is_seen=False, employee=assign_to_employee
             ).count()
-            assign_notification(employee_id, "New Assign Added", current_count)
+            assign_notification(employee_id, "New Lead Assign Added", current_count)
 
         except Employee.DoesNotExist:
             if enquiry.assign_to_employee is None:
@@ -2445,12 +2474,12 @@ def update_assigned_employee(request, id):
             enquiry.assign_to_documentation_employee = emp
 
             employee_id = emp.id
-            create_notification(emp, "New Assign Added")
+            create_notification(emp, "New Lead Assign Added")
 
             current_count = Notification.objects.filter(
                 is_seen=False, employee=employee_id
             ).count()
-            assign_notification(employee_id, "New Assign Added", current_count)
+            assign_notification(employee_id, "New Lead Assign Added", current_count)
 
         except Employee.DoesNotExist:
             if enquiry.assign_to_documentation_employee is None:
@@ -4002,3 +4031,49 @@ def search_employee(request):
     return render(
         request, "Admin/Employee Management/Employeelist.html", {"employee": employee}
     )
+
+
+############################################### VISA TEAM COLOUR ##########################################
+
+
+@login_required
+def visa_team_color(request):
+    if request.method == "POST":
+        selected_user_ids = request.POST.getlist("selected_users")
+        color_code = request.POST.get("color_code")
+
+        for user_id in selected_user_ids:
+            employee = get_object_or_404(Employee, users__id=user_id)
+            employee.color_code = color_code
+            employee.save()
+
+        messages.success(request, "Colour Added successfully")
+        return redirect("color_employee_list")
+
+    visateam = get_visa_team_employee()
+    context = {"visateam": visateam}
+    return render(request, "Admin/Employee Management/add_color_team.html", context)
+
+
+@login_required
+def color_employee_list(request):
+    employees = Employee.objects.filter(department="Visa Team")
+    return render(
+        request,
+        "Admin/Employee Management/visateam_colorlist.html",
+        {"employees": employees},
+    )
+
+
+@login_required
+def visateamcolorupdate_view(request):
+    if request.method == "POST":
+        users = request.POST.get("users_id")
+        color_code = request.POST.get("color_code")
+
+        users_id = Employee.objects.get(id=users)
+        users_id.color_code = color_code
+
+        users_id.save()
+        messages.success(request, "Team Updated successfully")
+        return HttpResponseRedirect(reverse("color_employee_list"))
