@@ -24,6 +24,16 @@ from django.contrib.auth.hashers import check_password
 from django.utils import timezone
 from django.db.models.functions import TruncMonth
 from django.db.models import Count, Case, When, IntegerField, Q
+from .notifications import (
+    create_notification,
+    send_notification,
+    assign_notification,
+    create_notification_agent,
+    assignop_notification,
+    create_notification_outsourceagent,
+    create_admin_notification,
+    send_notification_admin,
+)
 
 
 class agent_dashboard(LoginRequiredMixin, TemplateView):
@@ -1715,5 +1725,19 @@ def submit(request):
                 enq.assign_to_employee.save()
 
                 cache.set("last_assigned_index", next_index)
+                create_notification(enq.assign_to_employee, "New Lead Assign Added")
+
+                current_count = Notification.objects.filter(
+                    is_seen=False, employee=enq.assign_to_employee
+                ).count()
+
+                employee_id = enq.assign_to_employee.id
+                send_notification(employee_id, "New Lead Assign Added", current_count)
+
+                create_admin_notification("New Lead Added")
+
+                current_count = Notification.objects.filter(is_seen=False).count()
+                send_notification_admin("New Lead Assign Added", current_count)
+
         enq.save()
         return redirect("agent_new_leads_details")

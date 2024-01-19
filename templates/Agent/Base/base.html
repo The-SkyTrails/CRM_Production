@@ -222,9 +222,14 @@
             
               
             <hr>
-                `
-                notificationLogDiv.appendChild(newMessage)
-                {% comment %} document.getElementById("notifications-dropdown").innerHTML = "<li class='dropdown-item'>" + data + "</li><hr class='dropdown-divider'>" + document.getElementById("notifications-dropdown").innerHTML; {% endcomment %}
+                `;
+                {% comment %} notificationLogDiv.appendChild(newMessage) {% endcomment %}
+                if (notificationLogDiv.firstChild) {
+                    notificationLogDiv.insertBefore(newMessage, notificationLogDiv.firstChild);
+                } else {
+                    notificationLogDiv.appendChild(newMessage);
+                }
+               
             };
     
             socket.onclose = function (event) {

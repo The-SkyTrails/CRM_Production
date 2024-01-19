@@ -139,7 +139,7 @@ class EmployeeResource(resources.ModelResource):
 
 class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = EmployeeResource
-    list_display = "users", "contact_no", "department"
+    list_display = "id", "users", "contact_no", "department"
 
     # list_filter = ["users"]
     search_fields = ["users__username", "users__first_name", "users__last_name"]

@@ -10,4 +10,8 @@ websocket_urlpatterns = [
         "ws/Agent/notifications/<str:agent_id>/",
         consumers.NotificationAgentConsumer.as_asgi(),
     ),
+    path(
+        "ws/Admin/notifications/",
+        consumers.NotificationAdminConsumer.as_asgi(),
+    ),
 ]

@@ -98,6 +98,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+
         message = text_data_json["message"]
 
         # Send the received message to the client
@@ -133,6 +134,7 @@ class NotificationAgentConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        print("Message receive from client", text_data)
         message = text_data_json["message"]
 
         # Send the received message to the client
@@ -154,6 +156,38 @@ class NotificationAgentConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({"message": message, "count": count}))
 
     async def assignop(self, event):
+        message = event["message"]
+        count = event["count"]
+
+        # Send the notification to the client
+        await self.send(text_data=json.dumps({"message": message, "count": count}))
+
+
+# ------------------------------------------------------------------------
+
+
+class NotificationAdminConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        # Add the user to the "employees_group" group
+
+        print("helooooo admin connection...")
+        await self.channel_layer.group_add("admin_group", self.channel_name)
+
+    async def disconnect(self, close_code):
+        # Remove the user from the "employees_group" group
+        await self.channel_layer.group_discard("admin_group", self.channel_name)
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        print("Message receive from client", text_data)
+        message = text_data_json["message"]
+
+        # Send the received message to the client
+        await self.send(text_data=json.dumps({"message": message}))
+
+    # Custom method to handle notifications
+    async def notify_admin(self, event):
         message = event["message"]
         count = event["count"]
 

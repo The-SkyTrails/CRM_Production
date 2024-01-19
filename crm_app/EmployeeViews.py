@@ -29,6 +29,16 @@ from .Email.email_utils import send_congratulatory_email
 from django.db.models.functions import TruncMonth
 from django.db.models import Case, When, Value, IntegerField
 from django.http import JsonResponse
+from .notifications import (
+    create_notification,
+    send_notification,
+    assign_notification,
+    create_notification_agent,
+    assignop_notification,
+    create_notification_outsourceagent,
+    send_notification_admin,
+    create_admin_notification,
+)
 
 
 def employee_query_list(request):
@@ -197,6 +207,36 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             if all_enq.exists():
                 enq_count = all_enq[0]["count"]
 
+        elif dep == "HR":
+            enrolled_monthly_counts = (
+                Enquiry.objects.filter(
+                    Q(
+                        lead_status="Enrolled",
+                        assign_to_documentation_employee=user.employee,
+                    )
+                    | Q(lead_status="Enrolled", created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if enrolled_monthly_counts.exists():
+                enq_enrolled_count = enrolled_monthly_counts[0]["count"]
+
+            all_enq = (
+                Enquiry.objects.filter(
+                    Q(assign_to_documentation_employee=user.employee)
+                    | Q(created_by=user)
+                )
+                .annotate(month=TruncMonth("registered_on"))
+                .values("month")
+                .annotate(count=Count("id"))
+                .order_by("month__month")
+            )
+            if all_enq.exists():
+                enq_count = all_enq[0]["count"]
+
         elif dep == "Visa Team":
             enrolled_monthly_counts = (
                 Enquiry.objects.filter(
@@ -258,6 +298,20 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         todo = Todo.objects.filter(user=self.request.user).order_by("-id")
         context["dep"] = dep
 
+        import requests
+
+        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            # The API call was successful, and you can access the data using response.json()
+            data = response.json()
+
+        else:
+            # The API call failed, and you can print the status code and any error message
+            print(f"Error: {response.status_code}, {response.text}")
+
         context["leadcomplete_count"] = leadcomplete_count
         context["leadaccept_count"] = leadaccept_count
         context["leadpending_count"] = leadpending_count
@@ -273,6 +327,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["story"] = story
         context["latest_news"] = latest_news
         context["todo"] = todo
+        context["data"] = data
 
         # context["enq_count"] = enq_count
 
@@ -408,6 +463,13 @@ class emp_Enquiry3View(LoginRequiredMixin, CreateView):
             enquiry.created_by = self.request.user
             enquiry.lead_status = "New Lead"
             enquiry.save()
+            employee_id = self.request.user.employee.id
+
+            create_admin_notification("New Lead Added")
+
+            current_count = Notification.objects.filter(is_seen=False).count()
+            send_notification_admin("New Lead Assign Added", current_count)
+
             messages.success(request, "Enquiry Added successfully")
 
             # Clear session data after successful submission
@@ -756,6 +818,16 @@ def preenrolled_save(request, id):
 
         enquiry.save()
         cache.set("last_assigned_index", next_index)
+
+        create_notification(enquiry.assign_to_sales_employee, "New Lead Assign Added")
+
+        current_count = Notification.objects.filter(
+            is_seen=False, employee=enquiry.assign_to_sales_employee
+        ).count()
+
+        employee_id = enquiry.assign_to_sales_employee.id
+        send_notification(employee_id, "New Lead Assign Added", current_count)
+
         # return redirect("employee_leads")
 
     return redirect("employee_lead_list")
@@ -767,8 +839,10 @@ def active_save(request, id):
     assesment_Emp = enquiry.assign_to_assesment_employee
 
     if assesment_Emp:
+        print("ssssssssssssssssssssssssssssss")
         enquiry.lead_status = "Active"
         enquiry.save()
+
         return redirect("employee_lead_list")
     else:
         last_assigned_index = cache.get("last_assigned_index") or 0
@@ -781,6 +855,16 @@ def active_save(request, id):
 
         enquiry.save()
         cache.set("last_assigned_index", next_index)
+        create_notification(
+            enquiry.assign_to_assesment_employee, "New Lead Assign Added"
+        )
+
+        current_count = Notification.objects.filter(
+            is_seen=False, employee=enquiry.assign_to_assesment_employee
+        ).count()
+
+        employee_id = enquiry.assign_to_assesment_employee.id
+        send_notification(employee_id, "New Lead Assign Added", current_count)
 
     return redirect("employee_lead_list")
 
@@ -802,6 +886,17 @@ def enrolled_save(request, id):
         enquiry.lead_status = "Enrolled"
         enquiry.save()
         cache.set("last_assigned_index", next_index)
+
+        create_notification(
+            enquiry.assign_to_documentation_employee, "New Lead Assign Added"
+        )
+
+        current_count = Notification.objects.filter(
+            is_seen=False, employee=enquiry.assign_to_documentation_employee
+        ).count()
+
+        employee_id = enquiry.assign_to_documentation_employee.id
+        send_notification(employee_id, "New Lead Assign Added", current_count)
 
     return redirect("employee_lead_list")
 
@@ -825,6 +920,17 @@ def enprocess_save(request, id):
         enquiry.lead_status = "Inprocess"
         enquiry.save()
         cache.set("last_assigned_index", next_index)
+
+        create_notification(
+            enquiry.assign_to_visa_team_employee, "New Lead Assign Added"
+        )
+
+        current_count = Notification.objects.filter(
+            is_seen=False, employee=enquiry.assign_to_visa_team_employee
+        ).count()
+
+        employee_id = enquiry.assign_to_visa_team_employee.id
+        send_notification(employee_id, "New Lead Assign Added", current_count)
 
     return redirect("employee_lead_list")
 
@@ -977,7 +1083,7 @@ def emp_add_agent(request):
         files = request.FILES.get("files")
 
         existing_agent = CustomUser.objects.filter(username=email)
-        fullname = str(firstname + lastname)
+        fullname = str(firstname + " " + lastname)
         try:
             if existing_agent:
                 messages.warning(request, f'"{email}" already exists.')
@@ -1012,6 +1118,14 @@ def emp_add_agent(request):
                 chat_group.group_member.add(user)
 
                 user.save()
+
+                # create_admin_notification("New Lead Added")
+                msg = f"New OutSourceAgent Added({fullname})"
+                create_admin_notification(msg)
+
+                current_count = Notification.objects.filter(is_seen=False).count()
+                send_notification_admin(msg, current_count)
+                # send_notification_admin("New Lead Assign Added", current_count)
 
                 subject = "Congratulations! Your Account is Created"
                 message = (
@@ -1083,6 +1197,12 @@ def emp_add_agent(request):
                 chat_group.group_member.add(user.agent.assign_employee.users)
                 chat_group.group_member.add(user)
                 user.save()
+
+                msg = f"New Agent Added({fullname})"
+                create_admin_notification(msg)
+
+                current_count = Notification.objects.filter(is_seen=False).count()
+                send_notification_admin(msg, current_count)
 
                 context = {"employees": relevant_employees, "dep": dep}
 
@@ -3056,6 +3176,12 @@ def add_employee(request):
             user.employee.file = files
 
             user.save()
+            msg = f"New Employee Added({firstname} {lastname} ({user.employee.department}))"
+            create_admin_notification(msg)
+
+            current_count = Notification.objects.filter(is_seen=False).count()
+            send_notification_admin(msg, current_count)
+
             subject = "Congratulations! Your Account is Created"
             message = (
                 f"Hello {firstname} {lastname},\n\n"
@@ -3563,7 +3689,6 @@ def emp_PackageEnquiry3View(request):
             passport_no=passport_no,
             spouse_name=spouse_name,
             spouse_no=spouse_contact,
-            spouse_email=spouse_email,
             spouse_passport=spouse_passport,
             spouse_relation=spouse_relation,
             spouse_name1=spouse_name1,

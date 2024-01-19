@@ -54,3 +54,19 @@ def assignop_notification(agent_id, message, current_count):
         str(agent_id),
         {"type": "assignop", "message": message, "count": current_count},
     )
+
+
+def create_admin_notification(message):
+    notification = Notification.objects.create(
+        name=message,
+        is_seen=False,
+    )
+    notification.save()
+
+
+def send_notification_admin(message, current_count):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "admin_group",
+        {"type": "notify_admin", "message": message, "count": current_count},
+    )
