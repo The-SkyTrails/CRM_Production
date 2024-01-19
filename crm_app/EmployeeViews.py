@@ -468,7 +468,7 @@ class emp_Enquiry3View(LoginRequiredMixin, CreateView):
             create_admin_notification("New Lead Added")
 
             current_count = Notification.objects.filter(is_seen=False).count()
-            send_notification_admin("New Lead Assign Added", current_count)
+            send_notification_admin("New Lead Added", current_count)
 
             messages.success(request, "Enquiry Added successfully")
 
