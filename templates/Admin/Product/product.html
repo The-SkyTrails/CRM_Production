@@ -104,6 +104,9 @@
                   Country: <span class="txt" style="color:black;font-size:large;">{{i.visa_country}}</span>
                </p>
                <p class="card-text">
+                  Processing Time :<span class="txt">{{i.processing_time}}</span>
+               </p>
+               <p class="card-text">
                   No. Of Visa :<span class="txt">{{i.number_of_visa}}</span>
                </p>
                <p class="card-text">
@@ -113,9 +116,9 @@
                   Created By: <span class="txt">{{i.last_updated_by}}</span>
                </p>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <div class="d-grid gap-2 product-detail d-md-flex justify-content-between">
                <a href="{% url "package_detail" i.id %}">
-               <div class="Button">
+               <div class=" button2">
                   <div class="Text">All Details</div>
                   <div class="ArrowRight">
                      <svg
@@ -135,7 +138,7 @@
                </a>
                {% if i.approval %}
                <a href="{% url "disapprove_product" i.id %}">
-                  <div class="Button" style="background-color:#9B1C1C;">
+                  <div class=" button2" style="background-color:#9B1C1C;">
                      <div class="Text">Disapprove</div>
                   </div>
                   </a>

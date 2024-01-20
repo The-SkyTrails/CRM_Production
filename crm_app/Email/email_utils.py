@@ -51,3 +51,41 @@ def send_congratulatory_email(firstname, lastname, email, password, user_type):
         recipient_list=recipient_list,
         html_message=html_message,
     )
+
+
+from crm_app.models import CustomUser
+
+# ------------------------------- Package email ----------------------------
+users = CustomUser.objects.all()
+email_list = []
+
+# Iterate through each user and append their email to the list
+for user in users:
+    email_list.append(user.email)
+
+
+def send_package_email(title, country):
+    subject = "Greetings! New Product Added ."
+
+    # Render the HTML template with dynamic content
+    html_message = render_to_string(
+        "packagemail.html",
+        {
+            "title": title,
+            "country": country,
+        },
+    )
+
+    # Create a plain text version of the HTML content (for clients that don't support HTML)
+    plain_message = strip_tags(html_message)
+
+    # Change this to your email
+    recipient_list = email_list
+
+    send_mail(
+        subject,
+        plain_message,
+        from_email=None,
+        recipient_list=recipient_list,
+        html_message=html_message,
+    )

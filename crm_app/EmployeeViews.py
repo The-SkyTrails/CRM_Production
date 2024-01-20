@@ -83,7 +83,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         ).count
 
         leadpending_count = Enquiry.objects.filter(
-            lead_status="PreEnrolled", created_by=self.request.user
+            lead_status="Active", created_by=self.request.user
         ).count()
 
         leadcomplete_count = Enquiry.objects.filter(
@@ -91,13 +91,17 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         ).count()
 
         leadaccept_count = Enquiry.objects.filter(
-            Q(lead_status="Enrolled")
-            | Q(lead_status="Inprocess")
-            | Q(lead_status="Ready To Submit")
-            | Q(lead_status="Appointment")
-            | Q(lead_status="Ready To Collection")
-            | Q(lead_status="Result")
-            | Q(lead_status="Delivery"),
+            lead_status="Enrolled",
+            created_by=self.request.user,
+        ).count()
+
+        leadinprocess_count = Enquiry.objects.filter(
+            Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit"),
+            created_by=self.request.user,
+        ).count()
+
+        appoint_count = Enquiry.objects.filter(
+            Q(lead_status="Appointment") | Q(lead_status="Ready To Collection"),
             created_by=self.request.user,
         ).count()
 
@@ -107,6 +111,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             lead_status="New Lead", created_by=self.request.user
         ).count()
 
+        resultlead_count = Enquiry.objects.filter(
+            lead_status="Result", created_by=self.request.user
+        ).count()
         package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
             :10
         ]
@@ -337,6 +344,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["active_users"] = active_users
         context["active_employee"] = active_employee
         context["active_agent"] = active_agent
+        context["appoint_count"] = appoint_count
+        context["leadinprocess_count"] = leadinprocess_count
+        context["resultlead_count"] = resultlead_count
 
         # context["enq_count"] = enq_count
 

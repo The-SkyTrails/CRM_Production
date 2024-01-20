@@ -76,6 +76,9 @@
             Country: <span class="txt" style="color:black;font-size:large;">{{i.visa_country}}</span>
           </p>
           <p class="card-text">
+                  Processing Time :<span class="txt">{{i.processing_time}}</span>
+               </p>
+          <p class="card-text">
             Category: <span class="txt">{{i.visa_category}}</span>
           </p>
           <p class="card-text">
@@ -85,7 +88,7 @@
             Expiry Date: <span class="txt">{{i.package_expiry_date}}</span>
           </p>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-between">
+        <div class="d-grid gap-2 product-detail d-md-flex justify-content-between">
           <a href="{% url "Agent_package_detail" i.id %}">
           <div class="Button">
             <div class="Text">All Details</div>

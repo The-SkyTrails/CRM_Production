@@ -33,7 +33,7 @@ from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 
 # from wkhtmltopdf.utils import render_to_pdf_response
 from wkhtmltopdf.views import PDFTemplateResponse
-from .Email.email_utils import send_congratulatory_email
+from .Email.email_utils import send_congratulatory_email, send_package_email
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
@@ -69,21 +69,24 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
 
         leadarchive_count = Enquiry.objects.filter(archive="True").count()
 
-        leadaccept_count = Enquiry.objects.filter(
-            Q(lead_status="Enrolled")
-            | Q(lead_status="Inprocess")
-            | Q(lead_status="Ready To Submit")
-            | Q(lead_status="Appointment")
-            | Q(lead_status="Ready To Collection")
-            | Q(lead_status="Result")
-            | Q(lead_status="Delivery")
+        leadaccept_count = Enquiry.objects.filter(lead_status="Enrolled").count()
+
+        leadinprocess_count = Enquiry.objects.filter(
+            Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit")
         ).count()
 
-        leadpending_count = Enquiry.objects.filter(lead_status="PreEnrolled").count()
+        leadappoint_count = Enquiry.objects.filter(
+            Q(lead_status="Appointment") | Q(lead_status="Ready To Collection")
+        ).count()
+
+        completed_count = Enquiry.objects.filter(lead_status="Delivery").count()
+
+        leadpending_count = Enquiry.objects.filter(lead_status="Active").count()
 
         leadtotal_count = Enquiry.objects.all().count()
 
         leadnew_count = Enquiry.objects.filter(lead_status="New Lead").count()
+        leadresult_count = Enquiry.objects.filter(lead_status="Result").count()
 
         package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
             :10
@@ -139,6 +142,10 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         context["active_users"] = active_users
         context["active_employee"] = active_employee
         context["active_agent"] = active_agent
+        context["leadinprocess_count"] = leadinprocess_count
+        context["leadappoint_count"] = leadappoint_count
+        context["completed_count"] = completed_count
+        context["leadresult_count"] = leadresult_count
 
         return context
 
@@ -1579,13 +1586,61 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
         try:
             form.instance.last_updated_by = self.request.user
             form.instance.approval = "True"
-            form.save()
+            self.object = form.save()
+            self.send_whatsapp_messages()
+            self.send_email()
+
             messages.success(self.request, "Package Added Successfully.")
             return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f"Error: {e}")
-
             return self.form_invalid(form)
+
+    def send_whatsapp_messages(self):
+        user_types = ["2", "3", "4", "5", "6"]
+        for user_type in user_types:
+            users = CustomUser.objects.filter(user_type=user_type)
+            for user in users:
+                contact = self.get_contact_number(user)
+                if contact:
+                    title = self.object.title if self.object else None
+                    country = (
+                        self.object.visa_country.country
+                        if (self.object and self.object.visa_country)
+                        else None
+                    )
+                    message = (
+                        f"🌟 Greetings User! 🌟 \n\n"
+                        f" *We are thrilled to share with you our latest addition to our visa services: * \n\n"
+                        f" {title} for {country}.  \n\n"
+                        f" This is a great opportunity for you to work in one of the most beautiful and diverse countries in the world. \n\n"
+                    )
+                    response = send_whatsapp_message(contact, message)
+                    if response.status_code == 200:
+                        pass
+                    else:
+                        pass
+
+    def send_email(self):
+        title = self.object.title if self.object else None
+        country = (
+            self.object.visa_country.country
+            if (self.object and self.object.visa_country)
+            else None
+        )
+
+        send_package_email(title, country)
+
+    def get_contact_number(self, user):
+        # Method to get the contact number based on user type
+        if user.user_type == "2":
+            return Admin.objects.get(users=user).contact_no
+        elif user.user_type == "3":
+            return Employee.objects.get(users=user).contact_no
+        elif user.user_type == "4":
+            return Agent.objects.get(users=user).contact_no
+        elif user.user_type == "5":
+            return OutSourcingAgent.objects.get(users=user).contact_no
 
 
 class PackageListView(LoginRequiredMixin, ListView):
@@ -3378,7 +3433,7 @@ class CreateChatGroupView(LoginRequiredMixin, CreateView):
     model = ChatGroup
     form_class = ChatGroupForm
     template_name = "chat/chatgroup.html"
-    success_url = reverse_lazy("chatgroup")
+    success_url = reverse_lazy("ChatGroup_list")
 
     def form_valid(self, form):
         chat_group = form.save(commit=False)
@@ -3490,7 +3545,61 @@ def approve_product(request, id):
     instance.approval = True
     instance.save()
 
+    send_whatsapp_messages(instance)
+    send_email(instance)
+
     return redirect("Package_list")
+
+
+def send_email(package_instance):
+    title = package_instance.title if package_instance.title else None
+    country = (
+        package_instance.visa_country.country
+        if (package_instance.visa_country)
+        else None
+    )
+
+    send_package_email(title, country)
+
+
+def send_whatsapp_messages(package_instance):
+    user_types = ["2", "3", "4", "5", "6"]
+    for user_type in user_types:
+        users = CustomUser.objects.filter(user_type=user_type)
+        for user in users:
+            contact = get_contact_number(user)
+            if contact:
+                title = package_instance.title if package_instance.title else None
+                country = (
+                    package_instance.visa_country.country
+                    if (package_instance.visa_country)
+                    else None
+                )
+                message = (
+                    f"🌟 Greetings User! 🌟 \n\n"
+                    f" *We are thrilled to share with you our latest addition to our visa services: * \n\n"
+                    f" {title} for {country}.  \n\n"
+                    f" This is a great opportunity for you to work in one of the most beautiful and diverse countries in the world. \n\n"
+                )
+                response = send_whatsapp_message(contact, message)
+                if response.status_code == 200:
+                    pass
+                else:
+                    pass
+
+
+def get_contact_number(user):
+    # Method to get the contact number based on user type
+    if user.user_type == "2":
+        return Admin.objects.get(users=user).contact_no
+    elif user.user_type == "3":
+        return Employee.objects.get(users=user).contact_no
+    elif user.user_type == "4":
+        return Agent.objects.get(users=user).contact_no
+    elif user.user_type == "5":
+        return OutSourcingAgent.objects.get(users=user).contact_no
+
+    return None
 
 
 @login_required

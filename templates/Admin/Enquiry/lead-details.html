@@ -413,9 +413,15 @@
 
                         </td>
                         <td>
+                            {% if i.color_code %}
                             <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#colorModal-{{i.id}}">
+                                {{i.color_code}}
+                              </button>
+                              {% else %}
+                              <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#colorModal-{{i.id}}">
                                 Colour
                               </button>
+                              {% endif %}
                               {% include "Admin/Enquiry/color_modal.html" %}
                         </td>
                         <td>

@@ -198,6 +198,7 @@ class PackageForm(forms.ModelForm):
             "package_expiry_date",
             "assign_to_group",
             "image",
+            "processing_time",
         ]
         widgets = {
             "visa_country": forms.Select(attrs={"class": "form-select"}),
@@ -232,6 +233,7 @@ class PackageForm(forms.ModelForm):
             ),
             "assign_to_group": forms.Select(attrs={"class": "form-select"}),
             "image": forms.FileInput(attrs={"class": "form-control"}),
+            "processing_time": forms.Select(attrs={"class": "form-select"}),
         }
 
 

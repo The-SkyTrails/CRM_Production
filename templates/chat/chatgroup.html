@@ -76,6 +76,7 @@
                             <div class="form-group">
                                 <label class="control-label label-with-margin">Group Name</label>
                                 {{form.group_name}}
+                                
                             </div>
                         </div>
                         
@@ -90,11 +91,17 @@
                         </div>
                         {% endfor %}
                     </div> {% endcomment %}
-
-                    <div class="row formrow">
+                    <div class="chatserach col-lg-3">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="text" class="form-control" id="searchInputmember" placeholder="Search" oninput="filterMembers()">
+                        </div>
+                    </div>
+                    <div class="row formrow" id="memberList">
                         {% for checkbox in form.group_member %}
-                        <div class="col-md-3" style="font-size: 20px;" data-value="{{checkbox.pk}}">
+                        <div class="col-md-3 member-item" style="font-size: 20px;" data-value="{{checkbox.pk}}">
+                            
                             <div class="card mb-3" style="background-color: antiquewhite; padding: 8px; font-weight: 600;">
+                                
                                 <label>
                                     <div class="row">
                                         
@@ -150,6 +157,31 @@
             });
         });
     });
+</script>
+
+<!-- Add this script tag in your head or before the closing body tag -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    function filterMembers() {
+        console.log("workingggggg")
+        var input, filter, members, memberCards, card, txtValue;
+        input = document.getElementById('searchInputmember');
+        filter = input.value.toUpperCase();
+        members = document.getElementById('memberList');
+        memberCards = members.getElementsByClassName('member-item');
+
+        for (var i = 0; i < memberCards.length; i++) {
+            card = memberCards[i];
+            txtValue = card.textContent || card.innerText;
+
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    }
 </script>
 
 {% endblock main-content %}

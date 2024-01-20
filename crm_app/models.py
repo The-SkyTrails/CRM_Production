@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+from django.contrib.sessions.models import Session
 from django_countries.fields import CountryField
 from django.core.cache import cache
 from django.db.models import Count
@@ -389,6 +390,16 @@ class OutSourcingAgent(models.Model):
         return f"{self.users.first_name} {self.users.last_name}"
 
 
+PROCESSING_TIME_CHOICES = [
+    ("1 Month", "1 Month"),
+    ("2 Month", "2 Month"),
+    ("3 Month", "3 Month"),
+    ("4 Month", "4 Month"),
+    ("5 Month", "5 Month"),
+    ("6 Month", "6 Month"),
+]
+
+
 class Package(models.Model):
     visa_country = models.ForeignKey(
         VisaCountry, on_delete=models.SET_NULL, null=True, blank=True
@@ -415,6 +426,9 @@ class Package(models.Model):
     )
     last_updated_on = models.DateTimeField(auto_now=True)
     image = models.FileField(upload_to="media/package_images/", null=True, blank=True)
+    processing_time = models.CharField(
+        max_length=30, choices=PROCESSING_TIME_CHOICES, blank=True, null=True
+    )
     approval = models.BooleanField(default="False")
 
     def __str__(self):
@@ -1033,6 +1047,17 @@ class Notification(models.Model):
     )
     name = models.CharField(max_length=100)
     is_seen = models.BooleanField(default=False)
+
+
+@receiver(pre_delete, sender=Session)
+def session_deleted_handler(sender, instance, **kwargs):
+    user_id = instance.get_decoded().get("_auth_user_id")
+    try:
+        user = CustomUser.objects.get(id=user_id)
+        user.is_logged_in = False
+        user.save()
+    except CustomUser.DoesNotExist:
+        pass
 
 
 @receiver(pre_delete, sender=Employee)

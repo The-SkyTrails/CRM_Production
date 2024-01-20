@@ -136,12 +136,18 @@
             </div>
           </div>
           <div class="row formrow">
+          <div class="col-md-6 ">
+              <label for="exampleFormControlInput1" class="custom-form-label">Processing Time</label>
+              {{form.processing_time}}
+            </div>
+            <div class="col-md-6 ">
             <label for="exampleFormControlInput1" class="custom-form-label">Upload Image</label>
             <div class="input-group mb-3">
                 {{form.image}}
                 <!-- <input type="file" class="form-control" id="image" name="image"> -->
                 <label class="input-group-text" for="inputGroupFile02">Upload</label>
               </div>
+            </div>
         </div>
           
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
