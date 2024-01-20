@@ -1823,7 +1823,7 @@ padding: 3px 10px;
 
   /* leading-tight/text-2xl/font-bold */
 
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 125%; /* 30px */
@@ -1834,7 +1834,7 @@ padding: 3px 10px;
 
   /* text-6xl/font-bold */
 
-  font-size: 60px;
+  font-size: 36px;
   font-style: normal;
   font-weight: 700;
   line-height: 150%; /* 90px */
@@ -2173,7 +2173,8 @@ padding: 3px 10px;
 
 
 .imgdas {
-  width: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .card-bodys {
@@ -4176,3 +4177,7 @@ color: #4B5563;
 }
 
 
+.onlinegreen{
+    width: 20px;
+   
+}

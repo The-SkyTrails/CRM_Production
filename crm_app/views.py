@@ -249,9 +249,8 @@ def agent_signup(request):
 
 def verify_otp(request):
     mobile = request.session.get("mobile", "Default value if key does not exist")
-    print("mobileeeeee", mobile)
+
     last_three_digits = str(mobile)[-3:]
-    print("ggggggggggggggg", last_three_digits)
 
     if request.method == "POST":
         num1 = request.POST.get("num1")
@@ -284,10 +283,16 @@ def verify_otp(request):
                 if user_type == "2":
                     return redirect("admin_dashboard")
                 if user_type == "3":
+                    user.is_logged_in = True
+                    user.save()
                     return redirect("employee_dashboard")
                 if user_type == "4":
+                    user.is_logged_in = True
+                    user.save()
                     return redirect("agent_dashboard")
                 if user_type == "5":
+                    user.is_logged_in = True
+                    user.save()
                     return redirect("agent_dashboard")
 
                 public_ip = get_public_ip()

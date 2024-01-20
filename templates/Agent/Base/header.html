@@ -67,22 +67,22 @@
         </ul>
         <div class="Separator"></div>
          
-         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <div class="Avatar">
              <div class="Ph">{{request.user.generate_initials}}</div>
            </div>
          </a>
-        <ul class="dropdown-menu menusss " style="border: none;" aria-labelledby="navbarDropdown">
+         <ul class="dropdown-menu menusss " style="border: none;" aria-labelledby="navbarDropdown">
           <div class=" w-36 h-36 rounded-md shadow d-flex flex-column justify-content-end inline-flex">
               <div class="NavItem  px-4 py-1 d-flex flex-column ">
                   <div class="name">{{request.user}}</div>
                   <div class="textss">{{request.user.email}}</div>
-                  <div class="textss">{{request.user.employee.contact_no}}</div>
+                  <div class="textss">{{request.user.agent.contact_no}}</div>
                   
-               </div> 
+               </div>  
                <hr class="passwordborder">
                <div class="px-3 py-1">
-                 <a href="{% url "Employee_profile" %}">
+                 <a href="{% url "Agent_profile" %}">
                    <div class="passtext">
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
                        <path d="M8.65507 11.4737C11.1996 11.4737 13.2624 9.35293 13.2624 6.73684C13.2624 4.12076 11.1996 2 8.65507 2C6.1105 2 4.04771 4.12076 4.04771 6.73684C4.04771 9.35293 6.1105 11.4737 8.65507 11.4737Z" fill="#4B5563"/>
@@ -92,9 +92,10 @@
                      Edit Profile
                    </div>
                  </a>
-               </div> 
+               </div>
 
                <hr class="passwordborder">
+               
                <div class="px-3 py-1" data-toggle="modal" data-target="#updatePasswordModal">
                  <div class="passtext">
                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -102,12 +103,13 @@
                    </svg> Password Settings
                  </div>
                </div>
+               
                <hr class="passwordborder">
                
                
               <div class="NavItem itemnav self-stretch h-12  d-flex flex-column justify-content-start align-items-start">
                  
-                <a href="{% url "employee_logout" %}" style="border: none;"><div class="NavLink self-stretch px-4  justify-content-start align-items-center gap-2 d-inline-flex">
+                <a href="{% url "agent_logout" %}" style="border: none;"><div class="NavLink self-stretch px-4  justify-content-start align-items-center gap-2 d-inline-flex">
                   <div class="Logout w-6 h-6 position-relative">
                       <div class="d-flex"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                           <mask id="mask0_18_2657" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">

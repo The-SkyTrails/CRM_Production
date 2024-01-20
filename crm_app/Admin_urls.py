@@ -258,7 +258,6 @@ urlpatterns = [
     ),
     path("color_code/<int:id>", color_code, name="color_code"),
     path("Appointment/", admin_appointment, name="admin_appointment"),
-    path("dashboard2/", dashboard2, name="dashboard2"),
     path("update_news/", NewsUpdateView, name="update_news"),
     path("all_appointment/", all_appointment, name="all_appointment"),
     path("add_appointment/", add_appointment, name="add_appointment"),

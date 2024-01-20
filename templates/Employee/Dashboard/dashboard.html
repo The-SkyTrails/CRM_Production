@@ -3,6 +3,9 @@
 {% load static %}
 
 <style>
+  .modal {
+      background-color: rgba(0, 0, 0, 0.5); 
+  }
 
   .newscroll {
     overflow-y: auto;
@@ -71,42 +74,61 @@
   
   <div class="row mb-2">
     <div class="col-md-4 mb-4">
-      <div class="card mb-4" >
-        <a href="{% url "emp_agent_list" %}">
-        <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
-          <div class="first-div">                 
-            <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
-              <img src="{% static "style/Styling/Bootstrap/img/image 1.svg" %}" alt="" class="imgdas" />
-              <div class="Frame2 px-2 py-2 justify-center items-center gap-2.5 inline-flex">
-                <div class="Headingsection">Total Agents</div>
-              </div>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+         <div class="card" style="height: 28%; border:none; margin-bottom:6%;">
+            <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
+               <div class="first-div">
+                  <div class="flex-col justify-start items-start inline-flex">
+                     <img src="{% static "style/Styling/Bootstrap/img/image 3.svg" %}" alt="" class="imgdas" />
+                     <div class="Frame2 px-2 justify-center items-center inline-flex">
+                        <div class="Headingsection">Active Users</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="second-div">
+                  <p>{{active_users}}</p>
+               </div>
             </div>
-          </div>
-          <div class="second-div">                
-            <p>{{agent_count}}</p>
-          </div>
-        </div>
+         </div>
       </a>
-      </div>        
+      {% include "Employee/Dashboard/activeuser_modal.html" %}
+      <a href="{% url "emp_agent_list" %}">
+         <div class="card" style="height: 28% ; border:none;margin-bottom:6%;">
+            <div class="card-body d-md-flex card-bodys d-flex justify-content-between">
+               <div class="first-div">
+                  <div class="flex-col justify-start items-start inline-flex">
+                     <img src="{% static "style/Styling/Bootstrap/img/image 1.svg" %}" alt="" class="imgdas" />
+                     <div class="Frame2 px-2 justify-center items-center gap-2.5 inline-flex">
+                        <div class="Headingsection">Total Agents</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="second-div">
+                  <p>{{agent_count}}</p>
+               </div>
+            </div>
+         </div>
+      </a>
       <!-- Additional div 1 -->
-      <div class="card mt-3" >
-        <a href="{% url "emp_all_outsource_agent" %}">
-          <div class="card-body d-md-flex card-bodys d-flex justify-content-between" style="background-color:#DCD7FE;">
-            <div class="first-div">                 
-              <div class="Frame5 w-[151px] h-[126px] flex-col justify-start items-start inline-flex">
-                <img src="{% static "style/Styling/Bootstrap/img/image 2.svg" %}" alt="" class="imgdas" />
-                <div class="Frame2 px-2 py-2 justify-center items-center gap-2.5 inline-flex">
-                  <div class="Headingsection">Total OutSource Agents</div>
-                </div>
-              </div>
+      <a href="{% url "emp_all_outsource_agent" %}">
+         <div class="card" style="border: none; ">
+            <div class="card-body d-md-flex card-bodys d-flex justify-content-between"
+               style="background-color:#DCD7FE;">
+               <div class="first-div">
+                  <div class="flex-col justify-start items-start inline-flex">
+                     <img src="{% static "style/styling/Bootstrap/img/image 2.svg" %}" alt="" class="imgdas" />
+                     <div class="Frame2 px-2 justify-center items-center gap-2.5 inline-flex">
+                        <div class="Headingsection">Total OutSource Agents</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="second-div">
+                  <p style="color:#4A1D96;">{{outsourceagent_count}}</p>
+               </div>
             </div>
-            <div class="second-div">                
-              <p style="color:#4A1D96;">{{outsourceagent_count}}</p>
-            </div>
-          </div>
-          </a>
-        </div>
-  </div> 
+         </div>
+      </a>
+   </div> 
   
   
 

@@ -111,6 +111,12 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        active_users = CustomUser.objects.filter(is_logged_in=True).count()
+        active_employee = CustomUser.objects.filter(user_type="3", is_logged_in=True)
+        active_agent = CustomUser.objects.filter(
+            user_type__in=["4", "5"], is_logged_in=True
+        )
+
         story = SuccessStory.objects.all()
         latest_news = News.objects.filter(employee=True).order_by("-created_at")[:10]
 
@@ -328,6 +334,9 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["latest_news"] = latest_news
         context["todo"] = todo
         context["data"] = data
+        context["active_users"] = active_users
+        context["active_employee"] = active_employee
+        context["active_agent"] = active_agent
 
         # context["enq_count"] = enq_count
 
@@ -2231,6 +2240,9 @@ def emp_followup_delete(request, id):
 
 @login_required
 def employee_logout(request):
+    user = request.user
+    user.is_logged_in = False
+    user.save()
     logout(request)
     return redirect("/")
 

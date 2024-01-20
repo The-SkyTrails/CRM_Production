@@ -89,6 +89,12 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        active_users = CustomUser.objects.filter(is_logged_in=True).count()
+        active_employee = CustomUser.objects.filter(user_type="3", is_logged_in=True)
+        active_agent = CustomUser.objects.filter(
+            user_type__in=["4", "5"], is_logged_in=True
+        )
+
         story = SuccessStory.objects.all()
 
         latest_news = News.objects.order_by("-created_at")[:10]
@@ -130,6 +136,9 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         context["story"] = story
         context["latest_news"] = latest_news
         context["todo"] = todo
+        context["active_users"] = active_users
+        context["active_employee"] = active_employee
+        context["active_agent"] = active_agent
 
         return context
 
@@ -3665,10 +3674,6 @@ def admin_appointment(request):
 
     context = {"events": all_events}
     return render(request, "Admin/Dashboard/demo.html", context)
-
-
-def dashboard2(request):
-    return render(request, "Admin/Dashboard/dashboard2.html")
 
 
 def NewsUpdateView(request):

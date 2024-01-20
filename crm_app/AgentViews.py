@@ -1170,6 +1170,9 @@ class PendingFAQListView(LoginRequiredMixin, ListView):
 
 @login_required
 def agent_logout(request):
+    user = request.user
+    user.is_logged_in = False
+    user.save()
     logout(request)
     return redirect("/")
 
