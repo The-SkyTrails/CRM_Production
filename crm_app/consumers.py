@@ -6,7 +6,7 @@ from .models import ChatGroup, ChatMessage, Employee
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        print("Websocket Connected.......")
+        
         self.group_name = self.scope["url_route"]["kwargs"]["group_id"]
         self.user = self.scope["user"]
 
@@ -17,7 +17,7 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data=None, bytes_data=None):
         print("Message receive from client", text_data)
         data = json.loads(text_data)
-        # print("dataaa", data)
+        
         if "msg" in data:
             message = data["msg"]
             username = self.user.first_name + " " + self.user.last_name
@@ -64,7 +64,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
     def chat_attachment(self, event):
-        print("attachmentttt", event)
+        
         self.send(
             text_data=json.dumps(
                 {

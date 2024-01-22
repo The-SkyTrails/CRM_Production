@@ -858,7 +858,7 @@ def active_save(request, id):
     assesment_Emp = enquiry.assign_to_assesment_employee
 
     if assesment_Emp:
-        print("ssssssssssssssssssssssssssssss")
+        
         enquiry.lead_status = "Active"
         enquiry.save()
 
@@ -2202,7 +2202,7 @@ def emp_followup_list(request):
         | Q(assign_to_visa_team_employee=user)
     ).distinct()
     followup = FollowUp.objects.filter(enquiry__in=enq_list)
-    print("follow up", followup)
+    
     context = {
         "followup": followup,
         "form": form,

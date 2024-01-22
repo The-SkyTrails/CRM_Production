@@ -2440,7 +2440,7 @@ def update_assigned_op(request, id):
     if request.method == "POST":
         try:
             assign_to_outsourcingagent = request.POST.get("assign_to_outsourcingagent")
-            print("heloo out source", assign_to_outsourcingagent)
+           
             outsourcepartner = OutSourcingAgent.objects.get(
                 id=assign_to_outsourcingagent
             )
@@ -3820,7 +3820,7 @@ def add_appointment(request):
     start = request.GET.get("start", None)
     end = request.GET.get("time", None)
     time = request.GET.get("time", None)
-    print("start", start)
+    
     title = request.GET.get("title", None)
     event = Appointment(name=str(title), start=start, time=time)
     event.save()
@@ -3859,7 +3859,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 def all_appointment(request):
     all_events = Appointment.objects.all()
-    print("demooooooooooooo")
+    
     out = []
     for event in all_events:
         formatted_date = event.start.strftime("%Y-%m-%d")
