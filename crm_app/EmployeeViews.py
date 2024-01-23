@@ -83,7 +83,8 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         ).count
 
         leadpending_count = Enquiry.objects.filter(
-            lead_status="Active", created_by=self.request.user
+            Q(lead_status="Active") | Q(lead_status="PreEnrolled"),
+            created_by=self.request.user,
         ).count()
 
         leadcomplete_count = Enquiry.objects.filter(
@@ -858,7 +859,6 @@ def active_save(request, id):
     assesment_Emp = enquiry.assign_to_assesment_employee
 
     if assesment_Emp:
-        
         enquiry.lead_status = "Active"
         enquiry.save()
 
@@ -2202,7 +2202,7 @@ def emp_followup_list(request):
         | Q(assign_to_visa_team_employee=user)
     ).distinct()
     followup = FollowUp.objects.filter(enquiry__in=enq_list)
-    
+
     context = {
         "followup": followup,
         "form": form,
@@ -4121,14 +4121,13 @@ def submit(request):
 
         elif emp_dep.department == "Documentation":
             last_assigned_index = cache.get("last_assigned_index") or 0
-            presale_employees = get_presale_employee()
-            if presale_employees.exists():
-                next_index = (last_assigned_index + 1) % presale_employees.count()
-                enq.assign_to_employee = presale_employees[next_index]
+            visa_employees = get_visa_team_employee()
+            if visa_employees.exists():
+                next_index = (last_assigned_index + 1) % visa_employees.count()
+                enq.assign_to_visa_team_employee = visa_employees[next_index]
                 enq.assign_to_documentation_employee = request.user.employee
 
                 cache.set("last_assigned_index", next_index)
-
         elif emp_dep.department == "Visa Team":
             last_assigned_index = cache.get("last_assigned_index") or 0
             presale_employees = get_presale_employee()
@@ -4140,3 +4139,197 @@ def submit(request):
                 cache.set("last_assigned_index", next_index)
         enq.save()
         return redirect("employee_lead_list")
+
+
+def lead_emp_add_agent(request):
+    logged_in_user = request.user
+    relevant_employees = Employee.objects.all()
+    user = request.user
+
+    dep = user.employee.department
+
+    if request.method == "POST":
+        type = request.POST.get("type")
+
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
+        contact = request.POST.get("contact")
+        password = request.POST.get("password")
+        country = request.POST.get("country")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        zipcode = request.POST.get("zipcode")
+        files = request.FILES.get("files")
+
+        existing_agent = CustomUser.objects.filter(username=email)
+        fullname = str(firstname + " " + lastname)
+        try:
+            if existing_agent:
+                messages.warning(request, f'"{email}" already exists.')
+                return redirect("emp_add_agent")
+
+            if type == "Outsourcing Partner":
+                user = CustomUser.objects.create_user(
+                    username=email,
+                    first_name=firstname,
+                    last_name=lastname,
+                    email=email,
+                    password=password,
+                    user_type="5",
+                )
+                logged_in_user = request.user
+
+                user.outsourcingagent.type = type
+                user.outsourcingagent.contact_no = contact
+                user.outsourcingagent.country = country
+                user.outsourcingagent.state = state
+                user.outsourcingagent.City = city
+                user.outsourcingagent.Address = address
+                user.outsourcingagent.zipcode = zipcode
+                user.outsourcingagent.profile_pic = files
+                user.outsourcingagent.registerdby = logged_in_user
+                user.outsourcingagent.assign_employee = logged_in_user.employee
+                chat_group_name = f"{fullname} Group"
+                chat_group = ChatGroup.objects.create(
+                    group_name=chat_group_name,
+                )
+                chat_group.group_member.add(user.outsourcingagent.assign_employee.users)
+                chat_group.group_member.add(user)
+
+                user.save()
+
+                # create_admin_notification("New Lead Added")
+                msg = f"New OutSourceAgent Added({fullname})"
+                create_admin_notification(msg)
+
+                current_count = Notification.objects.filter(is_seen=False).count()
+                send_notification_admin(msg, current_count)
+                # send_notification_admin("New Lead Assign Added", current_count)
+
+                subject = "Congratulations! Your Account is Created"
+                message = (
+                    f"Hello {firstname} {lastname},\n\n"
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+
+                recipient_list = [email]
+
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="5"
+                )
+
+                mobile_number = contact
+
+                message = (
+                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
+                    f" Hello {firstname} {lastname}, \n\n"
+                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
+                    f" Account Details: \n\n"
+                    f" Email: {email} \n\n"
+                    f" Password: {password} \n\n"
+                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
+                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
+                    f" Stay connected on social media: \n\n"
+                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
+                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
+                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
+                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
+                    f" Got questions? Need assistance? We're here for you! \n\n"
+                    f" Best, \n\n"
+                    f" The Sky Trails Team \n\n"
+                )
+                response = send_whatsapp_message(mobile_number, message)
+
+                messages.success(request, "OutSource Agent Added Successfully")
+                return redirect("emp_all_outsource_agent")
+
+            else:
+                user = CustomUser.objects.create_user(
+                    username=email,
+                    first_name=firstname,
+                    last_name=lastname,
+                    email=email,
+                    password=password,
+                    user_type="4",
+                )
+                logged_in_user = request.user
+
+                user.agent.type = type
+                user.agent.contact_no = contact
+                user.agent.country = country
+                user.agent.state = state
+                user.agent.City = city
+                user.agent.Address = address
+                user.agent.zipcode = zipcode
+                user.agent.profile_pic = files
+                user.agent.registerdby = logged_in_user
+                user.agent.assign_employee = logged_in_user.employee
+                chat_group_name = f"{fullname} Group"
+                chat_group = ChatGroup.objects.create(
+                    group_name=chat_group_name,
+                )
+                chat_group.group_member.add(user.agent.assign_employee.users)
+                chat_group.group_member.add(user)
+                user.save()
+
+                msg = f"New Agent Added({fullname})"
+                create_admin_notification(msg)
+
+                current_count = Notification.objects.filter(is_seen=False).count()
+                send_notification_admin(msg, current_count)
+
+                context = {"employees": relevant_employees, "dep": dep}
+
+                subject = "Congratulations! Your Account is Created"
+                message = (
+                    f"Hello {firstname} {lastname},\n\n"
+                    f"Welcome to SSDC \n\n"
+                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
+                    f" Your id is {email} and your password is {password}.\n\n"
+                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
+                    f"Thank you for joining us!\n\n"
+                    f"Best regards,\nThe Sky Trails"
+                )
+
+                send_congratulatory_email(
+                    firstname, lastname, email, password, user_type="4"
+                )
+
+                mobile_number = contact
+
+                message = (
+                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
+                    f" Hello {firstname} {lastname}, \n\n"
+                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
+                    f" Account Details: \n\n"
+                    f" Email: {email} \n\n"
+                    f" Password: {password} \n\n"
+                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
+                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
+                    f" Stay connected on social media: \n\n"
+                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
+                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
+                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
+                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
+                    f" Got questions? Need assistance? We're here for you! \n\n"
+                    f" Best, \n\n"
+                    f" The Sky Trails Team \n\n"
+                )
+                response = send_whatsapp_message(mobile_number, message)
+
+                messages.success(request, "Agent Added Successfully")
+                return redirect("emp_enquiry_form1")
+
+        except Exception as e:
+            messages.warning(request, e)
+
+    context = {"employees": relevant_employees, "dep": dep}
+
+    return render(request, "Employee/Agent Management/addagent.html", context)

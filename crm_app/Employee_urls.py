@@ -298,4 +298,5 @@ urlpatterns = [
     ),
     path("search_enquiries/", search_enquiries, name="Emp_search_enquiries"),
     path("NewLead/Save/", submit, name="newlead_save"),
+    path("lead_add_agent/", lead_emp_add_agent, name="lead_emp_add_agent"),
 ]

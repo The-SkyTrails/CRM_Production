@@ -279,6 +279,7 @@ class EnquiryForm1(forms.ModelForm):
             "Gender",
             "Country",
             "passport_no",
+            "assign_to_agent",
         ]
 
         widgets = {
@@ -300,6 +301,7 @@ class EnquiryForm1(forms.ModelForm):
             "passport_no": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Passport Number"}
             ),
+            "assign_to_agent": forms.Select(attrs={"class": "form-select"}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -550,7 +552,6 @@ class EnquiryForm3(forms.ModelForm):
             "Package",
             "Source",
             "Reference",
-            "assign_to_agent",
         ]
 
         widgets = {
@@ -565,7 +566,6 @@ class EnquiryForm3(forms.ModelForm):
             "Reference": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter Reference Name"}
             ),
-            "assign_to_agent": forms.Select(attrs={"class": "form-select"}),
         }
 
         def __init__(self, *args, **kwargs):
