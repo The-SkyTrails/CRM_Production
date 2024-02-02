@@ -1,5 +1,6 @@
 from django.urls import path, include
 from .EmployeeViews import *
+from .API_views import EmployeeWebsitePackage
 
 urlpatterns = [
     path("Dashboard/", employee_dashboard.as_view(), name="employee_dashboard"),
@@ -299,4 +300,8 @@ urlpatterns = [
     path("search_enquiries/", search_enquiries, name="Emp_search_enquiries"),
     path("NewLead/Save/", submit, name="newlead_save"),
     path("lead_add_agent/", lead_emp_add_agent, name="lead_emp_add_agent"),
+    path("WebsitePackage/", EmployeeWebsitePackage, name="Employee_websitepackage"),
+    path("AddPreEnquiry/", emp_PreEnquiry1View.as_view(), name="emp_Preenquiry_form1"),
+    path("AddPreEnquiry2/", emp_PreEnquiry2View.as_view(), name="emp_Preenquiry_form2"),
+    path("AddPreEnquiry3/", emp_PreEnquiry3View.as_view(), name="emp_Preenquiry_form3"),
 ]

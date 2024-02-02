@@ -1,5 +1,6 @@
 from django.urls import path, include
 from .AgentViews import *
+from .API_views import AgentWebsitePackage
 
 urlpatterns = [
     path("Dashboard/", agent_dashboard.as_view(), name="agent_dashboard"),
@@ -78,4 +79,5 @@ urlpatterns = [
     path("Update/Todo/<int:id>/", Agent_update_todo, name="Agent_update_todo"),
     path("Delete/Todo/<int:id>/", Agent_delete_todo, name="Agent_delete_todo"),
     path("NewLead/Save/", submit, name="agent_newlead_save"),
+    path("WebsitePackage/", AgentWebsitePackage, name="Agent_websitepackage"),
 ]

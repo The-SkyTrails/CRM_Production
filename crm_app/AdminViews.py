@@ -92,6 +92,14 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        response = requests.get(url)
+        data = response.json()
+        webpackages = data["data"]["pakage"]
+
+        for webpackage in webpackages:
+            webpackage["id"] = webpackage.pop("_id")
+
         active_users = CustomUser.objects.filter(is_logged_in=True).count()
         active_employee = CustomUser.objects.filter(user_type="3", is_logged_in=True)
         active_agent = CustomUser.objects.filter(
@@ -146,6 +154,7 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
         context["leadappoint_count"] = leadappoint_count
         context["completed_count"] = completed_count
         context["leadresult_count"] = leadresult_count
+        context["webpackages"] = webpackages
 
         return context
 
@@ -2400,7 +2409,7 @@ def admin_new_leads_details(request):
         "lead": lead,
         "assesment_employee": assesment_employee,
         "agent": agent,
-        "outsourcepartner": outsourcepartner
+        "outsourcepartner": outsourcepartner,
         # "enquiries_with_spouse_names": enquiries_with_spouse_names,
     }
     return render(request, "Admin/Enquiry/lead-details.html", context)
@@ -2440,7 +2449,7 @@ def update_assigned_op(request, id):
     if request.method == "POST":
         try:
             assign_to_outsourcingagent = request.POST.get("assign_to_outsourcingagent")
-           
+
             outsourcepartner = OutSourcingAgent.objects.get(
                 id=assign_to_outsourcingagent
             )
@@ -3820,7 +3829,7 @@ def add_appointment(request):
     start = request.GET.get("start", None)
     end = request.GET.get("time", None)
     time = request.GET.get("time", None)
-    
+
     title = request.GET.get("title", None)
     event = Appointment(name=str(title), start=start, time=time)
     event.save()
@@ -3859,7 +3868,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 def all_appointment(request):
     all_events = Appointment.objects.all()
-    
+
     out = []
     for event in all_events:
         formatted_date = event.start.strftime("%Y-%m-%d")
@@ -4191,3 +4200,14 @@ def visateamcolorupdate_view(request):
         users_id.save()
         messages.success(request, "Team Updated successfully")
         return HttpResponseRedirect(reverse("color_employee_list"))
+
+
+from wkhtmltopdf.utils import render_pdf_from_template
+
+
+def package_pdf(request, id):
+    package = Package.objects.get(id=id)
+
+    context = {"hello": "hello", "package": package}
+
+    return PDFTemplateResponse(request, "Admin/Product/package_pdf.html", context)

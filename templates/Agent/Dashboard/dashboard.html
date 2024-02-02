@@ -193,6 +193,14 @@
 
 
   <div class="div4">
+    <div class="he" style="display: flex; justify-content:space-between;">
+      <h4><b>Product</b></h4>
+      <a href="{% url "Agent_Package_list" %}">
+         <h5>View All</h5>
+      </a>
+      
+   </div>
+   <hr>
     <div class="slide-container swiper">
       <div class="slide-content">
         <div class="card-wrapper swiper-wrapper">
@@ -437,7 +445,57 @@
 
   </div>
 
-
+<div class="div4">
+    <div class="he" style="display: flex; justify-content:space-between;">
+       <h4><b>Holiday Package</b></h4>
+       <a href="{% url "Agent_websitepackage" %}">
+          <h5>View All</h5>
+       </a>
+       
+    </div>
+    <hr>
+    <div class="slide-container swiper">
+       <div class="slide-content">
+          <div class="card-wrapper swiper-wrapper">
+             {% for webpackage in webpackages %}
+             <div class="card swiper-slide">
+                <div class="images-content" style="height:14rem;">
+                   <span class="overlay"></span>
+                   <div class="card-image1">
+                      {% if webpackage.pakage_img %}
+                      <img src="{{ webpackage.pakage_img }}" alt="Owl Image" class="card-img">
+                      {% else %}
+                      <img src="{% static " style/Styling\DashboardDesign\images\card-header.png" %}" alt=""
+                         class="card-img">
+                      {% endif %}
+                   </div>
+                </div>
+                <div class="card-body1">
+                   <h5 class="card-title">{{webpackage.pakage_title}}</h5>
+                   <p class="card-text">Country: <Span class="txt" style="color:black;font-size:large;">{{webpackage.country}}</Span></p>
+                   <p class="card-text">Days/Night :<Span class="txt">{{webpackage.days}}D/{{ webpackage.days|add:"-1" }}N</Span></p>
+                </div>
+                <a href="https://theskytrails.com/holidayInfo/{{ webpackage.id }}" >
+                   <div class="Button">
+                      <div class="Text"><button class="btn border-0 Text">All Details</button></div>
+                      <div class="ArrowRight">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                            <path
+                               d="M17.4184 10.9451C17.4996 10.7324 17.5208 10.4984 17.4794 10.2726C17.438 10.0468 17.3359 9.83941 17.1859 9.67668L12.8999 5.02192C12.8011 4.91077 12.6829 4.82212 12.5521 4.76113C12.4214 4.70015 12.2808 4.66804 12.1385 4.6667C11.9963 4.66536 11.8552 4.6948 11.7235 4.75331C11.5918 4.81182 11.4722 4.89823 11.3716 5.00749C11.271 5.11676 11.1914 5.24668 11.1375 5.3897C11.0836 5.53271 11.0565 5.68594 11.0578 5.84046C11.059 5.99497 11.0886 6.14767 11.1447 6.28965C11.2009 6.43162 11.2825 6.56003 11.3848 6.66738L13.8429 9.33688H3.5715C3.28732 9.33688 3.01478 9.45948 2.81383 9.67772C2.61289 9.89595 2.5 10.1919 2.5 10.5006C2.5 10.8092 2.61289 11.1052 2.81383 11.3234C3.01478 11.5417 3.28732 11.6643 3.5715 11.6643H13.8429L11.3859 14.3326C11.2836 14.44 11.202 14.5684 11.1458 14.7103C11.0896 14.8523 11.0601 15.005 11.0588 15.1595C11.0576 15.314 11.0847 15.4673 11.1386 15.6103C11.1925 15.7533 11.272 15.8832 11.3726 15.9925C11.4732 16.1017 11.5929 16.1882 11.7246 16.2467C11.8562 16.3052 11.9973 16.3346 12.1396 16.3333C12.2819 16.3319 12.4225 16.2998 12.5532 16.2388C12.6839 16.1779 12.8022 16.0892 12.901 15.9781L17.187 11.3233C17.2863 11.215 17.3649 11.0865 17.4184 10.9451Z"
+                               fill="white" />
+                         </svg>
+                      </div>
+                   </div>
+                </a>
+             </div>
+             {% endfor %}
+          </div>
+       </div>
+       <div class="swiper-button-next swiper-navBtn"></div>
+       <div class="swiper-button-prev swiper-navBtn"></div>
+       <div class="swiper-pagination"></div>
+    </div>
+ </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

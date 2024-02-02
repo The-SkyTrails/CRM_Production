@@ -61,6 +61,14 @@ class agent_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        response = requests.get(url)
+        data = response.json()
+        webpackages = data["data"]["pakage"]
+
+        for webpackage in webpackages:
+            webpackage["id"] = webpackage.pop("_id")
+
         story = SuccessStory.objects.all()
 
         user = self.request.user
@@ -158,6 +166,7 @@ class agent_dashboard(LoginRequiredMixin, TemplateView):
         context["all_enq"] = all_enq
         context["enq_count"] = enq_count
         context["todo"] = todo
+        context["webpackages"] = webpackages
 
         return context
 

@@ -1,3 +1,5 @@
+import requests
+from django.shortcuts import render
 from rest_framework import viewsets
 from .models import (
     Booking,
@@ -51,3 +53,45 @@ class EnquiryViewSet(viewsets.ModelViewSet):
         contact = self.request.query_params.get("contact")
         queryset = Enquiry.objects.filter(contact=contact)
         return queryset
+
+
+def WebsitePackage(request):
+    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    response = requests.get(url)
+    data = response.json()
+    packages = data["data"]["pakage"]
+
+    for package in packages:
+        package["id"] = package.pop("_id")
+
+    context = {"packages": packages}
+
+    return render(request, "Admin/WebsitePackage/webPackage.html", context)
+
+
+def EmployeeWebsitePackage(request):
+    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    response = requests.get(url)
+    data = response.json()
+    packages = data["data"]["pakage"]
+
+    for package in packages:
+        package["id"] = package.pop("_id")
+
+    context = {"packages": packages}
+
+    return render(request, "Employee/WebsitePackage/webPackage.html", context)
+
+
+def AgentWebsitePackage(request):
+    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    response = requests.get(url)
+    data = response.json()
+    packages = data["data"]["pakage"]
+
+    for package in packages:
+        package["id"] = package.pop("_id")
+
+    context = {"packages": packages}
+
+    return render(request, "Agent/WebsitePackage/webPackage.html", context)

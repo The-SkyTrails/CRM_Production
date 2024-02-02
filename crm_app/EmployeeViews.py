@@ -119,6 +119,14 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
+        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        response = requests.get(url)
+        data = response.json()
+        webpackages = data["data"]["pakage"]
+
+        for webpackage in webpackages:
+            webpackage["id"] = webpackage.pop("_id")
+
         active_users = CustomUser.objects.filter(is_logged_in=True).count()
         active_employee = CustomUser.objects.filter(user_type="3", is_logged_in=True)
         active_agent = CustomUser.objects.filter(
@@ -312,20 +320,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         todo = Todo.objects.filter(user=self.request.user).order_by("-id")
         context["dep"] = dep
 
-        import requests
-
-        url = "https://back.theskytrails.com/skyTrails/international/getAll"
-
-        response = requests.get(url)
-
-        if response.status_code == 200:
-            # The API call was successful, and you can access the data using response.json()
-            data = response.json()
-
-        else:
-            # The API call failed, and you can print the status code and any error message
-            print(f"Error: {response.status_code}, {response.text}")
-
         context["leadcomplete_count"] = leadcomplete_count
         context["leadaccept_count"] = leadaccept_count
         context["leadpending_count"] = leadpending_count
@@ -348,6 +342,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["appoint_count"] = appoint_count
         context["leadinprocess_count"] = leadinprocess_count
         context["resultlead_count"] = resultlead_count
+        context["webpackages"] = webpackages
 
         # context["enq_count"] = enq_count
 
@@ -380,7 +375,7 @@ class emp_Enquiry1View(LoginRequiredMixin, CreateView):
 
         return render(
             request,
-            "Admin/Enquiry/lead2.html",
+            "Employee/Enquiry/lead2.html",
             {"form": form},
         )
 
@@ -4333,3 +4328,208 @@ def lead_emp_add_agent(request):
     context = {"employees": relevant_employees, "dep": dep}
 
     return render(request, "Employee/Agent Management/addagent.html", context)
+
+
+##################################### PREEXISTING LEAD #############################################
+
+
+class emp_PreEnquiry1View(LoginRequiredMixin, CreateView):
+    def get(self, request):
+        form = PreEnquiryForm1()
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/Prelead1.html", context)
+
+    def post(self, request):
+        form = PreEnquiryForm1(request.POST)
+        if form.is_valid():
+            cleaned_data = {
+                "FirstName": form.cleaned_data["FirstName"],
+                "LastName": form.cleaned_data["LastName"],
+                "email": form.cleaned_data["email"],
+                "contact": form.cleaned_data["contact"],
+                "Dob": form.cleaned_data["Dob"].strftime("%Y-%m-%d"),
+                "Gender": form.cleaned_data["Gender"],
+                "Country": form.cleaned_data["Country"],
+                "passport_no": form.cleaned_data["passport_no"],
+                "lead_status": form.cleaned_data["lead_status"],
+            }
+            request.session["emp_Preenquiry_form1"] = cleaned_data
+            return redirect("emp_Preenquiry_form2")
+
+        return render(
+            request,
+            "Employee/Enquiry/Prelead2.html",
+            {"form": form},
+        )
+
+
+class emp_PreEnquiry2View(LoginRequiredMixin, CreateView):
+    def get(self, request):
+        form = EnquiryForm2()
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/Prelead2.html", context)
+
+    def post(self, request):
+        form = EnquiryForm2(request.POST)
+        if form.is_valid():
+            # Retrieve personal details from session
+            enquiry_form1 = request.session.get("emp_Preenquiry_form1", {})
+
+            cleaned_data = {
+                "spouse_name": form.cleaned_data["spouse_name"],
+                "spouse_no": form.cleaned_data["spouse_no"],
+                "spouse_email": form.cleaned_data["spouse_email"],
+                "spouse_passport": form.cleaned_data["spouse_passport"],
+                "spouse_relation": form.cleaned_data["spouse_relation"],
+                "spouse_name1": form.cleaned_data["spouse_name1"],
+                "spouse_no1": form.cleaned_data["spouse_no1"],
+                "spouse_email1": form.cleaned_data["spouse_email1"],
+                "spouse_passport1": form.cleaned_data["spouse_passport1"],
+                "spouse_relation1": form.cleaned_data["spouse_relation1"],
+                "spouse_name2": form.cleaned_data["spouse_name2"],
+                "spouse_no2": form.cleaned_data["spouse_no2"],
+                "spouse_email2": form.cleaned_data["spouse_email2"],
+                "spouse_passport2": form.cleaned_data["spouse_passport2"],
+                "spouse_relation2": form.cleaned_data["spouse_relation2"],
+                "spouse_name3": form.cleaned_data["spouse_name3"],
+                "spouse_no3": form.cleaned_data["spouse_no3"],
+                "spouse_email3": form.cleaned_data["spouse_email3"],
+                "spouse_passport3": form.cleaned_data["spouse_passport3"],
+                "spouse_relation3": form.cleaned_data["spouse_relation3"],
+                "spouse_name4": form.cleaned_data["spouse_name4"],
+                "spouse_no4": form.cleaned_data["spouse_no4"],
+                "spouse_email4": form.cleaned_data["spouse_email4"],
+                "spouse_passport4": form.cleaned_data["spouse_passport4"],
+                "spouse_relation4": form.cleaned_data["spouse_relation4"],
+                "spouse_name5": form.cleaned_data["spouse_name5"],
+                "spouse_no5": form.cleaned_data["spouse_no5"],
+                "spouse_email5": form.cleaned_data["spouse_email5"],
+                "spouse_passport5": form.cleaned_data["spouse_passport5"],
+                "spouse_relation5": form.cleaned_data["spouse_relation5"],
+            }
+
+            for i in range(1, 6):
+                spouse_dob = form.cleaned_data.get("spouse_dob")
+                spouse_dob = form.cleaned_data.get(f"spouse_dob{i}")
+
+                if spouse_dob:
+                    cleaned_data["spouse_dob"] = spouse_dob.strftime("%Y-%m-%d")
+                    cleaned_data[f"spouse_dob{i}"] = spouse_dob.strftime("%Y-%m-%d")
+
+            # Merge personal details with receiver details
+            merged_data = {**enquiry_form1, **cleaned_data}
+
+            # Save the merged data to the session
+            request.session["emp_Preenquiry_form2"] = merged_data
+            return redirect("emp_Preenquiry_form3")
+
+        return render(
+            request,
+            "Employee/Enquiry/Prelead2.html",
+            {"form": form},
+        )
+
+
+class emp_PreEnquiry3View(LoginRequiredMixin, CreateView):
+    def get(self, request):
+        form = EnquiryForm3()
+        user = request.user
+        dep = user.employee.department
+        context = {"dep": dep, "form": form}
+        return render(request, "Employee/Enquiry/Prelead3.html", context)
+
+    def post(self, request):
+        form1_data = request.session.get("emp_Preenquiry_form1", {})
+        form2_data = request.session.get("emp_Preenquiry_form2", {})
+        form3 = EnquiryForm3(request.POST)
+
+        if form3.is_valid():
+            user = request.user
+            form3.instance.assign_to_employee = user.employee
+            # Merge data from all three forms
+            merged_data = {
+                **form1_data,
+                **form2_data,
+                **form3.cleaned_data,
+            }
+
+            # Save the merged data to the database
+            enquiry = Enquiry(**merged_data)
+
+            enquiry.created_by = self.request.user
+            if enquiry.lead_status == "Active":
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                assesment_team_employees = get_assesment_employee()
+
+                next_index = (
+                    last_assigned_index + 1
+                ) % assesment_team_employees.count()
+                enquiry.assign_to_assesment_employee = assesment_team_employees[
+                    next_index
+                ]
+                enquiry.assign_to_assesment_employee
+
+                enquiry.save()
+                cache.set("last_assigned_index", next_index)
+            elif enquiry.lead_status == "PreEnrolled":
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                sale_team_employees = get_sale_employee()
+
+                next_index = (last_assigned_index + 1) % sale_team_employees.count()
+                enquiry.assign_to_sales_employee = sale_team_employees[next_index]
+                enquiry.assign_to_sales_employee
+
+                enquiry.save()
+                cache.set("last_assigned_index", next_index)
+            elif enquiry.lead_status == "Enrolled":
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                doc_team_employees = get_documentation_team_employee()
+
+                next_index = (last_assigned_index + 1) % doc_team_employees.count()
+                enquiry.assign_to_documentation_employee = doc_team_employees[
+                    next_index
+                ]
+                enquiry.assign_to_documentation_employee
+
+                enquiry.save()
+                cache.set("last_assigned_index", next_index)
+            else:
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                visa_team_employees = get_visa_team_employee()
+
+                next_index = (last_assigned_index + 1) % visa_team_employees.count()
+                enquiry.assign_to_visa_team_employee = visa_team_employees[next_index]
+                enquiry.assign_to_visa_team_employee
+
+                enquiry.save()
+                cache.set("last_assigned_index", next_index)
+
+            enquiry.save()
+            employee_id = self.request.user.employee.id
+
+            create_admin_notification("New Lead Added")
+
+            current_count = Notification.objects.filter(is_seen=False).count()
+            send_notification_admin("New Lead Added", current_count)
+
+            messages.success(request, "Enquiry Added successfully")
+
+            # Clear session data after successful submission
+            request.session.pop("emp_Preenquiry_form1", None)
+            request.session.pop("emp_Preenquiry_form2", None)
+
+            return redirect("emp_enquiry_form4", id=enquiry.id)
+
+        return render(
+            request,
+            "Employee/Enquiry/Prelead3.html",
+            {"form": form3},
+        )
+
+    def get_success_url(self):
+        enquiry_id = self.object.id
+        return reverse_lazy("emp_enquiry_form4", kwargs={"id": enquiry_id})

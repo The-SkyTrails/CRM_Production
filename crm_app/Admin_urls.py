@@ -1,6 +1,7 @@
 from django.urls import path, include
 
 from .AdminViews import *
+from .API_views import WebsitePackage
 
 urlpatterns = [
     path("Dashboard/", admin_dashboard.as_view(), name="admin_dashboard"),
@@ -277,4 +278,6 @@ urlpatterns = [
     path("visateam_color/", visa_team_color, name="visa_team_color"),
     path("color_employee_list/", color_employee_list, name="color_employee_list"),
     path("team_updated/", visateamcolorupdate_view, name="team_updated"),
+    path("package_pdf/<int:id>/", package_pdf, name="pac_pdf"),
+    path("WebsitePackage/", WebsitePackage, name="websitepackage"),
 ]

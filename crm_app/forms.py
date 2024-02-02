@@ -658,3 +658,60 @@ class NewsForm(forms.ModelForm):
         widgets = {
             "news": forms.Textarea(attrs={"class": "form-control"}),
         }
+
+
+class PreEnquiryForm1(forms.ModelForm):
+    class Meta:
+        model = Enquiry
+        fields = [
+            "FirstName",
+            "LastName",
+            "email",
+            "contact",
+            "Dob",
+            "Gender",
+            "Country",
+            "passport_no",
+            "assign_to_agent",
+            "lead_status",
+        ]
+
+        widgets = {
+            "email": forms.EmailInput(
+                attrs={"class": "form-control", "placeholder": "Enter Email Id"}
+            ),
+            "contact": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Contact No"}
+            ),
+            "FirstName": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter First Name"}
+            ),
+            "LastName": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Last Name"}
+            ),
+            "Dob": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "Gender": forms.Select(attrs={"class": "form-select"}),
+            "Country": forms.Select(attrs={"class": "form-select"}),
+            "passport_no": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Enter Passport Number"}
+            ),
+            "assign_to_agent": forms.Select(attrs={"class": "form-select"}),
+            "lead_status": forms.Select(attrs={"class": "form-select"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        excluded_statuses = [
+            "New Lead",
+            "Accept",
+            "Result",
+            "Case Initiated",
+            "Reject",
+            "Delivery",
+        ]
+        self.fields["lead_status"].choices = [
+            (value, label)
+            for value, label in leads_status
+            if value not in excluded_statuses
+        ]
