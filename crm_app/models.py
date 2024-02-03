@@ -667,7 +667,7 @@ class Enquiry(models.Model):
     email = models.EmailField(blank=True)
     contact = models.CharField(max_length=10)
     # country = models.CharField(max_length=100, null=True, blank=True)
-    Country = CountryField(default="IN")
+    Country = CountryField(default="IN",max_length=255,)
     # Country = models.CharField(max_length=255,null=True,blank=True)
     state = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
