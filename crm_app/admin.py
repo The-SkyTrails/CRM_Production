@@ -106,6 +106,7 @@ class EnquiryAdmin(admin.ModelAdmin):
         "id",
         "created_by",
         "Visa_country",
+        "Country",
         "enquiry_number",
         "assign_to_employee",
         "assign_to_assesment_employee",
