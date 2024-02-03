@@ -120,7 +120,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     list_filter = [
         "Visa_country",
     ]
-    # search_fields = ["Visa_country"]
+    search_fields = ["id"]
 
 
 class CustomUserResource(resources.ModelResource):
