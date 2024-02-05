@@ -58,7 +58,10 @@
         </div>
 
     </div>
-    {% include "Admin/Base/messages.html" %}
+    {% comment %} {% include "Admin/Base/messages.html" %} {% endcomment %}
+    {% for message in messages %}
+    <h1>helooo</h1>
+    {% endfor %}
     <div class="resolvedquerycontent1">
         <ul class="list-group">
             <div class="list-item">

@@ -1,0 +1,922 @@
+
+{% extends "VisaPage/Base/base.html" %}
+{% load static %}
+{% block main-body-content %}
+
+<div class="mainbody-content">
+  <div class="container-fluid">
+    {% include "VisaPage/Base/navbar.html" %}
+  </div>
+
+  {% include "VisaPage/Base/sidenavbar.html" %}
+
+  <div class="mainbody-content-banner">
+    <div class="landingpage-banner">
+      <div class="landing-page-heading">
+        <div class="crafting-heading">
+            Advancing your global career journey .
+        </div>
+        
+      </div>
+      <a href="{% url "overseas_all" %}">
+      <button class="crafeting-banner-button">See all opportunities</button>
+    </a>
+    </div>
+
+    <div class="landing-img-banner">
+      <!-- <div class="landing-imgage"></div> -->
+      <div style="width: 100%">
+        <img width="100%" src="{% static "visa/images/banner-img.jpeg" %}" alt="" />
+      </div>
+      <div class="landing-img-belowcontent">
+        <div class="landing-img-para1">
+          Crafting your unique journey to global opportunities.
+        </div>
+        <div class="landing-img-para2">
+          Crafting your unique journey to global opportunities.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main-body-content %}
+
+{% block main-content  %}
+
+    <!-- //////////////////////////////////////explore oppurtunity////////////////////////////////// -->
+    <div class="container">
+
+      <div class="exploreopurtunity-container">
+        <p class="service-offer-heading" style="text-align: center;">Explore Opportunities</p>
+        <div class="mt-5 w-100">
+          <ul class="nav service-content" id="myTabs">
+            <li class="nav-item">
+              <a
+                class="active visa-service"
+                id="tab1-tab"
+                data-bs-toggle="tab"
+                href="#tab1"
+                >Blue Collar </a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="visa-service"
+                id="tab2-tab"
+                data-bs-toggle="tab"
+                href="#tab2"
+                >Healthcare
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="visa-service"
+                id="tab3-tab"
+                data-bs-toggle="tab"
+                href="#tab3"
+                >Hospitality</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="visa-service"
+                id="tab3-tab"
+                data-bs-toggle="tab"
+                href="#tab3"
+                >Marketing</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="visa-service"
+                id="tab3-tab"
+                data-bs-toggle="tab"
+                href="#tab3"
+                >Accountant</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="visa-service"
+                id="tab3-tab"
+                data-bs-toggle="tab"
+                href="#tab3"
+                >Human Resources</a
+              >
+            </li>
+          </ul>
+
+          <div class="tab-content" style="margin-top: 50px">
+            <div class="tab-pane fade show active" id="tab1">
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="container">
+                <div class="">
+                  <div class=" visa-service-text">
+                    <div class="visa-content-conatiner1">
+    
+                      <div class="visa-content-points">
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Advanced training for skill enhancement.</div>
+                        </div>
+                       
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Diverse career placements globally.</div>
+                        </div>
+                       
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Enhancing vocational abilities.</div>
+                        </div>
+                       
+                        
+                      </div>
+                    </div>
+
+                    <div class="visa-button">Book an appointment</div>
+                  </div>
+                  
+                </div>
+              </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="sercise-feature-grid">
+                      <div class="owl-slider">
+                          <div class="row">
+                          <div id="carousel9" class="owl-carousel owl " style=" width: 100%;">
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+              
+                          </div>
+                      </div>
+                      </div>
+              
+              
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+
+
+
+            </div>
+            <div class="tab-pane fade" id="tab2">
+             
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="container">
+                <div class="">
+                  <div class=" visa-service-text">
+                    <div class="visa-content-conatiner1">
+    
+                      <div class="visa-content-points">
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Advanced training for skill enhancement.</div>
+                        </div>
+                       
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Diverse career placements globally.</div>
+                        </div>
+                       
+                        <div class="visa-content-point1">
+                          <img
+                            src="{% static "visa/images/tick.png" %}"
+                            alt=""
+                            style="height: 18px; width: 18px"
+                          />
+                          <div class="allvisa">Enhancing vocational abilities.</div>
+                        </div>
+                       
+                        
+                      </div>
+                    </div>
+
+                    <div class="visa-button">Book an appointment</div>
+                  </div>
+                  
+                </div>
+              </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="sercise-feature-grid">
+                      <div class="owl-slider">
+                          <div class="row">
+                          <div id="carousel" class="owl-carousel owl " style=" width: 100%;">
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-4" style="width: 100%;">
+                                <div class="grid-update-1">
+                                  <div class="latest-img-min">
+                                    <img
+                                      src="{% static "visa/images/image 16.png" %}"
+                                      alt=""
+                                      class="latest-update-image"
+                                    />
+                                    
+                                  </div>
+                  
+                                  <div class="work-permit-offer">
+                                    
+                                    <div class="landing-img-para1">Farm Seasonal Worker</div>
+                                    <div class="country-date-content">
+                                      <div class="country-date-content-country">Country.: <span>USA</span></div>
+                                      <div class="country-date-content-country">Expiry Date: <span> 31-03-2024</span></div>
+
+                                    </div>
+                                    <div class="button-overseas-content">Explore all details</div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+              
+                          </div>
+                      </div>
+                      </div>
+              
+              
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+     <!-- ////////////////////////////////Skytrailsassists////////////////////////////////////////////// -->
+     <div class="skytrailsassists-conatiner">
+    
+    <!-- <div class="container"> -->
+
+   
+            <div class="skytrailsassists-heading " style="align-items: center;">
+                Here is how <span>Skytrails</span> assists
+            </div>
+
+
+            <div class="skytrail-assis-process">
+                <div class="skytrail-assis-process1">
+                    <div class="skytrail-assis-process1-content">
+                        <div class="skytrail-assis-process1-img">
+                            <img src="./images/assistance 1.png" alt="">
+                        </div>
+                        <div class="connect-details-skytrail">
+                            <div class="visa-service">Connect with us</div>
+                            <div class="textile-work">Fill the form or call us and let our team understand your requirements.</div>
+                        </div>
+                    </div>
+
+                    <div class="proces-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="455" height="164" viewBox="0 0 455 164" fill="none">
+                            <path d="M0 1C247.225 1 385.455 1 438.077 1C446.913 1 454 8.16344 454 17V164" stroke="#667085" stroke-width="2" stroke-dasharray="16 16"/>
+                          </svg>
+                    </div>
+                    
+                </div>
+
+
+                <div class="skytrail-assis-process2">
+
+                    
+                    <div class="proces-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="455" height="164" viewBox="0 0 455 164" fill="none">
+                            <path d="M455 1C207.775 1 69.545 1 16.9235 1C8.08691 1 0.999977 8.16344 0.999977 17V164" stroke="#667085" stroke-width="2" stroke-dasharray="16 16"/>
+                          </svg>
+                    </div>
+                    <div class="skytrail-assis-process1-content2">
+                        
+                        <div class="connect-details-skytrail1">
+                            <div class="visa-service">Explore all opportunities</div>
+                            <div class="textile-work">Our team of counsellors help you to align opportunities with your work profile. </div>
+                        </div>
+                        <div class="skytrail-assis-process1-img">
+                            <img src="./images/assistance 1.png" alt="">
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+
+                <div class="skytrail-assis-process1">
+                    <div class="skytrail-assis-process1-content">
+                        <div class="skytrail-assis-process1-img">
+                            <img src="{% static "visa/images/assistance 1.png" %}" alt="">
+                        </div>
+                        <div class="connect-details-skytrail">
+                            <div class="visa-service">Discove our training projects</div>
+                            <div class="connect-detail-work">Upskill with us <span>@SSDC</span> to go settle in your dream country.</div>
+                        </div>
+                    </div>
+
+                    <div class="proces-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="455" height="164" viewBox="0 0 455 164" fill="none">
+                            <path d="M0 1C247.225 1 385.455 1 438.077 1C446.913 1 454 8.16344 454 17V164" stroke="#667085" stroke-width="2" stroke-dasharray="16 16"/>
+                          </svg>
+                    </div>
+                    
+                </div>
+
+                <div class="skytrail-assis-process2">
+
+                <div class="customHeaderButton">Get in touch with us</div>
+                    
+                </div>
+            </div>
+
+        <!-- </div> -->
+     </div>
+   
+
+
+
+
+     <!-- ///////////////////////////////// -->
+     
+    <!-- //////////////////////////////Latest Update////////////////////////////////// -->
+    <div class="latestupdate container">
+        <div class="latest-updateheading">Latest Updates</div>
+  
+        <div class="latest-update-option">
+          <!-- <div class="latest-update-option1">
+  
+      </div> -->
+          <div class="latest-update-option1">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer">
+                    <div class="badge rounded-pill work-permit-button" style="border: 1px solid #E74694;">Work Permit</div>
+                    <div class="textile-work">
+                      Hungary Offers Textile Work Visa
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-md-4">
+                <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer">
+                    <div class="badge rounded-pill work-permit-button" style="border: 1px solid #E74694;">Work Permit</div>
+                    <div class="textile-work">
+                      Hungary Offers Textile Work Visa
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-md-4">
+                <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer">
+                    <div class="badge rounded-pill immigration-permit-button" style="border: 1px solid #0694A2">Immigration</div>
+                    <div class="textile-work">
+                      Hungary Offers Textile Work Visa
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button class="latest-option-button">Read More</button>
+      </div>
+  
+
+       <!-- ///////////////////////////////////faq////////////////////////////////////// -->
+      <div class="faqcontainer1">
+        <div class="faqcontainer container">
+            <div class="faq-content">Frequently Asked Questions (FAQs)</div>
+            <div class="faq-acordian" style="width: 100%">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button"
+                                style="color:  #071C2C; font-size: 20px; font-style: Montserrat; font-weight: 600;"
+                                data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
+                                aria-controls="collapseOne">
+                                What are all the services that Skytrails offer?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 20px; font-style: Montserrat; font-weight: 400;">
+                                A Work Visa is essential for legally working in a foreign country for a set duration. Typically, obtaining a Work Visa necessitates a job offer from an employer in the destination country. The employer sponsoring your Visa is also a crucial requirement. Additionally, passing a Labour Market Test is often a prerequisite before applying for a Work Visa. To successfully secure a Work Visa, meeting the specific eligibility criteria set by the respective country is mandatory.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false"
+                                style="color:  #071C2C; font-size: 20px; font-style: Montserrat; font-weight: 600;"
+                                aria-controls="collapseTwo">
+                                Why should you choose the skytrails for visa services?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 20px; font-style: Montserrat; font-weight: 400;">
+                                When you choose us, you get:
+     
+                                <li>
+                                    Trustworthy Partner - To help you with your
+                                    Education/Work/Immigration Application.
+                                </li>
+                                <li>Knowledge – Our expertise increase your success.</li>
+                                <li>
+                                    Mutual Benefit – Creates a win-win situation for both,
+                                    applicant and Global Tree and gives a long term
+                                    relationship.
+                                </li>
+                                <li>Reliability-</li>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 600;"
+                                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                aria-controls="collapseThree">
+                                How can our visa expertise help you in making your visa journey easy?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 400;">
+                                Our visa experts at Skytrails bring years of experience to the
+                                table, simplifying the complex visa journey for you. From
+                                understanding the intricacies of different visa types to
+                                assisting with documentation, we guide you at every step. Our
+                                expertise minimizes the chances of errors and ensures a
+                                smoother application process, saving you time and effort.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour" aria-expanded="false"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 600;"
+                                aria-controls="collapseFour">
+                                How long does it take for visa application process? 
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 400;">
+                                The duration of the visa application process varies depending
+                                on the type of visa and the country of destination you are
+                                applying for. Generally, it can take anywhere from a few weeks
+                                to a few months. Skytrails is committed to providing accurate
+                                timelines and keeping you informed about the progress of your
+                                application throughout the entire process.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 600;"
+                                data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false"
+                                aria-controls="collapseFive">
+                                How can Skytrails help to choose the best suited visa for you?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 400;">
+                                At Skytrails, we understand that each individual's needs are
+                                unique. Our experienced visa consultants will assess your
+                                specific requirements, skill-set, experience and understand
+                                your career goals. By providing personalized guidance, we help
+                                you choose the most suitable visa option, ensuring a
+                                successful and stress-free application process.<br />
+                                After understanding your needs, we assist you with selecting
+                                countries that offer higher job prospects and better standards
+                                of living assuring your long term success and career growth.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSix" aria-expanded="false"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 600;"
+                                aria-controls="collapseSix">
+                                How do I get a work visa?
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body"
+                                style="color:  #071C2C; font-size: 18px; font-style: Montserrat; font-weight: 400;">We
+                                try</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+  
+      <!-- ///////////////////////////////GETINTOUCH///////////////////////////// -->
+      <div class="getintouchcontainer container">
+        <div class="gettouch-heading">Get in touch</div>
+  
+        <div class="gettouch-content-img">
+          <div class="touch-content-button">
+            <div class="touch-content">
+              <div class="touch-content-heading">
+                Connect with our team to get personalized visa solutions.
+              </div>
+              <div class="touch-content-para">
+                We offer solutions that are customized to your requirements.
+              </div>
+            </div>
+            <button class="Scheduleappointment">Schedule an appointment</button>
+          </div>
+  
+          <div class="get-touchimg">
+            <img src="./images/images1.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+
+
+
+
+<script>
+  jQuery("#carousel").owlCarousel({
+  autoplay: false,
+  rewind: true, /* use rewind if you don't want loop */
+  margin: 20,
+  
+  responsiveClass: true,
+  autoHeight: true,
+  autoplayTimeout: 7000,
+  smartSpeed: 800,
+  nav: true,
+  responsive: {
+    0: {
+      items: 1
+    },
+  
+    600: {
+      items: 1
+    },
+  
+    1024: {
+      items: 2
+    },
+  
+    1366: {
+      items: 2
+    }
+  }
+  });
+</script>
+  
+{% endblock main-content %}

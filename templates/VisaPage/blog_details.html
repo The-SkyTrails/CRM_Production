@@ -1,0 +1,380 @@
+{% extends "VisaPage/Base/base.html" %}
+{% load static %}
+{% block main-body-content %}
+
+  <div class="carrer-content-ssdc1">
+    <div class="container-fluid">
+      {% include "VisaPage/Base/navbar.html" %}
+  </div>
+  {% include "VisaPage/Base/sidenavbar.html" %}
+
+  {% endblock main-body-content %}
+
+  {% block main-content  %}
+    <!--/////////////////////////////////////landing page ssdc/////////////////////////////////////////-->
+
+   <div class="blog3-container">
+
+    <div class="blog3-content-1">
+
+      <div class="blog3-content-img-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="113" height="113" viewBox="0 0 113 113" fill="none">
+          <g clip-path="url(#clip0_2555_1618)">
+            <rect width="113" height="113" rx="22.6" fill="#E73C33"/>
+            <path d="M112.985 67.5452L112.98 96.0167C112.98 101.393 113.504 104.512 108.713 109.361C104.012 114.119 98.7209 113.616 94.0735 113.687C96.57 113.067 98.6089 111.283 99.2086 108.888C99.2264 108.811 99.2441 108.733 99.2619 108.656C99.2619 108.643 99.2708 108.626 99.2752 108.613C99.3063 108.492 99.333 108.363 99.3596 108.234C99.3952 108.067 99.4351 107.903 99.4662 107.731C99.5018 107.555 99.5329 107.379 99.564 107.198C99.5951 107.026 99.6262 106.858 99.6528 106.686C99.6795 106.506 99.7017 106.325 99.7283 106.145C99.755 105.968 99.7728 105.796 99.795 105.616C99.8127 105.435 99.8305 105.25 99.8438 105.065C99.8572 104.885 99.8794 104.708 99.8882 104.524C99.9016 104.334 99.906 104.15 99.9149 103.956C99.9193 103.771 99.9282 103.591 99.9327 103.406C99.9327 103.216 99.9327 103.023 99.9327 102.829C99.9327 102.64 99.9327 102.455 99.9327 102.262C99.9282 102.068 99.9149 101.871 99.906 101.677C99.8971 101.484 99.8882 101.29 99.8705 101.092C99.8571 100.895 99.8349 100.697 99.8127 100.495C99.795 100.301 99.7772 100.103 99.755 99.9056C99.7283 99.7035 99.6972 99.5014 99.6706 99.295C99.6439 99.0929 99.6128 98.8951 99.5817 98.693C99.5462 98.4867 99.5062 98.276 99.4662 98.0696C99.4307 97.8675 99.3907 97.6654 99.3507 97.459C99.3063 97.2483 99.253 97.0333 99.1997 96.8226C99.1509 96.6162 99.102 96.4098 99.0487 96.2034C98.9909 95.9885 98.9287 95.7692 98.8666 95.5542C98.8088 95.3435 98.7511 95.1371 98.6844 94.9221C98.6178 94.7071 98.5378 94.4878 98.4668 94.2685C98.3912 94.0535 98.3246 93.8385 98.2491 93.6236C98.1691 93.4 98.0803 93.1721 97.9915 92.9485C97.9071 92.7335 97.8271 92.5142 97.7427 92.2992C97.6494 92.0713 97.5472 91.8391 97.4495 91.6112C97.3518 91.3877 97.2629 91.1684 97.1608 90.9491C97.0586 90.7169 96.9431 90.489 96.832 90.2568C96.7254 90.0332 96.6188 89.8053 96.5033 89.5774C96.3834 89.3452 96.2546 89.1088 96.1302 88.8723C96.0103 88.6444 95.8947 88.4165 95.7659 88.1886C95.6371 87.9478 95.4905 87.707 95.3528 87.4705C95.2195 87.2383 95.0907 87.0104 94.953 86.774C94.8064 86.5332 94.6465 86.2881 94.491 86.043C94.3444 85.8108 94.2023 85.5743 94.0468 85.3421C93.8825 85.0927 93.7048 84.839 93.536 84.5896C93.3805 84.3532 93.225 84.121 93.0562 83.8845C92.8785 83.6308 92.6831 83.3728 92.5009 83.1191C92.3277 82.8826 92.1589 82.6461 91.9768 82.4053C91.7813 82.1474 91.577 81.8851 91.3726 81.6271C91.1861 81.3863 91.0039 81.1498 90.8085 80.909C90.5952 80.6424 90.3643 80.3758 90.1466 80.1092C89.9467 79.8685 89.7512 79.632 89.5425 79.3912C89.3115 79.116 89.0627 78.8451 88.8184 78.5699C88.6096 78.3291 88.4053 78.0926 88.1832 77.8518C87.93 77.5766 87.6634 77.2929 87.4013 77.0134C87.1748 76.7726 86.9571 76.5318 86.7261 76.291C86.4552 76.0115 86.1709 75.7277 85.8866 75.4439C85.6467 75.1988 85.4157 74.9581 85.1625 74.7087C84.8737 74.4206 84.5628 74.1325 84.2607 73.8444C84.0075 73.5993 83.7588 73.3585 83.4967 73.1091C83.1813 72.8125 82.8437 72.5115 82.515 72.2105C82.2529 71.9697 81.9952 71.7289 81.7287 71.4881C81.3778 71.1742 81.0091 70.8603 80.6448 70.5421C80.3783 70.31 80.1206 70.0821 79.8497 69.8456C79.4676 69.5231 79.0723 69.1963 78.6769 68.8738C78.4015 68.6416 78.135 68.418 77.8551 68.1859C77.3887 67.8032 76.9001 67.4205 76.4114 67.0378C76.1893 66.8615 75.9805 66.6895 75.754 66.5132C75.0388 65.9542 74.297 65.391 73.5418 64.8234C72.0226 63.6839 69.7393 64.187 68.9397 65.8338L58.3318 87.8403L51.2555 81.4766L53.7564 50.5523C53.7564 50.5523 36.0633 35.5889 40.1634 31.818C44.2635 28.0428 62.272 39.8673 62.272 39.8673L95.4106 31.1558L103.602 36.4274L81.4311 51.1973C80.5293 51.7992 80.7559 53.0806 81.8131 53.3988C93.4693 56.873 103.669 61.6931 112.455 67.3001C112.619 67.4033 112.793 67.485 112.966 67.5452H112.985Z" fill="white"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_2555_1618">
+              <rect width="113" height="113" rx="22.6" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div class="service-card-number">Overcoming cultural shock:<br/> 
+        How to adapt in a new country</div>
+
+    </div>
+
+   </div>
+  </div>
+
+
+
+    <div class="container ">
+    <div class=" mt-4">
+        <div class="row blog-direction">
+          <!-- First Column -->
+          <div class="col-md-2" style="margin-top: 12px;">
+           <div class="share">SHARE</div>
+
+           <div class="share-icons-container">
+           <img src="{% static "visa/images/Frame 1000005406.png" %}" alt="">
+           <img src="{% static "visa/images/Frame 1000005407.png" %}" alt="">
+           <img src="{% static "visa/images/Frame 1000005408.png" %}" alt="">
+           <img src="{% static "visa/images/Frame 1000005409.png" %}" alt="">
+           <img src="{% static "visa/images/Frame 1000005410.png" %}" alt="">
+            
+           </div>
+          
+          </div>
+      
+          <!-- Second Column -->
+          <div class="col-md-10">
+            <div class="blog-content2-conatiner">
+              <h3 class="service-card-number">Overcoming cultural shock: How to adapt in a new country</h3>
+
+              <div class="blog-content2-conatiner2">
+
+                <div class="blog-content2-conatiner2-icon1">
+                  <div class="blog-content2-conatiner2-icon11">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M7.74913 2.5C7.74913 2.30109 7.67011 2.11032 7.52946 1.96967C7.3888 1.82902 7.19804 1.75 6.99913 1.75C6.80021 1.75 6.60945 1.82902 6.46879 1.96967C6.32814 2.11032 6.24913 2.30109 6.24913 2.5V4.08C4.80912 4.195 3.86512 4.477 3.17112 5.172C2.47612 5.866 2.19412 6.811 2.07812 8.25H21.9201C21.8041 6.81 21.5221 5.866 20.8271 5.172C20.1331 4.477 19.1881 4.195 17.7491 4.079V2.5C17.7491 2.30109 17.6701 2.11032 17.5295 1.96967C17.3888 1.82902 17.198 1.75 16.9991 1.75C16.8002 1.75 16.6094 1.82902 16.4688 1.96967C16.3281 2.11032 16.2491 2.30109 16.2491 2.5V4.013C15.5841 4 14.8381 4 13.9991 4H9.99913C9.16012 4 8.41412 4 7.74913 4.013V2.5Z" fill="#071C2C"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 11.161 2 10.415 2.013 9.75H21.987C22 10.415 22 11.161 22 12V14C22 17.771 22 19.657 20.828 20.828C19.657 22 17.771 22 14 22H10C6.229 22 4.343 22 3.172 20.828C2 19.657 2 17.771 2 14V12ZM17 14C17.2652 14 17.5196 13.8946 17.7071 13.7071C17.8946 13.5196 18 13.2652 18 13C18 12.7348 17.8946 12.4804 17.7071 12.2929C17.5196 12.1054 17.2652 12 17 12C16.7348 12 16.4804 12.1054 16.2929 12.2929C16.1054 12.4804 16 12.7348 16 13C16 13.2652 16.1054 13.5196 16.2929 13.7071C16.4804 13.8946 16.7348 14 17 14ZM17 18C17.2652 18 17.5196 17.8946 17.7071 17.7071C17.8946 17.5196 18 17.2652 18 17C18 16.7348 17.8946 16.4804 17.7071 16.2929C17.5196 16.1054 17.2652 16 17 16C16.7348 16 16.4804 16.1054 16.2929 16.2929C16.1054 16.4804 16 16.7348 16 17C16 17.2652 16.1054 17.5196 16.2929 17.7071C16.4804 17.8946 16.7348 18 17 18ZM13 13C13 13.2652 12.8946 13.5196 12.7071 13.7071C12.5196 13.8946 12.2652 14 12 14C11.7348 14 11.4804 13.8946 11.2929 13.7071C11.1054 13.5196 11 13.2652 11 13C11 12.7348 11.1054 12.4804 11.2929 12.2929C11.4804 12.1054 11.7348 12 12 12C12.2652 12 12.5196 12.1054 12.7071 12.2929C12.8946 12.4804 13 12.7348 13 13ZM13 17C13 17.2652 12.8946 17.5196 12.7071 17.7071C12.5196 17.8946 12.2652 18 12 18C11.7348 18 11.4804 17.8946 11.2929 17.7071C11.1054 17.5196 11 17.2652 11 17C11 16.7348 11.1054 16.4804 11.2929 16.2929C11.4804 16.1054 11.7348 16 12 16C12.2652 16 12.5196 16.1054 12.7071 16.2929C12.8946 16.4804 13 16.7348 13 17ZM7 14C7.26522 14 7.51957 13.8946 7.70711 13.7071C7.89464 13.5196 8 13.2652 8 13C8 12.7348 7.89464 12.4804 7.70711 12.2929C7.51957 12.1054 7.26522 12 7 12C6.73478 12 6.48043 12.1054 6.29289 12.2929C6.10536 12.4804 6 12.7348 6 13C6 13.2652 6.10536 13.5196 6.29289 13.7071C6.48043 13.8946 6.73478 14 7 14ZM7 18C7.26522 18 7.51957 17.8946 7.70711 17.7071C7.89464 17.5196 8 17.2652 8 17C8 16.7348 7.89464 16.4804 7.70711 16.2929C7.51957 16.1054 7.26522 16 7 16C6.73478 16 6.48043 16.1054 6.29289 16.2929C6.10536 16.4804 6 16.7348 6 17C6 17.2652 6.10536 17.5196 6.29289 17.7071C6.48043 17.8946 6.73478 18 7 18Z" fill="#071C2C"/>
+                  </svg>
+                </div>
+                <div class="blog-content2-conatiner2-content11">20 November, 2023</div>
+                </div>
+
+                <div class="blog-content2-conatiner2-icon1">
+                  <div class="blog-content2-conatiner2-icon11">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2ZM12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V12C11.0001 12.2652 11.1055 12.5195 11.293 12.707L14.293 15.707C14.4816 15.8892 14.7342 15.99 14.9964 15.9877C15.2586 15.9854 15.5094 15.8802 15.6948 15.6948C15.8802 15.5094 15.9854 15.2586 15.9877 14.9964C15.99 14.7342 15.8892 14.4816 15.707 14.293L13 11.586V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6Z" fill="#071C2C"/>
+                    </svg>
+                </div>
+                <div class="blog-content2-conatiner2-content11">5 minute read</div>
+                </div>
+                 
+              </div>
+
+
+              <div class="blog-content2-conatiner2-content11">Overcoming cultural shock: How to adapt in a new country. Overcoming cultural shock: How to adapt in a new country. Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.
+
+              </div>
+
+              <div class="blog-content2-conatiner2-content11">Overcoming cultural shock: How to adapt in a new country. Overcoming cultural shock: How to adapt in a new country. Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.Overcoming cultural shock: How to adapt in a new country.  
+              </div>
+
+
+              <div class="blog3-content-icon">
+                <div class="blog3-content-icon1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
+                  <path d="M1.5 0.810669C1.10218 0.810669 0.720644 0.968704 0.43934 1.25001C0.158035 1.53131 0 1.91284 0 2.31067V9.18967C8.49561e-05 9.58746 0.158176 9.96893 0.4395 10.2502L10.9395 20.7502C11.2208 21.0314 11.6023 21.1894 12 21.1894C12.3977 21.1894 12.7792 21.0314 13.0605 20.7502L19.9395 13.8712C20.2207 13.5899 20.3787 13.2084 20.3787 12.8107C20.3787 12.4129 20.2207 12.0315 19.9395 11.7502L9.4395 1.25017C9.15826 0.968845 8.77679 0.810754 8.379 0.810669H1.5ZM7.5 6.06067C7.5 6.65741 7.26295 7.2297 6.84099 7.65166C6.41903 8.07362 5.84674 8.31067 5.25 8.31067C4.65326 8.31067 4.08097 8.07362 3.65901 7.65166C3.23705 7.2297 3 6.65741 3 6.06067C3 5.46393 3.23705 4.89164 3.65901 4.46968C4.08097 4.04772 4.65326 3.81067 5.25 3.81067C5.84674 3.81067 6.41903 4.04772 6.84099 4.46968C7.26295 4.89164 7.5 5.46393 7.5 6.06067Z" fill="#071C2C"/>
+                </svg>
+              </div>
+
+              <div class="blog3-content-icon11">
+                Immigration
+              </div>
+
+
+              </div>
+
+              <div class="written-by-container">
+                <div class="Overseasonjourneytext2">Written By</div>
+                <div class="written-by-container1">
+
+                  <div class="written-by-container1-img">
+                    <img src="{% static "visa/images/Ellipse 204.svg" %}" alt="">
+                  </div>
+                  <div class="written-by-container1-img-content">
+                    <div class="written-by-container1-img-content1">Jhanvi</div>
+                    <div class="travel-content-para">15+ year of counselling experience</div>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+
+
+            </div>
+          
+          </div>
+        </div>
+      </div>
+
+   
+    
+    </div>
+
+ <!-- slider area  -->
+
+
+ <div class="container" style="margin-top: 12px; margin-bottom: 12px;">
+  <div class="service-offer-heading" style="text-align: center; margin-bottom: 52px;">Featured Articles</div>
+  <div class="sercise-feature-grid">
+  <div class="owl-slider">
+      <div class="row">
+      <div id="carousel2" class="owl-carousel owl " style=" width: 100%;">
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-lg-4" style="width: 100%;">
+              <div class="grid-update-1">
+                  <div class="latest-img-min">
+                    <img
+                      src="{% static "visa/images/image 16.png" %}"
+                      alt=""
+                      class="latest-update-image"
+                    />
+                    <div class="min-read">
+                      <div class="minread-value1">
+                        <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" style="width: 0px;" />
+                        <div class="min-read content">4 MIN READ</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="work-permit-offer" style="width: 100%;">
+                    <div class="work-permit-button1">Work Permit</div>
+                    <div class="work-permit-date">7 FEBRUARY, 2023</div>
+                    <div class="feature-article-content-coursel" style="width: 100%;">Canada PNP September 2023 <br/>round-up: 8,973 invitations were issued</div>
+
+                    <div class="read-more-content-icon">
+                      <div class="register-now">Read More</div>
+                      <div class="read-more-content-icon2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08ZM18 4C18.55 4 19 4.45 19 5C19 5.55 18.55 6 18 6C17.45 6 17 5.55 17 5C17 4.45 17.45 4 18 4ZM6 13C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11C6.55 11 7 11.45 7 12C7 12.55 6.55 13 6 13ZM18 20.02C17.45 20.02 17 19.57 17 19.02C17 18.47 17.45 18.02 18 18.02C18.55 18.02 19 18.47 19 19.02C19 19.57 18.55 20.02 18 20.02Z" fill="#071C2C"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M7.5 4C4.4625 4 2 6.4625 2 9.5C2 15 8.5 20 12 21.163C15.5 20 22 15 22 9.5C22 6.4625 19.5375 4 16.5 4C14.64 4 12.995 4.9235 12 6.337C11.4928 5.6146 10.8191 5.02505 10.0358 4.61824C9.25245 4.21144 8.38265 3.99938 7.5 4Z" stroke="#071C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+          </div>
+          
+
+      </div>
+  </div>
+  </div>
+
+
+  </div>
+</div>
+
+{% endblock main-content %}

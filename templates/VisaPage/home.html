@@ -1,0 +1,529 @@
+{% extends "VisaPage/Base/base.html" %}
+{% load static %}
+{% block main-body-content %}
+
+<div class="mainbody-content">
+         <div class="container-fluid">
+             {% include "VisaPage/Base/navbar.html" %}
+        </div> 
+        {% include "VisaPage/Base/sidenavbar.html" %}
+        <div class="mainbody-content-banner">
+            <div class="landingpage-banner">
+               <div class="landing-page-heading">
+                  <div class="crafting-heading">
+                     Crafting your unique journey to Global Opportunities.
+                  </div>
+                  <div class="crafting-heading-para">
+                     The Skytrails leads in the dynamic global market, specialising in
+                     deploying top-notch traveler's and skilled manpower.
+                  </div>
+               </div>
+               <button class="crafeting-banner-button" data-bs-toggle="modal" data-bs-target="#applyNowModal">
+               Apply Now
+               </button>
+               <div class="modal" id="applyNowModal" tabindex="-1" aria-labelledby="applyNowModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                     <div class="modal-content" style="background: #cad7f7">
+                        <!-- Modal Header -->
+                        <div class="modal-header" style="border-bottom: none">
+                           <h5 class="modal-title Overseasonjourneytext2" id="applyNowModalLabel">
+                              Book Your Consultation
+                           </h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                        </div>
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                           <!-- Add your form here -->
+                           <form>
+                              <!-- Full Name and Last Name -->
+                              <div class="row">
+                                 <div class="mb-3 col-md-6">
+                                    <label for="fullName" class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="fullName"
+                                       placeholder="Enter your First name" />
+                                 </div>
+                                 <div class="mb-3 col-md-6">
+                                    <label for="lastName" class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="lastName"
+                                       placeholder="Enter your last name" />
+                                 </div>
+                              </div>
+                              <!-- Phone and Email -->
+                              <div class="row">
+                                 <div class="mb-3 col-md-6">
+                                    <label for="number" class="form-label">Phone Number</label>
+                                    <input type="number" class="form-control" id="fullName"
+                                       placeholder="Enter your Phone Number" />
+                                 </div>
+                                 <div class="mb-3 col-md-6">
+                                    <label for="lastName" class="form-label">Email ID (optional)</label>
+                                    <input type="text" class="form-control" id="lastName"
+                                       placeholder="Enter your Email ID " />
+                                 </div>
+                              </div>
+                              <div class="mb-3">
+                                 <label for="lastName" class="form-label">Visa Service Interested In</label>
+                                 <select class="form-select" aria-label="Default select example">
+                                    <option selected>Intermediate</option>
+                                    <option value="1">Matriculation</option>
+                                    <option value="2">Diploma</option>
+                                    <option value="3">Graduation</option>
+                                    <option value="4">Post Graduation</option>
+                                 </select>
+                              </div>
+                              <div class="mb-3">
+                                 <label for="lastName" class="form-label">Visa Service Interested In</label>
+                                 <select class="form-select" aria-label="Default select example">
+                                    <option selected>Select Visa Service</option>
+                                    <!-- <option value="1">Matriculation</option>
+                                       <option value="2">Diploma</option>
+                                       <option value="3">Graduation</option>
+                                       <option value="4">Post Graduation</option> -->
+                                 </select>
+                              </div>
+                              <!-- Checkbox -->
+                              <div class="form-check mb-3">
+                                 <input class="form-check-input" type="checkbox" value="" id="termsCheckbox" />
+                                 <label class="form-check-label" for="termsCheckbox">By clicking on Submit you
+                                 agree to The Skytrails
+                                 Terms
+                                 and Conditions.</label>
+                              </div>
+                              <!-- Submit button -->
+                              <button type="submit" class="btn customHeaderButton" style="align-items: center">
+                              Confirm
+                              </button>
+                           </form>
+                        </div>
+                        <!-- Modal Footer -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="landing-img-banner">
+               <!-- <div class="landing-imgage"></div> -->
+               <div style="width: 100%">
+                  <img width="100%" src="{% static "visa/images/banner-img.jpeg" %}" alt="" />
+               </div>
+               <div class="landing-img-belowcontent">
+                  <div class="landing-img-para1">
+                     Crafting your unique journey to global opportunities.
+                  </div>
+                  <div class="landing-img-para2">
+                     Crafting your unique journey to global opportunities.
+                  </div>
+               </div>
+            </div>
+         </div>
+    </div>
+
+{% endblock main-body-content %}
+
+
+{% block main-content %}
+<div class="service-we-offer">
+   <div class="service-offer-container">
+      <div class="service-offer-heading">Services we offer</div>
+      <div class="mt-5 w-100">
+         <ul class="nav service-content" id="myTabs">
+            <li class="nav-item">
+               <a class="active visa-service" id="tab1-tab" data-bs-toggle="tab" href="#tab1">Visa Services</a>
+            </li>
+            <li class="nav-item">
+               <a class="visa-service" id="tab2-tab" data-bs-toggle="tab" href="#tab2">Work Permit
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="visa-service" id="tab3-tab" data-bs-toggle="tab" href="#tab3">Skill Training</a>
+            </li>
+         </ul>
+         <div class="tab-content" style="margin-top: 50px">
+            <div class="tab-pane fade show active" id="tab1">
+               <div class="container">
+                  <div class="visa-service-conatiner row">
+                     <div class="col visa-service-text">
+                        <div class="visa-content-conatiner1">
+                           <div class="visacontent">Visa Service</div>
+                           <div class="visa-content-points">
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (1) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">All- Visa expertise.</div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (1) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">Fast track processing.</div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (1) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">Personalized support.</div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="visa-button">Learn More</div>
+                     </div>
+                     <div class="col">
+                        <div class="service-container-img"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tab-pane fade" id="tab2">
+               <div class="container">
+                  <div class="work-service-conatiner row">
+                     <div class="col visa-service-text">
+                        <div class="visa-content-conatiner1">
+                           <div class="workcontent">Visa Service</div>
+                           <div class="visa-content-points">
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">Visa Process Assistance.</div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">
+                                    Global Employment Opportunities
+                                 </div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">
+                                    Pathway to an International Career.
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="visa-button">Learn More</div>
+                     </div>
+                     <div class="col">
+                        <div class="service-container-img"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tab-pane fade" id="tab3">
+               <div class="container">
+                  <div class="skill-service-conatiner row">
+                     <div class="col visa-service-text">
+                        <div class="visa-content-conatiner1">
+                           <div class="skillcontent">Visa Service</div>
+                           <div class="visa-content-points">
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (2) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">Visa Process Assistance.</div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (2) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">
+                                    Global Employment Opportunities
+                                 </div>
+                              </div>
+                              <div class="visa-content-point1">
+                                 <img src="{% static "visa/images/checked (2) 1.png" %}" alt=""
+                                 style="height: 18px; width: 18px" />
+                                 <div class="allvisa">
+                                    Pathway to an International Career.
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="visa-button">Learn More</div>
+                     </div>
+                     <div class="col">
+                        <div class="service-container-img"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- ///////////////////////Overseas Journey//////////////////////////// -->
+<div class="Overseasonjourney container">
+   <div class="Overseasonjourneycontent">
+      <div class="Overseasonjourneytext">
+         <div class="Overseasonjourneytext1">
+            Skytrails: Your Overseas Journey
+         </div>
+         <div class="Overseasonjourneytext2">
+            Offering streamlined work permits, professional skill training, and
+            versatile visa service.
+         </div>
+      </div>
+      <button class="journeyconnect">Connect With Us</button>
+   </div>
+   <div class="overseasoncontent-grid">
+      <div class="overseasoncontent-grid1">
+         <div class="overseason-grid1">
+            <div class="servicecardjourneygrid">
+               <div class="service-card1">No. of Offices</div>
+               <div class="service-card-number">5</div>
+            </div>
+            <img src="{% static "visa/images/building 1.svg" %}" class="service-icon" alt="" />
+         </div>
+         <div class="overseason-grid2">
+            <div class="servicecardjourneygrid">
+               <div class="service-card1">Founding year</div>
+               <div class="service-card-number">2021</div>
+            </div>
+            <img src="{% static "visa/images/calendar 1.png" %}" class="service-icon" alt="" />
+         </div>
+      </div>
+      <div class="overseasoncontent-grid2">
+         <div class="note-member">
+            <div class="membersdetail">
+               <div class="total-member">No. of team members</div>
+               <div class="total-member-no">200+</div>
+            </div>
+            <img src="{% static "visa/images/man (1) 1.png" %}" class="imgno" alt="" />
+         </div>
+         <div class="succesful-visa">
+            <div class="membersdetail">
+               <div class="total-member">Successful visa case</div>
+               <div class="total-member-no">2600+</div>
+            </div>
+            <img src="{% static "visa/images/passport 1.png" %}" class="imgno" alt="" />
+         </div>
+      </div>
+   </div>
+</div>
+<!-- //////////////////////////////Latest Update////////////////////////////////// -->
+<div class="latestupdate container">
+   <div class="latest-updateheading">Latest Updates</div>
+   <div class="latest-update-option">
+      <!-- <div class="latest-update-option1">
+         </div> -->
+      <div class="latest-update-option1">
+         <div class="row">
+            <div class="col-md-4">
+               <div class="grid-update-1">
+                  <div class="latest-img-min">
+                     <img src="{% static "visa/images/image 16.png" %}" alt="" class="latest-update-image" />
+                     <div class="min-read">
+                        <div class="minread-value1">
+                           <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                           <div class="min-read content">4 MIN READ</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="work-permit-offer">
+                     <div class="work-permit-button">Work Permit</div>
+                     <div class="textile-work">
+                        Hungary Offers Textile Work Visa
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="grid-update-1">
+                  <div class="latest-img-min">
+                     <img src="{% static "visa/images/image 16.png" %}" alt="" class="latest-update-image" />
+                     <div class="min-read">
+                        <div class="minread-value">
+                           <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                           <div class="min-read content">4 MIN READ</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="work-permit-offer">
+                     <div class="work-permit-button">Work Permit</div>
+                     <div class="textile-work">
+                        Hungary Offers Textile Work Visa
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="grid-update-1">
+                  <div class="latest-img-min">
+                     <img src="{% static "visa/images/image 16.png" %}" alt="" class="latest-update-image" />
+                     <div class="min-read">
+                        <div class="minread-value1">
+                           <img src="{% static "visa/images/ion_time-outline.svg" %}" alt="" />
+                           <div class="min-read content">4 MIN READ</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="work-permit-offer">
+                     <div class="work-permit-button">Work Permit</div>
+                     <div class="textile-work">
+                        Hungary Offers Textile Work Visa
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <button class="latest-option-button">View All</button>
+</div>
+<!-- ///////////////////////////////////faq////////////////////////////////////// -->
+<div class="faqcontainer1">
+   <div class="faqcontainer container">
+      <div class="faq-content">Frequently Asked Questions (FAQs)</div>
+      <div class="faq-acordian" style="width: 100%">
+         <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  What are all the services that Skytrails offer?
+                  </button>
+               </h2>
+               <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     Skytrails has got you all covered by providing best in class
+                     visa services. Skytrails comes with 10+ years of industry
+                     experience providing best in class services to all all our
+                     clients. We ensure a reliable expertise to be able to counsel
+                     you and provide solution to all your doubts related to
+                     Overseas Careers (Education/Work/Immigration). <br />
+                     We go a step ahead to train you and upskill help you fulfill
+                     your dream of working abroad.
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Why should you choose the skytrails for visa services?
+                  </button>
+               </h2>
+               <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     As a trusted visa consultant for over a decade, Skytrails has successful track record of
+                     visas. Our
+                     experienced team understands requirement of each country and processes applications
+                     smartly. We are
+                     committed to integrity and ensure authentic documents. Our dedicated support helps solve
+                     queries at
+                     every step of application. Above all, we offer best value for money without any hidden
+                     costs.
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  How can our visa expertise help you in making your visa journey easy?
+                  </button>
+               </h2>
+               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     Our visa experts at Skytrails bring years of experience to the table, simplifying the
+                     complex visa
+                     journey for you. From understanding the intricacies of different visa types to assisting
+                     with
+                     documentation, we guide you at every step. Our expertise minimizes the chances of errors
+                     and ensures a
+                     smoother application process, saving you time and effort.
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  How long does it take for visa application process?
+                  </button>
+               </h2>
+               <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     The duration of the visa application process varies depending on the type of visa and
+                     the country of
+                     destination you are applying for. Generally, it can take anywhere from a few weeks to a
+                     few months.
+                     Skytrails is committed to providing accurate timelines and keeping you informed about
+                     the progress of
+                     your application throughout the entire process.
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                  How can Skytrails help to choose the best suited visa for you?
+                  </button>
+               </h2>
+               <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     At Skytrails, we understand that each individual's needs are unique. Our experienced
+                     visa consultants
+                     will assess your specific requirements, skill-set, experience and understand your career
+                     goals. By
+                     providing personalized guidance, we help you choose the most suitable visa option,
+                     ensuring a successful
+                     and stress-free application process.
+                     After understanding your needs, we assist you with selecting countries that offer higher
+                     job prospects
+                     and better standards of living assuring your long term success and career growth.
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                  How do we ensure you get constant assistance from our team?
+                  </button>
+               </h2>
+               <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                     We assign you a dedicated relationship manager who can be reached out at anytime and
+                     will be your single
+                     point of contact. They will guide you in detail by understanding your needs. They will
+                     guide you on the
+                     process and timelines, arrange for document collection, assist with application
+                     submission and keep you
+                     updated on status. Even post-visa we provide assistance for initial settlement, opening
+                     bank accounts
+                     etc. You can contact your case manager via phone/email for any queries throughout your
+                     engagements with
+                     us.
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- ///////////////////////////////GETINTOUCH///////////////////////////// -->
+<div class="getintouchcontainer container">
+   <div class="gettouch-heading">Get in touch</div>
+   <div class="gettouch-content-img">
+      <div class="touch-content-button">
+         <div class="touch-content">
+            <div class="touch-content-heading">
+               Connect with our team to get personalized visa solutions.
+            </div>
+            <div class="touch-content-para">
+               We offer solutions that are customized to your requirements.
+            </div>
+         </div>
+         <button class="Scheduleappointment">Schedule an appointment</button>
+      </div>
+      <div class="get-touchimg">
+         <img src="{% static "visa/images/images1.jpg" %}" alt="" />
+      </div>
+   </div>
+</div>
+{% endblock main-content %}

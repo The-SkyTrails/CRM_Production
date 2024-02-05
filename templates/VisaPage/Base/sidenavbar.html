@@ -1,0 +1,54 @@
+{% load static %}
+<div id="mySidenav" class="sidenav">
+    <div class="mb-3">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    </div>
+    <div class="sideNav-Links">
+        <div>
+            <a href="/" class="sideActive">What’s New</a>
+        </div>
+        <div>
+            <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Visas
+                </a>
+                <ul class="dropdown-menu" style="background-color: #071c2c;padding-left:20px;">
+                    <li><a class="dropdown-item" href="{% url "visa_details" %}">Migrate</a></li>
+                    <li><a class="dropdown-item" href="{% url "investvisa_details" %}">Invest</a></li>
+                    <li><a class="dropdown-item" href="{% url "studyvisa_details" %}">Study</a></li>
+                </ul>
+        </div>
+        <div>
+            <a href="{% url "ssdc" %}">SSDC</a>
+        </div>
+        <div>
+            <a href="{% url "overseas" %}">Overseas Jobs</a>
+        </div>
+        <div>
+            <a href="{% url "blog" %}">Blogs/News</a>
+        </div>
+        <div>
+            <a href="#">Travel & Holidays</a>
+        </div>
+        <div>
+            <a href="{% url "aboutus" %}">About Us</a>
+        </div>
+        <div class="sideContact">
+            <div>
+                <a href="tel:+919311393114">Call Us</a>
+                <img src="{% static "visa/icons/call.svg" %}" alt="call us" style="vertical-align: middle" />
+            </div>
+            <div>
+                <a href="mailto:info@theskytrails.com">Email Us</a>
+                <img src="{% static "visa/icons/mail.svg" %}" alt="mail to" />
+            </div>
+            <div>
+                <a href="#">Connect</a>
+                <img src="{% static "visa/icons/calendar.svg" %} " alt="calendar" />
+            </div>
+        </div>
+        <form class="d-flex" type="submit">
+            <a class="customHeaderButton" href="https://crm.theskytrails.com">Login</a>
+        </form>
+    </div>
+</div>
