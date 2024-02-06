@@ -188,6 +188,15 @@ class FaqAdmin(admin.ModelAdmin):
     list_display = ["id", "user", "employee", "question", "answer", "last_updated_on"]
 
 
+class AdminDisplay(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "users",
+        "department",
+        "contact_no",
+    ]
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory, visaCategoryResource)
@@ -205,7 +214,7 @@ admin.site.register(Package)
 admin.site.register(VisaSubcategory)
 admin.site.register(Booking)
 admin.site.register(FrontWebsiteEnquiry)
-admin.site.register(Admin)
+admin.site.register(Admin, AdminDisplay)
 admin.site.register(Enquiry, EnquiryAdmin)
 admin.site.register(DocumentFiles)
 admin.site.register(Notes)
