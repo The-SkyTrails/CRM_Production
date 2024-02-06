@@ -84,7 +84,7 @@ class CustomUser(AbstractUser):
 class Admin(models.Model):
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     department = models.CharField(max_length=50)
-    contact_no = models.CharField(max_length=10, unique=True)
+    contact_no = models.CharField(max_length=10)
 
     def __str__(self):
         return self.users.first_name
@@ -667,7 +667,10 @@ class Enquiry(models.Model):
     email = models.EmailField(blank=True)
     contact = models.CharField(max_length=10)
     # country = models.CharField(max_length=100, null=True, blank=True)
-    Country = CountryField(default="IN",max_length=255,)
+    Country = CountryField(
+        default="IN",
+        max_length=255,
+    )
     # Country = models.CharField(max_length=255,null=True,blank=True)
     state = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
