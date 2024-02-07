@@ -61,7 +61,7 @@ class agent_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
-        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
         response = requests.get(url)
         data = response.json()
         webpackages = data["data"]["pakage"]

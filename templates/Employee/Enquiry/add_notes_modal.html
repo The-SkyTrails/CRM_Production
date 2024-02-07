@@ -4,6 +4,7 @@
       <div class="modal-content">
         <form action="{% url "emp_add_notes" %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" name="redirect_to" value="{% if request.path == '/ActiveLead/List/' %}active_leads{% elif request.path == '/LatestLead/List/' %}latest_leads{% elif request.path == '/InProcessLead/List/' %}inprocess_leads{% elif request.path == '/AppointmentLead/List/' %}appointment_leads{% elif request.path == '/ResultLead/List/' %}delivered_leads{% elif request.path == '/DeliveryLead/List/' %}completed_leads{% elif request.path == '/EnrolledLead/List/' %}enrolled_leads{% else %}new_leads{% endif %}">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -29,3 +30,41 @@
         </form>
    </div>
 </div>
+
+
+<!-- JavaScript code -->
+<script>
+    // Function to set the value of redirect_to based on the current URL
+    function setRedirectTo(currentPath, modalId) {
+        var redirectInput = document.querySelector('#' + modalId + ' input[name="redirect_to"]');
+        if (currentPath.includes("/ActiveLead/List/")) {
+            redirectInput.value = "active_leads";
+        } else if (currentPath.includes("/LatestLead/List/")) {
+            redirectInput.value = "latest_leads";
+        } else if (currentPath.includes("/InProcessLead/List/")) {
+            redirectInput.value = "inprocess_leads";
+        } else if (currentPath.includes("/AppointmentLead/List/")) {
+            redirectInput.value = "appointment_leads";
+        } else if (currentPath.includes("/ResultLead/List/")) {
+            redirectInput.value = "delivered_leads";
+        } else if (currentPath.includes("/DeliveryLead/List/")) {
+            redirectInput.value = "completed_leads";
+        } else if (currentPath.includes("/EnrolledLead/List/")) {
+            redirectInput.value = "enrolled_leads";
+        } else {
+            redirectInput.value = "new_leads";
+        }
+    }
+
+    // Call the setRedirectTo function when each modal is shown
+    document.addEventListener("DOMContentLoaded", function () {
+        var modals = document.querySelectorAll('.modal');
+        modals.forEach(function(modal) {
+            modal.addEventListener('shown.bs.modal', function () {
+                var currentPath = window.location.pathname;
+                var modalId = modal.getAttribute('id');
+                setRedirectTo(currentPath, modalId);
+            });
+        });
+    });
+</script>

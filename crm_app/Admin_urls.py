@@ -170,7 +170,7 @@ urlpatterns = [
     path("delete_and_archive/<int:id>/", delete_and_archive, name="delete_and_archive"),
     path("restore/<int:id>/", restore, name="restore"),
     path("ArchiveList/", ArchiveListView.as_view(), name="Archive_list"),
-    path("EnrolledLeads/", enrolled_Application.as_view(), name="Enrolled_leads"),
+    path("EnrolledLeads/", enrolled_Application, name="Enrolled_leads"),
     path(
         "EnrolledGridLeads/",
         enrolledGrid_Application.as_view(),
@@ -280,4 +280,26 @@ urlpatterns = [
     path("team_updated/", visateamcolorupdate_view, name="team_updated"),
     path("package_pdf/<int:id>/", package_pdf, name="pac_pdf"),
     path("WebsitePackage/", WebsitePackage, name="websitepackage"),
+    path("ActiveLeads/", admin_active_leads_details, name="admin_active_leads_details"),
+    path("LatestLeads/", admin_latest_leads_details, name="admin_latest_leads_details"),
+    path(
+        "InprocessLeads/",
+        admin_inprocess_leads_details,
+        name="admin_inprocess_leads_details",
+    ),
+    path(
+        "AppointmentLeads/",
+        admin_appointment_leads_details,
+        name="admin_appointment_leads_details",
+    ),
+    path(
+        "DeliveredLeads/",
+        admin_deleivered_leads_details,
+        name="admin_deleivered_leads_details",
+    ),
+    path(
+        "CompletedLeads/",
+        admin_completed_leads_details,
+        name="admin_completed_leads_details",
+    ),
 ]

@@ -56,7 +56,7 @@ class EnquiryViewSet(viewsets.ModelViewSet):
 
 
 def WebsitePackage(request):
-    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
     response = requests.get(url)
     data = response.json()
     packages = data["data"]["pakage"]
@@ -70,7 +70,7 @@ def WebsitePackage(request):
 
 
 def EmployeeWebsitePackage(request):
-    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
     response = requests.get(url)
     data = response.json()
     packages = data["data"]["pakage"]
@@ -84,7 +84,7 @@ def EmployeeWebsitePackage(request):
 
 
 def AgentWebsitePackage(request):
-    url = "https://back.theskytrails.com/skyTrails/international/getAll"
+    url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
     response = requests.get(url)
     data = response.json()
     packages = data["data"]["pakage"]

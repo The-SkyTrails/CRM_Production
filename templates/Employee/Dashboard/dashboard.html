@@ -141,74 +141,90 @@
         </svg></h5>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "employee_Deliverylead_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class="cases">{{leadcomplete_count}}</h5>
+                
                 <p class="card-text textcase">Cases Completed</p>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "employee_enrolled_lead" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg1">
-                <h5 class="cases1">{{leadaccept_count}}</h5>
-                <p class="card-text textcase1 ">Enrolled</p>
+                
+                <p class="card-text textcase1 ">Enrolled Leads</p>
                 
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-12 col-4 p-1">
+            <a href="{% url "employee_activelead_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class=" cases2">{{leadpending_count}}</h5>
-                <p class="card-text textcase2">Active</p>
+                
+                <p class="card-text textcase2">Active Leads</p>
               </div>
             </div>
+          </a>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 col-6 p-1">
+            <a href="{% url "employee_inprocesslead_list" %}">
             <div class="card mb-3">
               <div class="card-body bg3">
-                <h5 class=" cases5" >{{leadinprocess_count}}</h5>
-                <p class="card-text textcase3">InProcess</p>
+                
+                <p class="card-text textcase3">InProcess Leads</p>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-md-6 col-6 p-1">
+            <a href="{% url "employee_appointlead_list" %}">
             <div class="card mb-3">
               <div class="card-body bg4">
-                <h5 class=" cases6">{{appoint_count}}</h5>
-                <p class="card-text textcase4">Appointment</p>
+                
+                <p class="card-text textcase4">Appointment Leads</p>
               </div>
             </div>
+          </a>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "employee_Resultlead_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class="cases">{{resultlead_count}}</h5>
-                <p class="card-text textcase">Result</p>
+                
+                <p class="card-text textcase">Result Leads</p>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-6 col-4 p-1">
+            <a href="{% url "employee_lead_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg1">
-                <h5 class="cases1">{{lead_count}}</h5>
-                <p class="card-text textcase1 ">Total</p>
+                
+                <p class="card-text textcase1 ">Total Leads</p>
                 
               </div>
             </div>
+          </a>
           </div>
           <div class="col-lg-4 col-md-12 col-4 p-1">
+            <a href="{% url "employee_Latestlead_list" %}">
             <div class="card mb-3 custom-card-width">
               <div class="card-body bg">
-                <h5 class=" cases2">{{leadnew_count}}</h5>
-                <p class="card-text textcase2">New</p>
+                
+                <p class="card-text textcase2">New Leads</p>
               </div>
             </div>
+          </a>
           </div>
         </div>
         <div class="leadss">
@@ -491,7 +507,7 @@
                  <p class="card-text">Country: <Span class="txt" style="color:black;font-size:large;">{{webpackage.country}}</Span></p>
                  <p class="card-text">Days/Night :<Span class="txt">{{webpackage.days}}D/{{ webpackage.days|add:"-1" }}N</Span></p>
               </div>
-              <a href="https://theskytrails.com/holidayInfo/{{ webpackage.id }}" >
+              <a href="https://theskytrails.com/holidayInfo/{{ webpackage.id }}" target="_blank">
                  <div class="Button">
                     <div class="Text"><button class="btn border-0 Text">All Details</button></div>
                     <div class="ArrowRight">

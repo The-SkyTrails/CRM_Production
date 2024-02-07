@@ -26,7 +26,6 @@ urlpatterns = [
     ),
     path("Lead/List/", employee_lead_list, name="employee_lead_list"),
     path("Lead/Grid/", employee_lead_grid, name="employee_lead_grid"),
-    path("Enrollled/Lead/", employee_enrolled_lead, name="employee_enrolled_lead"),
     path("Enrollled/Grid/", employee_enrolled_grid, name="employee_enrolled_grid"),
     # ------------------------------ Add lead staging --------------------------
     path("PreEnrolled/Save/<int:id>/", preenrolled_save, name="preenrolled_save"),
@@ -304,4 +303,25 @@ urlpatterns = [
     path("AddPreEnquiry/", emp_PreEnquiry1View.as_view(), name="emp_Preenquiry_form1"),
     path("AddPreEnquiry2/", emp_PreEnquiry2View.as_view(), name="emp_Preenquiry_form2"),
     path("AddPreEnquiry3/", emp_PreEnquiry3View.as_view(), name="emp_Preenquiry_form3"),
+    path("ActiveLead/List/", employee_activelead_list, name="employee_activelead_list"),
+    path(
+        "EnrolledLead/List/", employee_Enrolledlead_list, name="employee_enrolled_lead"
+    ),
+    path(
+        "InProcessLead/List/",
+        employee_inprocesslead_list,
+        name="employee_inprocesslead_list",
+    ),
+    path(
+        "AppointmentLead/List/",
+        employee_appointlead_list,
+        name="employee_appointlead_list",
+    ),
+    path("ResultLead/List/", employee_Resultlead_list, name="employee_Resultlead_list"),
+    path(
+        "DeliveryLead/List/",
+        employee_Deliverylead_list,
+        name="employee_Deliverylead_list",
+    ),
+    path("LatestLead/List/", employee_Latestlead_list, name="employee_Latestlead_list"),
 ]

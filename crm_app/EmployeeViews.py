@@ -82,44 +82,11 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
             registerdby=self.request.user
         ).count
 
-        leadpending_count = Enquiry.objects.filter(
-            Q(lead_status="Active") | Q(lead_status="PreEnrolled"),
-            created_by=self.request.user,
-        ).count()
-
-        leadcomplete_count = Enquiry.objects.filter(
-            lead_status="Delivery", created_by=self.request.user
-        ).count()
-
-        leadaccept_count = Enquiry.objects.filter(
-            lead_status="Enrolled",
-            created_by=self.request.user,
-        ).count()
-
-        leadinprocess_count = Enquiry.objects.filter(
-            Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit"),
-            created_by=self.request.user,
-        ).count()
-
-        appoint_count = Enquiry.objects.filter(
-            Q(lead_status="Appointment") | Q(lead_status="Ready To Collection"),
-            created_by=self.request.user,
-        ).count()
-
-        lead_count = Enquiry.objects.filter(created_by=self.request.user).count()
-
-        leadnew_count = Enquiry.objects.filter(
-            lead_status="New Lead", created_by=self.request.user
-        ).count()
-
-        resultlead_count = Enquiry.objects.filter(
-            lead_status="Result", created_by=self.request.user
-        ).count()
         package = Package.objects.filter(approval="True").order_by("-last_updated_on")[
             :10
         ]
 
-        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
         response = requests.get(url)
         data = response.json()
         webpackages = data["data"]["pakage"]
@@ -320,11 +287,6 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         todo = Todo.objects.filter(user=self.request.user).order_by("-id")
         context["dep"] = dep
 
-        context["leadcomplete_count"] = leadcomplete_count
-        context["leadaccept_count"] = leadaccept_count
-        context["leadpending_count"] = leadpending_count
-        context["lead_count"] = lead_count
-        context["leadnew_count"] = leadnew_count
         context["package"] = package
         context["agent_count"] = agent_count
         context["outsourceagent_count"] = outsourceagent_count
@@ -339,9 +301,7 @@ class employee_dashboard(LoginRequiredMixin, TemplateView):
         context["active_users"] = active_users
         context["active_employee"] = active_employee
         context["active_agent"] = active_agent
-        context["appoint_count"] = appoint_count
-        context["leadinprocess_count"] = leadinprocess_count
-        context["resultlead_count"] = resultlead_count
+
         context["webpackages"] = webpackages
 
         # context["enq_count"] = enq_count
@@ -652,67 +612,6 @@ def employee_lead_grid(request):
                 enq = Enquiry.objects.filter(created_by=request.user)
             context = {"enq": enq, "user": user, "dep": dep}
     return render(request, "Employee/Enquiry/lead-grid.html", context)
-
-
-def employee_enrolled_lead(request):
-    user = request.user
-
-    if user.is_authenticated:
-        if user.user_type == "3":
-            emp = user.employee
-            dep = emp.department
-            if dep == "Presales":
-                enq = Enquiry.objects.filter(
-                    Q(lead_status="Enrolled")
-                    | Q(lead_status="Inprocess")
-                    | Q(lead_status="Ready To Submit")
-                    | Q(lead_status="Appointment")
-                    | Q(lead_status="Ready To Collection")
-                    | Q(lead_status="Result")
-                    | Q(lead_status="Delivery"),
-                    assign_to_employee=user.employee,
-                ).order_by("-id")
-            elif dep == "Sales":
-                enq = Enquiry.objects.filter(
-                    Q(lead_status="Enrolled")
-                    | Q(lead_status="Inprocess")
-                    | Q(lead_status="Ready To Submit")
-                    | Q(lead_status="Appointment")
-                    | Q(lead_status="Ready To Collection")
-                    | Q(lead_status="Result")
-                    | Q(lead_status="Delivery"),
-                    assign_to_sales_employee=user.employee,
-                ).order_by("-id")
-            elif dep == "Documentation":
-                enq = Enquiry.objects.filter(
-                    Q(lead_status="Enrolled")
-                    | Q(lead_status="Inprocess")
-                    | Q(lead_status="Ready To Submit")
-                    | Q(lead_status="Appointment")
-                    | Q(lead_status="Ready To Collection")
-                    | Q(lead_status="Result")
-                    | Q(lead_status="Delivery"),
-                    assign_to_documentation_employee=user.employee,
-                ).order_by("-id")
-            elif dep == "Visa Team":
-                enq = Enquiry.objects.filter(
-                    Q(lead_status="Enrolled")
-                    | Q(lead_status="Inprocess")
-                    | Q(lead_status="Ready To Submit")
-                    | Q(lead_status="Appointment")
-                    | Q(lead_status="Ready To Collection")
-                    | Q(lead_status="Result")
-                    | Q(lead_status="Delivery"),
-                    assign_to_visa_team_employee=user.employee,
-                ).order_by("-id")
-            else:
-                enq = None
-
-            context = {"enq": enq, "user": user, "dep": dep}
-
-    return render(
-        request, "Employee/Enquiry/Enrolled Enquiry/Enrolledleads.html", context
-    )
 
 
 def employee_enrolled_grid(request):
@@ -1068,7 +967,23 @@ def emp_add_notes(request):
         except Enquiry.DoesNotExist:
             pass
 
-    return redirect("employee_lead_list")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("employee_activelead_list"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("employee_Latestlead_list"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("employee_enrolled_lead"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("employee_inprocesslead_list"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("employee_appointlead_list"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("employee_Resultlead_list"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("employee_Deliverylead_list"))
+        else:
+            return HttpResponseRedirect(reverse("employee_lead_list"))
 
 
 # ------------------------------------------ AGent Details --------------------------
@@ -4533,3 +4448,523 @@ class emp_PreEnquiry3View(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         enquiry_id = self.object.id
         return reverse_lazy("emp_enquiry_form4", kwargs={"id": enquiry_id})
+
+
+@login_required
+def employee_activelead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_employee=user.employee)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(created_by=user)
+                        & (Q(lead_status="Active") | Q(lead_status="PreEnrolled"))
+                    )
+                ).order_by("-id")
+
+            active_lead_count = enq.count()
+
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "active_lead_count": active_lead_count,
+            }
+    return render(request, "Employee/Enquiry/statuslead/Activelead_list.html", context)
+
+
+@login_required
+def employee_Enrolledlead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (Q(assign_to_employee=user.employee) & (Q(lead_status="Enrolled")))
+                    | (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (Q(lead_status="Enrolled"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (Q(lead_status="Enrolled"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (Q(lead_status="Enrolled"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (Q(lead_status="Enrolled"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (Q(created_by=user) & (Q(lead_status="Enrolled")))
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(
+        request, "Employee/Enquiry/statuslead/Enrolledlead_list.html", context
+    )
+
+
+@login_required
+def employee_inprocesslead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_employee=user.employee)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Inprocess")
+                            | Q(lead_status="Ready To Submit")
+                        )
+                    )
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(
+        request, "Employee/Enquiry/statuslead/Inprocesslead_list.html", context
+    )
+
+
+@login_required
+def employee_appointlead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_employee=user.employee)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                    | (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(created_by=user)
+                        & (
+                            Q(lead_status="Ready To Collection")
+                            | Q(lead_status="Appointment")
+                        )
+                    )
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(request, "Employee/Enquiry/statuslead/Appointlead_list.html", context)
+
+
+@login_required
+def employee_Resultlead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (Q(assign_to_employee=user.employee) & (Q(lead_status="Result")))
+                    | (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (Q(lead_status="Result"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (Q(lead_status="Result"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (Q(lead_status="Result"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (Q(lead_status="Result"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (Q(created_by=user) & (Q(lead_status="Result")))
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(request, "Employee/Enquiry/statuslead/Resultlead_list.html", context)
+
+
+@login_required
+def employee_Deliverylead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (Q(assign_to_employee=user.employee) & (Q(lead_status="Delivery")))
+                    | (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (Q(lead_status="Delivery"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (Q(lead_status="Delivery"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (Q(lead_status="Delivery"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (Q(lead_status="Delivery"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (Q(created_by=user) & (Q(lead_status="Delivery")))
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(
+        request, "Employee/Enquiry/statuslead/Deliverylead_list.html", context
+    )
+
+
+@login_required
+def employee_Latestlead_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.user_type == "3":
+            emp = user.employee
+            dep = emp.department
+            if dep == "Presales":
+                enq = Enquiry.objects.filter(
+                    (Q(assign_to_employee=user.employee) & (Q(lead_status="New Lead")))
+                    | (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+            elif dep == "Sales":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_sales_employee=user.employee)
+                        & (Q(lead_status="New Lead"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+            elif dep == "Documentation":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_documentation_employee=user.employee)
+                        & (Q(lead_status="New Lead"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+            elif dep == "Visa Team":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_visa_team_employee=user.employee)
+                        & (Q(lead_status="New Lead"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+            elif dep == "Assesment":
+                enq = Enquiry.objects.filter(
+                    (
+                        Q(assign_to_assesment_employee=user.employee)
+                        & (Q(lead_status="New Lead"))
+                    )
+                    | (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+            else:
+                enq = Enquiry.objects.filter(
+                    (Q(created_by=user) & (Q(lead_status="New Lead")))
+                ).order_by("-id")
+
+            context = {"enq": enq, "user": user, "dep": dep}
+    return render(request, "Employee/Enquiry/statuslead/Latestlead_list.html", context)

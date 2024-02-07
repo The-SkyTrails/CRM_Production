@@ -3,7 +3,9 @@ from .models import FAQ, Notification
 
 def faq_count(request):
     if request.user.is_authenticated:
-        count = FAQ.objects.all().count()
+        count = (
+            FAQ.objects.filter(answer__exact="").exclude(answer__isnull=True).count()
+        )
     else:
         count = 0
     return {"faq_count": count}

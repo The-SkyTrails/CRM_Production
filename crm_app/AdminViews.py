@@ -81,7 +81,9 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
 
         completed_count = Enquiry.objects.filter(lead_status="Delivery").count()
 
-        leadpending_count = Enquiry.objects.filter(lead_status="Active").count()
+        leadpending_count = Enquiry.objects.filter(
+            Q(lead_status="Active") | Q(lead_status="PreEnrolled")
+        ).count()
 
         leadtotal_count = Enquiry.objects.all().count()
 
@@ -92,7 +94,7 @@ class admin_dashboard(LoginRequiredMixin, TemplateView):
             :10
         ]
 
-        url = "https://back.theskytrails.com/skyTrails/international/getAll"
+        url = "https://back.theskytrails.com/skyTrails/packages/getAllcrm"
         response = requests.get(url)
         data = response.json()
         webpackages = data["data"]["pakage"]
@@ -2439,8 +2441,24 @@ def update_assigned_agent(request, id):
                 pass
 
         enquiry.save()
-        return redirect("admin_new_leads_details")
-    return render(request, "Admin/Enquiry/lead-details.html")
+        messages.success(request, "Lead Assigned Successfully...")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 @login_required
@@ -2472,8 +2490,24 @@ def update_assigned_op(request, id):
                 pass
 
         enquiry.save()
-        return redirect("admin_new_leads_details")
-    return render(request, "Admin/Enquiry/lead-details.html")
+        messages.success(request, "Lead Assigned Successfully...")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 @login_required
@@ -2581,8 +2615,24 @@ def update_assigned_employee(request, id):
             else:
                 pass
         enquiry.save()
-        return redirect("admin_new_leads_details")
-    return render(request, "Admin/Enquiry/lead-details.html")
+        messages.success(request, "Lead Assigned Successfully...")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 @login_required
@@ -2622,11 +2672,27 @@ def add_notes(request):
                 created_by=user,
             )
             notes.save()
-
+            messages.success(request, "Notes Added Successfully...")
         except Enquiry.DoesNotExist:
             pass
 
-    return redirect("admin_new_leads_details")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 ############################################### CHANGE PASSWORD ###########################################
@@ -2706,39 +2772,32 @@ class ArchiveListView(LoginRequiredMixin, ListView):
 ############################################## ENROLLED LEADS ##############################################
 
 
-class enrolled_Application(LoginRequiredMixin, ListView):
-    model = Enquiry
-    template_name = "Admin/Enquiry/Enrolled Enquiry/Enrolledleads.html"
-    context_object_name = "enquiry"
+@login_required
+def enrolled_Application(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(lead_status="Enrolled").order_by("-id")
 
-    def get_queryset(self):
-        return Enquiry.objects.filter(
-            Q(lead_status="Enrolled")
-            | Q(lead_status="Inprocess")
-            | Q(lead_status="Ready To Submit")
-            | Q(lead_status="Appointment")
-            | Q(lead_status="Ready To Collection")
-            | Q(lead_status="Result")
-            | Q(lead_status="Delivery")
-        ).order_by("-id")
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
 
-    def get_context_data(self, **kwargs):
-        # Get the default context data (data from the Enquiry model)
-        context = super().get_context_data(**kwargs)
-
-        current_datetime = timezone.now()
-        context["current_datetime"] = current_datetime
-
-        # Add data from the Notes model to the context
-        context["notes"] = Notes.objects.all()
-        context["notes_first"] = Notes.objects.order_by("-id").first()
-        # context['employee'] = Employee.objects.all()
-        context["employee_queryset"] = Employee.objects.all()
-        context["agent"] = Agent.objects.all()
-        context["OutSourcingAgent"] = OutSourcingAgent.objects.all()
-        context["enqenrolled"] = Enquiry.objects.filter(lead_status="Enrolled")
-
-        return context
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/Enrolled Enquiry/Enrolledleads.html", context)
 
 
 class enrolledGrid_Application(LoginRequiredMixin, ListView):
@@ -3497,7 +3556,23 @@ def admin_lead_updated(request, id):
         enquiry.lead_status = lead_status
         enquiry.save()
         messages.success(request, f"Lead {lead_status} Status Updated Successfully...")
-        return HttpResponseRedirect(reverse("admin_new_leads_details"))
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 ########################################## LEAD APPOINTMENT ########################################
@@ -3784,7 +3859,23 @@ def color_code(request, id):
         enquiry.color_code = color_code
         enquiry.save()
         messages.success(request, f"Lead Color {color_code} Updated Successfully...")
-        return HttpResponseRedirect(reverse("admin_new_leads_details"))
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("admin_active_leads_details"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("admin_latest_leads_details"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("Enrolled_leads"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("admin_inprocess_leads_details"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("admin_appointment_leads_details"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("admin_deleivered_leads_details"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("admin_completed_leads_details"))
+        else:
+            return HttpResponseRedirect(reverse("admin_new_leads_details"))
 
 
 def admin_appointment(request):
@@ -4211,3 +4302,177 @@ def package_pdf(request, id):
     context = {"hello": "hello", "package": package}
 
     return PDFTemplateResponse(request, "Admin/Product/package_pdf.html", context)
+
+
+@login_required
+def admin_active_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(
+        Q(lead_status="Active") | Q(lead_status="PreEnrolled")
+    ).order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/activeleads.html", context)
+
+
+@login_required
+def admin_latest_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(lead_status="New Lead").order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/newleads.html", context)
+
+
+@login_required
+def admin_inprocess_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(
+        Q(lead_status="Inprocess") | Q(lead_status="Ready To Submit")
+    ).order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/inprocessleads.html", context)
+
+
+@login_required
+def admin_appointment_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(
+        Q(lead_status="Appointment") | Q(lead_status="Ready To Collection")
+    ).order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/appointleads.html", context)
+
+
+@login_required
+def admin_deleivered_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(lead_status="Result").order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/deleiveredleads.html", context)
+
+
+@login_required
+def admin_completed_leads_details(request):
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.filter(lead_status="Delivery").order_by("-id")
+
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
+    agent = get_agent()
+    outsourcepartner = get_outsourcepartner()
+
+    context = {
+        "enquiry": enquiry,
+        "presales_employees": presales_employees,
+        "sales_employees": sales_employees,
+        "documentation_employees": documentation_employees,
+        "visa_team": visa_team,
+        "assesment_employee": assesment_employee,
+        "agent": agent,
+        "outsourcepartner": outsourcepartner,
+        "lead": lead,
+    }
+    return render(request, "Admin/Enquiry/statusleads/completeleads.html", context)
