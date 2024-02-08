@@ -714,15 +714,15 @@ class Enquiry(models.Model):
         max_length=20, choices=COLOR_CODE, blank=True, null=True
     )
 
-    def set_spouse_name(self, spouse_names):
-        self.spouse_name = json.dumps(spouse_names)
+    # def set_spouse_name(self, spouse_names):
+    #     self.spouse_name = json.dumps(spouse_names)
 
-    def get_spouse_name(self):
-        try:
-            return json.loads(self.spouse_name) if self.spouse_name else []
-        except json.JSONDecodeError:
-            # Handle the error (e.g., log it) and return a default value
-            return []
+    # def get_spouse_name(self):
+    #     try:
+    #         return json.loads(self.spouse_name) if self.spouse_name else []
+    #     except json.JSONDecodeError:
+    #         # Handle the error (e.g., log it) and return a default value
+    #         return []
 
     def generate_case_id(self):
         # Get the current date
