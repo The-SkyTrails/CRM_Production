@@ -1,0 +1,117 @@
+<div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{% url "emp_update_assign_employee" i.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="redirect_to" value="{% if request.path == '/ActiveLead/List/' %}active_leads{% elif request.path == '/LatestLead/List/' %}latest_leads{% elif request.path == '/InProcessLead/List/' %}inprocess_leads{% elif request.path == '/AppointmentLead/List/' %}appointment_leads{% elif request.path == '/ResultLead/List/' %}delivered_leads{% elif request.path == '/DeliveryLead/List/' %}completed_leads{% elif request.path == '/EnrolledLead/List/' %}enrolled_leads{% else %}new_leads{% endif %}">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Assigned To Employee</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <hr>
+                <div class="modal-body">
+
+                    {% if i.lead_status == "New Lead" %}
+                <label class="custom-form-label" for="">Assigned To Presales Employee</label>
+                <select class="form-select" name="assign_to_employee" id="assign_to_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in presales_employees %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                    
+                    {% if i.lead_status == "Active" %}
+                <label class="custom-form-label" for="">Assigned To Assesment Employee</label>
+                <select class="form-select" name="assign_to_assesment_employee" id="assign_to_assesment_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in assesment_employee %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_assesment_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                {% if i.lead_status == "PreEnrolled" %}
+                <label class="custom-form-label" for="">Assigned To Sales Employee</label>
+                <select class="form-select" name="assign_to_sales_employee" id="assign_to_sales_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in sales_employees %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_sales_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                {% if i.lead_status == "Enrolled" %}
+                <label class="custom-form-label" for="">Assigned To Documentation Employee</label>
+                <select class="form-select" name="assign_to_documentation_employee" id="assign_to_documentation_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in documentation_employees %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_documentation_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+            
+                {% endif %}
+                {% if i.lead_status == "Inprocess"  %}
+                <label class="custom-form-label" for="">Assigned To VisaTeam Employee</label>
+                <select class="form-select" name="assign_to_visa_team_employee" id="assign_to_visa_team_employee">
+                    <option value="0">Select</option>
+                    
+                    {% for employee in visa_team %}
+                    
+                        <option value="{{ employee.id }}" {% if enquiry.assign_to_visa_team_employee_id == employee.id %}selected{% endif %}>{{ employee.users }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+
+
+  <!-- JavaScript code -->
+<script>
+    // Function to set the value of redirect_to based on the current URL
+    function setRedirectTo(currentPath, modalId) {
+        var redirectInput = document.querySelector('#' + modalId + ' input[name="redirect_to"]');
+        if (currentPath.includes("/ActiveLead/List/")) {
+            redirectInput.value = "active_leads";
+        } else if (currentPath.includes("/LatestLead/List/")) {
+            redirectInput.value = "latest_leads";
+        } else if (currentPath.includes("/InProcessLead/List/")) {
+            redirectInput.value = "inprocess_leads";
+        } else if (currentPath.includes("/AppointmentLead/List/")) {
+            redirectInput.value = "appointment_leads";
+        } else if (currentPath.includes("/ResultLead/List/")) {
+            redirectInput.value = "delivered_leads";
+        } else if (currentPath.includes("/DeliveryLead/List/")) {
+            redirectInput.value = "completed_leads";
+        } else if (currentPath.includes("/EnrolledLead/List/")) {
+            redirectInput.value = "enrolled_leads";
+        } else {
+            redirectInput.value = "new_leads";
+        }
+    }
+
+    // Call the setRedirectTo function when each modal is shown
+    document.addEventListener("DOMContentLoaded", function () {
+        var modals = document.querySelectorAll('.modal');
+        modals.forEach(function(modal) {
+            modal.addEventListener('shown.bs.modal', function () {
+                var currentPath = window.location.pathname;
+                var modalId = modal.getAttribute('id');
+                setRedirectTo(currentPath, modalId);
+            });
+        });
+    });
+</script>

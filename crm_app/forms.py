@@ -384,21 +384,21 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_name1": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Name"}
             ),
             "spouse_no1": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Contact Number",
+                    "placeholder": "Enter Applicant Contact Number",
                 }
             ),
             "spouse_email1": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Email"}
             ),
             "spouse_passport1": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Passport Number",
+                    "placeholder": "Enter Applicant Passport Number",
                 }
             ),
             "spouse_dob1": forms.DateInput(
@@ -414,21 +414,21 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_name2": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Name"}
             ),
             "spouse_no2": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Contact Number",
+                    "placeholder": "Enter Applicant Contact Number",
                 }
             ),
             "spouse_email2": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Email"}
             ),
             "spouse_passport2": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Passport Number",
+                    "placeholder": "Enter Applicant Passport Number",
                 }
             ),
             "spouse_dob2": forms.DateInput(
@@ -444,21 +444,21 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_name3": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Name"}
             ),
             "spouse_no3": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Contact Number",
+                    "placeholder": "Enter Applicant Contact Number",
                 }
             ),
             "spouse_email3": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Email"}
             ),
             "spouse_passport3": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Passport Number",
+                    "placeholder": "Enter Applicant Passport Number",
                 }
             ),
             "spouse_dob3": forms.DateInput(
@@ -474,21 +474,21 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_name4": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Name"}
             ),
             "spouse_no4": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Contact Number",
+                    "placeholder": "Enter Applicant Contact Number",
                 }
             ),
             "spouse_email4": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Email"}
             ),
             "spouse_passport4": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Passport Number",
+                    "placeholder": "Enter Applicant Passport Number",
                 }
             ),
             "spouse_dob4": forms.DateInput(
@@ -504,21 +504,21 @@ class EnquiryForm2(forms.ModelForm):
                 }
             ),
             "spouse_name5": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Name"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Name"}
             ),
             "spouse_no5": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Contact Number",
+                    "placeholder": "Enter Applicant Contact Number",
                 }
             ),
             "spouse_email5": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter Spouse Email"}
+                attrs={"class": "form-control", "placeholder": "Enter Applicant Email"}
             ),
             "spouse_passport5": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter Spouse Passport Number",
+                    "placeholder": "Enter Applicant Passport Number",
                 }
             ),
             "spouse_dob5": forms.DateInput(
@@ -535,8 +535,8 @@ class EnquiryForm2(forms.ModelForm):
             ),
         }
 
-        def _init_(self, *args, **kwargs):
-            super()._init_(*args, **kwargs)
+        def init(self, *args, **kwargs):
+            super().init(*args, **kwargs)
             # Customize the Package field queryset if needed
             self.fields["Package"].queryset = Package.objects.all()
 

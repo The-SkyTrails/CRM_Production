@@ -324,4 +324,9 @@ urlpatterns = [
         name="employee_Deliverylead_list",
     ),
     path("LatestLead/List/", employee_Latestlead_list, name="employee_Latestlead_list"),
+    path(
+        "UpdateAssign/<int:id>",
+        update_assigned_employee,
+        name="emp_update_assign_employee",
+    ),
 ]

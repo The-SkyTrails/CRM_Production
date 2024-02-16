@@ -47,6 +47,7 @@ class FrontWebsiteSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     visa_country = VisaCountrySerializer()
+    visa_category = VisaCategorySerializer()
 
     class Meta:
         model = Package

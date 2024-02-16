@@ -13,6 +13,7 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.db.models import Prefetch
 import requests
+from .doubletick import whatsapp_signup_mes
 from .SMSAPI.whatsapp_api import send_whatsapp_message, send_sms_message
 from django.core.mail import send_mail
 from datetime import datetime
@@ -544,6 +545,13 @@ def emp_delete_docfile(request, id):
 @login_required
 def employee_lead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -574,7 +582,17 @@ def employee_lead_list(request):
             else:
                 enq = Enquiry.objects.filter(created_by=request.user)
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(request, "Employee/Enquiry/lead_list.html", context)
 
 
@@ -989,6 +1007,7 @@ def emp_add_notes(request):
 # ------------------------------------------ AGent Details --------------------------
 
 
+@login_required
 def emp_add_agent(request):
     logged_in_user = request.user
     relevant_employees = Employee.objects.all()
@@ -1056,44 +1075,17 @@ def emp_add_agent(request):
                 send_notification_admin(msg, current_count)
                 # send_notification_admin("New Lead Assign Added", current_count)
 
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )
-
-                recipient_list = [email]
-
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="5"
                 )
 
-                mobile_number = contact
-
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile_number, message)
+                mobile = contact
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="5"
+                    )
+                except:
+                    pass
 
                 messages.success(request, "OutSource Agent Added Successfully")
                 return redirect("emp_all_outsource_agent")
@@ -1135,42 +1127,17 @@ def emp_add_agent(request):
 
                 context = {"employees": relevant_employees, "dep": dep}
 
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )
-
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="4"
                 )
 
-                mobile_number = contact
-
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile_number, message)
+                mobile = contact
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="4"
+                    )
+                except:
+                    pass
 
                 messages.success(request, "Agent Added Successfully")
                 return redirect("emp_agent_list")
@@ -3114,20 +3081,6 @@ def add_employee(request):
             current_count = Notification.objects.filter(is_seen=False).count()
             send_notification_admin(msg, current_count)
 
-            subject = "Congratulations! Your Account is Created"
-            message = (
-                f"Hello {firstname} {lastname},\n\n"
-                f"Welcome to SSDC \n\n"
-                f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                f" Your id is {email} and your password is {password}.\n\n"
-                f" go to login : https://crm.theskytrails.com/ \n\n"
-                f"Thank you for joining us!\n\n"
-                f"Best regards,\nThe Sky Trails"
-            )
-
-            recipient_list = [email]
-
-            # send_mail(subject, message, from_email=None, recipient_list=recipient_list)
             send_congratulatory_email(
                 firstname, lastname, email, password, user_type="3"
             )
@@ -3137,28 +3090,11 @@ def add_employee(request):
             )
 
             mobile = contact
-            message = (
-                f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                f" Hello {firstname} {lastname}, \n\n"
-                f" Welcome to Sky Trails! Your Employee account is ready to roll. \n\n"
-                f" Account Details: \n\n"
-                f" Email: {email} \n\n"
-                f" Password: {password} \n\n"
-                f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                f" Stay connected on social media: \n\n"
-                f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                f" Got questions? Need assistance? We're here for you! \n\n"
-                f" Best, \n\n"
-                f" The Sky Trails Team \n\n"
-            )
-            response = send_whatsapp_message(mobile, message)
-            if response.status_code == 200:
-                pass
-            else:
+            try:
+                whatsapp_signup_mes(
+                    firstname, lastname, email, password, mobile, user_type="3"
+                )
+            except:
                 pass
 
             return redirect("emp_emp_list")
@@ -4051,6 +3987,7 @@ def submit(request):
         return redirect("employee_lead_list")
 
 
+@login_required
 def lead_emp_add_agent(request):
     logged_in_user = request.user
     relevant_employees = Employee.objects.all()
@@ -4118,47 +4055,20 @@ def lead_emp_add_agent(request):
                 send_notification_admin(msg, current_count)
                 # send_notification_admin("New Lead Assign Added", current_count)
 
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )
-
-                recipient_list = [email]
-
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="5"
                 )
 
-                mobile_number = contact
-
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile_number, message)
+                mobile = contact
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="5"
+                    )
+                except:
+                    pass
 
                 messages.success(request, "OutSource Agent Added Successfully")
-                return redirect("emp_all_outsource_agent")
+                return redirect("emp_enquiry_form1")
 
             else:
                 user = CustomUser.objects.create_user(
@@ -4197,42 +4107,17 @@ def lead_emp_add_agent(request):
 
                 context = {"employees": relevant_employees, "dep": dep}
 
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )
-
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="4"
                 )
 
-                mobile_number = contact
-
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile_number, message)
+                mobile = contact
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="4"
+                    )
+                except:
+                    pass
 
                 messages.success(request, "Agent Added Successfully")
                 return redirect("emp_enquiry_form1")
@@ -4453,6 +4338,13 @@ class emp_PreEnquiry3View(LoginRequiredMixin, CreateView):
 @login_required
 def employee_activelead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4521,13 +4413,16 @@ def employee_activelead_list(request):
                     )
                 ).order_by("-id")
 
-            active_lead_count = enq.count()
-
             context = {
                 "enq": enq,
                 "user": user,
                 "dep": dep,
-                "active_lead_count": active_lead_count,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
             }
     return render(request, "Employee/Enquiry/statuslead/Activelead_list.html", context)
 
@@ -4535,6 +4430,13 @@ def employee_activelead_list(request):
 @login_required
 def employee_Enrolledlead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4582,7 +4484,17 @@ def employee_Enrolledlead_list(request):
                     (Q(created_by=user) & (Q(lead_status="Enrolled")))
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(
         request, "Employee/Enquiry/statuslead/Enrolledlead_list.html", context
     )
@@ -4591,6 +4503,13 @@ def employee_Enrolledlead_list(request):
 @login_required
 def employee_inprocesslead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4692,7 +4611,17 @@ def employee_inprocesslead_list(request):
                     )
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(
         request, "Employee/Enquiry/statuslead/Inprocesslead_list.html", context
     )
@@ -4701,6 +4630,13 @@ def employee_inprocesslead_list(request):
 @login_required
 def employee_appointlead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4802,13 +4738,30 @@ def employee_appointlead_list(request):
                     )
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(request, "Employee/Enquiry/statuslead/Appointlead_list.html", context)
 
 
 @login_required
 def employee_Resultlead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4856,13 +4809,30 @@ def employee_Resultlead_list(request):
                     (Q(created_by=user) & (Q(lead_status="Result")))
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(request, "Employee/Enquiry/statuslead/Resultlead_list.html", context)
 
 
 @login_required
 def employee_Deliverylead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4910,7 +4880,17 @@ def employee_Deliverylead_list(request):
                     (Q(created_by=user) & (Q(lead_status="Delivery")))
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(
         request, "Employee/Enquiry/statuslead/Deliverylead_list.html", context
     )
@@ -4919,6 +4899,13 @@ def employee_Deliverylead_list(request):
 @login_required
 def employee_Latestlead_list(request):
     user = request.user
+    excluded_statuses = ["Accept", "Case Initiated"]
+    lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    presales_employees = get_presale_employee()
+    sales_employees = get_sale_employee()
+    documentation_employees = get_documentation_team_employee()
+    visa_team = get_visa_team_employee()
+    assesment_employee = get_assesment_employee()
 
     if user.is_authenticated:
         if user.user_type == "3":
@@ -4966,5 +4953,140 @@ def employee_Latestlead_list(request):
                     (Q(created_by=user) & (Q(lead_status="New Lead")))
                 ).order_by("-id")
 
-            context = {"enq": enq, "user": user, "dep": dep}
+            context = {
+                "enq": enq,
+                "user": user,
+                "dep": dep,
+                "presales_employees": presales_employees,
+                "sales_employees": sales_employees,
+                "documentation_employees": documentation_employees,
+                "visa_team": visa_team,
+                "lead": lead,
+                "assesment_employee": assesment_employee,
+            }
     return render(request, "Employee/Enquiry/statuslead/Latestlead_list.html", context)
+
+
+@login_required
+def update_assigned_employee(request, id):
+    enquiry = Enquiry.objects.get(id=id)
+    if request.method == "POST":
+        ######### ASSIGN CODE #########
+        try:
+            assign_to_employee = request.POST.get("assign_to_employee")
+            emp = Employee.objects.get(id=assign_to_employee)
+            enquiry.assign_to_employee = emp
+            employee_id = emp.id
+            create_notification(emp, "New Lead Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=assign_to_employee
+            ).count()
+            assign_notification(employee_id, "New Lead Assign Added", current_count)
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_employee is None:
+                enquiry.assign_to_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_assesment_employee = request.POST.get(
+                "assign_to_assesment_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_assesment_employee)
+            enquiry.assign_to_assesment_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_assesment_employee is None:
+                enquiry.assign_to_assesment_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_sales_employee = request.POST.get("assign_to_sales_employee")
+            emp = Employee.objects.get(id=assign_to_sales_employee)
+            enquiry.assign_to_sales_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_sales_employee is None:
+                enquiry.assign_to_sales_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_documentation_employee = request.POST.get(
+                "assign_to_documentation_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_documentation_employee)
+            enquiry.assign_to_documentation_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Lead Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Lead Assign Added", current_count)
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_documentation_employee is None:
+                enquiry.assign_to_documentation_employee = None
+            else:
+                pass
+
+        try:
+            assign_to_visa_team_employee = request.POST.get(
+                "assign_to_visa_team_employee"
+            )
+            emp = Employee.objects.get(id=assign_to_visa_team_employee)
+            enquiry.assign_to_visa_team_employee = emp
+
+            employee_id = emp.id
+            create_notification(emp, "New Assign Added")
+
+            current_count = Notification.objects.filter(
+                is_seen=False, employee=employee_id
+            ).count()
+            assign_notification(employee_id, "New Assign Added", current_count)
+
+        except Employee.DoesNotExist:
+            if enquiry.assign_to_visa_team_employee is None:
+                enquiry.assign_to_visa_team_employee = None
+            else:
+                pass
+        enquiry.save()
+        messages.success(request, "Lead Assigned Successfully...")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "active_leads":
+            return HttpResponseRedirect(reverse("employee_activelead_list"))
+        elif redirect_to == "latest_leads":
+            return HttpResponseRedirect(reverse("employee_Latestlead_list"))
+        elif redirect_to == "enrolled_leads":
+            return HttpResponseRedirect(reverse("employee_enrolled_lead"))
+        elif redirect_to == "inprocess_leads":
+            return HttpResponseRedirect(reverse("employee_inprocesslead_list"))
+        elif redirect_to == "appointment_leads":
+            return HttpResponseRedirect(reverse("employee_appointlead_list"))
+        elif redirect_to == "delivered_leads":
+            return HttpResponseRedirect(reverse("employee_Resultlead_list"))
+        elif redirect_to == "completed_leads":
+            return HttpResponseRedirect(reverse("employee_Deliverylead_list"))
+        else:
+            return HttpResponseRedirect(reverse("employee_lead_list"))

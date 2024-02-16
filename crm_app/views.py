@@ -16,6 +16,7 @@ from .models import (
     ChatGroup,
     ChatMessage,
 )
+from .doubletick import whatsapp_signup_mes
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from rest_framework import viewsets
@@ -92,45 +93,16 @@ def agent_signup(request):
                 messages.success(request, "OutsourceAgent Added Successfully")
 
                 mobile = contact_no
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile, message)
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="5"
+                    )
+                except:
+                    pass
 
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )  # Customize this message as needed
-
-                # Change this to your email
-                recipient_list = [email]  # List of recipient email addresses
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type
                 )
-                # send_mail(
-                #     subject, message, from_email=None, recipient_list=recipient_list
-                # )
 
                 request.session["username"] = email
                 request.session["password"] = password
@@ -164,55 +136,16 @@ def agent_signup(request):
                 user2.save()
 
                 messages.success(request, "Agent Added Successfully")
-
-                mobile = contact_no
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-
-                response = send_whatsapp_message(mobile, message)
-                if response.status_code == 200:
-                    print("Request was successful!")
-                    print("Response:", response.text)
-                else:
-                    print(f"Request failed with status code {response.status_code}")
-                    print("Response:", response.text)
-
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
-                )  # Customize this message as needed
-
-                # Change this to your email
-                recipient_list = [email]  # List of recipient email addresses
-
-                # send_mail(
-                #     subject, message, from_email=None, recipient_list=recipient_list
-                # )
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type
                 )
+                mobile = contact_no
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="4"
+                    )
+                except:
+                    pass
 
                 request.session["username"] = email
                 request.session["password"] = password
@@ -241,7 +174,6 @@ def agent_signup(request):
             return redirect("verify_otp")
 
         except Exception as e:
-            # Handle exceptions if any
             messages.error(request, f"An error occurred: {str(e)}")
 
     return render(request, "Login/Signuppage.html")

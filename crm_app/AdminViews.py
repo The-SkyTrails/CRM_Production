@@ -17,6 +17,7 @@ from django.urls import reverse_lazy
 import pandas as pd
 
 # from .whatsapp_api import send_whatsapp_message
+from .doubletick import whatsapp_signup_mes, product_add_mes
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Prefetch
@@ -819,16 +820,6 @@ def add_employee(request):
             user.employee.file = files
 
             user.save()
-            subject = "Congratulations! Your Account is Created"
-            message = (
-                f"Hello {firstname} {lastname},\n\n"
-                f"Welcome to SSDC \n\n"
-                f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                f" Your id is {email} and your password is {password}.\n\n"
-                f" go to login : https://crm.theskytrails.com/ \n\n"
-                f"Thank you for joining us!\n\n"
-                f"Best regards,\nThe Sky Trails"
-            )
 
             send_congratulatory_email(
                 firstname, lastname, email, password, user_type="3"
@@ -839,28 +830,11 @@ def add_employee(request):
             )
 
             mobile = contact
-            message = (
-                f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                f" Hello {firstname} {lastname}, \n\n"
-                f" Welcome to Sky Trails! Your Employee account is ready to roll. \n\n"
-                f" Account Details: \n\n"
-                f" Email: {email} \n\n"
-                f" Password: {password} \n\n"
-                f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                f" Stay connected on social media: \n\n"
-                f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                f" Got questions? Need assistance? We're here for you! \n\n"
-                f" Best, \n\n"
-                f" The Sky Trails Team \n\n"
-            )
-            response = send_whatsapp_message(mobile, message)
-            if response.status_code == 200:
-                pass
-            else:
+            try:
+                whatsapp_signup_mes(
+                    firstname, lastname, email, password, mobile, user_type="3"
+                )
+            except:
                 pass
 
             return redirect("emp_list")
@@ -1020,48 +994,23 @@ def add_agent(request):
                     )  # Add assigned employee
                     chat_group.group_member.add(user)
                     cache.set("last_assigned_index", next_index)
+                user.save()
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="5"
                 )
-                user.save()
-
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an Outsource Agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
+                messages.success(
+                    request,
+                    "OutSourceAgent Added Successfully , Congratulation Mail Send Successfully!!",
                 )
 
                 mobile = contact
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your OutsourceAgent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-                response = send_whatsapp_message(mobile, message)
-                if response.status_code == 200:
-                    pass
-                else:
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="5"
+                    )
+                except:
                     pass
 
-                messages.success(request, "OutSource Agent Added Successfully")
                 return redirect("all_outsource_agent")
 
             else:
@@ -1107,55 +1056,19 @@ def add_agent(request):
                 send_congratulatory_email(
                     firstname, lastname, email, password, user_type="4"
                 )
-
-                context = {
-                    "employees": relevant_employees,
-                }
-
-                subject = "Congratulations! Your Account is Created"
-                message = (
-                    f"Hello {firstname} {lastname},\n\n"
-                    f"Welcome to SSDC \n\n"
-                    f"Congratulations! Your account has been successfully created as an agent.\n\n"
-                    f" Your id is {email} and your password is {password}.\n\n"
-                    f" go to login : https://crm.theskytrails.com/Agent/Login/ \n\n"
-                    f"Thank you for joining us!\n\n"
-                    f"Best regards,\nThe Sky Trails"
+                messages.success(
+                    request,
+                    "Agent Added Successfully , Congratulation Mail Send Successfully!!",
                 )
 
-                # recipient_list = [email]
-
-                send_congratulatory_email(
-                    firstname, lastname, email, password, user_type="4"
-                )
                 mobile = contact
-                message = (
-                    f"🌟 Welcome to Sky Trails - Your Account Details 🌟 \n\n"
-                    f" Hello {firstname} {lastname}, \n\n"
-                    f" Welcome to Sky Trails! Your Agent account is ready to roll. \n\n"
-                    f" Account Details: \n\n"
-                    f" Email: {email} \n\n"
-                    f" Password: {password} \n\n"
-                    f" Login Here: 🚀 https://crm.theskytrails.com/ \n\n"
-                    f" Excited to have you on board! Explore our specialized services in work permits, migration support, and skill training. Also, check out our travel services at 🌐 www.thesktrails.com. \n\n"
-                    f" Stay connected on social media: \n\n"
-                    f" 📘 https://www.facebook.com/skytrails.skill.development.center/ \n\n"
-                    f" 🐦 https://twitter.com/TheSkytrails \n\n"
-                    f" 🤝 https://www.linkedin.com/company/theskytrailsofficial \n\n"
-                    f" 📸 https://www.instagram.com/skytrails_ssdc/ \n\n"
-                    f" Got questions? Need assistance? We're here for you! \n\n"
-                    f" Best, \n\n"
-                    f" The Sky Trails Team \n\n"
-                )
-
-                response = send_whatsapp_message(mobile, message)
-
-                if response.status_code == 200:
-                    pass
-                else:
+                try:
+                    whatsapp_signup_mes(
+                        firstname, lastname, email, password, mobile, user_type="4"
+                    )
+                except:
                     pass
 
-                messages.success(request, "Agent Added Successfully")
                 return redirect("agent_list")
 
         except Exception as e:
@@ -1614,22 +1527,15 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
             for user in users:
                 contact = self.get_contact_number(user)
                 if contact:
-                    title = self.object.title if self.object else None
+                    title = f"{self.object.title}" if self.object else None
                     country = (
-                        self.object.visa_country.country
+                        f"{self.object.visa_country.country}"
                         if (self.object and self.object.visa_country)
                         else None
                     )
-                    message = (
-                        f"🌟 Greetings User! 🌟 \n\n"
-                        f" *We are thrilled to share with you our latest addition to our visa services: * \n\n"
-                        f" {title} for {country}.  \n\n"
-                        f" This is a great opportunity for you to work in one of the most beautiful and diverse countries in the world. \n\n"
-                    )
-                    response = send_whatsapp_message(contact, message)
-                    if response.status_code == 200:
-                        pass
-                    else:
+                    try:
+                        product_add_mes(title, country, contact)
+                    except:
                         pass
 
     def send_email(self):
@@ -1643,15 +1549,14 @@ class PackageCreateView(LoginRequiredMixin, CreateView):
         send_package_email(title, country)
 
     def get_contact_number(self, user):
-        # Method to get the contact number based on user type
         if user.user_type == "2":
             return Admin.objects.get(users=user).contact_no
         elif user.user_type == "3":
             return Employee.objects.get(users=user).contact_no
-        elif user.user_type == "4":
-            return Agent.objects.get(users=user).contact_no
         elif user.user_type == "5":
             return OutSourcingAgent.objects.get(users=user).contact_no
+        elif user.user_type == "4":
+            return Agent.objects.get(users=user).contact_no
 
 
 class PackageListView(LoginRequiredMixin, ListView):
@@ -3653,22 +3558,15 @@ def send_whatsapp_messages(package_instance):
         for user in users:
             contact = get_contact_number(user)
             if contact:
-                title = package_instance.title if package_instance.title else None
+                title = f"{package_instance.title}" if package_instance.title else None
                 country = (
-                    package_instance.visa_country.country
+                    f"{package_instance.visa_country.country}"
                     if (package_instance.visa_country)
                     else None
                 )
-                message = (
-                    f"🌟 Greetings User! 🌟 \n\n"
-                    f" *We are thrilled to share with you our latest addition to our visa services: * \n\n"
-                    f" {title} for {country}.  \n\n"
-                    f" This is a great opportunity for you to work in one of the most beautiful and diverse countries in the world. \n\n"
-                )
-                response = send_whatsapp_message(contact, message)
-                if response.status_code == 200:
-                    pass
-                else:
+                try:
+                    product_add_mes(title, country, contact)
+                except:
                     pass
 
 

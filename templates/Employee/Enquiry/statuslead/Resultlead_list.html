@@ -224,6 +224,9 @@
                         <th>Package Name</th>
                         <th>CREATED BY</th>
                         <th>Assign To</th>
+                        {% if dep == "Documentation" %}
+                        <th>Update</th>
+                        {% endif %}
                         <th>LEAD status</th>
                         <th>NOTES</th>
                         <th>Appointment</th>
@@ -310,6 +313,15 @@
                            
 
                         </td>
+                        {% if dep == "Documentation" %}
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}">
+                                Assigned
+                              </button>
+
+                              {% include "Employee/Enquiry/assigned_to_employee_modal.html" %}
+                        </td>
+                        {% endif %}
                         <td>
                             
                             {% if i.lead_status == "Active" %}
