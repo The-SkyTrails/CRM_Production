@@ -2293,32 +2293,42 @@ def get_outsourcepartner():
     return OutSourcingAgent.objects.all()
 
 
+from django.core.paginator import Paginator
+
+
 @login_required
 def admin_new_leads_details(request):
-    excluded_statuses = ["Accept", "Case Initiated"]
-    lead = [status for status in leads_status if status[0] not in excluded_statuses]
-    enquiry = Enquiry.objects.all().order_by("-id")
 
-    presales_employees = get_presale_employee()
-    sales_employees = get_sale_employee()
-    documentation_employees = get_documentation_team_employee()
-    visa_team = get_visa_team_employee()
-    assesment_employee = get_assesment_employee()
-    agent = get_agent()
-    outsourcepartner = get_outsourcepartner()
+    # excluded_statuses = ["Accept", "Case Initiated"]
+    # lead = [status for status in leads_status if status[0] not in excluded_statuses]
+    enquiry = Enquiry.objects.all().order_by("-id")
+    # paginator = Paginator(enquiry, per_page=10)  # Adjust per_page as needed
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
+    # print("heloooooooooooooooooooo",page_obj)
+
+    # presales_employees = get_presale_employee()
+    # sales_employees = get_sale_employee()
+    # documentation_employees = get_documentation_team_employee()
+    # visa_team = get_visa_team_employee()
+    # assesment_employee = get_assesment_employee()
+    # agent = get_agent()
+    # outsourcepartner = get_outsourcepartner()
 
     context = {
         "enquiry": enquiry,
-        "presales_employees": presales_employees,
-        "sales_employees": sales_employees,
-        "documentation_employees": documentation_employees,
-        "visa_team": visa_team,
-        "lead": lead,
-        "assesment_employee": assesment_employee,
-        "agent": agent,
-        "outsourcepartner": outsourcepartner,
+        # 'page_obj': page_obj,
+        # "presales_employees": presales_employees,
+        # "sales_employees": sales_employees,
+        # "documentation_employees": documentation_employees,
+        # "visa_team": visa_team,
+        # "lead": lead,
+        # "assesment_employee": assesment_employee,
+        # "agent": agent,
+        # "outsourcepartner": outsourcepartner,
         # "enquiries_with_spouse_names": enquiries_with_spouse_names,
     }
+
     return render(request, "Admin/Enquiry/lead-details.html", context)
 
 
