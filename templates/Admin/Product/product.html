@@ -88,7 +88,7 @@
                <div class="card-image1" style="width:100%">
                   <a href="{% url "package_detail" i.id %}">
                   {% if i.image %}	
-                  <img src="{{ i.image.url }}" alt="Owl Image" class="card-img">
+                  <img src="https://crmskytrails.s3.amazonaws.com/media/{{ i.image }}" alt="Owl Image" class="card-img">
                   {% else %}
                   <img src="{% static "style/Styling\DashboardDesign\images\card-header.png" %}" alt="" class="card-img">
                   {% endif %}
