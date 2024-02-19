@@ -175,7 +175,7 @@
                       <td>{{i.registerdby}}</td>
                       
                       <td>{% if i.profile_pic %}
-                        <img src="{{ i.profile_pic.url }}" class="img-responsive" alt="Product Image" style="height:40px;"/>
+                        <img src="https://crmskytrails.s3.amazonaws.com/{{ i.profile_pic }}" class="img-responsive" alt="Product Image" style="height:40px;"/>
                         {% else %}
                         <img src="{% static 'style/Styling/Bootstrap/img/no-image.jpg' %}" class="img-responsive" alt="Product Image" style="height:40px;" />
                         {% endif %}</td>

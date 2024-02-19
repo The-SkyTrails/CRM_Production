@@ -79,7 +79,7 @@
       <div class="profile-image">
         <div class="image-content">
           {% if agent.profile_pic and agent.profile_pic.url %}
-          <div class="initials"><img src="{{agent.profile_pic.url}}" alt="" style="width:100%"></div>
+          <div class="initials"><img src="https://crmskytrails.s3.amazonaws.com/{{agent.profile_pic}}" alt="" style="width:100%"></div>
           {% else %}
           <div class="initials"><img src="{% static "style/Styling/Bootstrap/img/user.jpg" %}" alt="" style="width:100%"></div>
           {% endif %}

@@ -174,7 +174,7 @@
              
 							<td>{{forloop.counter}}</td>
 							<td>{% if i.file %}
-                <img src="{{ i.file.url }}" class="img-responsive" alt="Product Image" style="height:40px;"/>
+                <img src="https://crmskytrails.s3.amazonaws.com/{{ i.file }}" class="img-responsive" alt="Product Image" style="height:40px;"/>
                 {% else %}
                 <img src="{% static 'style/Styling/Bootstrap/img/no-image.jpg' %}" class="img-responsive" alt="Product Image" style="height:40px;" />
                 {% endif %}</td>
