@@ -1337,7 +1337,7 @@ def emp_agent_kyc(request, id):
                     kyc_id.registration_certificate = registration_file
                 kyc_id.save()
                 messages.success(request, "Kyc Added Successfully..")
-                return redirect("admin_agent_kyc", id)
+                return redirect("emp_agent_kyc", id)
             else:
                 pass
 

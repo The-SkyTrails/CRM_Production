@@ -28,6 +28,7 @@ from django.http import JsonResponse
 from django.core.cache import cache
 from django.template import loader
 from .Email.email_utils import send_congratulatory_email
+from django.views.decorators.csrf import csrf_protect
 
 
 def get_public_ip():
@@ -179,6 +180,7 @@ def agent_signup(request):
     return render(request, "Login/Signuppage.html")
 
 
+@csrf_protect
 def verify_otp(request):
     mobile = request.session.get("mobile", "Default value if key does not exist")
 
