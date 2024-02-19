@@ -61,7 +61,7 @@
         <div class="row g-0">
           <div class="col-md-3">
             {% if package.image %}
-           <img src="{{ package.image.url }}" class="img-fluid imges" alt="Product Image" />
+           <img src="https://crmskytrails.s3.amazonaws.com/media/{{ package.image }}" class="img-fluid imges" alt="Product Image" />
           {% else %}
            <img src="{% static 'assets/images/noimage.png' %}" class="img-fluid imges" alt="Product Image" />
           {% endif %}
