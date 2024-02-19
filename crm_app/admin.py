@@ -197,6 +197,12 @@ class AdminDisplay(admin.ModelAdmin):
     ]
 
 
+class ActivityLoginAdmin(admin.ModelAdmin):
+
+    # list_filter = ["users"]
+    search_fields = ["action"]
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(VisaCountry, VisaCountryAdmin)
 admin.site.register(VisaCategory, visaCategoryResource)
@@ -226,7 +232,7 @@ admin.site.register(TestScore)
 admin.site.register(Work_Experience)
 admin.site.register(FAQ, FaqAdmin)
 admin.site.register(FollowUp, FollowupAdmin)
-admin.site.register(ActivityLog)
+admin.site.register(ActivityLog, ActivityLoginAdmin)
 admin.site.register(ChatGroup)
 admin.site.register(ChatMessage)
 admin.site.register(SuccessStory)
