@@ -526,3 +526,26 @@ def get_group_chat_messages(request):
 
     chat_content = loader.render_to_string("chat/group_chat_content.html", context)
     return HttpResponse(chat_content)
+
+
+import pandas as pd
+from django.http import JsonResponse
+from django.conf import settings
+
+
+def import_data_employee(request):
+    if request.method == "POST":
+        file = request.FILES["file"]
+        # obj = ExcelFile.objects.create(file=file)
+        path = file.file
+        print(f"{settings.BASE_DIR}/{path}")
+        df = pd.read_excel(path)
+        for d in df.values:
+            print("ggggggggggggggg", d)
+            # name = d[0]
+            # print(name)
+            # if not Employee.objects.filter(name=name).exists():
+            #     Employee.objects.create(name=d[0], age=d[1])
+            # else:
+            #     print("duplicate entry")
+    return render(request, "import.html")

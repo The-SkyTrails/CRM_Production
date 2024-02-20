@@ -4389,3 +4389,6 @@ def admin_completed_leads_details(request):
         "lead": lead,
     }
     return render(request, "Admin/Enquiry/statusleads/completeleads.html", context)
+
+
+
