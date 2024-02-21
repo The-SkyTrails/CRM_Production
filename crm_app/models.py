@@ -454,7 +454,9 @@ class AgentAgreement(models.Model):
         OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
     )
     agreement_name = models.CharField(max_length=100)
-    agreement_file = models.FileField(upload_to="Agreement/", null=True, blank=True)
+    agreement_file = models.FileField(
+        upload_to="Agent/Agreement/", null=True, blank=True
+    )
 
 
 class AgentKyc(models.Model):
@@ -600,7 +602,7 @@ class Enquiry(models.Model):
     )
 
     digital_signature = models.FileField(
-        upload_to="Digital Signature/", null=True, blank=True
+        upload_to="Enquiry/Digital Signature/", null=True, blank=True
     )
 
     # Spouse Details
@@ -768,7 +770,7 @@ class Notes(models.Model):
         Enquiry, on_delete=models.SET_NULL, null=True, blank=True
     )
     notes = models.CharField(max_length=255)
-    file = models.FileField(upload_to="Notes/", null=True, blank=True)
+    file = models.FileField(upload_to="Enquiry/Notes/", null=True, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     created_by = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
@@ -818,7 +820,9 @@ class DocumentFiles(models.Model):
     document_id = models.ForeignKey(
         Document, on_delete=models.CASCADE, null=True, blank=True
     )
-    document_file = models.FileField(upload_to="Documents/", null=True, blank=True)
+    document_file = models.FileField(
+        upload_to="Enquiry/Documents/", null=True, blank=True
+    )
     last_updated_on = models.DateTimeField(auto_now=True, null=True, blank=True)
     lastupdated_by = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True, blank=True
