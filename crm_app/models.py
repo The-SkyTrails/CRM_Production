@@ -237,9 +237,7 @@ class Employee(models.Model):
     City = models.CharField(max_length=50, null=True, blank=True)
     Address = models.TextField(null=True, blank=True)
     zipcode = models.CharField(max_length=100, null=True, blank=True)
-    file = models.FileField(
-        upload_to="media/Employee/profile_pic/", null=True, blank=True
-    )
+    file = models.FileField(upload_to="Employee/profile_pic/", null=True, blank=True)
     created = models.DateTimeField(auto_now=True)
     tata_tele_authorization = models.CharField(max_length=500, null=True, blank=True)
     tata_tele_api_key = models.CharField(max_length=200, null=True, blank=True)
@@ -287,7 +285,7 @@ class Agent(models.Model):
     status = models.CharField(max_length=255, choices=status, default="Pending")
     activeinactive = models.BooleanField(default=True, null=True, blank=True)
     profile_pic = models.ImageField(
-        upload_to="media/Agent/Profile Pic/", null=True, blank=True
+        upload_to="Agent/Profile Pic/", null=True, blank=True
     )
     assign_employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, blank=True
@@ -316,15 +314,11 @@ class Agent(models.Model):
 
     # -------------------------- kyc information ------------------
 
-    adhar_card_front = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
-    adhar_card_back = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
-    pancard = models.FileField(upload_to="media/Agent/Kyc", null=True, blank=True)
+    adhar_card_front = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
+    adhar_card_back = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
+    pancard = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
     registration_certificate = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
+        upload_to="Agent/Kyc", null=True, blank=True
     )
 
     def __str__(self):
@@ -346,7 +340,7 @@ class OutSourcingAgent(models.Model):
     status = models.CharField(max_length=255, choices=status, default="Pending")
     activeinactive = models.BooleanField(default=True, null=True, blank=True)
     profile_pic = models.ImageField(
-        upload_to="media/OutSourcing/Agent/Profile Pic/", null=True, blank=True
+        upload_to="OutSourcing/Agent/Profile Pic/", null=True, blank=True
     )
     assign_employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, blank=True
@@ -375,15 +369,11 @@ class OutSourcingAgent(models.Model):
 
     # -------------------------- kyc information ------------------
 
-    adhar_card_front = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
-    adhar_card_back = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
-    pancard = models.FileField(upload_to="media/Agent/Kyc", null=True, blank=True)
+    adhar_card_front = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
+    adhar_card_back = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
+    pancard = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
     registration_certificate = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
+        upload_to="Agent/Kyc", null=True, blank=True
     )
 
     def _str_(self):
@@ -425,7 +415,7 @@ class Package(models.Model):
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
     )
     last_updated_on = models.DateTimeField(auto_now=True)
-    image = models.FileField(upload_to="media/package_images/", null=True, blank=True)
+    image = models.FileField(upload_to="package_images/", null=True, blank=True)
     processing_time = models.CharField(
         max_length=30, choices=PROCESSING_TIME_CHOICES, blank=True, null=True
     )
@@ -464,9 +454,7 @@ class AgentAgreement(models.Model):
         OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
     )
     agreement_name = models.CharField(max_length=100)
-    agreement_file = models.FileField(
-        upload_to="media/Agreement/", null=True, blank=True
-    )
+    agreement_file = models.FileField(upload_to="Agreement/", null=True, blank=True)
 
 
 class AgentKyc(models.Model):
@@ -474,15 +462,11 @@ class AgentKyc(models.Model):
     outsourceagent = models.ForeignKey(
         OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
     )
-    adhar_card_front = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
-    adhar_card_back = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
-    )
+    adhar_card_front = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
+    adhar_card_back = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
     pancard = models.FileField(upload_to="media/Agent/Kyc", null=True, blank=True)
     registration_certificate = models.FileField(
-        upload_to="media/Agent/Kyc", null=True, blank=True
+        upload_to="Agent/Kyc", null=True, blank=True
     )
     uploaded_on = models.DateTimeField(auto_now=True)
 
@@ -616,7 +600,7 @@ class Enquiry(models.Model):
     )
 
     digital_signature = models.FileField(
-        upload_to="media/Digital Signature/", null=True, blank=True
+        upload_to="Digital Signature/", null=True, blank=True
     )
 
     # Spouse Details
@@ -784,7 +768,7 @@ class Notes(models.Model):
         Enquiry, on_delete=models.SET_NULL, null=True, blank=True
     )
     notes = models.CharField(max_length=255)
-    file = models.FileField(upload_to="media/Notes/", null=True, blank=True)
+    file = models.FileField(upload_to="Notes/", null=True, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     created_by = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
@@ -817,9 +801,7 @@ class FrontWebsiteEnquiry(models.Model):
         VisaCategory, on_delete=models.CASCADE, null=True, blank=True
     )
     message = models.TextField(null=True, blank=True)
-    image = models.FileField(
-        upload_to="media/frontwebsiteenquiry/", null=True, blank=True
-    )
+    image = models.FileField(upload_to="frontwebsiteenquiry/", null=True, blank=True)
     last_updated_by = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -836,9 +818,7 @@ class DocumentFiles(models.Model):
     document_id = models.ForeignKey(
         Document, on_delete=models.CASCADE, null=True, blank=True
     )
-    document_file = models.FileField(
-        upload_to="media/Documents/", null=True, blank=True
-    )
+    document_file = models.FileField(upload_to="Documents/", null=True, blank=True)
     last_updated_on = models.DateTimeField(auto_now=True, null=True, blank=True)
     lastupdated_by = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True, blank=True
