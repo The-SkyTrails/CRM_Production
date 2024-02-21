@@ -464,7 +464,7 @@ class AgentKyc(models.Model):
     )
     adhar_card_front = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
     adhar_card_back = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
-    pancard = models.FileField(upload_to="media/Agent/Kyc", null=True, blank=True)
+    pancard = models.FileField(upload_to="Agent/Kyc", null=True, blank=True)
     registration_certificate = models.FileField(
         upload_to="Agent/Kyc", null=True, blank=True
     )
