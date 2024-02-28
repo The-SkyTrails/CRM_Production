@@ -82,6 +82,7 @@ class CustomUser(AbstractUser):
 
 
 class Admin(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     department = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=10)
@@ -91,6 +92,7 @@ class Admin(models.Model):
 
 
 class VisaCountry(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     country = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now=True)
     lastupdated_by = models.CharField(max_length=100, null=True, blank=True)
@@ -104,6 +106,7 @@ class VisaCountry(models.Model):
 
 
 class VisaCategory(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     visa_country_id = models.ForeignKey(VisaCountry, on_delete=models.CASCADE)
     category = models.CharField(max_length=100)
     subcategory = models.CharField(max_length=100)
@@ -118,6 +121,7 @@ class VisaCategory(models.Model):
 
 
 class DocumentCategory(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     Document_category = models.CharField(max_length=200)
     lastupdated_by = models.CharField(max_length=100, null=True, blank=True)
     last_updated_on = models.DateTimeField(auto_now=True)
@@ -127,6 +131,7 @@ class DocumentCategory(models.Model):
 
 
 class Document(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     document_name = models.CharField(max_length=255)
     document_category = models.ForeignKey(DocumentCategory, on_delete=models.CASCADE)
 
@@ -140,6 +145,7 @@ class Document(models.Model):
 
 
 class CaseCategoryDocument(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     country = models.OneToOneField(VisaCountry, on_delete=models.CASCADE)
     category = models.ForeignKey(
         VisaCategory, on_delete=models.CASCADE, related_name="case_category"
@@ -156,6 +162,7 @@ class CaseCategoryDocument(models.Model):
 
 
 class Branch(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     branch_name = models.CharField(max_length=20)
     branch_source = models.CharField(max_length=50, choices=BRANCH_SOURCES)
     last_updated_by = models.ForeignKey(
@@ -168,6 +175,7 @@ class Branch(models.Model):
 
 
 class Group(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     group_name = models.CharField(max_length=100, unique=True)
     group_member = models.ManyToManyField(CustomUser, related_name="groups_member")
     create_by = models.ForeignKey(
@@ -180,6 +188,7 @@ class Group(models.Model):
 
 
 class CourierAddress(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     company_name = models.CharField(max_length=200)
     address = models.CharField(max_length=200, blank=True, null=True)
     landmark = models.CharField(max_length=200, blank=True, null=True)
@@ -198,6 +207,7 @@ class CourierAddress(models.Model):
 
 
 class LoginLog(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     platform = models.CharField(max_length=200, default="Web")
     ip_address = models.GenericIPAddressField()
@@ -224,6 +234,7 @@ COLOR_CODE = [
 
 
 class Employee(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     emp_code = models.CharField(max_length=20, unique=True, null=True, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True)
@@ -269,6 +280,7 @@ Gender = [
 
 
 class Agent(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
     contact_no = models.CharField(max_length=20)
@@ -326,6 +338,7 @@ class Agent(models.Model):
 
 
 class OutSourcingAgent(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
     contact_no = models.CharField(max_length=20)
@@ -391,6 +404,7 @@ PROCESSING_TIME_CHOICES = [
 
 
 class Package(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     visa_country = models.ForeignKey(
         VisaCountry, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -426,6 +440,7 @@ class Package(models.Model):
 
 
 class VisaSubcategory(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     country_id = models.ForeignKey(VisaCountry, on_delete=models.CASCADE)
     category_id = models.ForeignKey(
         VisaCategory, on_delete=models.CASCADE, related_name="pricing_category"
@@ -449,6 +464,7 @@ class VisaSubcategory(models.Model):
 
 
 class AgentAgreement(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
     outsourceagent = models.ForeignKey(
         OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
@@ -460,6 +476,7 @@ class AgentAgreement(models.Model):
 
 
 class AgentKyc(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
     outsourceagent = models.ForeignKey(
         OutSourcingAgent, on_delete=models.SET_NULL, null=True, blank=True
@@ -474,6 +491,7 @@ class AgentKyc(models.Model):
 
 
 class Booking(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     email = models.EmailField()
     fullname = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=15)
@@ -521,6 +539,7 @@ leads_status = [
 
 
 class Enquiry(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     Salutation = models.CharField(
         max_length=20, choices=SALUTATION_CHOICES, null=True, blank=True
     )
@@ -766,6 +785,7 @@ class Enquiry(models.Model):
 
 
 class Notes(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry = models.ForeignKey(
         Enquiry, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -785,6 +805,7 @@ class Notes(models.Model):
 
 
 class FrontWebsiteEnquiry(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
@@ -814,6 +835,7 @@ class FrontWebsiteEnquiry(models.Model):
 
 
 class DocumentFiles(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry_id = models.ForeignKey(
         Enquiry, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -833,6 +855,7 @@ class DocumentFiles(models.Model):
 
 
 class Education_Summary(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry_id = models.ForeignKey(
         Enquiry, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -863,6 +886,7 @@ exam_type = [
 
 
 class TestScore(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry_id = models.ForeignKey(
         Enquiry, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -879,11 +903,13 @@ class TestScore(models.Model):
 
 
 class Background_Information(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry_id = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
     background_information = models.CharField(max_length=244, blank=True, null=True)
 
 
 class Work_Experience(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry_id = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=244, null=True, blank=True)
     designation = models.CharField(max_length=244, null=True, blank=True)
@@ -900,7 +926,7 @@ class EnqAppointment(models.Model):
         ("Process", "Process"),
         ("Done", "Done"),
     ]
-
+    id = models.AutoField(primary_key=True, unique=True)
     enquiry = models.ForeignKey(
         Enquiry, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -920,6 +946,7 @@ class EnqAppointment(models.Model):
 
 
 class FAQ(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     employee = models.ForeignKey(
         Employee, on_delete=models.SET_NULL, null=True, blank=True
@@ -930,6 +957,7 @@ class FAQ(models.Model):
 
 
 class FollowUp(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.CharField(max_length=500, null=True, blank=True)
     follow_up_status = models.CharField(
@@ -947,6 +975,7 @@ class FollowUp(models.Model):
 
 
 class ActivityLog(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     action = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -960,6 +989,7 @@ class ActivityLog(models.Model):
 
 
 class ChatGroup(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     group_name = models.CharField(max_length=100, unique=True)
     group_member = models.ManyToManyField(CustomUser, related_name="chat_member")
     create_by = models.ForeignKey(
@@ -972,6 +1002,7 @@ class ChatGroup(models.Model):
 
 
 class ChatMessage(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE)
     message_by = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True, blank=True
@@ -988,12 +1019,14 @@ class ChatMessage(models.Model):
 
 
 class SuccessStory(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     create_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     image = models.FileField(upload_to="images/general/successstories/")
     last_updated_on = models.DateTimeField(auto_now_add=True)
 
 
 class News(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     create_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     news = models.TextField()
     employee = models.BooleanField(default=False)
@@ -1003,13 +1036,15 @@ class News(models.Model):
 
 
 class Report(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     notes = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Appointment(models.Model):
-    id = models.AutoField(primary_key=True)
+
+    id = models.AutoField(primary_key=True, unique=True)
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -1019,12 +1054,14 @@ class Appointment(models.Model):
 
 
 class Todo(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now=True)
 
 
 class Notification(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, blank=True
     )
